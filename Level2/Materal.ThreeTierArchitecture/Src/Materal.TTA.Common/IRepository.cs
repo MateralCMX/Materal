@@ -337,6 +337,150 @@
         /// <param name="pageSize">每页显示数量</param>
         /// <returns></returns>
         Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(RangeRequestModel rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(RangeRequestModel rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(RangeRequestModel rangeRequestModel, Expression<Func<TEntity, object>> orderExpression);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(RangeRequestModel rangeRequestModel, Expression<Func<TEntity, object>> orderExpression);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(RangeRequestModel rangeRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(RangeRequestModel rangeRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, RangeRequestModel rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, RangeRequestModel rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="skip">页数</param>
+        /// <param name="take">每页显示数量</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, long skip, long take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="skip">页数</param>
+        /// <param name="take">每页显示数量</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, long skip, long take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, RangeRequestModel rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, RangeRequestModel rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, RangeRequestModel rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <param name="rangeRequestModel">范围查询请求模型</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, RangeRequestModel rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="skip">页数</param>
+        /// <param name="take">每页显示数量</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, long skip, long take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="skip">页数</param>
+        /// <param name="take">每页显示数量</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, long skip, long take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <param name="skip">页数</param>
+        /// <param name="take">每页显示数量</param>
+        /// <returns></returns>
+        (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long skip, long take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression">过滤表达式</param>
+        /// <param name="orderExpression">排序表达式</param>
+        /// <param name="sortOrder">排序方式</param>
+        /// <param name="skip">页数</param>
+        /// <param name="take">每页显示数量</param>
+        /// <returns></returns>
+        Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long skip, long take);
     }
     /// <summary>
     /// 仓储

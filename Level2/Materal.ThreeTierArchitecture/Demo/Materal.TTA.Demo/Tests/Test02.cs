@@ -1,4 +1,5 @@
 ﻿using Materal.TTA.Demo.Domain;
+using Materal.Utils.Model;
 
 namespace Materal.TTA.Demo.Tests
 {
@@ -8,6 +9,7 @@ namespace Materal.TTA.Demo.Tests
         {
             List<Guid> ids = [];
             List<TestDomain> testDomains = await testDomainRepository.FindAsync(m => ids.Contains(m.ID));
+            (List<TestDomain> data, RangeModel rangeInfo) = await testDomainRepository.RangeAsync(m => true, 0, 2);
         }
     }
 }

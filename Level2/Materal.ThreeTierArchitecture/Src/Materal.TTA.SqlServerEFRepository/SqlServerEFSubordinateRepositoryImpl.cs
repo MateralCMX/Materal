@@ -341,7 +341,7 @@
             return GetSubordinateResult(queryable =>
             {
                 queryable = queryable.Where(filterExpression);
-                var pageModel = new PageModel(pageIndex, pageSize, queryable.Count());
+                PageModel pageModel = new(pageIndex, pageSize, queryable.Count());
                 List<T> result = sortOrder switch
                 {
                     SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
@@ -427,7 +427,7 @@
             return await GetSubordinateResultAsync(async queryable =>
             {
                 queryable = queryable.Where(filterExpression);
-                var pageModel = new PageModel(pageIndex, pageSize, await queryable.CountAsync());
+                PageModel pageModel = new(pageIndex, pageSize, await queryable.CountAsync());
                 List<T> result = sortOrder switch
                 {
                     SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
@@ -435,6 +435,178 @@
                     _ => await queryable.Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
                 };
                 return (result, pageModel);
+            });
+        }
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(RangeRequestModel rangeRequestModel) => RangeFromSubordinate(rangeRequestModel.GetSearchExpression<T>(), rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <param name="orderExpression"></param>
+        /// <returns></returns>
+        public (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(RangeRequestModel rangeRequestModel, Expression<Func<T, object>> orderExpression) => RangeFromSubordinate(rangeRequestModel.GetSearchExpression<T>(), orderExpression, rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <returns></returns>
+        public (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(RangeRequestModel rangeRequestModel, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) => RangeFromSubordinate(rangeRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(Expression<Func<T, bool>> filterExpression, RangeRequestModel rangeRequestModel) => RangeFromSubordinate(filterExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(Expression<Func<T, bool>> filterExpression, long skip, long take) => RangeFromSubordinate(filterExpression, m => m.ID, skip, take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, RangeRequestModel rangeRequestModel) => RangeFromSubordinate(filterExpression, orderExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, RangeRequestModel rangeRequestModel) => RangeFromSubordinate(filterExpression, orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, long skip, long take) => RangeFromSubordinate(filterExpression, orderExpression, SortOrderEnum.Ascending, skip, take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual (List<T> data, RangeModel rangeInfo) RangeFromSubordinate(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, long skip, long take)
+        {
+            return GetSubordinateResult(queryable =>
+            {
+                queryable = queryable.Where(filterExpression);
+                RangeModel rangeModel = new(skip, take, queryable.Count());
+                List<T> result = sortOrder switch
+                {
+                    SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToList(),
+                    SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToList(),
+                    _ => queryable.Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToList(),
+                };
+                return (result, rangeModel);
+            });
+        }
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(RangeRequestModel rangeRequestModel) => await RangeFromSubordinateAsync(rangeRequestModel.GetSearchExpression<T>(), rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <param name="orderExpression"></param>
+        /// <returns></returns>
+        public async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(RangeRequestModel rangeRequestModel, Expression<Func<T, object>> orderExpression) => await RangeFromSubordinateAsync(rangeRequestModel.GetSearchExpression<T>(), orderExpression, rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <returns></returns>
+        public async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(RangeRequestModel rangeRequestModel, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder) => await RangeFromSubordinateAsync(rangeRequestModel.GetSearchExpression<T>(), orderExpression, sortOrder, rangeRequestModel);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, RangeRequestModel rangeRequestModel) => await RangeFromSubordinateAsync(filterExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, long skip, long take) => await RangeFromSubordinateAsync(filterExpression, m => m.ID, skip, take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, RangeRequestModel rangeRequestModel) => await RangeFromSubordinateAsync(filterExpression, orderExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, RangeRequestModel rangeRequestModel) => await RangeFromSubordinateAsync(filterExpression, orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, long skip, long take) => await RangeFromSubordinateAsync(filterExpression, orderExpression, SortOrderEnum.Ascending, skip, take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<T> data, RangeModel rangeInfo)> RangeFromSubordinateAsync(Expression<Func<T, bool>> filterExpression, Expression<Func<T, object>> orderExpression, SortOrderEnum sortOrder, long skip, long take)
+        {
+            return await GetSubordinateResultAsync(async queryable =>
+            {
+                queryable = queryable.Where(filterExpression);
+                RangeModel rangeModel = new(skip, take, await queryable.CountAsync());
+                List<T> result = sortOrder switch
+                {
+                    SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToListAsync(),
+                    SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToListAsync(),
+                    _ => await queryable.Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToListAsync(),
+                };
+                return (result, rangeModel);
             });
         }
         #region 私有方法

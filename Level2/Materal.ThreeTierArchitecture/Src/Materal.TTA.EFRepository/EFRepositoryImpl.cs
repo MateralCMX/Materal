@@ -149,5 +149,55 @@
             };
             return (result, pageModel);
         }
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public override (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long skip, long take)
+        {
+            IQueryable<TEntity> queryable = DBSet.Where(filterExpression);
+            RangeModel rangeModel = new(skip, take, queryable.Count())
+            {
+                SortPropertyName = GetSortPropertyName(orderExpression),
+                IsAsc = sortOrder == SortOrderEnum.Ascending
+            };
+            List<TEntity> result = sortOrder switch
+            {
+                SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToList(),
+                SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToList(),
+                _ => queryable.Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToList(),
+            };
+            return (result, rangeModel);
+        }
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public override async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long skip, long take)
+        {
+            IQueryable<TEntity> queryable = DBSet.Where(filterExpression);
+            RangeModel rangeModel = new(skip, take, await queryable.CountAsync())
+            {
+                SortPropertyName = GetSortPropertyName(orderExpression),
+                IsAsc = sortOrder == SortOrderEnum.Ascending
+            };
+            List<TEntity> result = sortOrder switch
+            {
+                SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToListAsync(),
+                SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToListAsync(),
+                _ => await queryable.Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToListAsync(),
+            };
+            return (result, rangeModel);
+        }
     }
 }

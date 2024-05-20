@@ -398,6 +398,211 @@
         public virtual Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize)
             => Task.FromResult(Paging(filterExpression, orderExpression, sortOrder, pageIndex, pageSize));
         /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual (List<TEntity> data, RangeModel rangeInfo) Range(RangeRequestModel rangeRequestModel)
+        {
+            Expression<Func<TEntity, object>>? orderExpression = rangeRequestModel.GetSortExpression<TEntity>();
+            SortOrderEnum sortOrder = rangeRequestModel.IsAsc ? SortOrderEnum.Ascending : SortOrderEnum.Descending;
+            Expression<Func<TEntity, bool>> filterExpression = rangeRequestModel.GetSearchExpression<TEntity>();
+            if (orderExpression == null)
+            {
+                return Range(filterExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+            }
+            else
+            {
+                return Range(filterExpression, orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+            }
+        }
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, RangeRequestModel rangeRequestModel)
+        {
+            Expression<Func<TEntity, object>>? orderExpression = rangeRequestModel.GetSortExpression<TEntity>();
+            SortOrderEnum sortOrder = rangeRequestModel.IsAsc ? SortOrderEnum.Ascending : SortOrderEnum.Descending;
+            if (orderExpression == null)
+            {
+                return Range(filterExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+            }
+            else
+            {
+                return Range(filterExpression, orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+            }
+        }
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <param name="orderExpression"></param>
+        /// <returns></returns>
+        public virtual (List<TEntity> data, RangeModel rangeInfo) Range(RangeRequestModel rangeRequestModel, Expression<Func<TEntity, object>> orderExpression)
+            => Range(rangeRequestModel.GetSearchExpression<TEntity>(), orderExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <returns></returns>
+        public virtual (List<TEntity> data, RangeModel rangeInfo) Range(RangeRequestModel rangeRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder)
+            => Range(rangeRequestModel.GetSearchExpression<TEntity>(), orderExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public abstract (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, long skip, long take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, RangeRequestModel rangeRequestModel)
+            => Range(filterExpression, orderExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, RangeRequestModel rangeRequestModel)
+            => Range(filterExpression, orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, long skip, long take)
+            => Range(filterExpression, orderExpression, SortOrderEnum.Ascending, skip, take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public abstract (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long skip, long take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(RangeRequestModel rangeRequestModel)
+        {
+            Expression<Func<TEntity, object>>? orderExpression = rangeRequestModel.GetSortExpression<TEntity>();
+            SortOrderEnum sortOrder = rangeRequestModel.IsAsc ? SortOrderEnum.Ascending : SortOrderEnum.Descending;
+            Expression<Func<TEntity, bool>> filterExpression = rangeRequestModel.GetSearchExpression<TEntity>();
+            if (orderExpression == null)
+            {
+                return await RangeAsync(filterExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+            }
+            else
+            {
+                return await RangeAsync(filterExpression, orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+            }
+        }
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <param name="orderExpression"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(RangeRequestModel rangeRequestModel, Expression<Func<TEntity, object>> orderExpression)
+            => await RangeAsync(rangeRequestModel.GetSearchExpression<TEntity>(), orderExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="rangeRequestModel"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(RangeRequestModel rangeRequestModel, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder)
+            => await RangeAsync(rangeRequestModel.GetSearchExpression<TEntity>(), orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, RangeRequestModel rangeRequestModel)
+        {
+            Expression<Func<TEntity, object>>? orderExpression = rangeRequestModel.GetSortExpression<TEntity>();
+            SortOrderEnum sortOrder = rangeRequestModel.IsAsc ? SortOrderEnum.Ascending : SortOrderEnum.Descending;
+            if (orderExpression == null)
+            {
+                return await RangeAsync(filterExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+            }
+            else
+            {
+                return await RangeAsync(filterExpression, orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+            }
+        }
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public abstract Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, long skip, long take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, RangeRequestModel rangeRequestModel)
+            => await RangeAsync(filterExpression, orderExpression, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="rangeRequestModel"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, RangeRequestModel rangeRequestModel)
+            => await RangeAsync(filterExpression, orderExpression, sortOrder, rangeRequestModel.Skip, rangeRequestModel.Take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, long skip, long take)
+            => await RangeAsync(filterExpression, orderExpression, SortOrderEnum.Ascending, skip, take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="orderExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public virtual Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, Expression<Func<TEntity, object>> orderExpression, SortOrderEnum sortOrder, long skip, long take)
+            => Task.FromResult(Range(filterExpression, orderExpression, sortOrder, skip, take));
+        /// <summary>
         /// 获得排序属性名称
         /// </summary>
         /// <param name="orderExpression"></param>
@@ -488,5 +693,23 @@
         /// <returns></returns>
         public override async Task<(List<TEntity> data, PageModel pageInfo)> PagingAsync(Expression<Func<TEntity, bool>> filterExpression, long pageIndex, long pageSize)
             => await PagingAsync(filterExpression, m => m.ID, pageIndex, pageSize);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public override (List<TEntity> data, RangeModel rangeInfo) Range(Expression<Func<TEntity, bool>> filterExpression, long skip, long take)
+            => Range(filterExpression, m => m.ID, skip, take);
+        /// <summary>
+        /// 范围查询
+        /// </summary>
+        /// <param name="filterExpression"></param>
+        /// <param name="skip"></param>
+        /// <param name="take"></param>
+        /// <returns></returns>
+        public override async Task<(List<TEntity> data, RangeModel rangeInfo)> RangeAsync(Expression<Func<TEntity, bool>> filterExpression, long skip, long take)
+            => await RangeAsync(filterExpression, m => m.ID, skip, take);
     }
 }
