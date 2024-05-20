@@ -255,7 +255,7 @@ namespace Materal.MergeBlock.Application.Services
             {
                 (orderExpression, sortOrder) = GetDefaultOrderInfo<TDomain>(model);
             }
-            (List<TDomain> data, RangeModel pageModel) = await DefaultRepository.RangeAsync(expression, orderExpression, sortOrder, model.Skip, model.Take);
+            (List<TDomain> data, RangeModel pageModel) = await DefaultRepository.RangeAsync(expression, orderExpression, sortOrder, model);
             List<TListDTO> result = Mapper.Map<List<TListDTO>>(data) ?? throw new MergeBlockException("映射失败");
             return await GetListAsync(result, pageModel, model);
         }

@@ -5,7 +5,7 @@ namespace Materal.Utils.Model
     /// <summary>
     /// 分页请求模型
     /// </summary>
-    public abstract class PageRequestModel : FilterModel
+    public abstract class PageRequestModel : RangeRequestModel
     {
         /// <summary>
         /// 起始页码
@@ -57,7 +57,7 @@ namespace Materal.Utils.Model
         /// <summary>
         /// 跳过数量
         /// </summary>
-        public long Skip
+        public override long Skip
         {
             get => _skip ?? PageSkip;
             set
@@ -67,19 +67,9 @@ namespace Materal.Utils.Model
             }
         }
         /// <summary>
-        /// 跳过数量
-        /// </summary>
-        [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
-        public int SkipInt => Skip > int.MaxValue ? int.MaxValue : (int)Skip;
-        /// <summary>
         /// 获取数量
         /// </summary>
-        public long Take { get => PageSize; set => PageSize = value; }
-        /// <summary>
-        /// 跳过数量
-        /// </summary>
-        [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
-        public int TakeInt => Take > int.MaxValue ? int.MaxValue : (int)Take;
+        public override long Take { get => PageSize; set => PageSize = value; }
         /// <summary>
         /// 构造方法
         /// </summary>
