@@ -118,9 +118,9 @@
             };
             List<TEntity> result = sortOrder switch
             {
-                SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
-                SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
-                _ => queryable.Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToList(),
+                SortOrderEnum.Ascending => queryable.OrderBy(orderExpression).Skip(pageModel.PageSkipInt).Take(pageModel.TakeInt).ToList(),
+                SortOrderEnum.Descending => queryable.OrderByDescending(orderExpression).Skip(pageModel.PageSkipInt).Take(pageModel.TakeInt).ToList(),
+                _ => queryable.Skip(pageModel.PageSkipInt).Take(pageModel.TakeInt).ToList(),
             };
             return (result, pageModel);
         }
@@ -143,9 +143,9 @@
             };
             List<TEntity> result = sortOrder switch
             {
-                SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
-                SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
-                _ => await queryable.Skip(pageModel.SkipInt).Take(pageModel.TakeInt).ToListAsync(),
+                SortOrderEnum.Ascending => await queryable.OrderBy(orderExpression).Skip(pageModel.PageSkipInt).Take(pageModel.TakeInt).ToListAsync(),
+                SortOrderEnum.Descending => await queryable.OrderByDescending(orderExpression).Skip(pageModel.PageSkipInt).Take(pageModel.TakeInt).ToListAsync(),
+                _ => await queryable.Skip(pageModel.PageSkipInt).Take(pageModel.TakeInt).ToListAsync(),
             };
             return (result, pageModel);
         }
