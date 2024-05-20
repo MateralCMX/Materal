@@ -5,9 +5,8 @@ namespace Materal.Utils.Model
     /// <summary>
     /// 分页请求模型
     /// </summary>
-    public abstract class PageRequestModel : FilterModel
+    public abstract class PageRequestModel : RangeRequestModel
     {
-        private long pageSize = 10;
         /// <summary>
         /// 起始页码
         /// </summary>
@@ -16,15 +15,21 @@ namespace Materal.Utils.Model
         /// 起始页码
         /// </summary>
         public static int PageStartNumberInt => PageStartNumber > int.MaxValue ? int.MaxValue : (int)PageStartNumber;
+        private long _pageIndex = 0;
         /// <summary>
         /// 页面位序
         /// </summary>
-        public long PageIndex { get; set; } = PageStartNumber;
+        public long PageIndex
+        {
+            get => _pageIndex >= PageStartNumber ? _pageIndex : PageStartNumber;
+            set => _pageIndex = value;
+        }
         /// <summary>
         /// 页面位序
         /// </summary>
         [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
         public int PageIndexInt => PageIndex > int.MaxValue ? int.MaxValue : (int)PageIndex;
+        private long pageSize = 10;
         /// <summary>
         /// 显示数量
         /// </summary>
@@ -42,38 +47,16 @@ namespace Materal.Utils.Model
         /// 跳过数量
         /// </summary>
         [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
-        public long Skip => (PageIndex - PageStartNumber) * PageSize;
-        /// <summary>
-        /// 跳过数量
-        /// </summary>
-        [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
-        public int SkipInt => Skip > int.MaxValue ? int.MaxValue : (int)Skip;
+        public override long Skip => (PageIndex - PageStartNumber) * PageSize;
         /// <summary>
         /// 获取数量
         /// </summary>
         [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
-        public long Take => PageSize;
-        /// <summary>
-        /// 跳过数量
-        /// </summary>
-        [JsonIgnore, System.Text.Json.Serialization.JsonIgnore]
-        public int TakeInt => Take > int.MaxValue ? int.MaxValue : (int)Take;
+        public override long Take => PageSize;
         /// <summary>
         /// 构造方法
         /// </summary>
         protected PageRequestModel() { }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="sortPropertyName"></param>
-        /// <param name="isAsc"></param>
-        protected PageRequestModel(long pageIndex, long pageSize, string? sortPropertyName, bool isAsc) : this(pageIndex, pageSize)
-        {
-            SortPropertyName = sortPropertyName;
-            IsAsc = isAsc;
-        }
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -91,6 +74,18 @@ namespace Materal.Utils.Model
             {
                 PageSize = 1;
             }
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortPropertyName"></param>
+        /// <param name="isAsc"></param>
+        protected PageRequestModel(long pageIndex, long pageSize, string? sortPropertyName, bool isAsc) : this(pageIndex, pageSize)
+        {
+            SortPropertyName = sortPropertyName;
+            IsAsc = isAsc;
         }
     }
 }
