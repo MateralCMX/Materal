@@ -50,7 +50,7 @@ namespace RC.EnvironmentServer.Application.Services
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        protected override async Task<(List<ConfigurationItemListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
+        protected override async Task<(List<ConfigurationItemListDTO> data, RangeModel rangeInfo)> GetListAsync(Expression<Func<ConfigurationItem, bool>> expression, QueryConfigurationItemModel model, Expression<Func<ConfigurationItem, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
             => await base.GetListAsync(expression, model, m => m.Key, SortOrderEnum.Ascending);
         /// <summary>
         /// 初始化
@@ -66,7 +66,7 @@ namespace RC.EnvironmentServer.Application.Services
             Guid[] allProjectIDs = configurationItems.Select(m => m.ProjectID).Distinct().ToArray();
             if (allProjectIDs.Length > 0)
             {
-                PageResultModel<ProjectListDTO> allProjectInfo = await projectHttpClient.GetListAsync(new()
+                CollectionResultModel<ProjectListDTO> allProjectInfo = await projectHttpClient.GetListAsync(new()
                 {
                     PageIndex = 1,
                     PageSize = allProjectIDs.Length,
@@ -87,7 +87,7 @@ namespace RC.EnvironmentServer.Application.Services
             Guid[] allNamespaceIDs = configurationItems.Select(m => m.NamespaceID).Distinct().ToArray();
             if (allNamespaceIDs.Length > 0)
             {
-                PageResultModel<NamespaceListDTO> allNamespaceInfo = await namespaceHttpClient.GetListAsync(new()
+                CollectionResultModel<NamespaceListDTO> allNamespaceInfo = await namespaceHttpClient.GetListAsync(new()
                 {
                     PageIndex = 1,
                     PageSize = allNamespaceIDs.Length,

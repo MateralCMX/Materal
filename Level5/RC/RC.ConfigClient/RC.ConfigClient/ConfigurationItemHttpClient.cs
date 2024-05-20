@@ -26,7 +26,7 @@ namespace RC.ConfigClient
             }
             url += $"api/ConfigurationItem/GetList";
             string httpResult = await _httpHelper.SendPostAsync(url, null, requestModel);
-            PageResultModel<ConfigurationItemListDTO> result = httpResult.JsonToObject<PageResultModel<ConfigurationItemListDTO>>();
+            CollectionResultModel<ConfigurationItemListDTO> result = httpResult.JsonToObject<CollectionResultModel<ConfigurationItemListDTO>>();
             if (result.ResultType == ResultTypeEnum.Success) return result.Data;
             throw new MateralException("获取配置项失败");
         }

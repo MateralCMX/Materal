@@ -14,7 +14,7 @@ namespace RC.EnvironmentServer.Application.Controllers
         /// <param name="requestModel"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        public override Task<PageResultModel<ConfigurationItemListDTO>> GetListAsync(QueryConfigurationItemRequestModel requestModel)
+        public override Task<CollectionResultModel<ConfigurationItemListDTO>> GetListAsync(QueryConfigurationItemRequestModel requestModel)
             => base.GetListAsync(requestModel);
     }
 }

@@ -35,7 +35,7 @@ namespace RC.Deploy.Application.Services
         /// <param name="orderExpression"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        protected override async Task<(List<DefaultDataListDTO> data, PageModel pageInfo)> GetListAsync(Expression<Func<DefaultData, bool>> expression, QueryDefaultDataModel model, Expression<Func<DefaultData, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
+        protected override async Task<(List<DefaultDataListDTO> data, RangeModel rangeInfo)> GetListAsync(Expression<Func<DefaultData, bool>> expression, QueryDefaultDataModel model, Expression<Func<DefaultData, object>>? orderExpression = null, SortOrderEnum sortOrder = SortOrderEnum.Descending)
         {
             if (orderExpression == null)
             {

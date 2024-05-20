@@ -3,7 +3,6 @@ using RC.Deploy.Abstractions.DTO.ApplicationInfo;
 using RC.Deploy.Abstractions.Services.Models;
 using RC.Deploy.Abstractions.Services.Models.ApplicationInfo;
 using RC.Deploy.Application.Services.Models;
-using System.IO;
 
 namespace RC.Deploy.Application.Services
 {
@@ -115,7 +114,7 @@ namespace RC.Deploy.Application.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public override Task<(List<ApplicationInfoListDTO> data, PageModel pageInfo)> GetListAsync(QueryApplicationInfoModel model)
+        public override Task<(List<ApplicationInfoListDTO> data, RangeModel rangeInfo)> GetListAsync(QueryApplicationInfoModel model)
         {
             List<ApplicationRuntimeModel> allApplications = ApplicationRuntimeHost.ApplicationRuntimes.Select(m => m.Value).ToList();
             if (model.ApplicationStatus != null)
@@ -127,7 +126,7 @@ namespace RC.Deploy.Application.Services
             [
                 .. allApplications.Where(m => targetApplicationIDs.Contains(m.ApplicationInfo.ID)).OrderBy(m => m.ApplicationInfo.MainModule),
             ];
-            PageModel pageInfo = new(model, allApplications.Count);
+            RangeModel pageInfo = new(model.SkipInt, model.TakeInt, allApplications.Count);
             allApplications = allApplications.Skip(model.SkipInt).Take(model.TakeInt).ToList();
             List<ApplicationInfoListDTO> result = Mapper.Map<List<ApplicationInfoListDTO>>(allApplications) ?? throw new RCException("映射失败");
             return Task.FromResult((result, pageInfo));
