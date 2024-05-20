@@ -74,7 +74,7 @@ namespace Materal.Utils.Model
         /// <summary>
         /// 获取数量
         /// </summary>
-        public long Take => PageSize;
+        public long Take { get => PageSize; set => PageSize = value; }
         /// <summary>
         /// 跳过数量
         /// </summary>
