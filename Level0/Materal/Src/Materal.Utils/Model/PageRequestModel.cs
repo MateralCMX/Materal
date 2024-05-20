@@ -22,7 +22,7 @@ namespace Materal.Utils.Model
         public long PageIndex
         {
             get => _pageIndex;
-            set => _pageIndex = _pageIndex >= PageStartNumber ? _pageIndex : PageStartNumber;
+            set => _pageIndex = value >= PageStartNumber ? value : PageStartNumber;
         }
         /// <summary>
         /// 页面位序
