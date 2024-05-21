@@ -11,7 +11,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterDefinition<T> filter, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterDefinition<T> filter, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -19,7 +19,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filter, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filter, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -27,7 +27,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filter, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filter, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -35,7 +35,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filter, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filter, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -72,7 +72,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterDefinition<T> filter, SortDefinition<T> sort, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterDefinition<T> filter, SortDefinition<T> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -81,7 +81,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filter, SortDefinition<T> sort, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filter, SortDefinition<T> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -90,7 +90,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filter, SortDefinition<T> sort, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filter, SortDefinition<T> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -99,7 +99,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filter, SortDefinition<T> sort, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filter, SortDefinition<T> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -108,7 +108,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -117,17 +117,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filter, Expression<Func<T, object>> sort, long pageIndex, long pageSize);
-        /// <summary>
-        /// 查询分页数据
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <param name="sort"></param>
-        /// <param name="sortOrder"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filter, Expression<Func<T, object>> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -137,25 +127,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize);
-        /// <summary>
-        /// 查询分页数据
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <param name="sort"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, long pageIndex, long pageSize);
-        /// <summary>
-        /// 查询分页数据
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <param name="sort"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -165,7 +137,25 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize);
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, int pageIndex, int pageSize);
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -175,7 +165,17 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize);
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        (List<T> data, PageModel pageInfo) Paging(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -283,7 +283,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterModel filterModel, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterModel filterModel, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -291,16 +291,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(FilterModel filterModel, long pageIndex, long pageSize);
-        /// <summary>
-        /// 查询分页数据
-        /// </summary>
-        /// <param name="filterModel"></param>
-        /// <param name="sort"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterModel filterModel, SortDefinition<T> sort, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(FilterModel filterModel, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -309,7 +300,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(FilterModel filterModel, SortDefinition<T> sort, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterModel filterModel, SortDefinition<T> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -318,7 +309,7 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterModel filterModel, Expression<Func<T, object>> sort, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(FilterModel filterModel, SortDefinition<T> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -327,17 +318,16 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(FilterModel filterModel, Expression<Func<T, object>> sort, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterModel filterModel, Expression<Func<T, object>> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
         /// <param name="filterModel"></param>
         /// <param name="sort"></param>
-        /// <param name="sortOrder"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize);
+        (List<T> data, PageModel pageInfo) Paging(FilterModel filterModel, Expression<Func<T, object>> sort, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -347,7 +337,17 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        (List<T> data, PageModel pageInfo) Paging(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize);
+        Task<(List<T> data, PageModel pageInfo)> PagingAsync(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize);
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filterModel"></param>
+        /// <param name="sort"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        (List<T> data, PageModel pageInfo) Paging(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize);
         /// <summary>
         /// 查询分页数据
         /// </summary>

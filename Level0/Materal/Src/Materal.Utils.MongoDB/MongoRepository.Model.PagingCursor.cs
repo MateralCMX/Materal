@@ -6,14 +6,37 @@ namespace Materal.Utils.MongoDB
     public partial class MongoRepository<T>
     {
         /// <summary>
-        /// 查询分页数据
+        /// 获取分页查询选项
         /// </summary>
-        /// <param name="filter"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterDefinition<T> filter, long pageIndex, long pageSize)
-            => await FindCursorAsync(filter, GetFindOptions(pageIndex, pageSize));
+        private static FindOptions<T, T> GetPagingFindOptions(int pageIndex, int pageSize) => new() { Skip = GetSkip(pageIndex, pageSize), Limit = GetLimit(pageSize) };
+        /// <summary>
+        /// 获取分页查询选项
+        /// </summary>
+        /// <param name="sort"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        private static FindOptions<T, T> GetPagingFindOptions(SortDefinition<T> sort, int pageIndex, int pageSize) => new() { Sort = sort, Skip = GetSkip(pageIndex, pageSize), Limit = GetLimit(pageSize) };
+        /// <summary>
+        /// 获取分页查询选项
+        /// </summary>
+        /// <param name="sortExpression"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        private static FindOptions<T, T> GetPagingFindOptions(Expression<Func<T, object>> sortExpression, int pageIndex, int pageSize) => new() { Sort = GetSortDefinition(sortExpression), Skip = GetSkip(pageIndex, pageSize), Limit = GetLimit(pageSize) };
+        /// <summary>
+        /// 获取分页查询选项
+        /// </summary>
+        /// <param name="sortExpression"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        private static FindOptions<T, T> GetPagingFindOptions(Expression<Func<T, object>> sortExpression, SortOrderEnum sortOrder, int pageIndex, int pageSize) => new() { Sort = GetSortDefinition(sortExpression, sortOrder), Skip = GetSkip(pageIndex, pageSize), Limit = GetLimit(pageSize) };
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -21,8 +44,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterDefinition<T> filter, long pageIndex, long pageSize)
-            => FindCursor(filter, GetFindOptions(pageIndex, pageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterDefinition<T> filter, int pageIndex, int pageSize)
+            => await FindCursorAsync(filter, GetPagingFindOptions(pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -30,8 +53,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(Expression<Func<T, bool>> filter, long pageIndex, long pageSize)
-            => await FindCursorAsync(filter, GetFindOptions(pageIndex, pageSize));
+        public virtual IAsyncCursor<T> PagingCursor(FilterDefinition<T> filter, int pageIndex, int pageSize)
+            => FindCursor(filter, GetPagingFindOptions(pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -39,40 +62,49 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(Expression<Func<T, bool>> filter, long pageIndex, long pageSize)
-            => FindCursor(filter, GetFindOptions(pageIndex, pageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(Expression<Func<T, bool>> filter, int pageIndex, int pageSize)
+            => await FindCursorAsync(filter, GetPagingFindOptions(pageIndex, pageSize));
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public virtual IAsyncCursor<T> PagingCursor(Expression<Func<T, bool>> filter, int pageIndex, int pageSize)
+            => FindCursor(filter, GetPagingFindOptions(pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterDefinition<T> filter, PageRequestModel pageRequestModel)
-            => await FindCursorAsync(filter, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterDefinition<T> filter, PageRequestModel pageRequestModel)
+            => await PagingCursorAsync(filter, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterDefinition<T> filter, PageRequestModel pageRequestModel)
-            => FindCursor(filter, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual IAsyncCursor<T> PagingCursor(FilterDefinition<T> filter, PageRequestModel pageRequestModel)
+            => PagingCursor(filter, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(Expression<Func<T, bool>> filter, PageRequestModel pageRequestModel)
-            => await FindCursorAsync(filter, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(Expression<Func<T, bool>> filter, PageRequestModel pageRequestModel)
+            => await PagingCursorAsync(filter, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
         /// <param name="filter"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(Expression<Func<T, bool>> filter, PageRequestModel pageRequestModel)
-            => FindCursor(filter, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual IAsyncCursor<T> PagingCursor(Expression<Func<T, bool>> filter, PageRequestModel pageRequestModel)
+            => PagingCursor(filter, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -81,8 +113,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterDefinition<T> filter, SortDefinition<T> sort, long pageIndex, long pageSize)
-            => await FindCursorAsync(filter, GetFindOptions(sort, pageIndex, pageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterDefinition<T> filter, SortDefinition<T> sort, int pageIndex, int pageSize)
+            => await FindCursorAsync(filter, GetPagingFindOptions(sort, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -91,8 +123,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterDefinition<T> filter, SortDefinition<T> sort, long pageIndex, long pageSize)
-            => FindCursor(filter, GetFindOptions(sort, pageIndex, pageSize));
+        public virtual IAsyncCursor<T> PagingCursor(FilterDefinition<T> filter, SortDefinition<T> sort, int pageIndex, int pageSize)
+            => FindCursor(filter, GetPagingFindOptions(sort, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -101,8 +133,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(Expression<Func<T, bool>> filter, SortDefinition<T> sort, long pageIndex, long pageSize)
-            => await FindCursorAsync(filter, GetFindOptions(sort, pageIndex, pageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(Expression<Func<T, bool>> filter, SortDefinition<T> sort, int pageIndex, int pageSize)
+            => await FindCursorAsync(filter, GetPagingFindOptions(sort, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -111,8 +143,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(Expression<Func<T, bool>> filter, SortDefinition<T> sort, long pageIndex, long pageSize)
-            => FindCursor(filter, GetFindOptions(sort, pageIndex, pageSize));
+        public virtual IAsyncCursor<T> PagingCursor(Expression<Func<T, bool>> filter, SortDefinition<T> sort, int pageIndex, int pageSize)
+            => FindCursor(filter, GetPagingFindOptions(sort, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -121,8 +153,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, long pageIndex, long pageSize)
-            => await FindCursorAsync(filter, GetFindOptions(sort, pageIndex, pageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, int pageIndex, int pageSize)
+            => await FindCursorAsync(filter, GetPagingFindOptions(sort, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -131,8 +163,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterDefinition<T> filter, Expression<Func<T, object>> sort, long pageIndex, long pageSize)
-            => FindCursor(filter, GetFindOptions(sort, pageIndex, pageSize));
+        public virtual IAsyncCursor<T> PagingCursor(FilterDefinition<T> filter, Expression<Func<T, object>> sort, int pageIndex, int pageSize)
+            => FindCursor(filter, GetPagingFindOptions(sort, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -142,8 +174,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize)
-            => await FindCursorAsync(filter, GetFindOptions(sort, sortOrder, pageIndex, pageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+            => await FindCursorAsync(filter, GetPagingFindOptions(sort, sortOrder, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -153,8 +185,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize)
-            => FindCursor(filter, GetFindOptions(sort, sortOrder, pageIndex, pageSize));
+        public virtual IAsyncCursor<T> PagingCursor(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+            => FindCursor(filter, GetPagingFindOptions(sort, sortOrder, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -163,8 +195,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, long pageIndex, long pageSize)
-            => await FindCursorAsync(filter, GetFindOptions(sort, pageIndex, pageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, int pageIndex, int pageSize)
+            => await FindCursorAsync(filter, GetPagingFindOptions(sort, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -173,19 +205,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, long pageIndex, long pageSize)
-            => FindCursor(filter, GetFindOptions(sort, pageIndex, pageSize));
-        /// <summary>
-        /// 查询分页数据
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <param name="sort"></param>
-        /// <param name="sortOrder"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize)
-            => await FindCursorAsync(filter, GetFindOptions(sort, sortOrder, pageIndex, pageSize));
+        public virtual IAsyncCursor<T> PagingCursor(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, int pageIndex, int pageSize)
+            => FindCursor(filter, GetPagingFindOptions(sort, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -195,8 +216,19 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize)
-            => FindCursor(filter, GetFindOptions(sort, sortOrder, pageIndex, pageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+            => await FindCursorAsync(filter, GetPagingFindOptions(sort, sortOrder, pageIndex, pageSize));
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public virtual IAsyncCursor<T> PagingCursor(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+            => FindCursor(filter, GetPagingFindOptions(sort, sortOrder, pageIndex, pageSize));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -204,8 +236,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterDefinition<T> filter, SortDefinition<T> sort, PageRequestModel pageRequestModel)
-            => await FindCursorAsync(filter, sort, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterDefinition<T> filter, SortDefinition<T> sort, PageRequestModel pageRequestModel)
+            => await PagingCursorAsync(filter, sort, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -213,8 +245,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterDefinition<T> filter, SortDefinition<T> sort, PageRequestModel pageRequestModel)
-            => FindCursor(filter, sort, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual IAsyncCursor<T> PagingCursor(FilterDefinition<T> filter, SortDefinition<T> sort, PageRequestModel pageRequestModel)
+            => PagingCursor(filter, sort, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -222,8 +254,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(Expression<Func<T, bool>> filter, SortDefinition<T> sort, PageRequestModel pageRequestModel)
-            => await FindCursorAsync(filter, sort, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(Expression<Func<T, bool>> filter, SortDefinition<T> sort, PageRequestModel pageRequestModel)
+            => await PagingCursorAsync(filter, sort, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -231,8 +263,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(Expression<Func<T, bool>> filter, SortDefinition<T> sort, PageRequestModel pageRequestModel)
-            => FindCursor(filter, sort, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual IAsyncCursor<T> PagingCursor(Expression<Func<T, bool>> filter, SortDefinition<T> sort, PageRequestModel pageRequestModel)
+            => PagingCursor(filter, sort, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -240,8 +272,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
-            => await FindCursorAsync(filter, GetFindOptions(sort, pageRequestModel.PageIndex, pageRequestModel.PageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
+            => await FindCursorAsync(filter, GetPagingFindOptions(sort, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -249,8 +281,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterDefinition<T> filter, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
-            => FindCursor(filter, sort, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual IAsyncCursor<T> PagingCursor(FilterDefinition<T> filter, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
+            => PagingCursor(filter, sort, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -259,8 +291,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
-            => await FindCursorAsync(filter, GetFindOptions(sort, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize));
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
+            => await FindCursorAsync(filter, GetPagingFindOptions(sort, sortOrder, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -269,8 +301,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
-            => FindCursor(filter, GetFindOptions(sort, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize));
+        public virtual IAsyncCursor<T> PagingCursor(FilterDefinition<T> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
+            => FindCursor(filter, GetPagingFindOptions(sort, sortOrder, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt));
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -278,8 +310,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
-            => await FindCursorAsync(filter, sort, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
+            => await PagingCursorAsync(filter, sort, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -287,18 +319,8 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
-            => FindCursor(filter, sort, pageRequestModel.PageIndex, pageRequestModel.PageSize);
-        /// <summary>
-        /// 查询分页数据
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <param name="sort"></param>
-        /// <param name="sortOrder"></param>
-        /// <param name="pageRequestModel"></param>
-        /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
-            => await FindCursorAsync(filter, sort, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual IAsyncCursor<T> PagingCursor(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
+            => PagingCursor(filter, sort, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -307,8 +329,18 @@ namespace Materal.Utils.MongoDB
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
-            => FindCursor(filter, sort, sortOrder, pageRequestModel.PageIndex, pageRequestModel.PageSize);
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
+            => await PagingCursorAsync(filter, sort, sortOrder, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="pageRequestModel"></param>
+        /// <returns></returns>
+        public virtual IAsyncCursor<T> PagingCursor(Expression<Func<T, bool>> filter, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
+            => PagingCursor(filter, sort, sortOrder, pageRequestModel.PageIndexInt, pageRequestModel.PageSizeInt);
         /// <summary>
         /// 查询分页数据
         /// </summary>
@@ -316,10 +348,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterModel filterModel, long pageIndex, long pageSize)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterModel filterModel, int pageIndex, int pageSize)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, pageIndex, pageSize);
+            return await PagingCursorAsync(filter, pageIndex, pageSize);
         }
         /// <summary>
         /// 查询分页数据
@@ -328,23 +360,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterModel filterModel, long pageIndex, long pageSize)
+        public virtual IAsyncCursor<T> PagingCursor(FilterModel filterModel, int pageIndex, int pageSize)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, pageIndex, pageSize);
-        }
-        /// <summary>
-        /// 查询分页数据
-        /// </summary>
-        /// <param name="filterModel"></param>
-        /// <param name="sort"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterModel filterModel, SortDefinition<T> sort, long pageIndex, long pageSize)
-        {
-            FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, pageIndex, pageSize);
+            return PagingCursor(filter, pageIndex, pageSize);
         }
         /// <summary>
         /// 查询分页数据
@@ -354,10 +373,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterModel filterModel, SortDefinition<T> sort, long pageIndex, long pageSize)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterModel filterModel, SortDefinition<T> sort, int pageIndex, int pageSize)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, pageIndex, pageSize);
+            return await PagingCursorAsync(filter, sort, pageIndex, pageSize);
         }
         /// <summary>
         /// 查询分页数据
@@ -367,10 +386,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterModel filterModel, Expression<Func<T, object>> sort, long pageIndex, long pageSize)
+        public virtual IAsyncCursor<T> PagingCursor(FilterModel filterModel, SortDefinition<T> sort, int pageIndex, int pageSize)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, pageIndex, pageSize);
+            return PagingCursor(filter, sort, pageIndex, pageSize);
         }
         /// <summary>
         /// 查询分页数据
@@ -380,24 +399,23 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterModel filterModel, Expression<Func<T, object>> sort, long pageIndex, long pageSize)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterModel filterModel, Expression<Func<T, object>> sort, int pageIndex, int pageSize)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, pageIndex, pageSize);
+            return await PagingCursorAsync(filter, sort, pageIndex, pageSize);
         }
         /// <summary>
         /// 查询分页数据
         /// </summary>
         /// <param name="filterModel"></param>
         /// <param name="sort"></param>
-        /// <param name="sortOrder"></param>
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize)
+        public virtual IAsyncCursor<T> PagingCursor(FilterModel filterModel, Expression<Func<T, object>> sort, int pageIndex, int pageSize)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, sortOrder, pageIndex, pageSize);
+            return PagingCursor(filter, sort, pageIndex, pageSize);
         }
         /// <summary>
         /// 查询分页数据
@@ -408,10 +426,24 @@ namespace Materal.Utils.MongoDB
         /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, long pageIndex, long pageSize)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, sortOrder, pageIndex, pageSize);
+            return await PagingCursorAsync(filter, sort, sortOrder, pageIndex, pageSize);
+        }
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filterModel"></param>
+        /// <param name="sort"></param>
+        /// <param name="sortOrder"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public virtual IAsyncCursor<T> PagingCursor(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, int pageIndex, int pageSize)
+        {
+            FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
+            return PagingCursor(filter, sort, sortOrder, pageIndex, pageSize);
         }
         /// <summary>
         /// 查询分页数据
@@ -419,10 +451,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="filterModel"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterModel filterModel, PageRequestModel pageRequestModel)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterModel filterModel, PageRequestModel pageRequestModel)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, pageRequestModel);
+            return await PagingCursorAsync(filter, pageRequestModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -430,10 +462,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="filterModel"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterModel filterModel, PageRequestModel pageRequestModel)
+        public virtual IAsyncCursor<T> PagingCursor(FilterModel filterModel, PageRequestModel pageRequestModel)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, pageRequestModel);
+            return PagingCursor(filter, pageRequestModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -442,10 +474,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterModel filterModel, SortDefinition<T> sort, PageRequestModel pageRequestModel)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterModel filterModel, SortDefinition<T> sort, PageRequestModel pageRequestModel)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, pageRequestModel);
+            return await PagingCursorAsync(filter, sort, pageRequestModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -454,10 +486,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterModel filterModel, SortDefinition<T> sort, PageRequestModel pageRequestModel)
+        public virtual IAsyncCursor<T> PagingCursor(FilterModel filterModel, SortDefinition<T> sort, PageRequestModel pageRequestModel)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, pageRequestModel);
+            return PagingCursor(filter, sort, pageRequestModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -466,10 +498,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterModel filterModel, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterModel filterModel, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, pageRequestModel);
+            return await PagingCursorAsync(filter, sort, pageRequestModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -478,10 +510,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterModel filterModel, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
+        public virtual IAsyncCursor<T> PagingCursor(FilterModel filterModel, Expression<Func<T, object>> sort, PageRequestModel pageRequestModel)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, pageRequestModel);
+            return PagingCursor(filter, sort, pageRequestModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -491,10 +523,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, sortOrder, pageRequestModel);
+            return await PagingCursorAsync(filter, sort, sortOrder, pageRequestModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -504,10 +536,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="sortOrder"></param>
         /// <param name="pageRequestModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
+        public virtual IAsyncCursor<T> PagingCursor(FilterModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder, PageRequestModel pageRequestModel)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, sortOrder, pageRequestModel);
+            return PagingCursor(filter, sort, sortOrder, pageRequestModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -515,10 +547,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="filterModel"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(PageRequestModel filterModel, SortDefinition<T> sort)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(PageRequestModel filterModel, SortDefinition<T> sort)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, filterModel);
+            return await PagingCursorAsync(filter, sort, filterModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -526,10 +558,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="filterModel"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(PageRequestModel filterModel, SortDefinition<T> sort)
+        public virtual IAsyncCursor<T> PagingCursor(PageRequestModel filterModel, SortDefinition<T> sort)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, filterModel);
+            return PagingCursor(filter, sort, filterModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -537,10 +569,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="filterModel"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(PageRequestModel filterModel, Expression<Func<T, object>> sort)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(PageRequestModel filterModel, Expression<Func<T, object>> sort)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, filterModel);
+            return await PagingCursorAsync(filter, sort, filterModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -548,22 +580,10 @@ namespace Materal.Utils.MongoDB
         /// <param name="filterModel"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(PageRequestModel filterModel, Expression<Func<T, object>> sort)
+        public virtual IAsyncCursor<T> PagingCursor(PageRequestModel filterModel, Expression<Func<T, object>> sort)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, filterModel);
-        }
-        /// <summary>
-        /// 查询分页数据
-        /// </summary>
-        /// <param name="filterModel"></param>
-        /// <param name="sort"></param>
-        /// <param name="sortOrder"></param>
-        /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(PageRequestModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder)
-        {
-            FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return await FindCursorAsync(filter, sort, sortOrder, filterModel);
+            return PagingCursor(filter, sort, filterModel);
         }
         /// <summary>
         /// 查询分页数据
@@ -572,30 +592,42 @@ namespace Materal.Utils.MongoDB
         /// <param name="sort"></param>
         /// <param name="sortOrder"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(PageRequestModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(PageRequestModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder)
         {
             FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
-            return FindCursor(filter, sort, sortOrder, filterModel);
+            return await PagingCursorAsync(filter, sort, sortOrder, filterModel);
+        }
+        /// <summary>
+        /// 查询分页数据
+        /// </summary>
+        /// <param name="filterModel"></param>
+        /// <param name="sort"></param>
+        /// <param name="sortOrder"></param>
+        /// <returns></returns>
+        public virtual IAsyncCursor<T> PagingCursor(PageRequestModel filterModel, Expression<Func<T, object>> sort, SortOrderEnum sortOrder)
+        {
+            FilterDefinition<T> filter = filterModel.GetSearchFilterDefinition<T>();
+            return PagingCursor(filter, sort, sortOrder, filterModel);
         }
         /// <summary>
         /// 查询分页数据
         /// </summary>
         /// <param name="filterModel"></param>
         /// <returns></returns>
-        public virtual async Task<IAsyncCursor<T>> FindCursorAsync(PageRequestModel filterModel)
+        public virtual async Task<IAsyncCursor<T>> PagingCursorAsync(PageRequestModel filterModel)
         {
             SortDefinition<T>? sort = filterModel.GetSortDefinition<T>();
-            return sort is null ? await FindCursorAsync(filterModel, filterModel) : await FindCursorAsync(filterModel, sort, filterModel);
+            return sort is null ? await PagingCursorAsync(filterModel, filterModel) : await PagingCursorAsync(filterModel, sort, filterModel);
         }
         /// <summary>
         /// 查询分页数据
         /// </summary>
         /// <param name="filterModel"></param>
         /// <returns></returns>
-        public virtual IAsyncCursor<T> FindCursor(PageRequestModel filterModel)
+        public virtual IAsyncCursor<T> PagingCursor(PageRequestModel filterModel)
         {
             SortDefinition<T>? sort = filterModel.GetSortDefinition<T>();
-            return sort is null ? FindCursor(filterModel, filterModel) : FindCursor(filterModel, sort, filterModel);
+            return sort is null ? PagingCursor(filterModel, filterModel) : PagingCursor(filterModel, sort, filterModel);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Materal.Utils.MongoDB
         /// <returns></returns>
         public virtual async Task<bool> AnyAsync(FilterDefinition<T> filter)
         {
-            IAsyncCursor<T> collectionResult = await FindCursorAsync(filter, PageRequestModel.PageStartNumber, 1);
+            IAsyncCursor<T> collectionResult = await RangeCursorAsync(filter, 0, 1);
             bool result = await collectionResult.AnyAsync();
             return result;
         }
@@ -23,7 +23,7 @@ namespace Materal.Utils.MongoDB
         /// <returns></returns>
         public virtual bool Any(FilterDefinition<T> filter)
         {
-            IAsyncCursor<T> collectionResult = FindCursor(filter, PageRequestModel.PageStartNumber, 1);
+            IAsyncCursor<T> collectionResult = RangeCursor(filter, 0, 1);
             bool result = collectionResult.Any();
             return result;
         }
@@ -34,7 +34,7 @@ namespace Materal.Utils.MongoDB
         /// <returns></returns>
         public virtual async Task<bool> AnyAsync(Expression<Func<T, bool>> filter)
         {
-            IAsyncCursor<T> collectionResult = await FindCursorAsync(filter, PageRequestModel.PageStartNumber, 1);
+            IAsyncCursor<T> collectionResult = await RangeCursorAsync(filter, 0, 1);
             bool result = await collectionResult.AnyAsync();
             return result;
         }
@@ -45,7 +45,7 @@ namespace Materal.Utils.MongoDB
         /// <returns></returns>
         public virtual bool Any(Expression<Func<T, bool>> filter)
         {
-            IAsyncCursor<T> collectionResult = FindCursor(filter, PageRequestModel.PageStartNumber, 1);
+            IAsyncCursor<T> collectionResult = RangeCursor(filter, 0, 1);
             bool result = collectionResult.Any();
             return result;
         }

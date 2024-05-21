@@ -92,25 +92,26 @@ namespace Materal.Utils.MongoDB
         /// <summary>
         /// 获取跳过数量
         /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
+        /// <param name="skip"></param>
         /// <returns></returns>
-        private static int GetSkip(long pageIndex, long pageSize)
-        {
-            long result = (pageIndex - 1) * pageSize;
-            if (result > int.MaxValue) return int.MaxValue;
-            return (int)result;
-        }
+        private static int GetSkip(int skip) => skip < 0 ? 0 : skip;
         /// <summary>
         /// 获取跳过数量
         /// </summary>
+        /// <param name="pageIndex"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        private static int GetLimit(long pageSize)
+        private static int GetSkip(int pageIndex, int pageSize)
         {
-            if (pageSize > int.MaxValue) return int.MaxValue;
-            return (int)pageSize;
+            int truePageIndex = (pageIndex - PageRequestModel.PageStartNumberInt);
+            return truePageIndex < 0 ? 0 : truePageIndex * pageSize;
         }
+        /// <summary>
+        /// 获取得到数量
+        /// </summary>
+        /// <param name="pageSizeOrTake"></param>
+        /// <returns></returns>
+        private static int GetLimit(int pageSizeOrTake) => pageSizeOrTake <= 0 ? 1 : pageSizeOrTake;
         /// <summary>
         /// 获取排序
         /// </summary>
@@ -149,38 +150,6 @@ namespace Materal.Utils.MongoDB
         /// <param name="sortOrder"></param>
         /// <returns></returns>
         private static FindOptions<T, T> GetFindOptions(Expression<Func<T, object>> sortExpression, SortOrderEnum sortOrder) => new() { Sort = GetSortDefinition(sortExpression, sortOrder) };
-        /// <summary>
-        /// 获取查询选项
-        /// </summary>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        private static FindOptions<T, T> GetFindOptions(long pageIndex, long pageSize) => new() { Skip = GetSkip(pageIndex, pageSize), Limit = GetLimit(pageSize) };
-        /// <summary>
-        /// 获取查询选项
-        /// </summary>
-        /// <param name="sort"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        private static FindOptions<T, T> GetFindOptions(SortDefinition<T> sort, long pageIndex, long pageSize) => new() { Sort = sort, Skip = GetSkip(pageIndex, pageSize), Limit = GetLimit(pageSize) };
-        /// <summary>
-        /// 获取查询选项
-        /// </summary>
-        /// <param name="sortExpression"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        private static FindOptions<T, T> GetFindOptions(Expression<Func<T, object>> sortExpression, long pageIndex, long pageSize) => new() { Sort = GetSortDefinition(sortExpression), Skip = GetSkip(pageIndex, pageSize), Limit = GetLimit(pageSize) };
-        /// <summary>
-        /// 获取查询选项
-        /// </summary>
-        /// <param name="sortExpression"></param>
-        /// <param name="sortOrder"></param>
-        /// <param name="pageIndex"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        private static FindOptions<T, T> GetFindOptions(Expression<Func<T, object>> sortExpression, SortOrderEnum sortOrder, long pageIndex, long pageSize) => new() { Sort = GetSortDefinition(sortExpression, sortOrder), Skip = GetSkip(pageIndex, pageSize), Limit = GetLimit(pageSize) };
         #endregion
     }
 }
