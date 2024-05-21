@@ -37,7 +37,7 @@ namespace Materal.Utils.Model
         /// <summary>
         /// 构造方法
         /// </summary>
-        public PageModel(RangeRequestModel pageRequestModel) { }
+        public PageModel() { }
         /// <summary>
         /// 构造方法
         /// </summary>
