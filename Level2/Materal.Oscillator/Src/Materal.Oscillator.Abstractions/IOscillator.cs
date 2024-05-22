@@ -6,7 +6,7 @@ namespace Materal.Oscillator.Abstractions
     /// <summary>
     /// 调度器
     /// </summary>
-    public interface IOscillator : IOscillatorData
+    public interface IOscillator
     {
         /// <summary>
         /// 唯一标识
@@ -19,7 +19,7 @@ namespace Materal.Oscillator.Abstractions
         /// <summary>
         /// 作业明细
         /// </summary>
-        IWork Work { get; set; }
+        IWorkData WorkData { get; set; }
         /// <summary>
         /// 触发器组
         /// </summary>

@@ -5,11 +5,11 @@ using Materal.Utils;
 
 namespace Dy.Oscillator.Demo.Works
 {
-    public class TestWork() : WorkBase<TestWorkData>("测试任务")
+    public class TestWork : WorkBase<TestWorkData>
     {
         public override async Task ExecuteAsync(IWorkContext workContext)
         {
-            ConsoleQueue.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]Hello World!");
+            ConsoleQueue.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]{Data.Message}");
             await Task.CompletedTask;
         }
     }

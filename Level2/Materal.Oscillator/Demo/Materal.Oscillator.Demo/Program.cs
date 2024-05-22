@@ -14,9 +14,9 @@ namespace Materal.Oscillator.Demo
         public static async Task Main(string[] args)
         {
             HostApplicationBuilder applicationBuilder = Host.CreateApplicationBuilder(args);
-            applicationBuilder.AddMateralLogger(optios =>
+            applicationBuilder.AddMateralLogger(options =>
             {
-                optios.AddConsoleTarget("ConsoleLog")
+                options.AddConsoleTarget("ConsoleLog")
                 .AddRule($"OscillatorRule", ["ConsoleLog"], LogLevel.Trace, LogLevel.Critical, null, new()
                 {
                     ["Default"] = LogLevel.None,

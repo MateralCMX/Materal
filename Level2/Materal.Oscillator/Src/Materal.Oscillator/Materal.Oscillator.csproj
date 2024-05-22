@@ -14,6 +14,7 @@
 		<Description>Materal.Oscillator</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<NoWarn>CA2254;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />

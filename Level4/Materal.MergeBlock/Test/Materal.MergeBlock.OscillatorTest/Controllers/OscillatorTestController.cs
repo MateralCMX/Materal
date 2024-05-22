@@ -1,8 +1,9 @@
-﻿using Materal.MergeBlock.Abstractions;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.Abstractions.Oscillator;
 using Materal.MergeBlock.Application.WebModule.Controllers;
+using Materal.MergeBlock.OscillatorTest.Oscillator;
 using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.DTO;
-using Materal.Oscillator.Abstractions.Models;
+using Materal.Oscillator.Abstractions.Works;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Materal.MergeBlock.OscillatorTest.Controllers
@@ -13,20 +14,22 @@ namespace Materal.MergeBlock.OscillatorTest.Controllers
     public class OscillatorTestController(IOscillatorHost oscillatorHost) : MergeBlockControllerBase
     {
         /// <summary>
-        /// 立即运行调度器
+        /// 初始化任务
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="MergeBlockModuleException"></exception>
         [HttpGet]
-        public async Task RunNowScheduleAsync()
+        public async Task InitTestWorkAsync()
         {
-            (List<ScheduleDTO> data, _) = await oscillatorHost.GetScheduleListAsync(new QueryScheduleModel
-            {
-                PageIndex = 1,
-                PageSize = 1
-            });
-            if (data.Count <= 0) throw new MergeBlockModuleException("没有找到可用的定时任务");
-            await oscillatorHost.RunNowAsync(data.First().ID);
+            IWorkData testWorkData = typeof(TestWorkData).InstantiationOrDefault<IWorkData>() ?? throw new OscillatorException("任务数据初始化失败");
+            OscillatorInitManager.AddInitKey(testWorkData);
+            await oscillatorHost.RunNowWorkDataAsync(testWorkData);
         }
+
+        /// <summary>
+        /// 立即运行任务
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task RunNowTestWorkAsync() => await oscillatorHost.RunNowWorkDataAsync<TestWorkData>();
     }
 }

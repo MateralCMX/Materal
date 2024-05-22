@@ -12,28 +12,14 @@ namespace Materal.Oscillator.Abstractions
         /// <summary>
         /// 创建新任务
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="workData"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
         /// <exception cref="OscillatorException"></exception>
-        public static async Task<IWork> CreateNewWorkAsync(string data, IServiceProvider serviceProvider)
+        public static IWork CreateNewWork(IWorkData workData, IServiceProvider serviceProvider)
         {
-            JToken jToken = JsonConvert.DeserializeObject<JToken>(data) ?? throw new OscillatorException("反序列化失败");
-            if (jToken is not JObject jObject) throw new OscillatorException("反序列化失败");
-            return await CreateNewWorkAsync(jObject, serviceProvider);
-        }
-        /// <summary>
-        /// 创建新任务
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        /// <exception cref="OscillatorException"></exception>
-        public static async Task<IWork> CreateNewWorkAsync(JObject data, IServiceProvider serviceProvider)
-        {
-            IWorkData workData = await DeserializationAsync<IWorkData>(data, serviceProvider);
-            IWork? work = workData.WorkTypeName.GetTypeByTypeName<IWork>()?.InstantiationOrDefault<IWork>(serviceProvider);
-            if (work is null) throw new OscillatorException($"实例化任务失败:{workData.WorkTypeName}");
+            Type workType = workData.WorkTypeName.GetTypeByTypeName<IWork>() ?? throw new OscillatorException($"获取任务类型失败:{workData.WorkTypeName}"); ;
+            IWork work = workType.InstantiationOrDefault<IWork>(serviceProvider) ?? throw new OscillatorException($"实例化任务失败:{workData.WorkTypeName}");
             work.SetData(workData);
             return work;
         }

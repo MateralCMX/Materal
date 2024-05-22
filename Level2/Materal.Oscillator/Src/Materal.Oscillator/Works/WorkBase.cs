@@ -9,14 +9,6 @@ namespace Materal.Oscillator.Works
         where TData : IWorkData, new()
     {
         /// <summary>
-        /// 唯一标识
-        /// </summary>
-        public Guid ID { get => Data.ID; set => Data.ID = value; }
-        /// <summary>
-        /// 名称
-        /// </summary>
-        public string Name { get => Data.Name; set => Data.Name = value; }
-        /// <summary>
         /// 类型名称
         /// </summary>
         public string TypeName => GetType().Name;
@@ -24,11 +16,6 @@ namespace Materal.Oscillator.Works
         /// 数据
         /// </summary>
         public TData Data { get; set; } = new();
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="name"></param>
-        public WorkBase(string name = "新任务") => Data.Name = name;
         /// <summary>
         /// 执行
         /// </summary>
@@ -57,10 +44,5 @@ namespace Materal.Oscillator.Works
             if (data.WorkTypeName != TypeName || data is not TData trueData) throw new OscillatorException("数据类型错误");
             Data = trueData;
         }
-        /// <summary>
-        /// 获得数据
-        /// </summary>
-        /// <returns></returns>
-        public IWorkData GetData() => Data;
     }
 }

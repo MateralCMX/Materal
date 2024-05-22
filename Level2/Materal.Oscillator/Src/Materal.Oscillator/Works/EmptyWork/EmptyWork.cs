@@ -5,7 +5,7 @@ namespace Materal.Oscillator.Works.EmptyWork
     /// <summary>
     /// 空白任务
     /// </summary>
-    public class EmptyWork() : WorkBase<EmptyWorkData>("空白任务")
+    public class EmptyWork : WorkBase<EmptyWorkData>
     {
         /// <summary>
         /// 执行任务

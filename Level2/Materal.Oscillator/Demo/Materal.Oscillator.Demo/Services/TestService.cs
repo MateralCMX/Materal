@@ -1,8 +1,8 @@
-﻿using Dy.Oscillator.Demo.Works;
-using Materal.Extensions;
+﻿using Materal.Extensions;
 using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.Abstractions.Works;
+using Materal.Oscillator.Demo.Works;
 using Materal.Oscillator.PlanTriggers;
 using Materal.Oscillator.PlanTriggers.DateTrigger;
 using Materal.Oscillator.PlanTriggers.TimeTrigger;
@@ -15,7 +15,7 @@ namespace Materal.Oscillator.Demo.Services
     {
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            IWork work = new TestWork();
+            IWorkData workData = new TestWorkData() { Message = "你好，世界！" };
             IPlanTrigger planTrigger = new RepeatPlanTrigger()
             {
                 Name = "测试计划",
@@ -33,7 +33,7 @@ namespace Materal.Oscillator.Demo.Services
                     IntervalType = TimeTriggerIntervalType.Second,
                 }
             };
-            IOscillator oscillator = new DefaultOscillator(work, planTrigger);
+            IOscillator oscillator = new DefaultOscillator(workData, planTrigger);
             string planTriggerDescription = planTrigger.GetDescriptionText();
             ConsoleQueue.WriteLine(planTriggerDescription);
             await oscillatorHost.StartOscillatorAsync(oscillator);

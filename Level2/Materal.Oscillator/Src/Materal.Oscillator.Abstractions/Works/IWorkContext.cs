@@ -19,5 +19,13 @@ namespace Materal.Oscillator.Abstractions.Works
         /// 异常
         /// </summary>
         Exception? Exception { get; set; }
+        /// <summary>
+        /// 调度器对象
+        /// </summary>
+        IOscillator Oscillator { get; }
+        /// <summary>
+        /// 计划触发器唯一标识
+        /// </summary>
+        Guid? PlanTriggerID { get; set; }
     }
 }

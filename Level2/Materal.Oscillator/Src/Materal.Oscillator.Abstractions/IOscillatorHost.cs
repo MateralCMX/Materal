@@ -1,4 +1,6 @@
-﻿namespace Materal.Oscillator.Abstractions
+﻿using Materal.Oscillator.Abstractions.Works;
+
+namespace Materal.Oscillator.Abstractions
 {
     /// <summary>
     /// 调度器主机
@@ -43,6 +45,29 @@
         /// <param name="oscillator"></param>
         /// <returns></returns>
         Task<bool> RunNowOscillatorAsync(IOscillator oscillator);
+        /// <summary>
+        /// 立即执行
+        /// </summary>
+        /// <param name="workDatas"></param>
+        /// <returns></returns>
+        Task RunNowWorkDataAsync(IEnumerable<IWorkData> workDatas);
+        /// <summary>
+        /// 立即执行
+        /// </summary>
+        /// <param name="workData"></param>
+        /// <returns></returns>
+        Task<bool> RunNowWorkDataAsync(IWorkData workData);
+        /// <summary>
+        /// 立即执行
+        /// </summary>
+        /// <param name="workDataType"></param>
+        /// <returns></returns>
+        Task<bool> RunNowWorkDataAsync(Type workDataType);
+        /// <summary>
+        /// 立即执行
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> RunNowWorkDataAsync<T>() where T : IWorkData;
         /// <summary>
         /// 立即执行
         /// </summary>

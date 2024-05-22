@@ -1,4 +1,5 @@
-﻿using Materal.Oscillator.Works;
+﻿using Materal.Oscillator.Abstractions.Works;
+using Materal.Oscillator.Works;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
@@ -20,13 +21,13 @@ namespace Materal.Oscillator
             if (oscillatorObj is null || oscillatorObj is not IOscillator oscillator) return;
             using IServiceScope scope = OscillatorServices.ServiceProvider.CreateScope();
             ILogger<OscillatorJob> logger = scope.ServiceProvider.GetRequiredService<ILogger<OscillatorJob>>();
-            WorkContext workContext = new(scope.ServiceProvider);
+            WorkContext workContext = new(scope.ServiceProvider, oscillator);
             using IDisposable? loggerDisposable = logger.BeginScope(workContext.LoggerScope);
             workContext.LoggerScope.ScopeData.TryAdd("StartTime", DateTime.Now);
             workContext.LoggerScope.ScopeData.TryAdd("OscillatorID", oscillator.ID);
-            workContext.LoggerScope.ScopeData.TryAdd("WorkID", oscillator.Work.ID);
-            workContext.LoggerScope.ScopeData.TryAdd("WorkName", oscillator.Work.Name);
-            workContext.LoggerScope.ScopeData.TryAdd("WorkType", oscillator.Work.TypeName);
+            workContext.LoggerScope.ScopeData.TryAdd("WorkName", oscillator.WorkData.Name);
+            IWork work = OscillatorConvertHelper.CreateNewWork(oscillator.WorkData, scope.ServiceProvider);
+            workContext.LoggerScope.ScopeData.TryAdd("WorkType", work.TypeName);
             string[] triggerSplitValues = context.Trigger.Key.Name.Split('_');
             string triggerName = string.Empty;
             if (triggerSplitValues.Length == 2)
@@ -36,6 +37,7 @@ namespace Materal.Oscillator
                     Guid triggerID = Guid.Parse(triggerSplitValues[0]);
                     triggerName = triggerSplitValues[1];
                     workContext.LoggerScope.ScopeData.TryAdd("PlanTriggerID", triggerID);
+                    workContext.PlanTriggerID = triggerID;
                     workContext.LoggerScope.ScopeData.TryAdd("PlanTriggerName", triggerName);
                 }
                 catch (Exception ex)
@@ -51,7 +53,7 @@ namespace Materal.Oscillator
             stopwatch.Start();
             try
             {
-                await oscillator.Work.ExecuteAsync(workContext);
+                await work.ExecuteAsync(workContext);
             }
             catch (Exception ex)
             {
@@ -64,24 +66,24 @@ namespace Materal.Oscillator
                     workContext.LoggerScope.ScopeData.TryAdd("IsSuccess", true);
                     try
                     {
-                        await oscillator.Work.SuccessExecuteAsync(workContext);
+                        await work.SuccessExecuteAsync(workContext);
                     }
                     catch
                     {
                     }
-                    logger.LogInformation($"调度器[{triggerName}_{oscillator.Work.Name}]执行完毕");
+                    logger.LogInformation($"调度器[{triggerName}_{oscillator.WorkData.Name}]执行完毕");
                 }
                 else
                 {
                     workContext.LoggerScope.ScopeData.TryAdd("IsSuccess", false);
                     try
                     {
-                        await oscillator.Work.FailExecuteAsync(workContext);
+                        await work.FailExecuteAsync(workContext);
                     }
                     catch
                     {
                     }
-                    logger.LogError(workContext.Exception, $"调度器[{triggerName}_{oscillator.Work.Name}]执行失败");
+                    logger.LogError(workContext.Exception, $"调度器[{triggerName}_{oscillator.WorkData.Name}]执行失败");
                 }
                 stopwatch.Stop();
                 workContext.LoggerScope.ScopeData.TryAdd("ElapsedTime", stopwatch.ElapsedMilliseconds);

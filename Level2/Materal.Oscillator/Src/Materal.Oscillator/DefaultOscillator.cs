@@ -21,7 +21,7 @@ namespace Materal.Oscillator
         /// <summary>
         /// 作业明细
         /// </summary>
-        public IWork Work { get; set; }
+        public IWorkData WorkData { get; set; }
         /// <summary>
         /// 触发器组
         /// </summary>
@@ -29,15 +29,15 @@ namespace Materal.Oscillator
         /// <summary>
         /// 构造方法
         /// </summary>
-        public DefaultOscillator() : this(new EmptyWork()) { }
+        public DefaultOscillator() : this(new EmptyWorkData()) { }
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="work"></param>
+        /// <param name="workData"></param>
         /// <param name="triggers"></param>
-        public DefaultOscillator(IWork work, params IPlanTrigger[] triggers)
+        public DefaultOscillator(IWorkData workData, params IPlanTrigger[] triggers)
         {
-            Work = work;
+            WorkData = workData;
             Triggers.AddRange(triggers);
         }
         /// <summary>
@@ -50,9 +50,9 @@ namespace Materal.Oscillator
         {
             ID = data[nameof(ID)]?.ToObject<Guid>() ?? throw new OscillatorException($"反序列化失败:{nameof(ID)}");
             Enable = data[nameof(Enable)]?.ToObject<bool>() ?? throw new OscillatorException($"反序列化失败:{nameof(Enable)}");
-            JToken workDataJson = data[nameof(Work)] ?? throw new OscillatorException($"反序列化失败:{nameof(Work)}");
-            if (workDataJson is not JObject workObject) throw new OscillatorException($"反序列化失败:{nameof(Work)}");
-            Work = await OscillatorConvertHelper.CreateNewWorkAsync(workObject, serviceProvider);
+            JToken workDataJson = data[nameof(WorkData)] ?? throw new OscillatorException($"反序列化失败:{nameof(WorkData)}");
+            if (workDataJson is not JObject workDataObject) throw new OscillatorException($"反序列化失败:{nameof(WorkData)}");
+            WorkData = await OscillatorConvertHelper.DeserializationAsync<IWorkData>(workDataObject, serviceProvider);
             JToken triggersData = data[nameof(Triggers)] ?? throw new OscillatorException($"反序列化失败:{nameof(Triggers)}");
             if (triggersData is not JArray triggersArrayData) throw new OscillatorException($"反序列化失败:{nameof(Triggers)}");
             foreach (JToken triggerData in triggersArrayData)

@@ -19,7 +19,7 @@
         public static JobKey GetJobKey(this IOscillator oscillator)
         {
             string group = oscillator.GetGroup();
-            JobKey jobKey = new(oscillator.Work.Name, group);
+            JobKey jobKey = new(oscillator.WorkData.Name, group);
             return jobKey;
         }
         /// <summary>

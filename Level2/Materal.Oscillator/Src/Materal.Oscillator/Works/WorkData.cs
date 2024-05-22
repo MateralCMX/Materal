@@ -7,6 +7,7 @@ namespace Materal.Oscillator.Works
     /// 任务数据
     /// </summary>
     public abstract class WorkData<TWork>(string name = "新任务") : DefaultOscillatorData, IWorkData
+        where TWork : IWork
     {
         /// <summary>
         /// 唯一标识

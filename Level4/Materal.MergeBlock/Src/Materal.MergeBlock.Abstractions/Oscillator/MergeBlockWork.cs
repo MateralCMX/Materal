@@ -1,86 +1,47 @@
-﻿//using Materal.Abstractions;
-//using Materal.Oscillator.Abstractions.Domain;
-//using Materal.Oscillator.Abstractions.Works;
-//using Microsoft.Extensions.Logging;
+﻿using Materal.Oscillator.Abstractions.Works;
+using Materal.Oscillator.Works;
 
-//namespace Materal.MergeBlock.Abstractions.Oscillator
-//{
-//    /// <summary>
-//    /// MergeBlock任务
-//    /// </summary>
-//    /// <typeparam name="TWorkData"></typeparam>
-//    public abstract class MergeBlockWork<TWorkData> : BaseWork<TWorkData>, IWork<TWorkData>
-//        where TWorkData : class, IWorkData
-//    {
-//        /// <summary>
-//        /// 日志
-//        /// </summary>
-//        protected ILogger? Logger { get; }
-//        /// <summary>
-//        /// 构造方法
-//        /// </summary>
-//        /// <param name="loggerFactory"></param>
-//        public MergeBlockWork(ILoggerFactory? loggerFactory = null)
-//        {
-//            loggerFactory ??= MateralServices.GetService<ILoggerFactory>();
-//            Logger = loggerFactory?.CreateLogger(GetType());
-//        }
-//        /// <summary>
-//        /// 执行
-//        /// </summary>
-//        /// <param name="workData"></param>
-//        /// <param name="jobResults"></param>
-//        /// <param name="nowIndex"></param>
-//        /// <param name="schedule"></param>
-//        /// <param name="scheduleWork"></param>
-//        /// <param name="work"></param>
-//        /// <returns></returns>
-//        public override async Task<string?> ExcuteAsync(TWorkData workData, List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work)
-//        {
-//            try
-//            {
-//                if (OscillatorDataHelper.IsInit(work.Name)) return await InitAsync(workData, jobResults, nowIndex, schedule, scheduleWork, work);
-//                return await WorkExcuteAsync(workData, jobResults, nowIndex, schedule, scheduleWork, work);
-//            }
-//            catch(MergeBlockModuleException ex)
-//            {
-//                Logger?.LogWarning(ex, ex.Message);
-//                return null;
-//            }
-//            finally
-//            {
-//                OscillatorDataHelper.RemoveInitingKey(work.Name);
-//            }
-//        }
-//        /// <summary>
-//        /// 初始化
-//        /// </summary>
-//        /// <param name="workData"></param>
-//        /// <param name="jobResults"></param>
-//        /// <param name="nowIndex"></param>
-//        /// <param name="schedule"></param>
-//        /// <param name="scheduleWork"></param>
-//        /// <param name="work"></param>
-//        /// <returns></returns>
-//        protected virtual Task<string?> InitAsync(TWorkData workData, List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work) => Task.FromResult((string?)null);
-//        /// <summary>
-//        /// 任务执行
-//        /// </summary>
-//        /// <param name="workData"></param>
-//        /// <param name="jobResults"></param>
-//        /// <param name="nowIndex"></param>
-//        /// <param name="schedule"></param>
-//        /// <param name="scheduleWork"></param>
-//        /// <param name="work"></param>
-//        /// <returns></returns>
-//        protected virtual Task<string?> WorkExcuteAsync(TWorkData workData, List<WorkResultModel> jobResults, int nowIndex, Schedule schedule, ScheduleWork scheduleWork, Work work) => Task.FromResult((string?)null);
-//        /// <summary>
-//        /// 获得数据
-//        /// </summary>
-//        /// <typeparam name="TData"></typeparam>
-//        /// <param name="workName"></param>
-//        /// <param name="autoRemove"></param>
-//        /// <returns></returns>
-//        protected TData? GetData<TData>(string workName, bool autoRemove = true) => OscillatorDataHelper.GetData<TData>(workName, autoRemove);
-//    }
-//}
+namespace Materal.MergeBlock.Abstractions.Oscillator
+{
+    /// <summary>
+    /// MergeBlock任务
+    /// </summary>
+    /// <typeparam name="TWorkData"></typeparam>
+    public abstract class MergeBlockWork<TWorkData> : WorkBase<TWorkData>
+        where TWorkData : IWorkData, new()
+    {
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="workContext"></param>
+        /// <returns></returns>
+        public override async Task ExecuteAsync(IWorkContext workContext)
+        {
+            try
+            {
+                if (OscillatorInitManager.IsInit(workContext.Oscillator.WorkData))
+                {
+                    await InitAsync(workContext);
+                }
+                else
+                {
+                    await WorkExecuteAsync(workContext);
+                }
+            }
+            finally
+            {
+                OscillatorInitManager.RemoveInitKey(workContext.Oscillator.WorkData);
+            }
+        }
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <returns></returns>
+        protected virtual Task InitAsync(IWorkContext workContext) => Task.CompletedTask;
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <returns></returns>
+        protected abstract Task WorkExecuteAsync(IWorkContext workContext);
+    }
+}

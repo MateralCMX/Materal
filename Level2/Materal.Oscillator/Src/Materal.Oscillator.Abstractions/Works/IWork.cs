@@ -6,14 +6,6 @@
     public interface IWork
     {
         /// <summary>
-        /// 唯一标识
-        /// </summary>
-        Guid ID { get; set; }
-        /// <summary>
-        /// 名称
-        /// </summary>
-        string Name { get; set; }
-        /// <summary>
         /// 类型名称
         /// </summary>
         string TypeName { get; }
@@ -40,10 +32,5 @@
         /// </summary>
         /// <param name="data"></param>
         void SetData(IWorkData data);
-        /// <summary>
-        /// 获得数据
-        /// </summary>
-        /// <returns></returns>
-        IWorkData GetData();
     }
 }
