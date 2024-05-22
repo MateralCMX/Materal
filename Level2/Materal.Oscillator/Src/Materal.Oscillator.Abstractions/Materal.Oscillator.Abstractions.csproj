@@ -2,30 +2,25 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
-		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<Nullable>enable</Nullable>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.76</Version>
-		<Company>古典部工作室</Company>
-		<Product>Materal.MergeBlock.Oscillator</Product>
+		<Product>Materal.Oscillator</Product>
+		<Company>Materal</Company>
 		<Authors>Materal</Authors>
-		<NeutralLanguage>zh-CN</NeutralLanguage>
-		<Title>Materal.MergeBlock.Oscillator</Title>
-		<Description>Materal.MergeBlock调度器模块</Description>
+		<Version>1.1.76</Version>
+		<Copyright>Materal</Copyright>
+		<Description>Materal.Oscillator.Abstractions</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Oscillator" Version="1.1.76" />
-	</ItemGroup>
-	<ItemGroup>
-	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<PackageReference Include="Materal.Logger.Abstractions" Version="1.1.76" />
+		<PackageReference Include="Quartz" Version="*" />
 	</ItemGroup>
 </Project>
