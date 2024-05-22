@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-	</PropertyGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Materal.TFMS.Demo.Events\Materal.TFMS.Demo.Events.csproj" />
-	</ItemGroup>
-</Project>
