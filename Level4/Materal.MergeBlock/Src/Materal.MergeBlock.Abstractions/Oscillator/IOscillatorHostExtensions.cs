@@ -1,7 +1,7 @@
-﻿using Materal.MergeBlock.Abstractions.Oscillator;
+﻿using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.Works;
 
-namespace Materal.MergeBlock.Oscillator
+namespace Materal.MergeBlock.Abstractions.Oscillator
 {
     /// <summary>
     /// 调度器扩展

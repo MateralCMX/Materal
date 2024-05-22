@@ -25,7 +25,7 @@ namespace Materal.Utils.Wechat
                 {"grant_type", "authorization_code"},
             };
             string httpResult = await HttpHelper.SendGetAsync($"{Config.WechatAPIUrl}sns/oauth2/access_token", queryParams);
-            JsonData jsonData = WechatHelper.HandlerHttpResult(httpResult);
+            JsonData jsonData = HandlerHttpResult(httpResult);
             WebAssessTokenResultModel result = new()
             {
                 WebAssessToken = jsonData.GetString("access_token") ?? throw WechatHelper.GetWechatException(jsonData),
@@ -71,7 +71,7 @@ namespace Materal.Utils.Wechat
                 });
             }
             string httpResult = await HttpHelper.SendPostAsync($"{Config.WechatAPIUrl}cgi-bin/message/template/send", queryParams, data);
-            WechatHelper.HandlerHttpResult(httpResult);
+            HandlerHttpResult(httpResult);
         }
     }
 }

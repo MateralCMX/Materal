@@ -8,7 +8,7 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
     /// MergeBlock任务数据
     /// </summary>
     /// <typeparam name="TWork"></typeparam>
-    public abstract class MergeBlockWorkData<TWork>(string name = "新任务") : WorkData<TWork>(name), IMergeBlockWorkData
+    public abstract class MergeBlockWorkData<TWork>(string name) : WorkData<TWork>(name), IMergeBlockWorkData
         where TWork : IWork
     {
         /// <summary>

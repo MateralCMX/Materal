@@ -24,8 +24,8 @@ namespace Materal.Utils.Wechat
                 {"js_code", code},
             };
             string httpResult = await HttpHelper.SendGetAsync($"{Config.WechatAPIUrl}sns/jscode2session", queryParams);
-            JsonData jsonData = WechatHelper.HandlerHttpResult(httpResult);
-            string openID = jsonData.GetString("openid") ?? throw WechatHelper.GetWechatException(jsonData);
+            JsonData jsonData = HandlerHttpResult(httpResult);
+            string openID = jsonData.GetString("openid") ?? throw GetWechatException(jsonData);
             return openID;
         }
         /// <summary>
@@ -54,7 +54,7 @@ namespace Materal.Utils.Wechat
                 data.data.Add(item.Key, new { value = item.Value });
             }
             string httpResult = await HttpHelper.SendPostAsync($"{Config.WechatAPIUrl}cgi-bin/message/subscribe/send", queryParams, data);
-            WechatHelper.HandlerHttpResult(httpResult);
+            HandlerHttpResult(httpResult);
         }
     }
 }
