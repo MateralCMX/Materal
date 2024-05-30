@@ -95,7 +95,8 @@ namespace Materal.Utils.Consul
             }
             else
             {
-                _logger?.LogWarning("Consul健康检查失败");
+                _logger?.LogWarning("Consul健康检查失败,正在重新注册...");
+                IsRegister = false;
                 await RegisterConsulAsync();
             }
         }
@@ -111,9 +112,9 @@ namespace Materal.Utils.Consul
                 ConsulServiceModel? service = await GetServiceInfoAsync(m => m.ID is not null && m.ID == NodeID.ToString());
                 return service is not null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _logger?.LogWarning("Consul健康检查失败");
+                _logger?.LogWarning(ex, "发送健康检查请求失败");
                 return false;
             }
         }

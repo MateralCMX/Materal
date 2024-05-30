@@ -8,7 +8,7 @@
         /// <summary>
         /// 健康检查间隔(秒)
         /// </summary>
-        public int Interval { get; set; } = 10;
+        public int Interval { get; set; } = 30;
         /// <summary>
         /// 健康检查地址
         /// </summary>
