@@ -1,4 +1,5 @@
-﻿using Materal.Logger.ConsoleLogger;
+﻿using Materal.Logger.Abstractions.Extensions;
+using Materal.Logger.ConsoleLogger;
 using Materal.Logger.Extensions;
 using Materal.Tools.Core;
 using Materal.Utils.Extensions;

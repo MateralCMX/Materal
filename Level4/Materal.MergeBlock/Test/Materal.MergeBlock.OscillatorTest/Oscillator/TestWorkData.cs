@@ -15,6 +15,7 @@ namespace Materal.MergeBlock.OscillatorTest.Oscillator
         /// 消息
         /// </summary>
         public string Message { get; set; } = "Hello World!";
+        public override IPlanTrigger GetInitPlanTrigger() => new OneTimePlanTrigger() { StartTime = DateTime.Now.AddSeconds(10) };
         /// <summary>
         /// 获取计划触发器
         /// </summary>

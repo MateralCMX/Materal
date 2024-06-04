@@ -9,6 +9,11 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
     public interface IMergeBlockWorkData : IWorkData
     {
         /// <summary>
+        /// 获取初始化计划触发器
+        /// </summary>
+        /// <returns></returns>
+        IPlanTrigger GetInitPlanTrigger();
+        /// <summary>
         /// 获取计划触发器
         /// </summary>
         /// <returns></returns>
