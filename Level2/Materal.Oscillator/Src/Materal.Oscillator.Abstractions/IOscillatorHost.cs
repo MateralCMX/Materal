@@ -1,4 +1,5 @@
-﻿using Materal.Oscillator.Abstractions.Works;
+﻿using Materal.Oscillator.Abstractions.PlanTriggers;
+using Materal.Oscillator.Abstractions.Works;
 
 namespace Materal.Oscillator.Abstractions
 {
@@ -74,6 +75,33 @@ namespace Materal.Oscillator.Abstractions
         /// <param name="oscillators"></param>
         /// <returns></returns>
         Task RunNowOscillatorAsync(IEnumerable<IOscillator> oscillators);
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="oscillator"></param>
+        /// <param name="planTrigger"></param>
+        /// <returns></returns>
+        Task<bool> RunOscillatorAsync(IOscillator oscillator, IPlanTrigger planTrigger);
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="workData"></param>
+        /// <param name="planTrigger"></param>
+        /// <returns></returns>
+        Task<bool> RunWorkDataAsync(IWorkData workData, IPlanTrigger planTrigger);
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="workDataType"></param>
+        /// <param name="planTrigger"></param>
+        /// <returns></returns>
+        Task<bool> RunWorkDataAsync(Type workDataType, IPlanTrigger planTrigger);
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="planTrigger"></param>
+        /// <returns></returns>
+        Task<bool> RunWorkDataAsync<T>(IPlanTrigger planTrigger) where T : IWorkData;
         /// <summary>
         /// 是否正在运行
         /// </summary>

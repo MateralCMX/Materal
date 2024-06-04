@@ -148,17 +148,73 @@ namespace Materal.Oscillator
         public async Task<bool> RunNowWorkDataAsync(IWorkData workData)
         {
             if (_scheduler is null) return false;
+            NowPlanTrigger nowPlanTrigger = new();
+            return await RunWorkDataAsync(workData, nowPlanTrigger);
+        }
+        /// <summary>
+        /// 立即执行
+        /// </summary>
+        /// <param name="workDataType"></param>
+        /// <returns></returns>
+        /// <exception cref="OscillatorException"></exception>
+        public async Task<bool> RunNowWorkDataAsync(Type workDataType)
+        {
+            using IServiceScope scope = serviceProvider.CreateScope();
+            IWorkData workData = workDataType.InstantiationOrDefault<IWorkData>(scope.ServiceProvider) ?? throw new OscillatorException("WorkData实例化失败");
+            return await RunNowWorkDataAsync(workData);
+        }
+        /// <summary>
+        /// 立即执行
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public async Task<bool> RunNowWorkDataAsync<T>() where T : IWorkData => await RunNowWorkDataAsync(typeof(T));
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="oscillator"></param>
+        /// <param name="planTrigger"></param>
+        /// <returns></returns>
+        public async Task<bool> RunOscillatorAsync(IOscillator oscillator, IPlanTrigger planTrigger) => await RunWorkDataAsync(oscillator.WorkData, planTrigger);
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="workData"></param>
+        /// <param name="planTrigger"></param>
+        /// <returns></returns>
+        public async Task<bool> RunWorkDataAsync(IWorkData workData, IPlanTrigger planTrigger)
+        {
+            if (_scheduler is null) return false;
             IOscillator oscillator = new DefaultOscillator(workData);
             JobKey jobKey = new(Guid.NewGuid().ToString());
             IJobDetail jobDetail = oscillator.CreateJobDetail(jobKey);
             List<ITrigger> triggers = [];
-            NowPlanTrigger nowPlanTrigger = new();
-            ITrigger? trigger = nowPlanTrigger.CreateTrigger(oscillator);
+            ITrigger? trigger = planTrigger.CreateTrigger(oscillator);
             if (trigger is null) return false;
             triggers.Add(trigger);
             await _scheduler.ScheduleJob(jobDetail, triggers, false);
             return true;
         }
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <param name="workDataType"></param>
+        /// <param name="planTrigger"></param>
+        /// <returns></returns>
+        public async Task<bool> RunWorkDataAsync(Type workDataType, IPlanTrigger planTrigger)
+        {
+            using IServiceScope scope = serviceProvider.CreateScope();
+            IWorkData workData = workDataType.InstantiationOrDefault<IWorkData>(scope.ServiceProvider) ?? throw new OscillatorException("WorkData实例化失败");
+            return await RunWorkDataAsync(workData, planTrigger);
+        }
+        /// <summary>
+        /// 执行
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="planTrigger"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<bool> RunWorkDataAsync<T>(IPlanTrigger planTrigger) where T : IWorkData => await RunWorkDataAsync(typeof(T), planTrigger);
         /// <summary>
         /// 是否正在运行
         /// </summary>
@@ -179,28 +235,6 @@ namespace Materal.Oscillator
             if (_scheduler is null) return false;
             IJobDetail? jobDetail = await _scheduler.GetJobDetail(jobKey);
             return jobDetail is not null;
-        }
-        /// <summary>
-        /// 立即执行
-        /// </summary>
-        /// <param name="workDataType"></param>
-        /// <returns></returns>
-        /// <exception cref="OscillatorException"></exception>
-        public async Task<bool> RunNowWorkDataAsync(Type workDataType)
-        {
-            using IServiceScope scope = serviceProvider.CreateScope();
-            IWorkData workData = workDataType.InstantiationOrDefault<IWorkData>(scope.ServiceProvider) ?? throw new OscillatorException("WorkData实例化失败");
-            return await RunNowWorkDataAsync(workData);
-        }
-        /// <summary>
-        /// 立即执行
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public async Task<bool> RunNowWorkDataAsync<T>() where T : IWorkData
-        {
-            Type workDataType = typeof(T);
-            return await RunNowWorkDataAsync(workDataType);
         }
     }
 }
