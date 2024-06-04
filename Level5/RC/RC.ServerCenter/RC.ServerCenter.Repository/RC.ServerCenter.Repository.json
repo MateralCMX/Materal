@@ -1,8 +1,8 @@
 ﻿{
   "ServerCenter": {
     "DBConfig": {
-      //"Source": "D:\\Project\\Materal\\Materal\\Level5\\RC\\RC.ServerCenter\\RC.ServerCenter.WebAPI\\bin\\RCServerCenter.db",
-      "Source": "D:\\Project\\Materal\\Application\\DataBase\\RCServerCenter.db"
+      //"Source": "E:\\Project\\Materal\\Materal\\Level5\\RC\\RC.ServerCenter\\RC.ServerCenter.WebAPI\\bin\\RCServerCenter.db",
+      "Source": "E:\\Project\\Materal\\Application\\DataBase\\RCServerCenter.db"
     }
   }
 }

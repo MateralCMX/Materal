@@ -31,14 +31,21 @@ namespace Materal.MergeBlock.Oscillator
                     IMergeBlockWorkData workData = workDataType.InstantiationOrDefault<IMergeBlockWorkData>(serviceProvider) ?? throw new OscillatorException("实例化WorkData失败");
                     ICollection<IPlanTrigger> planTriggers = workData.GetPlanTriggers();
                     DefaultOscillator oscillator = new(workData, [.. planTriggers]);
-                    await oscillatorHost.InitWorkAsync(workData);
                     oscillators.Add(oscillator);
                 }
             }
-            foreach (IOscillator oscillator in oscillators)
+            ThreadPool.QueueUserWorkItem(async _ =>
             {
-                await oscillatorHost.StartOscillatorAsync(oscillator);
-            }
+                foreach (IOscillator oscillator in oscillators)
+                {
+                    await oscillatorHost.InitWorkAsync(oscillator.WorkData);
+                }
+                foreach (IOscillator oscillator in oscillators)
+                {
+                    await oscillatorHost.StartOscillatorAsync(oscillator);
+                }
+            });
+            await Task.CompletedTask;
         }
         /// <summary>
         /// 停止
