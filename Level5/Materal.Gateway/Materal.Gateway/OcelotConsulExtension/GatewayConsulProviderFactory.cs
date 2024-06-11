@@ -3,6 +3,9 @@ using Ocelot.Logging;
 using Ocelot.Provider.Consul;
 using Ocelot.ServiceDiscovery;
 using Ocelot.ServiceDiscovery.Providers;
+#if NET8_0_OR_GREATER
+using Ocelot.Provider.Consul.Interfaces;
+#endif
 
 namespace Materal.Gateway.OcelotConsulExtension
 {
@@ -16,7 +19,7 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// </summary>
         public const string PollConsul = nameof(Ocelot.Provider.Consul.PollConsul);
         private static readonly List<PollConsul> ServiceDiscoveryProviders = [];
-#if NET8_0
+#if NET8_0_OR_GREATER
         private static readonly object LockObject = new();
 #endif
         /// <summary>
@@ -31,7 +34,7 @@ namespace Materal.Gateway.OcelotConsulExtension
             GatewayConsul consulProvider = new(consulRegistryConfiguration, factory, consulFactory);
             if (PollConsul.Equals(config.Type, StringComparison.OrdinalIgnoreCase))
             {
-#if NET8_0
+#if NET8_0_OR_GREATER
                 lock (LockObject)
                 {
                     PollConsul? discoveryProvider = ServiceDiscoveryProviders.FirstOrDefault(x => x.ServiceName == route.ServiceName);

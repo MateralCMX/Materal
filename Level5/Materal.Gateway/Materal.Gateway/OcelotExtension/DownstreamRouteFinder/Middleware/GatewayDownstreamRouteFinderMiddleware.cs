@@ -29,10 +29,20 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
             string upstreamUrlPath = httpContext.Request.Path.ToString();
             string upstreamQueryString = httpContext.Request.QueryString.ToString();
             StringValues upstreamHost = httpContext.Request.Headers["Host"];
+            Dictionary<string, string> upstreamHeaders = httpContext.Request.Headers
+                .ToDictionary(h => h.Key, h =>
+                {
+                    string value = h.Value.ToString();
+                    return string.Join(';', value);
+                });
             Logger.LogDebug($"上游Url路径为:{upstreamUrlPath}");
             IInternalConfiguration internalConfiguration = httpContext.Items.IInternalConfiguration();
             IDownstreamRouteProvider provider = downstreamRouteFinder.Get(internalConfiguration);
+#if NET8_0_OR_GREATER
+            Response<DownstreamRouteHolder> response = provider.Get(upstreamUrlPath, upstreamQueryString, httpContext.Request.Method, internalConfiguration, upstreamHost, upstreamHeaders);
+#elif NET6_0
             Response<DownstreamRouteHolder> response = provider.Get(upstreamUrlPath, upstreamQueryString, httpContext.Request.Method, internalConfiguration, upstreamHost);
+#endif
             if (response.IsError)
             {
                 Logger.LogDebug($"查找下游路由错误:{response.Errors.ToErrorString()}");

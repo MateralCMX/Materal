@@ -4,6 +4,9 @@ using Ocelot.Logging;
 using Ocelot.Provider.Consul;
 using Ocelot.ServiceDiscovery.Providers;
 using Ocelot.Values;
+#if NET8_0_OR_GREATER
+using Ocelot.Provider.Consul.Interfaces;
+#endif
 
 namespace Materal.Gateway.OcelotConsulExtension
 {
