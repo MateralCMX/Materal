@@ -1,7 +1,6 @@
 ﻿using Materal.Logger.BatchLogger;
 using Materal.Utils.MongoDB;
 using MongoDB.Bson;
-using MongoDB.Driver;
 
 namespace Materal.Logger.MongoLogger
 {
@@ -19,7 +18,7 @@ namespace Materal.Logger.MongoLogger
         {
             _loggerInfo = loggerInfo;
             _mongoRepository = mongoRepository;
-            _mongoRepository.CollectionOptions = new() { TimeSeriesOptions = new TimeSeriesOptions("CreateTime") };
+            _mongoRepository.CollectionOptions = new() { TimeSeriesOptions = new("CreateTime") };
         }
         /// <summary>
         /// 写入日志

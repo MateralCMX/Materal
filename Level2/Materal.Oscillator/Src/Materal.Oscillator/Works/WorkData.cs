@@ -3,11 +3,18 @@ using Newtonsoft.Json;
 
 namespace Materal.Oscillator.Works
 {
+
     /// <summary>
     /// 任务数据
     /// </summary>
-    public abstract class WorkData<TWork>(string name = "新任务") : DefaultOscillatorData, IWorkData
+    public abstract class WorkData<TWork>(string name = "新任务") : WorkData(typeof(TWork).Name, name), IWorkData
         where TWork : IWork
+    {
+    }
+    /// <summary>
+    /// 任务数据
+    /// </summary>
+    public abstract class WorkData(string workTypeName, string name = "新任务") : DefaultOscillatorData, IWorkData
     {
         /// <summary>
         /// 唯一标识
@@ -21,6 +28,6 @@ namespace Materal.Oscillator.Works
         /// 任务类型名称
         /// </summary>
         [JsonIgnore]
-        public string WorkTypeName { get; } = typeof(TWork).Name;
+        public string WorkTypeName { get; } = workTypeName;
     }
 }

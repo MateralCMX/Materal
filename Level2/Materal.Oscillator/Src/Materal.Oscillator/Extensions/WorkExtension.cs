@@ -16,10 +16,17 @@
         /// </summary>
         /// <param name="oscillator"></param>
         /// <returns></returns>
-        public static JobKey GetJobKey(this IOscillator oscillator)
+        public static JobKey GetJobKey(this IOscillator oscillator) => oscillator.GetJobKey(oscillator.WorkData.Name);
+        /// <summary>
+        /// 获得JobKey
+        /// </summary>
+        /// <param name="oscillator"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static JobKey GetJobKey(this IOscillator oscillator, string name)
         {
             string group = oscillator.GetGroup();
-            JobKey jobKey = new(oscillator.WorkData.Name, group);
+            JobKey jobKey = new(name, group);
             return jobKey;
         }
         /// <summary>

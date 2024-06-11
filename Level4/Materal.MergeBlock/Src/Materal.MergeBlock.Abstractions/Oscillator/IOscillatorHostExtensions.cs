@@ -1,6 +1,8 @@
-﻿using Materal.Oscillator.Abstractions;
+﻿using Materal.Oscillator;
+using Materal.Oscillator.Abstractions;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.Abstractions.Works;
+using Materal.Oscillator.PlanTriggers;
 
 namespace Materal.MergeBlock.Abstractions.Oscillator
 {
@@ -42,15 +44,20 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
         public static async Task<IOscillatorHost> InitWorkAsync(this IOscillatorHost oscillatorHost, IWorkData workData)
         {
             OscillatorInitManager.AddInitKey(workData);
+            IPlanTrigger planTrigger;
             if (workData is IMergeBlockWorkData mergeBlockWorkData)
             {
-                IPlanTrigger planTrigger = mergeBlockWorkData.GetInitPlanTrigger();
-                await oscillatorHost.RunWorkDataAsync(workData, planTrigger);
+                planTrigger = mergeBlockWorkData.GetInitPlanTrigger();
             }
             else
             {
-                await oscillatorHost.RunNowWorkDataAsync(workData);
+                planTrigger = new NowPlanTrigger();
             }
+            IOscillator oscillator = new DefaultOscillator(workData, planTrigger)
+            {
+                Enable = true
+            };
+            await oscillatorHost.StartOscillatorAsync(oscillator);
             return oscillatorHost;
         }
         /// <summary>
@@ -86,7 +93,50 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
         public static async Task<IOscillatorHost> InitNowWorkAsync(this IOscillatorHost oscillatorHost, IWorkData workData)
         {
             OscillatorInitManager.AddInitKey(workData);
-            await oscillatorHost.RunNowWorkDataAsync(workData);
+            IOscillator oscillator = new DefaultOscillator(workData, new NowPlanTrigger())
+            {
+                Enable = true
+            };
+            await oscillatorHost.StartOscillatorAsync(oscillator);
+            return oscillatorHost;
+        }
+        /// <summary>
+        /// 立即执行任务
+        /// </summary>
+        /// <param name="oscillatorHost"></param>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public static async Task<IOscillatorHost> RunNowWorkAsync<T>(this IOscillatorHost oscillatorHost, IServiceProvider serviceProvider)
+            where T : IWorkData
+        {
+            Type workDataType = typeof(T);
+            return await oscillatorHost.RunNowWorkAsync(serviceProvider, workDataType);
+        }
+        /// <summary>
+        /// 立即执行任务
+        /// </summary>
+        /// <param name="oscillatorHost"></param>
+        /// <param name="serviceProvider"></param>
+        /// <param name="workDataType"></param>
+        /// <returns></returns>
+        public static async Task<IOscillatorHost> RunNowWorkAsync(this IOscillatorHost oscillatorHost, IServiceProvider serviceProvider, Type workDataType)
+        {
+            IWorkData workData = workDataType.InstantiationOrDefault<IWorkData>(serviceProvider) ?? throw new OscillatorException("实例化WorkData失败");
+            return await oscillatorHost.RunNowWorkAsync(workData);
+        }
+        /// <summary>
+        /// 立即执行任务
+        /// </summary>
+        /// <param name="oscillatorHost"></param>
+        /// <param name="workData"></param>
+        /// <returns></returns>
+        public static async Task<IOscillatorHost> RunNowWorkAsync(this IOscillatorHost oscillatorHost, IWorkData workData)
+        {
+            IOscillator oscillator = new DefaultOscillator(workData, new NowPlanTrigger())
+            {
+                Enable = true
+            };
+            await oscillatorHost.StartOscillatorAsync(oscillator);
             return oscillatorHost;
         }
     }

@@ -1,5 +1,4 @@
 ﻿using Materal.Oscillator.Abstractions.PlanTriggers;
-using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.Extensions;
 using Materal.Oscillator.PlanTriggers;
 using System.Collections.Specialized;
@@ -9,7 +8,7 @@ namespace Materal.Oscillator
     /// <summary>
     /// 调度器主机
     /// </summary>
-    public class OscillatorHost(IOptionsMonitor<OscillatorOptions> options, IServiceProvider serviceProvider, IEnumerable<IJobListener>? jobListeners = null) : IOscillatorHost
+    public class OscillatorHost(IOptionsMonitor<OscillatorOptions> options, IEnumerable<IJobListener>? jobListeners = null) : IOscillatorHost
     {
         /// <summary>
         /// 调度器
@@ -74,11 +73,28 @@ namespace Materal.Oscillator
                 if (!planTrigger.Enable) continue;
                 ITrigger? trigger = planTrigger.CreateTrigger(oscillator);
                 if (trigger is null) continue;
-                if (trigger.FinalFireTimeUtc is not null && trigger.FinalFireTimeUtc <= DateTime.Now) continue;
-                triggers.Add(trigger);
+                if (planTrigger is not NowPlanTrigger)
+                {
+                    if (trigger.FinalFireTimeUtc is not null && trigger.FinalFireTimeUtc <= DateTime.Now) continue;
+                    triggers.Add(trigger);
+                }
+                else
+                {
+                    triggers.Add(trigger);
+                }
             }
             if (triggers.Count <= 0) return false;
-            IJobDetail jobDetail = oscillator.CreateJobDetail();
+            string jobName = oscillator.WorkData.Name;
+            JobKey jobKey = oscillator.GetJobKey(jobName);
+            IJobDetail? jobDetail = await _scheduler.GetJobDetail(jobKey);
+            int index = 1;
+            while (jobDetail is not null)
+            {
+                jobName = $"{oscillator.WorkData.Name}({index++})";
+                jobKey = oscillator.GetJobKey(jobName);
+                jobDetail = await _scheduler.GetJobDetail(jobKey);
+            }
+            jobDetail = oscillator.CreateJobDetail(jobKey);
             await _scheduler.ScheduleJob(jobDetail, triggers, false);
             return true;
         }
@@ -106,115 +122,6 @@ namespace Materal.Oscillator
             await _scheduler.DeleteJob(jobKey);
             return true;
         }
-        /// <summary>
-        /// 立即执行
-        /// </summary>
-        /// <param name="oscillators"></param>
-        /// <returns></returns>
-        public async Task RunNowOscillatorAsync(IEnumerable<IOscillator> oscillators)
-        {
-            foreach (IOscillator oscillator in oscillators)
-            {
-                await RunNowOscillatorAsync(oscillator);
-            }
-        }
-        /// <summary>
-        /// 立即执行
-        /// </summary>
-        /// <param name="oscillator"></param>
-        /// <returns></returns>
-        public async Task<bool> RunNowOscillatorAsync(IOscillator oscillator)
-        {
-            if (_scheduler is null || !oscillator.Enable) return false;
-            return await RunNowWorkDataAsync(oscillator.WorkData);
-        }
-        /// <summary>
-        /// 立即执行
-        /// </summary>
-        /// <param name="workDatas"></param>
-        /// <returns></returns>
-        public async Task RunNowWorkDataAsync(IEnumerable<IWorkData> workDatas)
-        {
-            foreach (IWorkData workData in workDatas)
-            {
-                await RunNowWorkDataAsync(workData);
-            }
-        }
-        /// <summary>
-        /// 立即执行
-        /// </summary>
-        /// <param name="workData"></param>
-        /// <returns></returns>
-        public async Task<bool> RunNowWorkDataAsync(IWorkData workData)
-        {
-            if (_scheduler is null) return false;
-            NowPlanTrigger nowPlanTrigger = new();
-            return await RunWorkDataAsync(workData, nowPlanTrigger);
-        }
-        /// <summary>
-        /// 立即执行
-        /// </summary>
-        /// <param name="workDataType"></param>
-        /// <returns></returns>
-        /// <exception cref="OscillatorException"></exception>
-        public async Task<bool> RunNowWorkDataAsync(Type workDataType)
-        {
-            using IServiceScope scope = serviceProvider.CreateScope();
-            IWorkData workData = workDataType.InstantiationOrDefault<IWorkData>(scope.ServiceProvider) ?? throw new OscillatorException("WorkData实例化失败");
-            return await RunNowWorkDataAsync(workData);
-        }
-        /// <summary>
-        /// 立即执行
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public async Task<bool> RunNowWorkDataAsync<T>() where T : IWorkData => await RunNowWorkDataAsync(typeof(T));
-        /// <summary>
-        /// 执行
-        /// </summary>
-        /// <param name="oscillator"></param>
-        /// <param name="planTrigger"></param>
-        /// <returns></returns>
-        public async Task<bool> RunOscillatorAsync(IOscillator oscillator, IPlanTrigger planTrigger) => await RunWorkDataAsync(oscillator.WorkData, planTrigger);
-        /// <summary>
-        /// 执行
-        /// </summary>
-        /// <param name="workData"></param>
-        /// <param name="planTrigger"></param>
-        /// <returns></returns>
-        public async Task<bool> RunWorkDataAsync(IWorkData workData, IPlanTrigger planTrigger)
-        {
-            if (_scheduler is null) return false;
-            IOscillator oscillator = new DefaultOscillator(workData);
-            JobKey jobKey = new(Guid.NewGuid().ToString());
-            IJobDetail jobDetail = oscillator.CreateJobDetail(jobKey);
-            List<ITrigger> triggers = [];
-            ITrigger? trigger = planTrigger.CreateTrigger(oscillator);
-            if (trigger is null) return false;
-            triggers.Add(trigger);
-            await _scheduler.ScheduleJob(jobDetail, triggers, false);
-            return true;
-        }
-        /// <summary>
-        /// 执行
-        /// </summary>
-        /// <param name="workDataType"></param>
-        /// <param name="planTrigger"></param>
-        /// <returns></returns>
-        public async Task<bool> RunWorkDataAsync(Type workDataType, IPlanTrigger planTrigger)
-        {
-            using IServiceScope scope = serviceProvider.CreateScope();
-            IWorkData workData = workDataType.InstantiationOrDefault<IWorkData>(scope.ServiceProvider) ?? throw new OscillatorException("WorkData实例化失败");
-            return await RunWorkDataAsync(workData, planTrigger);
-        }
-        /// <summary>
-        /// 执行
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="planTrigger"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task<bool> RunWorkDataAsync<T>(IPlanTrigger planTrigger) where T : IWorkData => await RunWorkDataAsync(typeof(T), planTrigger);
         /// <summary>
         /// 是否正在运行
         /// </summary>
