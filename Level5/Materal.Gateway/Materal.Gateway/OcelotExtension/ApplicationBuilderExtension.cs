@@ -27,9 +27,6 @@ using Ocelot.RequestId.Middleware;
 using Ocelot.Responses;
 using Ocelot.Security.Middleware;
 using System.Diagnostics;
-#if NET6_0
-using Ocelot.RateLimit.Middleware;
-#endif
 
 namespace Materal.Gateway.OcelotExtension
 {
@@ -150,9 +147,6 @@ namespace Materal.Gateway.OcelotExtension
                 gatewayApp.UseSecurityMiddleware();
                 gatewayApp.UseHttpHeadersTransformationMiddleware();
                 gatewayApp.UseDownstreamRequestInitialiser();
-#if NET6_0
-                gatewayApp.UseRateLimiting();
-#endif
                 gatewayApp.UseRequestIdMiddleware();
                 gatewayApp.UseAuthenticationMiddleware();
                 gatewayApp.UseClaimsToClaimsMiddleware();

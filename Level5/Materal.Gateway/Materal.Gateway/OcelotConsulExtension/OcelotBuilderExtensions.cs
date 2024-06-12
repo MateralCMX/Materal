@@ -1,9 +1,7 @@
 ﻿using Ocelot.Configuration.Repository;
 using Ocelot.DependencyInjection;
 using Ocelot.Provider.Consul;
-#if NET8_0_OR_GREATER
 using Ocelot.Provider.Consul.Interfaces;
-#endif
 
 namespace Materal.Gateway.OcelotConsulExtension
 {
@@ -20,14 +18,12 @@ namespace Materal.Gateway.OcelotConsulExtension
         public static IOcelotBuilder AddGatewayConsul(this IOcelotBuilder builder)
         {
             builder.Services
-            .AddSingleton(ConsulProviderFactory.Get)
-            .AddSingleton<IConsulClientFactory, ConsulClientFactory>()
-#if NET8_0_OR_GREATER
-            .AddSingleton(ConsulProviderFactory.GetConfiguration)
-            .AddSingleton<IConsulServiceBuilder, DefaultConsulServiceBuilder>()
-#endif
-            .RemoveAll(typeof(IFileConfigurationPollerOptions))
-            .AddSingleton<IFileConfigurationPollerOptions, ConsulFileConfigurationPollerOption>();
+                .AddSingleton(ConsulProviderFactory.Get)
+                .AddSingleton(ConsulProviderFactory.GetConfiguration)
+                .AddSingleton<IConsulClientFactory, ConsulClientFactory>()
+                .AddSingleton<IConsulServiceBuilder, GatewayConsulServiceBuilder>()
+                .RemoveAll(typeof(IFileConfigurationPollerOptions))
+                .AddSingleton<IFileConfigurationPollerOptions, ConsulFileConfigurationPollerOption>();
             return builder;
         }
     }

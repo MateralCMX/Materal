@@ -9,43 +9,6 @@ using Error = Ocelot.Errors.Error;
 
 namespace Materal.Gateway.OcelotExtension.Requester
 {
-#if NET6_0
-    using Ocelot.Configuration;
-    using IHttpClientBuilder = Ocelot.Requester.IHttpClientBuilder;
-    /// <summary>
-    /// 网关HTTP请求器
-    /// </summary>
-    public partial class GatewayHttpRequester(IExceptionToErrorMapper mapper, IDelegatingHandlerHandlerFactory factory, IHttpClientCache cacheHandlers)
-    {
-        /// <summary>
-        /// 获得响应
-        /// </summary>
-        /// <param name="httpContext"></param>
-        /// <returns></returns>
-        public async Task<Response<HttpResponseMessage>> GetResponse(HttpContext httpContext)
-        {
-            IHttpClientBuilder builder = new GatewayHttpClientBuilder(factory, cacheHandlers);
-            DownstreamRoute downstreamRoute = httpContext.Items.DownstreamRoute();
-            DownstreamRequest downstreamRequest = httpContext.Items.DownstreamRequest();
-            IHttpClient httpClient = builder.Create(downstreamRoute);
-            try
-            {
-                HttpResponseMessage response = await httpClient.SendAsync(downstreamRequest.ToHttpRequestMessage(), httpContext.RequestAborted);
-                HttpResponseMessage result = await ConvertResponseAsync(httpContext, response);
-                return new OkResponse<HttpResponseMessage>(result);
-            }
-            catch (Exception exception)
-            {
-                Error error = mapper.Map(exception);
-                return new ErrorResponse<HttpResponseMessage>(error);
-            }
-            finally
-            {
-                builder.Save();
-            }
-        }
-    }
-#else
     /// <summary>
     /// 网关HTTP请求器
     /// </summary>
@@ -74,7 +37,6 @@ namespace Materal.Gateway.OcelotExtension.Requester
             }
         }
     }
-#endif
     /// <summary>
     /// 网关HTTP请求器
     /// </summary>
@@ -134,11 +96,11 @@ namespace Materal.Gateway.OcelotExtension.Requester
             {
                 if (header.Key == "Content-Type")
                 {
-                    httpContent.Headers.Add(header.Key, new[] { $"{contentType};charset={charSet}" });
+                    httpContent.Headers.Add(header.Key, [$"{contentType};charset={charSet}"]);
                 }
                 else if (header.Key == "Content-Length")
                 {
-                    httpContent.Headers.Add(header.Key, new[] { convertBodyBuffer.Length.ToString() });
+                    httpContent.Headers.Add(header.Key, [convertBodyBuffer.Length.ToString()]);
                 }
                 else
                 {

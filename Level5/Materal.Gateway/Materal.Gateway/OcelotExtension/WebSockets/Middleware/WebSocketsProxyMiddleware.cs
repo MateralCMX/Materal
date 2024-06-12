@@ -1,11 +1,7 @@
 ﻿using Ocelot.Configuration;
 using Ocelot.Logging;
 using Ocelot.Middleware;
-#if NET8_0
 using Ocelot.WebSockets;
-#else
-using Ocelot.WebSockets.Middleware;
-#endif
 using System.Net.WebSockets;
 
 namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
@@ -13,22 +9,11 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
     /// <summary>
     /// 网关WebSockets代理中间件
     /// </summary>
-    public class GatewayWebSocketsProxyMiddleware : OcelotMiddleware
+    public class GatewayWebSocketsProxyMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory) : OcelotMiddleware(loggerFactory.CreateLogger<WebSocketsProxyMiddleware>())
     {
-        private static readonly string[] NotForwardedWebSocketHeaders = new[] { "Connection", "Host", "Upgrade", "Sec-WebSocket-Accept", "Sec-WebSocket-Protocol", "Sec-WebSocket-Key", "Sec-WebSocket-Version", "Sec-WebSocket-Extensions" };
+        private static readonly string[] NotForwardedWebSocketHeaders = ["Connection", "Host", "Upgrade", "Sec-WebSocket-Accept", "Sec-WebSocket-Protocol", "Sec-WebSocket-Key", "Sec-WebSocket-Version", "Sec-WebSocket-Extensions"];
         private const int DefaultWebSocketBufferSize = 4096;
-        private readonly RequestDelegate _next;
-        private static readonly string[] ServerNames = new string[] { "Materal.Gateway" };
-
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="next"></param>
-        /// <param name="loggerFactory"></param>
-        public GatewayWebSocketsProxyMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory) : base(loggerFactory.CreateLogger<WebSocketsProxyMiddleware>())
-        {
-            _next = next;
-        }
+        private static readonly string[] ServerNames = ["Materal.Gateway"];
         /// <summary>
         /// 从一个WebSocket复制到另一个WebSocket
         /// </summary>
@@ -144,14 +129,14 @@ namespace Materal.Gateway.OcelotExtension.WebSockets.Middleware
             }
             catch (Exception ex)
             {
-                List<Header> headers = new()
-                {
+                List<Header> headers =
+                [
                     new Header("Server", ServerNames)
-                };
+                ];
                 HttpContent content = new StringContent($"websocket连接失败:{ex.Message}", Encoding.UTF8, "text/plain");
                 DownstreamResponse downstreamResponse = new(content, HttpStatusCode.BadGateway, headers, "GatewayWebSocketsProxyMiddleware");
                 context.Items.UpsertDownstreamResponse(downstreamResponse);
-                _next?.Invoke(context);
+                next?.Invoke(context);
             }
         }
     }

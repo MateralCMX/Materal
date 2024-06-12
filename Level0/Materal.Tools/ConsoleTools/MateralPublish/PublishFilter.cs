@@ -19,9 +19,9 @@ namespace MateralPublish
                 //|| project is Models.ProjectModels.Level2.EventBusProjectModel
                 //|| project is Models.ProjectModels.Level2.OscillatorProjectModel
                 //|| project is Models.ProjectModels.Level2.TTAProjectModel
-                || project is Models.ProjectModels.Level4.MergeBlockProjectModel
+                //|| project is Models.ProjectModels.Level4.MergeBlockProjectModel
                 || project is Models.ProjectModels.Level5.GatewayProjectModel
-                || project is Models.ProjectModels.Level5.RCProjectModel
+                //|| project is Models.ProjectModels.Level5.RCProjectModel
                 )
             {
                 return true;

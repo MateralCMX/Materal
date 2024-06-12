@@ -10,20 +10,11 @@ namespace Materal.Gateway.OcelotExtension.RequestMonitor.Middleware
     /// <summary>
     /// 请求监控中间件
     /// </summary>
-    public class GatewayRequestMonitorMiddleware : OcelotMiddleware
+    public class GatewayRequestMonitorMiddleware(IOcelotLoggerFactory loggerFactory, RequestDelegate next) : OcelotMiddleware(loggerFactory.CreateLogger<GatewayRequestMonitorMiddleware>())
     {
-        private readonly RequestDelegate _next;
         private static readonly ActionBlock<HandlerRequestModel> _requestActionBlock = new(HandlerRequstAsync);
         private static readonly ActionBlock<HandlerResponseModel> _responseActionBlock = new(HandlerResponseAsync);
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="loggerFactory"></param>
-        /// <param name="next"></param>
-        public GatewayRequestMonitorMiddleware(IOcelotLoggerFactory loggerFactory, RequestDelegate next) : base(loggerFactory.CreateLogger<GatewayRequestMonitorMiddleware>())
-        {
-            _next = next;
-        }
+
         /// <summary>
         /// 中间件执行
         /// </summary>
@@ -37,7 +28,7 @@ namespace Materal.Gateway.OcelotExtension.RequestMonitor.Middleware
             DownstreamRequest? downstreamRequest = httpContext.Items.DownstreamRequest();
             if (downstreamRequest == null) return;
             _requestActionBlock.Post(new HandlerRequestModel(ID, downstreamRoute, downstreamRequest));
-            await _next.Invoke(httpContext);
+            await next.Invoke(httpContext);
             DownstreamResponse? downstreamResponse = httpContext.Items.DownstreamResponse();
             if (downstreamResponse == null) return;
             _responseActionBlock.Post(new HandlerResponseModel(ID, downstreamRoute, downstreamRequest, downstreamResponse));

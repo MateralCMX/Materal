@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
@@ -20,13 +20,7 @@
 	<ItemGroup>
 		<PackageReference Include="Materal.Utils.Consul" Version="1.1.76" />
 	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Ocelot" Version="18.*" />
-		<PackageReference Include="Ocelot.Cache.CacheManager" Version="18.*" />
-		<PackageReference Include="Ocelot.Provider.Consul" Version="18.*" />
-		<PackageReference Include="Ocelot.Provider.Polly" Version="18.*" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+	<ItemGroup>
 		<PackageReference Include="Ocelot" Version="*" />
 		<PackageReference Include="Ocelot.Cache.CacheManager" Version="*" />
 		<PackageReference Include="Ocelot.Provider.Consul" Version="*" />

@@ -29,16 +29,44 @@
         /// </summary>
         /// <param name="resultType">返回类型</param>
         /// <param name="data">返回数据对象</param>
+        /// <param name="message">返回消息</param>
+        public CollectionResultModel(ResultTypeEnum resultType, ICollection<T>? data, string? message = null) : base(resultType, message)
+        {
+            Data = data;
+        }
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="resultType">返回类型</param>
+        /// <param name="data">返回数据对象</param>
         /// <param name="pageModel">分页模型</param>
         /// <param name="message">返回消息</param>
-        public CollectionResultModel(ResultTypeEnum resultType, ICollection<T>? data, PageModel? pageModel, string? message = null) : base(resultType, message)
+        public CollectionResultModel(ResultTypeEnum resultType, ICollection<T>? data, PageModel pageModel, string? message = null) : base(resultType, message)
         {
             Data = data;
             PageModel = pageModel;
-            if (pageModel is not null)
+            RangeModel = new RangeModel(pageModel.Skip, pageModel.Take, pageModel.DataCount)
             {
-                RangeModel = new RangeModel(pageModel.Skip, pageModel.Take, pageModel.DataCount);
-            }
+                SortPropertyName = pageModel.SortPropertyName,
+                IsAsc = pageModel.IsAsc
+            };
+        }
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="resultType">返回类型</param>
+        /// <param name="data">返回数据对象</param>
+        /// <param name="rangeModel">分页模型</param>
+        /// <param name="message">返回消息</param>
+        public CollectionResultModel(ResultTypeEnum resultType, ICollection<T>? data, RangeModel rangeModel, string? message = null) : base(resultType, message)
+        {
+            Data = data;
+            RangeModel = rangeModel;
+            PageModel = new(rangeModel.Skip / rangeModel.Take + PageRequestModel.PageStartNumber, rangeModel.Take, rangeModel.DataCount)
+            {
+                SortPropertyName = rangeModel.SortPropertyName,
+                IsAsc = rangeModel.IsAsc
+            };
         }
         /// <summary>
         /// 成功
@@ -79,22 +107,6 @@
         public static CollectionResultModel<T> Fail(ICollection<T> data, PageRequestModel rangeRequestModel, int dataCount, string? message = null)
             => new(ResultTypeEnum.Fail, data, new PageModel(rangeRequestModel, dataCount), message);
         /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="resultType">返回类型</param>
-        /// <param name="data">返回数据对象</param>
-        /// <param name="rangeModel">分页模型</param>
-        /// <param name="message">返回消息</param>
-        public CollectionResultModel(ResultTypeEnum resultType, ICollection<T>? data, RangeModel? rangeModel, string? message = null) : base(resultType, message)
-        {
-            Data = data;
-            RangeModel = rangeModel;
-            if (rangeModel is not null)
-            {
-                PageModel = new(rangeModel.Skip / rangeModel.Take + PageRequestModel.PageStartNumber, rangeModel.Take, rangeModel.DataCount);
-            }
-        }
-        /// <summary>
         /// 成功
         /// </summary>
         /// <param name="data">返回数据对象</param>
@@ -118,7 +130,7 @@
         /// </summary>
         /// <param name="message">返回消息</param>
         /// <returns></returns>
-        public new static CollectionResultModel<T> Fail(string? message = null) => new(ResultTypeEnum.Fail, null, rangeModel: null, message);
+        public new static CollectionResultModel<T> Fail(string? message = null) => new(ResultTypeEnum.Fail, null, message);
         /// <summary>
         /// 失败
         /// </summary>
