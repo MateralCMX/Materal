@@ -14,25 +14,24 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 生成控制器访问器
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeAfterMethod]
-        private void GeneratorControllerAccessors(List<IControllerModel> controllers)
+        private async Task GeneratorControllerAccessorsAsync()
         {
-            foreach (IControllerModel controller in controllers)
+            foreach (IControllerModel controller in Context.Controllers)
             {
-                GeneratorControllerAccessor(controller);
+                await GeneratorControllerAccessorAsync(controller);
             }
-            GeneratorControllerAccessorServiceCollectionExtensions(controllers);
+            await GeneratorControllerAccessorServiceCollectionExtensionsAsync(Context.Controllers);
         }
         /// <summary>
         /// 生成控制器访问器
         /// </summary>
         /// <param name="controller"></param>
-        private void GeneratorControllerAccessor(IControllerModel controller)
+        private async Task GeneratorControllerAccessorAsync(IControllerModel controller)
         {
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllerAccessor)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllerAccessorAsync)}");
             codeContent.AppendLine($" */");
             bool isUsing = false;
             foreach (string usingCode in controller.Usings)
@@ -153,17 +152,17 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "ControllerAccessors", $"{controller.DomainName}ControllerAccessor.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "ControllerAccessors", $"{controller.DomainName}ControllerAccessor.cs");
         }
         /// <summary>
         /// 生成控制器访问器服务集合扩展
         /// </summary>
         /// <param name="controller"></param>
-        private void GeneratorControllerAccessorServiceCollectionExtensions(List<IControllerModel> controllers)
+        private async Task GeneratorControllerAccessorServiceCollectionExtensionsAsync(List<IControllerModel> controllers)
         {
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllerAccessorServiceCollectionExtensions)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllerAccessorServiceCollectionExtensionsAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"using Microsoft.Extensions.DependencyInjection;");
             codeContent.AppendLine($"using Microsoft.Extensions.DependencyInjection.Extensions;");
@@ -188,7 +187,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        }}");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "ControllerAccessors", "ServiceCollectionExtensions.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "ControllerAccessors", "ServiceCollectionExtensions.cs");
         }
     }
 }

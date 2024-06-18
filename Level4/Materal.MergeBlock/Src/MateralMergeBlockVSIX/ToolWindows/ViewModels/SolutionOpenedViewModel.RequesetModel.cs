@@ -14,28 +14,27 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 创建请求模型
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeMethod]
-        private void GeneratorRequestModel(List<DomainModel> domains)
+        private async Task GeneratorRequestModelAsync()
         {
-            foreach (DomainModel domain in domains)
+            foreach (DomainModel domain in Context.Domains)
             {
-                GeneratorAddRequestModel(domain);
-                GeneratorEditRequestModel(domain);
-                GeneratorQueryRequestModel(domain, domains);
-                GeneratorTreeQueryRequestModel(domain);
+                await GeneratorAddRequestModelAsync(domain);
+                await GeneratorEditRequestModelAsync(domain);
+                await GeneratorQueryRequestModelAsync(domain, Context.Domains);
+                await GeneratorTreeQueryRequestModelAsync(domain);
             }
         }
         /// <summary>
         /// 创建添加请求模型
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorAddRequestModel(DomainModel domain)
+        private async Task GeneratorAddRequestModelAsync(DomainModel domain)
         {
             if (domain.HasAttribute<NotAddAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorAddRequestModel)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorAddRequestModelAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -51,18 +50,18 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "RequestModel", domain.Name, $"Add{domain.Name}RequestModel.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "RequestModel", domain.Name, $"Add{domain.Name}RequestModel.cs");
         }
         /// <summary>
         /// 创建修改请求模型
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorEditRequestModel(DomainModel domain)
+        private async Task GeneratorEditRequestModelAsync(DomainModel domain)
         {
             if (domain.HasAttribute<NotEditAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEditRequestModel)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEditRequestModelAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -83,20 +82,20 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "RequestModel", domain.Name, $"Edit{domain.Name}RequestModel.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "RequestModel", domain.Name, $"Edit{domain.Name}RequestModel.cs");
         }
         /// <summary>
         /// 创建查询请求模型
         /// </summary>
         /// <param name="domain"></param>
         /// <param name="domains"></param>
-        private void GeneratorQueryRequestModel(DomainModel domain, List<DomainModel> domains)
+        private async Task GeneratorQueryRequestModelAsync(DomainModel domain, List<DomainModel> domains)
         {
             if (domain.HasAttribute<NotQueryAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorQueryRequestModel)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorQueryRequestModelAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -150,18 +149,18 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        public DateTime? MaxCreateTime {{ get; set; }}");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "RequestModel", domain.Name, $"Query{domain.Name}RequestModel.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "RequestModel", domain.Name, $"Query{domain.Name}RequestModel.cs");
         }
         /// <summary>
         /// 创建树查询请求模型
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorTreeQueryRequestModel(DomainModel domain)
+        private async Task GeneratorTreeQueryRequestModelAsync(DomainModel domain)
         {
             if (!(domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>()) || domain.HasAttribute<NotQueryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorTreeQueryRequestModel)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorTreeQueryRequestModelAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -185,7 +184,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "RequestModel", domain.Name, $"Query{domain.Name}TreeListRequestModel.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "RequestModel", domain.Name, $"Query{domain.Name}TreeListRequestModel.cs");
         }
     }
 }

@@ -15,26 +15,25 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 创建服务代码
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeMethod]
-        private void GeneratorServicesCode(List<DomainModel> domains)
+        private async Task GeneratorServicesCodeAsync()
         {
-            foreach (DomainModel domain in domains)
+            foreach (DomainModel domain in Context.Domains)
             {
-                GeneratorIServicesCode(domain);
-                GeneratorServiceImplsCode(domain, domains);
+                await GeneratorIServicesCodeAsync(domain);
+                await GeneratorServiceImplsCodeAsync(domain, Context.Domains);
             }
         }
         /// <summary>
         /// 创建服务代码接口
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorIServicesCode(DomainModel domain)
+        private async Task GeneratorIServicesCodeAsync(DomainModel domain)
         {
             if (domain.HasAttribute<NotServiceAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIServicesCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIServicesCodeAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
@@ -79,19 +78,19 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "Services", $"I{domain.Name}Service.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "Services", $"I{domain.Name}Service.cs");
         }
         /// <summary>
         /// 创建服务代码实现
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorServiceImplsCode(DomainModel domain, List<DomainModel> domains)
+        private async Task GeneratorServiceImplsCodeAsync(DomainModel domain, List<DomainModel> domains)
         {
             if (domain.HasAttribute<NotServiceAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorServiceImplsCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorServiceImplsCodeAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};");
@@ -283,7 +282,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleApplication, "Services", $"{domain.Name}ServiceImpl.cs");
+            await codeContent.SaveAsAsync(Context, _moduleApplication, "Services", $"{domain.Name}ServiceImpl.cs");
         }
     }
 }

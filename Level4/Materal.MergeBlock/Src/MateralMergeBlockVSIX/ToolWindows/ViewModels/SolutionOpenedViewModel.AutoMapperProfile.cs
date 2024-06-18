@@ -15,13 +15,12 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 创建AutoMapper规则
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeMethod]
-        private void GeneratorAutoMapperProfile(List<DomainModel> domains)
+        private async Task GeneratorAutoMapperProfileAsync()
         {
-            foreach (DomainModel domain in domains)
+            foreach (DomainModel domain in Context.Domains)
             {
-                GeneratorAutoMapperProfile(domain, domains);
+                await GeneratorAutoMapperProfileAsync(domain, Context.Domains);
             }
         }
         /// <summary>
@@ -29,7 +28,8 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         /// <param name="domain"></param>
         /// <param name="domains"></param>
-        private void GeneratorAutoMapperProfile(DomainModel domain, List<DomainModel> domains)
+        /// <param name="plugs"></param>
+        private async Task GeneratorAutoMapperProfileAsync(DomainModel domain, List<DomainModel> domains)
         {
             if (domain.HasAttribute<NotAutoMapperAttribute>()) return;
             bool isGenerator = false;
@@ -38,7 +38,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             bool hasServicesModel = false;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorAutoMapperProfile)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorAutoMapperProfileAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Application.AutoMapperProfile");
             codeContent.AppendLine($"{{");
@@ -155,7 +155,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     codeContent.Insert(0, $"using {_projectName}.{_moduleName}.Abstractions.Services.Models.{domain.Name};\r\n");
                 }
             }
-            codeContent.SaveAs(_moduleApplication, "AutoMapperProfile", $"{domain.Name}Profile.cs");
+            await codeContent.SaveAsAsync(Context, _moduleApplication, "AutoMapperProfile", $"{domain.Name}Profile.cs");
         }
     }
 }

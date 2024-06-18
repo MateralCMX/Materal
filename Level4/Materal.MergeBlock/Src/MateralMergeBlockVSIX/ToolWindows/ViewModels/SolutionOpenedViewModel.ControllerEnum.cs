@@ -5,7 +5,6 @@ using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
-using System.Collections.Generic;
 using System.Text;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
@@ -15,14 +14,13 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 生成枚举控制器
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeAfterMethod]
-        private void GeneratorEnumController(List<EnumModel> enums)
+        private async Task GeneratorEnumControllerAsync()
         {
-            if (enums.Count <= 0) return;
+            if (Context.Enums.Count <= 0) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEnumController)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEnumControllerAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"using Microsoft.AspNetCore.Authorization;");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.Enums;");
@@ -35,7 +33,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    [AllowAnonymous]");
             codeContent.AppendLine($"    public partial class EnumsController : {_moduleName}Controller");
             codeContent.AppendLine($"    {{");
-            foreach (EnumModel @enum in enums)
+            foreach (EnumModel @enum in Context.Enums)
             {
                 if (@enum.HasAttribute<NotControllerAttribute>()) return;
                 string annotation = $"        /// 获取所有{@enum.Annotation}";
@@ -56,7 +54,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleApplication, "Controllers", $"EnumsController.cs");
+            await codeContent.SaveAsAsync(Context, _moduleApplication, "Controllers", $"EnumsController.cs");
         }
     }
 }

@@ -14,15 +14,14 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 创建数据传输模型
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeMethod]
-        private void GeneratorDTOModel(List<DomainModel> domains)
+        private async Task GeneratorDTOModelAsync()
         {
-            foreach (DomainModel domain in domains)
+            foreach (DomainModel domain in Context.Domains)
             {
-                GeneratorListDTOModel(domain, domains);
-                GeneratorDTOModel(domain, domains);
-                GeneratorTreeListDTOModel(domain);
+                await GeneratorListDTOModelAsync(domain, Context.Domains);
+                await GeneratorDTOModelAsync(domain, Context.Domains);
+                await GeneratorTreeListDTOModelAsync(domain);
             }
         }
         /// <summary>
@@ -30,13 +29,13 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         /// <param name="domain"></param>
         /// <param name="domains"></param>
-        private void GeneratorListDTOModel(DomainModel domain, List<DomainModel> domains)
+        private async Task GeneratorListDTOModelAsync(DomainModel domain, List<DomainModel> domains)
         {
             if (domain.HasAttribute<NotListDTOAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorListDTOModel)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorListDTOModelAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -62,20 +61,20 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "DTO", domain.Name, $"{domain.Name}ListDTO.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "DTO", domain.Name, $"{domain.Name}ListDTO.cs");
         }
         /// <summary>
         /// 创建数据传输模型
         /// </summary>
         /// <param name="domain"></param>
         /// <param name="domains"></param>
-        private void GeneratorDTOModel(DomainModel domain, List<DomainModel> domains)
+        private async Task GeneratorDTOModelAsync(DomainModel domain, List<DomainModel> domains)
         {
             if (domain.HasAttribute<NotDTOAttribute>()) return;
             DomainModel targetDomain = domain.GetQueryDomain(domains);
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorDTOModel)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorDTOModelAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -91,18 +90,18 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "DTO", domain.Name, $"{domain.Name}DTO.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "DTO", domain.Name, $"{domain.Name}DTO.cs");
         }
         /// <summary>
         /// 创建树列表数据传输模型
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorTreeListDTOModel(DomainModel domain)
+        private async Task GeneratorTreeListDTOModelAsync(DomainModel domain)
         {
             if (!(domain.IsTreeDomain && !domain.HasAttribute<EmptyTreeAttribute>()) || domain.HasAttribute<NotListDTOAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorTreeListDTOModel)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorTreeListDTOModelAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name}");
             codeContent.AppendLine($"{{");
@@ -117,7 +116,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        public List<{domain.Name}TreeListDTO> Children {{ get; set; }} = [];");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "DTO", domain.Name, $"{domain.Name}TreeListDTO.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "DTO", domain.Name, $"{domain.Name}TreeListDTO.cs");
         }
         /// <summary>
         /// 创建数据传输模型属性

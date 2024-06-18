@@ -4,6 +4,7 @@ using Materal.MergeBlock.GeneratorCode;
 using MateralMergeBlockVSIX.Extensions;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -54,6 +55,43 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 获得所有生成代码插件路径
         /// </summary>
+        /// <returns></returns>
+        private List<string> GetAllEditGeneratorCodePlugPaths()
+        {
+            List<string> generatorCodePlugPaths = [];
+            if (_coreAbstractions is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllEditGeneratorCodePlugPaths(_coreAbstractions));
+            }
+            if (_coreRepository is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllEditGeneratorCodePlugPaths(_coreRepository));
+            }
+            if (_coreApplication is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllEditGeneratorCodePlugPaths(_coreApplication));
+            }
+            if (_moduleAbstractions is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllEditGeneratorCodePlugPaths(_moduleAbstractions));
+            }
+            if (_moduleRepository is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllEditGeneratorCodePlugPaths(_moduleRepository));
+            }
+            if (_moduleApplication is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllEditGeneratorCodePlugPaths(_moduleApplication));
+            }
+            if (_moduleWebAPI is not null)
+            {
+                generatorCodePlugPaths.AddRange(GetAllEditGeneratorCodePlugPaths(_moduleWebAPI));
+            }
+            return generatorCodePlugPaths;
+        }
+        /// <summary>
+        /// 获得所有生成代码插件路径
+        /// </summary>
         /// <param name="solutionItem"></param>
         /// <returns></returns>
         private List<string> GetAllGeneratorCodePlugPaths(SolutionItem solutionItem)
@@ -74,22 +112,43 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             return generatorCodePlugPaths;
         }
         /// <summary>
+        /// 获得所有生成代码插件路径
+        /// </summary>
+        /// <param name="solutionItem"></param>
+        /// <returns></returns>
+        private List<string> GetAllEditGeneratorCodePlugPaths(SolutionItem solutionItem)
+        {
+            List<string> generatorCodePlugPaths = [];
+            if (solutionItem.Type == SolutionItemType.SolutionFolder)
+            {
+                foreach (SolutionItem? item in solutionItem.Children)
+                {
+                    if (item is null) continue;
+                    generatorCodePlugPaths.AddRange(GetAllEditGeneratorCodePlugPaths(item));
+                }
+            }
+            else if (solutionItem.Type == SolutionItemType.Project)
+            {
+                generatorCodePlugPaths.AddRange(solutionItem?.GetEditGeneratorCodePlugPaths() ?? []);
+            }
+            return generatorCodePlugPaths;
+        }
+        /// <summary>
         /// 执行插件
         /// </summary>
         /// <param name="codePaths"></param>
-        /// <param name="context"></param>
-        private async Task ExcutePlugAsync(IReadOnlyCollection<string> codePaths, GeneratorCodeContext context)
+        private async Task ExcutePlugAsync(IReadOnlyCollection<string> codePaths)
         {
             foreach (string codePath in codePaths)
             {
                 try
                 {
                     IMergeBlockGeneratorCodePlug plug = await GetMergeBlockGeneratorCodePlugAsync(codePath);
-                    await plug.ExcuteAsync(context);
+                    await plug.ExcuteAsync(Context);
                 }
                 catch (Exception ex)
                 {
-                    await VS.MessageBox.ShowAsync($"插件[{codePath}]错误", ex.GetErrorMessage(), Microsoft.VisualStudio.Shell.Interop.OLEMSGICON.OLEMSGICON_WARNING, Microsoft.VisualStudio.Shell.Interop.OLEMSGBUTTON.OLEMSGBUTTON_OK);
+                    await VS.MessageBox.ShowAsync($"插件[{codePath}]错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
                 }
             }
         }
@@ -100,6 +159,22 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
         private async Task<IMergeBlockGeneratorCodePlug> GetMergeBlockGeneratorCodePlugAsync(string codeFilePath)
+            => await GetMergeBlockEditGeneratorCodePlugAsync<IMergeBlockGeneratorCodePlug>(codeFilePath);
+        /// <summary>
+        /// 获得MergeBlock生成代码插件
+        /// </summary>
+        /// <param name="codeFilePath"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private async Task<IMergeBlockEditGeneratorCodePlug> GetMergeBlockEditGeneratorCodePlugAsync(string codeFilePath)
+            => await GetMergeBlockEditGeneratorCodePlugAsync<IMergeBlockEditGeneratorCodePlug>(codeFilePath);
+        /// <summary>
+        /// 获得MergeBlock生成代码插件
+        /// </summary>
+        /// <param name="codeFilePath"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        private async Task<T> GetMergeBlockEditGeneratorCodePlugAsync<T>(string codeFilePath)
         {
             if (!codeFilePath.EndsWith(".cs")) throw new Exception("不是C#文件");
             string codeFileName = Path.GetFileNameWithoutExtension(codeFilePath);
@@ -126,11 +201,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             ];
             ScriptOptions scriptOptions = ScriptOptions.Default
                 .WithReferences(trueAssemblies);
-            Script<IMergeBlockGeneratorCodePlug> script = CSharpScript.Create<IMergeBlockGeneratorCodePlug>(scriptCode, scriptOptions);
+            Script<T> script = CSharpScript.Create<T>(scriptCode, scriptOptions);
             script.Compile();
-            Script<IMergeBlockGeneratorCodePlug> scripteState = script.ContinueWith<IMergeBlockGeneratorCodePlug>($"new {codeFileName}()");
-            ScriptState<IMergeBlockGeneratorCodePlug> myInterface = await scripteState.RunAsync();
-            IMergeBlockGeneratorCodePlug result = myInterface.ReturnValue;
+            Script<T> scripteState = script.ContinueWith<T>($"new {codeFileName}()");
+            ScriptState<T> myInterface = await scripteState.RunAsync();
+            T result = myInterface.ReturnValue;
             return result;
         }
     }

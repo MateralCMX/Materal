@@ -6,7 +6,6 @@ using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -18,22 +17,22 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 创建实体配置代码
         /// </summary>
         [GeneratorCodeMethod]
-        private void GeneratorEntityConfigsCode(List<DomainModel> domains)
+        private async Task GeneratorEntityConfigsCodeAsync()
         {
-            foreach (DomainModel domain in domains)
+            foreach (DomainModel domain in Context.Domains)
             {
-                GeneratorEntityConfigCode(domain);
+                await GeneratorEntityConfigCodeAsync(domain);
             }
         }
         /// <summary>
         /// 创建实体配置代码
         /// </summary>
-        private void GeneratorEntityConfigCode(DomainModel domain)
+        private async Task GeneratorEntityConfigCodeAsync(DomainModel domain)
         {
             if (domain.HasAttribute<NotEntityConfigAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEntityConfigCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorEntityConfigCodeAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
             codeContent.AppendLine($"");
@@ -79,18 +78,17 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    public partial class {domain.Name}Config : {domain.Name}ConfigBase {{ }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleRepository, "EntityConfigs", $"{domain.Name}Config.cs");
+            await codeContent.SaveAsAsync(Context, _moduleRepository, "EntityConfigs", $"{domain.Name}Config.cs");
         }
         /// <summary>
         /// 创建数据库上下文代码
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeMethod]
-        private void GeneratorDBContextCode(List<DomainModel> domains)
+        private async Task GeneratorDBContextCodeAsync()
         {
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorDBContextCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorDBContextCodeAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Repository");
             codeContent.AppendLine($"{{");
@@ -99,7 +97,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             codeContent.AppendLine($"    public sealed partial class {_moduleName}DBContext(DbContextOptions<{_moduleName}DBContext> options) : DbContext(options)");
             codeContent.AppendLine($"    {{");
-            foreach (DomainModel domain in domains)
+            foreach (DomainModel domain in Context.Domains)
             {
                 if (domain.HasAttribute<NotInDBContextAttribute>()) continue;
                 codeContent.AppendLine($"        /// <summary>");
@@ -113,31 +111,30 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        protected override void OnModelCreating(ModelBuilder modelBuilder) => modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);");
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleRepository, $"{_moduleName}DBContext.cs");
+            await codeContent.SaveAsAsync(Context, _moduleRepository, $"{_moduleName}DBContext.cs");
         }
         /// <summary>
         /// 创建仓储代码
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeMethod]
-        private void GeneratorRepositoryCode(List<DomainModel> domains)
+        private async Task GeneratorRepositoryCodeAsync()
         {
-            foreach (DomainModel domain in domains)
+            foreach (DomainModel domain in Context.Domains)
             {
-                GeneratorIRepositoryCode(domain);
-                GeneratorRepositoryImplCode(domain);
+                await GeneratorIRepositoryCodeAsync(domain);
+                await GeneratorRepositoryImplCodeAsync(domain);
             }
         }
         /// <summary>
         /// 创建仓储接口代码
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorIRepositoryCode(DomainModel domain)
+        private async Task GeneratorIRepositoryCodeAsync(DomainModel domain)
         {
             if (domain.HasAttribute<NotRepositoryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIRepositoryCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIRepositoryCodeAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Abstractions.Repositories");
             codeContent.AppendLine($"{{");
@@ -176,18 +173,18 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "Repositories", $"I{domain.Name}Repository.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "Repositories", $"I{domain.Name}Repository.cs");
         }
         /// <summary>
         /// 创建仓储实现代码
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorRepositoryImplCode(DomainModel domain)
+        private async Task GeneratorRepositoryImplCodeAsync(DomainModel domain)
         {
             if (domain.HasAttribute<NotRepositoryAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorRepositoryImplCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorRepositoryImplCodeAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Repository.Repositories");
             codeContent.AppendLine($"{{");
@@ -236,7 +233,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleRepository, "Repositories", $"{domain.Name}RepositoryImpl.cs");
+            await codeContent.SaveAsAsync(Context, _moduleRepository, "Repositories", $"{domain.Name}RepositoryImpl.cs");
         }
     }
 }

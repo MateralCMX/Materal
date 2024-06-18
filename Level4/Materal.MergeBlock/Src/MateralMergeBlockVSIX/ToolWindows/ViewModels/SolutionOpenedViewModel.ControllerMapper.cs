@@ -14,21 +14,20 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 创建控制器代码
         /// </summary>
-        /// <param name="services"></param>
         [GeneratorCodeMethod]
-        private void GeneratorControllerMapperCode(List<IServiceModel> services)
+        private async Task GeneratorControllerMapperCodeAsync()
         {
-            foreach (IServiceModel service in services)
+            foreach (IServiceModel service in Context.Services)
             {
-                GeneratorIControllerMapperCode(service);
-                GeneratorControllerMapperCode(service);
+                await GeneratorIControllerMapperCodeAsync(service);
+                await GeneratorControllerMapperCodeAsync(service);
             }
         }
         /// <summary>
         /// 创建控制器代码接口
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorIControllerMapperCode(IServiceModel service)
+        private async Task GeneratorIControllerMapperCodeAsync(IServiceModel service)
         {
             if (!service.HasMapperMethod) return;
             StringBuilder codeContent = new();
@@ -134,18 +133,18 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "Controllers", $"I{service.DomainName}Controller.Mapper.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "Controllers", $"I{service.DomainName}Controller.Mapper.cs");
         }
         /// <summary>
         /// 创建控制器代码接口
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorControllerMapperCode(IServiceModel service)
+        private async Task GeneratorControllerMapperCodeAsync(IServiceModel service)
         {
             if (!service.HasMapperMethod) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllerMapperCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllerMapperCodeAsync)}");
             codeContent.AppendLine($" */");
             bool isUsing = false;
             foreach (string usingCode in service.Usings)
@@ -298,7 +297,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleApplication, "Controllers", $"{service.DomainName}Controller.Mapper.cs");
+            await codeContent.SaveAsAsync(Context, _moduleApplication, "Controllers", $"{service.DomainName}Controller.Mapper.cs");
         }
         /// <summary>
         /// 是分页返回类型

@@ -11,7 +11,6 @@ using Microsoft.VisualStudio.Shell.Interop;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows;
@@ -34,6 +33,8 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// 模块
         /// </summary>
         public ObservableCollection<ModuleViewModel> Modules { get; set; } = [];
+        private GeneratorCodeContext? _context;
+        public GeneratorCodeContext Context { get => _context ?? throw new Exception("上下文为空"); set => _context = value; }
         /// <summary>
         /// 生成代码
         /// </summary>
@@ -42,6 +43,20 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             try
             {
                 List<string> generatorCodePlugPaths = GetAllGeneratorCodePlugPaths();
+                List<string> editGeneratorCodePlugPaths = GetAllEditGeneratorCodePlugPaths();
+                List<IMergeBlockEditGeneratorCodePlug> editGeneratorCodePlugs = [];
+                foreach (string codePath in editGeneratorCodePlugPaths)
+                {
+                    try
+                    {
+                        IMergeBlockEditGeneratorCodePlug plug = await GetMergeBlockEditGeneratorCodePlugAsync(codePath);
+                        editGeneratorCodePlugs.Add(plug);
+                    }
+                    catch (Exception ex)
+                    {
+                        await VS.MessageBox.ShowAsync($"插件[{codePath}]错误", ex.GetErrorMessage(), OLEMSGICON.OLEMSGICON_WARNING, OLEMSGBUTTON.OLEMSGBUTTON_OK);
+                    }
+                }
                 int stepCount = generatorCodePlugPaths.Count > 0 ? 3 : 2;
                 await VS.StatusBar.ShowProgressAsync($"清理以前生成的文件 1/{stepCount}", 1, stepCount);
                 #region 清理旧文件
@@ -76,18 +91,18 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 if (_projectName is null || string.IsNullOrWhiteSpace(_projectName)) throw new Exception("项目名称为空");
                 if (_moduleName is null || string.IsNullOrWhiteSpace(_moduleName)) throw new Exception("模块名称为空");
                 await VS.StatusBar.ShowProgressAsync($"生成预设代码 2/{stepCount}", 2, stepCount);
-                GeneratorCodeContext context = new(coreAbstractionsPath, coreRepositoryPath, moduleAbstractionsPath, moduleApplicationPath, moduleRepositoryPath, moduleWebAPIPath, _projectName, _moduleName);
-                context.Refresh(_moduleAbstractions);
-                ExcuteMethodInfoByAttribute<GeneratorCodeBeforMethodAttribute>(allMethodInfos, context);
-                context.Refresh(_moduleAbstractions);
-                ExcuteMethodInfoByAttribute<GeneratorCodeMethodAttribute>(allMethodInfos, context);
-                context.Refresh(_moduleAbstractions);
-                ExcuteMethodInfoByAttribute<GeneratorCodeAfterMethodAttribute>(allMethodInfos, context);
-                context.Refresh(_moduleAbstractions);
+                Context = new(coreAbstractionsPath, coreRepositoryPath, moduleAbstractionsPath, moduleApplicationPath, moduleRepositoryPath, moduleWebAPIPath, _projectName, _moduleName, editGeneratorCodePlugs);
+                Context.Refresh(_moduleAbstractions);
+                await ExcuteMethodInfoByAttributeAsync<GeneratorCodeBeforMethodAttribute>(allMethodInfos);
+                Context.Refresh(_moduleAbstractions);
+                await ExcuteMethodInfoByAttributeAsync<GeneratorCodeMethodAttribute>(allMethodInfos);
+                Context.Refresh(_moduleAbstractions);
+                await ExcuteMethodInfoByAttributeAsync<GeneratorCodeAfterMethodAttribute>(allMethodInfos);
+                Context.Refresh(_moduleAbstractions);
                 if (generatorCodePlugPaths.Count > 0)
                 {
                     await VS.StatusBar.ShowProgressAsync($"生成插件代码 3/{stepCount}", 3, stepCount);
-                    await ExcutePlugAsync(generatorCodePlugPaths, context);
+                    await ExcutePlugAsync(generatorCodePlugPaths);
                 }
                 await VS.StatusBar.ShowMessageAsync("代码生成成功");
             }
@@ -101,38 +116,17 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="allMethodInfos"></param>
-        /// <param name="context"></param>
-        private void ExcuteMethodInfoByAttribute<T>(IEnumerable<MethodInfo> allMethodInfos, GeneratorCodeContext context)
+        private async Task ExcuteMethodInfoByAttributeAsync<T>(IEnumerable<MethodInfo> allMethodInfos)
             where T : Attribute
         {
             foreach (MethodInfo methodInfo in allMethodInfos)
             {
                 if (methodInfo.GetCustomAttribute<T>() is null) continue;
                 ParameterInfo[] parameterInfos = methodInfo.GetParameters();
-                if (parameterInfos.Length == 0)
-                {
-                    methodInfo.Invoke(this, []);
-                }
-                else if (parameterInfos.Length == 1)
-                {
-                    ParameterInfo parameterInfo = parameterInfos.First();
-                    if (parameterInfo.ParameterType == typeof(List<DomainModel>))
-                    {
-                        methodInfo.Invoke(this, [context.Domains]);
-                    }
-                    else if (parameterInfo.ParameterType == typeof(List<IServiceModel>))
-                    {
-                        methodInfo.Invoke(this, [context.Services]);
-                    }
-                    else if (parameterInfo.ParameterType == typeof(List<IControllerModel>))
-                    {
-                        methodInfo.Invoke(this, [context.Controllers]);
-                    }
-                    else if (parameterInfo.ParameterType == typeof(List<EnumModel>))
-                    {
-                        methodInfo.Invoke(this, [context.Enums]);
-                    }
-                }
+                if (parameterInfos.Length != 0) continue;
+                object result = methodInfo.Invoke(this, []);
+                if (result is not Task taskResult) break;
+                await taskResult;
             }
         }
         /// <summary>

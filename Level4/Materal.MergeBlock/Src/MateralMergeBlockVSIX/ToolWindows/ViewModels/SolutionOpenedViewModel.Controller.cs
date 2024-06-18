@@ -5,7 +5,6 @@ using Materal.MergeBlock.GeneratorCode.Models;
 using MateralMergeBlockVSIX.Extensions;
 using MateralMergeBlockVSIX.ToolWindows.Attributes;
 using Microsoft.VisualStudio.PlatformUI;
-using System.Collections.Generic;
 using System.Text;
 
 namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
@@ -15,26 +14,25 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         /// <summary>
         /// 创建控制器代码
         /// </summary>
-        /// <param name="domains"></param>
         [GeneratorCodeMethod]
-        private void GeneratorControllerCode(List<DomainModel> domains)
+        private async Task GeneratorControllerCodeAsync()
         {
-            foreach (DomainModel domain in domains)
+            foreach (DomainModel domain in Context.Domains)
             {
-                GeneratorIControllerCode(domain);
-                GeneratorControllersCode(domain);
+                await GeneratorIControllerCodeAsync(domain);
+                await GeneratorControllersCodeAsync(domain);
             }
         }
         /// <summary>
         /// 创建控制器代码接口
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorIControllerCode(DomainModel domain)
+        private async Task GeneratorIControllerCodeAsync(DomainModel domain)
         {
             if (domain.HasAttribute<NotControllerAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIControllerCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorIControllerCodeAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
@@ -82,18 +80,18 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleAbstractions, "Controllers", $"I{domain.Name}Controller.cs");
+            await codeContent.SaveAsAsync(Context, _moduleAbstractions, "Controllers", $"I{domain.Name}Controller.cs");
         }
         /// <summary>
         /// 创建控制器代码实现
         /// </summary>
         /// <param name="domain"></param>
-        private void GeneratorControllersCode(DomainModel domain)
+        private async Task GeneratorControllersCodeAsync(DomainModel domain)
         {
             if (domain.HasAttribute<NotControllerAttribute>()) return;
             StringBuilder codeContent = new();
             codeContent.AppendLine($"/*");
-            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllersCode)}");
+            codeContent.AppendLine($" * Generator Code From MateralMergeBlock=>{nameof(GeneratorControllersCodeAsync)}");
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.DTO.{domain.Name};");
             codeContent.AppendLine($"using {_projectName}.{_moduleName}.Abstractions.RequestModel.{domain.Name};");
@@ -164,7 +162,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             codeContent.AppendLine($"    }}");
             codeContent.AppendLine($"}}");
-            codeContent.SaveAs(_moduleApplication, "Controllers", $"{domain.Name}Controller.cs");
+            await codeContent.SaveAsAsync(Context, _moduleApplication, "Controllers", $"{domain.Name}Controller.cs");
         }
     }
 }

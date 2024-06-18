@@ -13,7 +13,7 @@ namespace MateralMergeBlockVSIX.Extensions
         /// <param name="stringBuilder"></param>
         /// <param name="solutionItem"></param>
         /// <param name="paths"></param>
-        public static void SaveAs(this StringBuilder stringBuilder, SolutionItem? solutionItem, params string[] paths)
+        public static async Task SaveAsAsync(this StringBuilder stringBuilder, GeneratorCodeContext context, SolutionItem? solutionItem, params string[] paths)
         {
             if (solutionItem is null || paths.Length < 1) return;
             DirectoryInfo directoryInfo = GetGeneratorCodeRootDirectory(solutionItem);
@@ -29,6 +29,10 @@ namespace MateralMergeBlockVSIX.Extensions
                 directoryInfo.Refresh();
             }
             filePath = Path.Combine(filePath, paths[^1]);
+            foreach (IMergeBlockEditGeneratorCodePlug plug in context.EditGeneratorCodePlugs)
+            {
+                await plug.ExcuteAsync(context, stringBuilder);
+            }
             string content = stringBuilder.ToString();
             File.WriteAllText(filePath, content, Encoding.UTF8);
         }
