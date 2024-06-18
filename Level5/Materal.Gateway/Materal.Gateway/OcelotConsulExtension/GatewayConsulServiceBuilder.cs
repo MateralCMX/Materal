@@ -121,7 +121,7 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// <param name="entry"></param>
         /// <param name="node"></param>
         /// <returns></returns>
-        protected virtual string GetServiceId(ServiceEntry entry, Node node)
+        protected virtual string GetServiceId(ServiceEntry entry, Node? node)
             => entry.Service.ID;
         /// <summary>
         /// 获得服务版本
@@ -129,7 +129,7 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// <param name="entry"></param>
         /// <param name="node"></param>
         /// <returns></returns>
-        protected virtual string GetServiceVersion(ServiceEntry entry, Node node)
+        protected virtual string GetServiceVersion(ServiceEntry entry, Node? node)
             => entry.Service.Tags
                 ?.FirstOrDefault(tag => tag.StartsWith(VersionPrefix, StringComparison.Ordinal))
                 ?.TrimStart(VersionPrefix)
@@ -140,7 +140,7 @@ namespace Materal.Gateway.OcelotConsulExtension
         /// <param name="entry"></param>
         /// <param name="node"></param>
         /// <returns></returns>
-        protected virtual IEnumerable<string> GetServiceTags(ServiceEntry entry, Node node)
+        protected virtual IEnumerable<string> GetServiceTags(ServiceEntry entry, Node? node)
             => entry.Service.Tags ?? Enumerable.Empty<string>();
     }
 }

@@ -34,7 +34,7 @@ namespace MateralTools.ViewModels
         /// 强制读取
         /// </summary>
         [ObservableProperty]
-        private bool _forcedRead = true;
+        private bool _forcedRead = false;
         /// <summary>
         /// 读取编码
         /// </summary>

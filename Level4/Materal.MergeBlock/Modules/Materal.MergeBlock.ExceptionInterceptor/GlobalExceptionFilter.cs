@@ -30,6 +30,12 @@ namespace Materal.MergeBlock.ExceptionInterceptor
                 context.Result = new JsonResult(ResultModel.Fail(exception.Message));
                 return;
             }
+            else if (exception is HttpCodeException httpCodeException)
+            {
+                context.Result = new JsonResult(ResultModel.Fail(httpCodeException.Message));
+                context.HttpContext.Response.StatusCode = httpCodeException.HttpCode;
+                return;
+            }
             using IDisposable? scope = logger?.BeginScope("MergeBlockWebException");
             string errorMessage = await GetErrorMessageAsync(context, exception);
             logger?.LogError(exception, errorMessage);

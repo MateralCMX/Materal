@@ -274,7 +274,7 @@ namespace Materal.Extensions
         /// <param name="type"></param>
         /// <param name="genericType"></param>
         /// <returns></returns>
-        public static bool IsNullableType(this Type type, Type genericType) => IsNullableType(type) && type == typeof(Nullable<>).MakeGenericType(genericType);
+        public static bool IsNullableType(this Type type, Type genericType) => !IsNullableType(genericType) && IsNullableType(type) && genericType.IsStruct() && type == typeof(Nullable<>).MakeGenericType(genericType);
         /// <summary>
         /// 是否可空类型
         /// </summary>
@@ -282,5 +282,11 @@ namespace Materal.Extensions
         /// <param name="type"></param>
         /// <returns></returns>
         public static bool IsNullableType<T>(this Type type) => IsNullableType(type, typeof(T));
+        /// <summary>
+        /// 类型是否为结构体
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsStruct(this Type type) => type.IsValueType && !type.IsEnum;
     }
 }
