@@ -49,7 +49,7 @@ namespace Materal.Utils.Wechat
                 miniprogram_state = requestModel.MiniprogramState,
                 lang = requestModel.Language
             };
-            foreach (var item in requestModel.TemplateData)
+            foreach (KeyValuePair<string, string> item in requestModel.TemplateData)
             {
                 data.data.Add(item.Key, new { value = item.Value });
             }

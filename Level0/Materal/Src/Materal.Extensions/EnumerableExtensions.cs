@@ -16,10 +16,8 @@
             HashSet<T> hashSet = [];
             foreach (T source in sources)
             {
-                if (hashSet.Add(source))
-                {
-                    yield return source;
-                }
+                if (!hashSet.Add(source)) continue;
+                yield return source;
             }
         }
         /// <summary>
@@ -35,10 +33,8 @@
             HashSet<TKey> hashSet = [];
             foreach (T source in sources)
             {
-                if (hashSet.Add(keySelector(source)))
-                {
-                    yield return source;
-                }
+                if (!hashSet.Add(keySelector(source))) continue;
+                yield return source;
             }
         }
     }

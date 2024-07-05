@@ -8,70 +8,113 @@ namespace Materal.Extensions
     public static class DateTimeExtensions
     {
         /// <summary>
-        /// 转换为DateTimeOffset
+        /// 转换为DateTime
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime) => dateTime.ToDateTimeOffset(DateTimeKind.Local);
+        public static DateTime ToDateTime(this DateTimeOffset dateTime) => dateTime.DateTime;
         /// <summary>
         /// 转换为DateTimeOffset
         /// </summary>
         /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime) => new(DateTime.SpecifyKind(dateTime, dateTime.Kind));
+        /// <summary>
+        /// 合并时间
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="date"></param>
         /// <param name="dateTimeKind"></param>
         /// <returns></returns>
-        public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime, DateTimeKind dateTimeKind) => DateTime.SpecifyKind(dateTime, dateTimeKind);
+        public static DateTime MergeDateTime(this TimeOnly time, DateOnly date, DateTimeKind dateTimeKind = DateTimeKind.Local)
+            => new(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, dateTimeKind);
         /// <summary>
         /// 合并时间
         /// </summary>
         /// <param name="time"></param>
         /// <param name="date"></param>
         /// <returns></returns>
-        public static DateTimeOffset MergeDateTimeOffset(this Time time, Date date) => time.MergeDateTime(date).ToDateTimeOffset();
-        /// <summary>
-        /// 合并时间
-        /// </summary>
-        /// <param name="time"></param>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime MergeDateTime(this Time time, Date date) => new(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second);
+        public static DateTimeOffset MergeDateTimeOffset(this TimeOnly time, DateOnly date) => time.MergeDateTime(date).ToDateTimeOffset();
         /// <summary>
         /// 合并时间
         /// </summary>
         /// <param name="date"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        public static DateTimeOffset MergeDateTimeOffset(this Date date, Time time) => date.MergeDateTime(time).ToDateTimeOffset();
+        public static DateTime MergeDateTime(this DateOnly date, TimeOnly time) => time.MergeDateTime(date);
         /// <summary>
         /// 合并时间
         /// </summary>
         /// <param name="date"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        public static DateTime MergeDateTime(this Date date, Time time) => time.MergeDateTime(date);
-        /// <summary>
-        /// 获得日期
-        /// </summary>
-        /// <param name="dateTimeOffset"></param>
-        /// <returns></returns>
-        public static Date ToDate(this DateTimeOffset dateTimeOffset) => new(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day);
+        public static DateTimeOffset MergeDateTimeOffset(this DateOnly date, TimeOnly time) => date.MergeDateTime(time).ToDateTimeOffset();
         /// <summary>
         /// 获得日期
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static Date ToDate(this DateTime dateTime) => new(dateTime.Year, dateTime.Month, dateTime.Day);
+        public static DateOnly ToDateOnly(this DateTime dateTime) => new(dateTime.Year, dateTime.Month, dateTime.Day);
         /// <summary>
-        /// 获得时间
+        /// 获得日期
         /// </summary>
         /// <param name="dateTimeOffset"></param>
         /// <returns></returns>
-        public static Time ToTime(this DateTimeOffset dateTimeOffset) => new(dateTimeOffset.Hour, dateTimeOffset.Minute, dateTimeOffset.Second);
+        public static DateOnly ToDateOnly(this DateTimeOffset dateTimeOffset) => new(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day);
         /// <summary>
         /// 获得时间
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static Time ToTime(this DateTime dateTime) => new(dateTime.Hour, dateTime.Minute, dateTime.Second);
+        public static TimeOnly ToTimeOnly(this DateTime dateTime) => new(dateTime.Hour, dateTime.Minute, dateTime.Second);
+        /// <summary>
+        /// 获得时间
+        /// </summary>
+        /// <param name="dateTimeOffset"></param>
+        /// <returns></returns>
+        public static TimeOnly ToTimeOnly(this DateTimeOffset dateTimeOffset) => new(dateTimeOffset.Hour, dateTimeOffset.Minute, dateTimeOffset.Second);
+        /// <summary>
+        /// 获得该日期是该年的第几季度
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static int GetQuarterOfYear(this DateOnly date) => date.ToDateTime().GetQuarterOfYear();
+        /// <summary>
+        /// 获得该日期是该季度的第几月
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static int GetMonthOfQuarter(this DateOnly date) => date.ToDateTime().GetMonthOfQuarter();
+        /// <summary>
+        /// 获得该日期是该季度的第几周
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static int GetWeekOfQuarter(this DateOnly date) => date.ToDateTime().GetWeekOfQuarter();
+        /// <summary>
+        /// 获得该日期是该季度的第几天
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static int GetDayOfQuarter(this DateOnly date) => date.ToDateTime().GetDayOfQuarter();
+        /// <summary>
+        /// 获得该日期是该年的第几周
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static int GetWeekOfYear(this DateOnly date) => date.ToDateTime().GetWeekOfYear();
+        /// <summary>
+        /// 转换为DateTime
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static DateTime ToDateTime(this DateOnly date) => date.ToDateTime(new TimeOnly(0, 0, 0));
+        /// <summary>
+        /// 获得该日期是该月的第几周
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static int GetWeekOfMonth(this DateOnly date) => date.ToDateTime().GetWeekOfMonth();
         /// <summary>
         /// 获得该日期是该年的第几季度
         /// </summary>
@@ -144,11 +187,12 @@ namespace Materal.Extensions
         /// 获得该日期是该年的第几周
         /// </summary>
         /// <param name="dateTime"></param>
+        /// <param name="firstDay"></param>
         /// <returns></returns>
-        public static int GetWeekOfYear(this DateTime dateTime)
+        public static int GetWeekOfYear(this DateTime dateTime, DayOfWeek firstDay = DayOfWeek.Monday)
         {
             GregorianCalendar gregoranCalendar = new();
-            int result = gregoranCalendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+            int result = gregoranCalendar.GetWeekOfYear(dateTime, CalendarWeekRule.FirstDay, firstDay);
             return result;
         }
         /// <summary>
@@ -159,15 +203,15 @@ namespace Materal.Extensions
         public static int GetWeekOfMonth(this DateTime dateTime)
         {
             DateTime monthFirstDay = new(dateTime.Year, dateTime.Month, 1);
-            DayOfWeek monthFirstDayOfWeek = monthFirstDay.Date.DayOfWeek;
+            DayOfWeek monthFirstDayOfWeek = monthFirstDay.DayOfWeek;
             int result;
             if (monthFirstDayOfWeek == DayOfWeek.Sunday)
             {
-                result = (dateTime.Date.Day + 5) / 7 + 1;
+                result = (dateTime.Day + 5) / 7 + 1;
             }
             else
             {
-                result = (dateTime.Date.Day + (int)monthFirstDayOfWeek - 2) / 7 + 1;
+                result = (dateTime.Day + (int)monthFirstDayOfWeek - 2) / 7 + 1;
             }
             return result;
         }
@@ -178,9 +222,15 @@ namespace Materal.Extensions
         /// <returns>时间戳</returns>
         public static long GetTimeStamp(this DateTime dateTime)
         {
-            TimeSpan timeSpan = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            TimeSpan timeSpan = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0, dateTime.Kind);
             return timeSpan.Ticks;
         }
+        /// <summary>
+        /// 获得时间戳
+        /// 1970年1月1日 0点0分0秒以来的秒数
+        /// </summary>
+        /// <returns>时间戳</returns>
+        public static long GetTimeStamp(this DateTimeOffset dateTime) => dateTime.ToDateTime().GetTimeStamp();
         /// <summary>
         /// 获得当天第一秒
         /// </summary>

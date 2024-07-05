@@ -1,8 +1,8 @@
 ﻿using AspectCore.Extensions.Hosting;
+using Microsoft.Extensions.Hosting;
 #if NET8_0_OR_GREATER
 using Microsoft.Extensions.DependencyInjection.Extensions;
 #endif
-using Microsoft.Extensions.Hosting;
 
 namespace Materal.Extensions.DependencyInjection
 {

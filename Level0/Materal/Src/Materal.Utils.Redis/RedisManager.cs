@@ -213,7 +213,7 @@ namespace Materal.Utils.Redis
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.StringGetAsync(collectionName);
-            var result = RedisValueToObject<T>(redisValue);
+            T? result = RedisValueToObject<T>(redisValue);
             return result;
         }
         /// <summary>
@@ -289,7 +289,7 @@ namespace Materal.Utils.Redis
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.ListLeftPopAsync(collectionName);
-            var result = RedisValueToObject<T>(redisValue);
+            T? result = RedisValueToObject<T>(redisValue);
             return result;
         }
         /// <summary>
@@ -301,7 +301,7 @@ namespace Materal.Utils.Redis
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.ListRightPopAsync(collectionName);
-            var result = RedisValueToObject<T>(redisValue);
+            T? result = RedisValueToObject<T>(redisValue);
             return result;
         }
         /// <summary>
@@ -314,7 +314,7 @@ namespace Materal.Utils.Redis
         {
             IDatabase database = GetDB(collectionName);
             RedisValue redisValue = await database.ListGetByIndexAsync(collectionName, index);
-            var result = RedisValueToObject<T>(redisValue);
+            T? result = RedisValueToObject<T>(redisValue);
             return result;
         }
         /// <summary>
@@ -599,8 +599,8 @@ namespace Materal.Utils.Redis
         /// <returns></returns>
         public async Task<bool> SetExpiryAsync(string collectionName, int timeValue, DateTimeTypeEnum dateTimeType)
         {
-            var milliseconds = Convert.ToInt64(DateTimeHelper.ToMilliseconds(timeValue, dateTimeType));
-            var expiry = new TimeSpan(milliseconds * 10000);
+            long milliseconds = Convert.ToInt64(DateTimeHelper.ToMilliseconds(timeValue, dateTimeType));
+            TimeSpan expiry = new(milliseconds * 10000);
             return await SetExpiryAsync(collectionName, expiry);
         }
         #endregion
@@ -620,7 +620,7 @@ namespace Materal.Utils.Redis
                 bool isLock = await database.LockTakeAsync(key, string.Empty, timeout);
                 if (isLock)
                 {
-                    var result = new RedisLock(key, database);
+                    RedisLock result = new(key, database);
                     return result;
                 }
                 await Task.Delay(500);
@@ -646,8 +646,8 @@ namespace Materal.Utils.Redis
         /// <returns></returns>
         public async Task<RedisLock> GetBlockingLockAsync(string key, int timeout, DateTimeTypeEnum timeoutType)
         {
-            var milliseconds = Convert.ToInt64(DateTimeHelper.ToMilliseconds(timeout, timeoutType));
-            var expiry = new TimeSpan(milliseconds * 10000);
+            long milliseconds = Convert.ToInt64(DateTimeHelper.ToMilliseconds(timeout, timeoutType));
+            TimeSpan expiry = new(milliseconds * 10000);
             return await GetBlockingLockAsync(key, expiry);
         }
         /// <summary>
@@ -673,7 +673,7 @@ namespace Materal.Utils.Redis
             IDatabase database = GetDB(key);
             bool isLock = await database.LockTakeAsync(key, string.Empty, timeout);
             if (!isLock) return null;
-            var result = new RedisLock(key, database);
+            RedisLock result = new(key, database);
             return result;
         }
         /// <summary>
@@ -696,8 +696,8 @@ namespace Materal.Utils.Redis
         /// <returns></returns>
         public async Task<RedisLock?> GetNonBlockingLockAsync(string key, int timeout, DateTimeTypeEnum timeoutType)
         {
-            var milliseconds = Convert.ToInt64(DateTimeHelper.ToMilliseconds(timeout, timeoutType));
-            var expiry = new TimeSpan(milliseconds * 10000);
+            long milliseconds = Convert.ToInt64(DateTimeHelper.ToMilliseconds(timeout, timeoutType));
+            TimeSpan expiry = new(milliseconds * 10000);
             return await GetNonBlockingLockAsync(key, expiry);
         }
         /// <summary>
@@ -739,8 +739,8 @@ namespace Materal.Utils.Redis
         protected virtual int GetDBIndex(string key)
         {
             byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            var index = 0;
-            for (var i = 0; i < 8421504 && i < keyBytes.Length; i++)
+            int index = 0;
+            for (int i = 0; i < 8421504 && i < keyBytes.Length; i++)
             {
                 index += keyBytes[i];
             }

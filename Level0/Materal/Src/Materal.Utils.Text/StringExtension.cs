@@ -15,8 +15,8 @@ namespace Materal.Utils.Text
         /// <returns></returns>
         public static IEnumerable<string> GetChinesePinYin(this string inputString, PinYinMode mode = PinYinMode.NoTone)
         {
-            var chineseChars = new object[inputString.Length];
-            for (var i = 0; i < inputString.Length; i++)
+            object[] chineseChars = new object[inputString.Length];
+            for (int i = 0; i < inputString.Length; i++)
             {
                 char inputChar = inputString[i];
                 if (!inputChar.ToString().IsChinese())
@@ -26,7 +26,7 @@ namespace Materal.Utils.Text
                 }
                 chineseChars[i] = new ChineseChar(inputChar);
             }
-            IEnumerable<string> result = GetPinYin("", 0, chineseChars.ToList(), mode);
+            IEnumerable<string> result = GetPinYin("", 0, [.. chineseChars], mode);
             return result.Distinct();
         }
         /// <summary>
@@ -39,7 +39,7 @@ namespace Materal.Utils.Text
         /// <returns></returns>
         private static List<string> GetPinYin(string nowPinyin, int index, IReadOnlyList<object> chineseChars, PinYinMode mode)
         {
-            var inputPinYin = new List<string>();
+            List<string> inputPinYin = [];
             if (chineseChars.Count <= index)
             {
                 inputPinYin.Add(nowPinyin);

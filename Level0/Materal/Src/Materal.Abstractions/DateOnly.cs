@@ -1,10 +1,11 @@
-﻿namespace Materal.Abstractions
+﻿#if NETSTANDARD
+namespace Materal.Abstractions
 {
     /// <summary>
     /// 日期
     /// </summary>
     [Serializable]
-    public struct Date
+    public struct DateOnly
     {
         /// <summary>
         /// 有31号的月份
@@ -63,7 +64,7 @@
         /// <param name="year"></param>
         /// <param name="month"></param>
         /// <param name="day"></param>
-        public Date(int year, int month, int day)
+        public DateOnly(int year, int month, int day)
         {
             _year = year;
             _month = month;
@@ -73,14 +74,14 @@
         /// <summary>
         /// 构造方法
         /// </summary>
-        public Date() : this(DateTime.Now)
+        public DateOnly() : this(DateTime.Now)
         {
         }
         /// <summary>
         /// 构造方法
         /// </summary>
         /// <param name="dateTime"></param>
-        public Date(DateTime dateTime) : this(dateTime.Year, dateTime.Month, dateTime.Day)
+        public DateOnly(DateTime dateTime) : this(dateTime.Year, dateTime.Month, dateTime.Day)
         {
         }
         /// <summary>
@@ -93,7 +94,7 @@
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        public Date AddYear(int year)
+        public DateOnly AddYear(int year)
         {
             int trueYear = Year + year;
             int trueMonth = Month;
@@ -109,7 +110,7 @@
         /// </summary>
         /// <param name="month"></param>
         /// <returns></returns>
-        public Date AddMonth(int month)
+        public DateOnly AddMonth(int month)
         {
             int trueYear = Year;
             int trueMonth = Month + month;
@@ -125,7 +126,7 @@
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
-        public Date AddDay(int day)
+        public DateOnly AddDay(int day)
         {
             int trueYear = Year;
             int trueMonth = Month;
@@ -146,7 +147,7 @@
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        public readonly DateTime ToDateTime(Time time) => ToDateTime(time.Hour, time.Minute, time.Second);
+        public readonly DateTime ToDateTime(TimeOnly time) => ToDateTime(time.Hour, time.Minute, time.Second);
         /// <summary>
         /// 转换为DateTime
         /// </summary>
@@ -165,7 +166,7 @@
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        public readonly DateTimeOffset ToDateTimeOffset(Time time) => ToDateTimeOffset(time.Hour, time.Minute, time.Second);
+        public readonly DateTimeOffset ToDateTimeOffset(TimeOnly time) => ToDateTimeOffset(time.Hour, time.Minute, time.Second);
         /// <summary>
         /// 转换为DateTimeOffset
         /// </summary>
@@ -180,21 +181,21 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator ==(Date a, Date b) => a.Equals(b);
+        public static bool operator ==(DateOnly a, DateOnly b) => a.Equals(b);
         /// <summary>
         /// 不等
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(Date a, Date b) => !a.Equals(b);
+        public static bool operator !=(DateOnly a, DateOnly b) => !a.Equals(b);
         /// <summary>
         /// 大于
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator >(Date a, Date b)
+        public static bool operator >(DateOnly a, DateOnly b)
         {
             if (a.Year > b.Year) return true;
             else if (a.Year < b.Year) return false;
@@ -210,7 +211,7 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator >=(Date a, Date b)
+        public static bool operator >=(DateOnly a, DateOnly b)
         {
             if (a == b) return true;
             return a > b;
@@ -221,7 +222,7 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator <(Date a, Date b)
+        public static bool operator <(DateOnly a, DateOnly b)
         {
             if (a.Year < b.Year) return true;
             else if (a.Year > b.Year) return false;
@@ -237,7 +238,7 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator <=(Date a, Date b)
+        public static bool operator <=(DateOnly a, DateOnly b)
         {
             if (a == b) return true;
             return a < b;
@@ -249,7 +250,7 @@
         /// <returns></returns>
         public override readonly bool Equals(object? obj)
         {
-            if (obj is null || obj is not Date date) return false;
+            if (obj is null || obj is not DateOnly date) return false;
             return Year == date.Year && Month == date.Month && Day == date.Day;
         }
         /// <summary>
@@ -385,3 +386,4 @@
         #endregion
     }
 }
+#endif

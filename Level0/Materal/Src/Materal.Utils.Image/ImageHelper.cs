@@ -82,10 +82,10 @@ namespace Materal.Utils.Image
         /// <returns></returns>
         public static ImageClass GetThumbnailImage(ImageClass image, int width, int height)
         {
-#if NETSTANDARD
-            ImageClass myThumbnail = image.GetThumbnailImage(width, height, () => false, (nint)0);
-#else
+#if NET8_0_OR_GREATER
             ImageClass myThumbnail = image.GetThumbnailImage(width, height, () => false, 0);
+#else
+            ImageClass myThumbnail = image.GetThumbnailImage(width, height, () => false, IntPtr.Zero);
 #endif
             return myThumbnail;
         }
@@ -99,8 +99,8 @@ namespace Materal.Utils.Image
         private static (int thumbnailImageWidth, int thumbnailImageHeight) GetThumbnailImageWidthAndHeight(int width, int height, float proportion)
         {
             if (proportion <= 0) throw new MateralException("比例必须大于0");
-            var thumbnailImageWidth = (width * proportion).ConvertTo<int>();
-            var thumbnailImageHeight = (height * proportion).ConvertTo<int>();
+            int thumbnailImageWidth = (width * proportion).ConvertTo<int>();
+            int thumbnailImageHeight = (height * proportion).ConvertTo<int>();
             return (thumbnailImageWidth, thumbnailImageHeight);
         }
         /// <summary>
@@ -131,8 +131,8 @@ namespace Materal.Utils.Image
             ImageCodecInfo? myImageCodecInfo = GetEncoderInfo(mimeType);
             if (myImageCodecInfo is null) return;
             Encoder myEncoder = Encoder.Quality;
-            var myEncoderParameters = new EncoderParameters(1);
-            var myEncoderParameter = new EncoderParameter(myEncoder, level);
+            EncoderParameters myEncoderParameters = new(1);
+            EncoderParameter myEncoderParameter = new(myEncoder, level);
             myEncoderParameters.Param[0] = myEncoderParameter;
             srcBitmap.Save(destStream, myImageCodecInfo, myEncoderParameters);
         }

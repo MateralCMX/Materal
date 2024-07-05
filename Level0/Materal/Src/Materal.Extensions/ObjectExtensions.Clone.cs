@@ -29,9 +29,9 @@ namespace Materal.Extensions
             where T : notnull
         {
             object? result;
-            using (var ms = new MemoryStream())
+            using (MemoryStream ms = new())
             {
-                var xml = new XmlSerializer(typeof(T));
+                XmlSerializer xml = new(typeof(T));
                 xml.Serialize(ms, inputObj);
                 ms.Seek(0, SeekOrigin.Begin);
                 result = xml.Deserialize(ms);

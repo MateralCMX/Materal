@@ -8,7 +8,7 @@ namespace Materal.Test.UtilsTests
         private readonly IHttpHelper _httpHelper;
         public HttpHelperTest() : base()
         {
-            _httpHelper = MateralServices.GetRequiredService<IHttpHelper>();
+            _httpHelper = GetRequiredService<IHttpHelper>();
         }
         [TestMethod]
         public async Task TestSendAsync()

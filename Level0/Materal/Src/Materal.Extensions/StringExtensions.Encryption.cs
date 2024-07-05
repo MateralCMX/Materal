@@ -22,8 +22,8 @@ namespace Materal.Extensions
                 {
                     hexString += " ";
                 }
-                var returnBytes = new byte[hexString.Length / 2];
-                for (var i = 0; i < returnBytes.Length; i++)
+                byte[] returnBytes = new byte[hexString.Length / 2];
+                for (int i = 0; i < returnBytes.Length; i++)
                 {
                     returnBytes[i] = Convert.ToByte(hexString.Substring(i * 2, 2), 16);
                 }
@@ -49,7 +49,7 @@ namespace Materal.Extensions
         public static string ToBinaryStr(this string inputStr, int digit = 8)
         {
             byte[] data = Encoding.UTF8.GetBytes(inputStr);
-            var resStr = new StringBuilder(data.Length * digit);
+            StringBuilder resStr = new(data.Length * digit);
             foreach (byte item in data)
             {
                 resStr.Append(Convert.ToString(item, 2).PadLeft(digit, '0'));
@@ -65,8 +65,8 @@ namespace Materal.Extensions
         public static string BinaryToStr(this string inputStr, int digit = 8)
         {
             int numOfBytes = inputStr.Length / digit;
-            var bytes = new byte[numOfBytes];
-            for (var i = 0; i < numOfBytes; i++)
+            byte[] bytes = new byte[numOfBytes];
+            for (int i = 0; i < numOfBytes; i++)
             {
                 bytes[i] = Convert.ToByte(inputStr.Substring(digit * i, digit), 2);
             }
@@ -173,10 +173,10 @@ namespace Materal.Extensions
         /// <returns>加密后字符串</returns>
         public static string ToFenceEncode(this string inputStr)
         {
-            var outPutStr = "";
-            var outPutStr2 = "";
+            string outPutStr = string.Empty;
+            string outPutStr2 = string.Empty;
             int count = inputStr.Length;
-            for (var i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 if (i % 2 == 0)
                 {
@@ -197,11 +197,11 @@ namespace Materal.Extensions
         public static string FenceDecode(this string inputStr)
         {
             int count = inputStr.Length;
-            var outPutStr = "";
+            string outPutStr = string.Empty;
             string outPutStr1;
             string outPutStr2;
-            var num1 = 0;
-            var num2 = 0;
+            int num1 = 0;
+            int num2 = 0;
             if (count % 2 == 0)
             {
                 outPutStr1 = inputStr[..(count / 2)];
@@ -212,7 +212,7 @@ namespace Materal.Extensions
                 outPutStr1 = inputStr[..((count / 2) + 1)];
                 outPutStr2 = inputStr[((count / 2) + 1)..];
             }
-            for (var i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 if (i % 2 == 0)
                 {
@@ -233,17 +233,17 @@ namespace Materal.Extensions
         /// <returns>加密后的字符串</returns>
         public static string ToDisplacementEncode(this string inputStr, int key = 3)
         {
-            var outputStr = "";
+            string outputStr = string.Empty;
             if (!inputStr.IsLetter()) throw new ExtensionException("只能包含英文字母");
             inputStr = inputStr.ToUpper();
             char[] alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
             int aCount = alphabet.Length;
             int count = inputStr.Length;
-            for (var i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 if (inputStr[i] != ' ')
                 {
-                    for (var j = 0; j < aCount; j++)
+                    for (int j = 0; j < aCount; j++)
                     {
                         if (inputStr[i] != alphabet[j]) continue;
                         int eIndex = j + key;
@@ -304,11 +304,11 @@ namespace Materal.Extensions
             if (inputIv.Length != 8) throw new ExtensionException("向量必须为8位");
             encoding ??= Encoding.UTF8;
             DES dsp = DES.Create();
-            using var memoryStream = new MemoryStream();
+            using MemoryStream memoryStream = new();
             byte[] key = encoding.GetBytes(inputKey);
             byte[] iv = encoding.GetBytes(inputIv);
-            using var cryptoStream = new CryptoStream(memoryStream, dsp.CreateEncryptor(key, iv), CryptoStreamMode.Write);
-            var writer = new StreamWriter(cryptoStream);
+            using CryptoStream cryptoStream = new(memoryStream, dsp.CreateEncryptor(key, iv), CryptoStreamMode.Write);
+            StreamWriter writer = new(cryptoStream);
             writer.Write(inputString);
             writer.Flush();
             cryptoStream.FlushFinalBlock();
@@ -330,10 +330,10 @@ namespace Materal.Extensions
             encoding ??= Encoding.UTF8;
             DES dsp = DES.Create();
             byte[] buffer = Convert.FromBase64String(inputString);
-            using var memoryStream = new MemoryStream();
+            using MemoryStream memoryStream = new();
             byte[] key = encoding.GetBytes(inputKey);
             byte[] iv = encoding.GetBytes(inputIv);
-            using var cryptoStream = new CryptoStream(memoryStream, dsp.CreateDecryptor(key, iv), CryptoStreamMode.Write);
+            using CryptoStream cryptoStream = new(memoryStream, dsp.CreateDecryptor(key, iv), CryptoStreamMode.Write);
             cryptoStream.Write(buffer, 0, buffer.Length);
             cryptoStream.FlushFinalBlock();
             return encoding.GetString(memoryStream.ToArray());
@@ -344,7 +344,7 @@ namespace Materal.Extensions
         /// <returns></returns>
         public static KeyValuePair<string, string> GetRSAKey()
         {
-            var RSA = new RSACryptoServiceProvider();
+            RSACryptoServiceProvider RSA = new();
             string publicKey = RSA.ToXmlString(false);
             string privateKey = RSA.ToXmlString(true);
             return new KeyValuePair<string, string>(publicKey, privateKey);
@@ -357,9 +357,9 @@ namespace Materal.Extensions
         /// <returns></returns>
         public static string ToRSAEncode(this string content, string encryptKey)
         {
-            var rsa = new RSACryptoServiceProvider();
+            RSACryptoServiceProvider rsa = new();
             rsa.FromXmlString(encryptKey);
-            var ByteConverter = new UnicodeEncoding();
+            UnicodeEncoding ByteConverter = new();
             byte[] DataToEncrypt = ByteConverter.GetBytes(content);
             byte[] resultBytes = rsa.Encrypt(DataToEncrypt, false);
             return Convert.ToBase64String(resultBytes);
@@ -373,10 +373,10 @@ namespace Materal.Extensions
         public static string RSADecode(this string content, string decryptKey)
         {
             byte[] dataToDecrypt = Convert.FromBase64String(content);
-            var RSA = new RSACryptoServiceProvider();
+            RSACryptoServiceProvider RSA = new();
             RSA.FromXmlString(decryptKey);
             byte[] resultBytes = RSA.Decrypt(dataToDecrypt, false);
-            var ByteConverter = new UnicodeEncoding();
+            UnicodeEncoding ByteConverter = new();
             return ByteConverter.GetString(resultBytes);
         }
         /// <summary>
@@ -388,10 +388,10 @@ namespace Materal.Extensions
         /// <returns>加密后结果</returns>
         public static string ToRSAEncode(this string content, out string publicKey, out string privateKey)
         {
-            var rsaProvider = new RSACryptoServiceProvider();
+            RSACryptoServiceProvider rsaProvider = new();
             publicKey = rsaProvider.ToXmlString(false);
             privateKey = rsaProvider.ToXmlString(true);
-            var ByteConverter = new UnicodeEncoding();
+            UnicodeEncoding ByteConverter = new();
             byte[] DataToEncrypt = ByteConverter.GetBytes(content);
             byte[] resultBytes = rsaProvider.Encrypt(DataToEncrypt, false);
             return Convert.ToBase64String(resultBytes);

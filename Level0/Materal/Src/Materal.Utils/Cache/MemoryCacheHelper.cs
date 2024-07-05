@@ -11,7 +11,6 @@ namespace Materal.Utils.Cache
         private readonly List<string> allKey = [];
         private readonly IMemoryCache _memoryCache = memoryCache ?? new MemoryCache(Options.Create(new MemoryCacheOptions()));
         private readonly object _setValueLockObj = new();
-
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
@@ -110,7 +109,7 @@ namespace Materal.Utils.Cache
         {
             string[]? tempAllKey = allKey.ToJson().JsonToObject<string[]>();
             if (tempAllKey is null || tempAllKey.Length <= 0) return;
-            foreach (var item in tempAllKey)
+            foreach (string item in tempAllKey)
             {
                 Remove(item);
             }

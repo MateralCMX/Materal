@@ -35,11 +35,11 @@ namespace Materal.Extensions
         public static DataRow ToDataRow(this object obj, DataRow dr)
         {
             if (dr is null) throw new ExtensionException("数据行不可为空");
-            var type = obj.GetType();
-            var props = type.GetProperties();
-            foreach (var prop in props)
+            Type type = obj.GetType();
+            PropertyInfo[] props = type.GetProperties();
+            foreach (PropertyInfo prop in props)
             {
-                var value = prop.GetValue(obj, null);
+                object? value = prop.GetValue(obj, null);
                 dr[prop.Name] = value ?? DBNull.Value;
             }
             return dr;
@@ -141,8 +141,8 @@ namespace Materal.Extensions
             where T : new()
         {
             int count = dataTable.Rows.Count;
-            var result = new T?[count];
-            for (var i = 0; i < count; i++)
+            T?[] result = new T?[count];
+            for (int i = 0; i < count; i++)
             {
                 result[i] = dataTable.Rows[i].GetValue<T>(exceptions);
             }
@@ -177,16 +177,16 @@ namespace Materal.Extensions
         {
             int tableCount = dataSet.Tables.Count;
             DataTableCollection tables = dataSet.Tables;
-            var rowCounts = new int[tableCount];
-            for (var i = 0; i < tableCount; i++)
+            int[] rowCounts = new int[tableCount];
+            for (int i = 0; i < tableCount; i++)
             {
                 rowCounts[i] = tables[i].Rows.Count;
             }
             int rowCount = rowCounts.Max();
             T?[,] result = new T?[tableCount, rowCount];
-            for (var i = 0; i < tableCount; i++)
+            for (int i = 0; i < tableCount; i++)
             {
-                for (var j = 0; j < rowCounts[i]; j++)
+                for (int j = 0; j < rowCounts[i]; j++)
                 {
                     DataRow row = tables[i].Rows[j];
                     result[i, j] = row.GetValue<T>(exceptions);
@@ -209,7 +209,7 @@ namespace Materal.Extensions
                 for (int i = 0; i < dataTable.Columns.Count; i++)
                 {
                     object? value = row[i];
-                    if(customFunc is not null)
+                    if (customFunc is not null)
                     {
                         value = customFunc(value);
                     }

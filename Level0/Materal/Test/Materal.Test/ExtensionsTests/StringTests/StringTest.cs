@@ -26,6 +26,8 @@ namespace Materal.Test.ExtensionsTests.StringTests
                 DecimalValue = 4.1m,
                 StringValue = "Materal",
                 DateTimeValue = new DateTime(1993, 4, 20, 8, 30, 40),
+                DateValue = new DateOnly(1993, 4, 20),
+                TimeValue = new TimeOnly(8, 30, 40),
                 GuidValue = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                 ListValue = new List<int>() { 1, 2, 3, 4, 5 },
                 ArrayValue = _arrayValue,
@@ -37,6 +39,8 @@ namespace Materal.Test.ExtensionsTests.StringTests
                     DecimalValue = 4.1m,
                     StringValue = "Materal",
                     DateTimeValue = new DateTime(1993, 4, 20, 8, 30, 40),
+                    DateValue = new DateOnly(1993, 4, 20),
+                    TimeValue = new TimeOnly(8, 30, 40),
                     GuidValue = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                     ListValue = new List<int>() { 1, 2, 3, 4, 5 },
                     ArrayValue = _arrayValue,
@@ -48,6 +52,8 @@ namespace Materal.Test.ExtensionsTests.StringTests
                         DecimalValue = 4.1m,
                         StringValue = "Materal",
                         DateTimeValue = new DateTime(1993, 4, 20, 8, 30, 40),
+                        DateValue = new DateOnly(1993, 4, 20),
+                        TimeValue = new TimeOnly(8, 30, 40),
                         GuidValue = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                         ListValue = new List<int>() { 1, 2, 3, 4, 5 },
                         ArrayValue = _arrayValue,
@@ -65,6 +71,8 @@ namespace Materal.Test.ExtensionsTests.StringTests
         private class TestJsonModel
         {
             public string Name { get; set; } = string.Empty;
+            public DateOnly DateValue { get; set; }
+            public TimeOnly TimeValue { get; set; }
             public TestJsonModel? JsonModel { get; set; }
         }
         private class User : FilterModel

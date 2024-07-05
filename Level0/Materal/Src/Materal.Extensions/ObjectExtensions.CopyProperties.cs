@@ -11,7 +11,7 @@ namespace Materal.Extensions
         private readonly static ConcurrentDictionary<Type, Delegate> _copyPropertiesFunc = [];
         private const string _copyPropertiesFuncName = "CopyPropertiesByIL";
         private static readonly Type _isCopyFuncType = typeof(Func<string, bool>);
-        private static readonly MethodInfo _isCopyFuncInvokeMethodInfo = _isCopyFuncType.GetMethod("Invoke") ?? throw new MateralException("获取Invoke方法失败");
+        private static readonly MethodInfo _isCopyFuncInvokeMethodInfo = _isCopyFuncType.GetMethod("Invoke") ?? throw new InvalidOperationException("获取Invoke方法失败");
         /// <summary>
         /// 创建属性复制方法
         /// </summary>

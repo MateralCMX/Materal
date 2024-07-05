@@ -13,29 +13,23 @@ namespace System
         /// </summary>
         /// <param name="inputObj"></param>
         /// <returns></returns>
-        public static bool IsNullOrEmptyString(this object inputObj)
+        public static bool IsNullOrEmptyString(this object inputObj) => inputObj switch
         {
-            return inputObj switch
-            {
-                null => true,
-                string inputStr => string.IsNullOrEmpty(inputStr),
-                _ => false,
-            };
-        }
+            null => true,
+            string inputStr => string.IsNullOrEmpty(inputStr),
+            _ => false,
+        };
         /// <summary>
         /// 对象是否为空或者空或者空格字符串
         /// </summary>
         /// <param name="inputObj"></param>
         /// <returns></returns>
-        public static bool IsNullOrWhiteSpaceString(this object inputObj)
+        public static bool IsNullOrWhiteSpaceString(this object inputObj) => inputObj switch
         {
-            return inputObj switch
-            {
-                null => true,
-                string inputStr => string.IsNullOrWhiteSpace(inputStr),
-                _ => false,
-            };
-        }
+            null => true,
+            string inputStr => string.IsNullOrWhiteSpace(inputStr),
+            _ => false,
+        };
         /// <summary>
         /// 对象是否相等
         /// </summary>
@@ -110,10 +104,10 @@ namespace System
             ICollection<string> trueNames = name.Split('.');
             if (trueNames.Count == 1)
             {
-#if NETSTANDARD
-                Regex regex = new(@"\[\d+\]");
-#else
+#if NET8_0_OR_GREATER
                 Regex regex = ExpressionRegex();
+#else
+                Regex regex = new(@"\[\d+\]");
 #endif
                 string trueName = name;
                 MatchCollection matchCollection = regex.Matches(trueName);

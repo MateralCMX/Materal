@@ -8,7 +8,7 @@
         /// <summary>
         /// 简体中文
         /// </summary>
-        public readonly static IntConvertModel SimplifiedChineseModel = new()
+        private readonly static IntConvertModel SimplifiedChineseModel = new()
         {
             Numbers = new()
             {
@@ -39,7 +39,7 @@
         /// <summary>
         /// 大写中文
         /// </summary>
-        public readonly static IntConvertModel CapitalChineseModel = new()
+        private readonly static IntConvertModel CapitalChineseModel = new()
         {
             Numbers = new()
             {
@@ -68,12 +68,24 @@
             }
         };
         /// <summary>
-        /// 转换为中文大写
+        /// 转换为简体中文
+        /// </summary>
+        /// <param name="inputNumber"></param>
+        /// <returns></returns>
+        public static string ConvertToSimplifiedChinese(this int inputNumber) => inputNumber.ConvertToChinese(SimplifiedChineseModel);
+        /// <summary>
+        /// 转换为大写中文
+        /// </summary>
+        /// <param name="inputNumber"></param>
+        /// <returns></returns>
+        public static string ConvertToCapitalChinese(this int inputNumber) => inputNumber.ConvertToChinese(CapitalChineseModel);
+        /// <summary>
+        /// 转换为中文
         /// </summary>
         /// <param name="inputNumber"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static string ConvertToChinese(this int inputNumber, IntConvertModel? model = null)
+        private static string ConvertToChinese(this int inputNumber, IntConvertModel model)
         {
             int number = inputNumber;
             StringBuilder result = new();
@@ -83,7 +95,6 @@
                 number *= -1;
             }
             else if (number == 0) return "零";
-            model ??= SimplifiedChineseModel;
             Dictionary<int, string> chineseNumberDictionary = model.Numbers;
             List<int> numbers = [];
             while (number > 0)
@@ -111,8 +122,8 @@
             temp = 0;
             for (int i = chineseNumbers.Count - 1; i >= 0; i--)
             {
-                var chineseNumber = chineseNumbers[i];
-                Handler(chineseNumber, temp++, model);
+                string chineseNumber = chineseNumbers[i];
+                ConvertToChineseHandler(chineseNumber, temp++, model);
             }
             result.Append(string.Join("", chineseNumbers));
             if (result[^1] == '零')
@@ -128,7 +139,7 @@
         /// <param name="dicIndex"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        private static string Handler(string inputString, int dicIndex, IntConvertModel model)
+        private static string ConvertToChineseHandler(string inputString, int dicIndex, IntConvertModel model)
         {
             Dictionary<int, string> extend = new()
             {
@@ -161,10 +172,6 @@
         /// </summary>
         /// <param name="buffer"></param>
         /// <returns></returns>
-        public static string GetBinaryString(this int buffer)
-        {
-            string result = Convert.ToString(buffer, 2);
-            return result;
-        }
+        public static string GetBinaryString(this int buffer) => Convert.ToString(buffer, 2);
     }
 }

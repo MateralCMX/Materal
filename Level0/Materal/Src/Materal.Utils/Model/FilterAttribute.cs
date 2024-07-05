@@ -6,20 +6,12 @@ namespace Materal.Utils.Model
     /// 过滤器特性
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public abstract class FilterAttribute : Attribute
+    public abstract class FilterAttribute(string? targetPropertyName = null) : Attribute
     {
         /// <summary>
         /// 目标属性名称
         /// </summary>
-        public string? TargetPropertyName { get; protected set; }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="targetPropertyName"></param>
-        protected FilterAttribute(string? targetPropertyName = null)
-        {
-            TargetPropertyName = targetPropertyName;
-        }
+        public string? TargetPropertyName { get; protected set; } = targetPropertyName;
         /// <summary>
         /// 获得表达式目录树
         /// </summary>
@@ -63,7 +55,7 @@ namespace Materal.Utils.Model
         /// <exception cref="UtilException"></exception>
         protected (Expression leftExpression, Expression rightExpression, Expression? otherExpression) GetLeftAndRightExpression<T>(ParameterExpression parameterExpression, PropertyInfo propertyInfo, T value, PropertyInfo targetPropertyInfo)
         {
-            var isNullable = false;
+            bool isNullable = false;
             if (targetPropertyInfo is not null)
             {
                 string? fullName = targetPropertyInfo.PropertyType.FullName;

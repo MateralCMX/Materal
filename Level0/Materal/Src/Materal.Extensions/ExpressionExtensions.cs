@@ -15,8 +15,8 @@
         /// <returns></returns>
         public static Expression<T> Compose<T>(this Expression<T> first, Expression<T> second, Func<Expression, Expression, Expression> merge)
         {
-            Dictionary<ParameterExpression, ParameterExpression> map = first.Parameters.Select((f, i) => new { f, s = second.Parameters[i] }).ToDictionary(p => p.s, p => p.f);
-            var secondBody = ExpressionParameterVisitor.ReplaceParameters(map, second.Body);
+            Dictionary<ParameterExpression, ParameterExpression> map = first.Parameters.Select((m, n) => new { e = m, p = second.Parameters[n] }).ToDictionary(m => m.p, m => m.e);
+            Expression secondBody = ExpressionParameterVisitor.ReplaceParameters(map, second.Body);
             return Expression.Lambda<T>(merge(first.Body, secondBody), first.Parameters);
         }
         /// <summary>

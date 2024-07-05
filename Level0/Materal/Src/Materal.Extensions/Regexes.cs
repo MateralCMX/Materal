@@ -86,10 +86,7 @@
         /// </summary>
         /// <param name="delimiter">分隔符</param>
         /// <returns></returns>
-        public static string Date(string delimiter = "-/.")
-        {
-            return @"\d{4}[" + delimiter + @"](0?2[" + delimiter + @"]([1-2]\d|0?[1-9])|(1[02]|0?[13578])[" + delimiter + @"]([1-2]\d|3[0-1]|0?[1-9])|(11|0?[469])[" + delimiter + @"]([1-2]\d|30|0?[1-9]))";
-        }
+        public static string Date(string delimiter = "-/.") => @"\d{4}[" + delimiter + @"](0?2[" + delimiter + @"]([1-2]\d|0?[1-9])|(1[02]|0?[13578])[" + delimiter + @"]([1-2]\d|3[0-1]|0?[1-9])|(11|0?[469])[" + delimiter + @"]([1-2]\d|30|0?[1-9]))";
         /// <summary>
         /// 时间正则表达式
         /// 00:00:00.000-23:59:59.999
@@ -102,10 +99,7 @@
         /// </summary>
         /// <param name="delimiter">分隔符</param>
         /// <returns></returns>
-        public static string DateTime(string delimiter = "-/.")
-        {
-            return Date(delimiter) + @"[\sT]" + Time;
-        }
+        public static string DateTime(string delimiter = "-/.") => Date(delimiter) + @"[\sT]" + Time;
         /// <summary>
         /// 字母正则表达式
         /// </summary>

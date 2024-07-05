@@ -64,7 +64,7 @@
         /// <param name="filter">过滤器</param>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static Type? GetTypeByTypeName(this string typeName, Assembly assembly, Func<Type, bool> filter, object[] args) 
+        public static Type? GetTypeByTypeName(this string typeName, Assembly assembly, Func<Type, bool> filter, object[] args)
             => GetTypeByTypeName(typeName, assembly, filter, args.GetArgTypes());
         /// <summary>
         /// 根据类型名称获得类型

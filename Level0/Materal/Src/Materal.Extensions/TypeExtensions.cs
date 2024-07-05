@@ -208,7 +208,7 @@ namespace Materal.Extensions
         private static List<Type> GetAllInterfaces(Type[] interfaces)
         {
             List<Type> allInterfaces = [];
-            foreach (var item in interfaces)
+            foreach (Type item in interfaces)
             {
                 allInterfaces.Add(item);
                 Type[] itemInterfaces = item.GetInterfaces();
@@ -225,7 +225,7 @@ namespace Materal.Extensions
         /// <returns>数据表</returns>
         public static DataTable ToDataTable(this Type type)
         {
-            var dt = new DataTable();
+            DataTable dt = new();
             PropertyInfo[] props = type.GetProperties();
             foreach (PropertyInfo item in props)
             {
@@ -234,7 +234,7 @@ namespace Materal.Extensions
                 {
                     colType = colType.GetGenericArguments()[0];
                 }
-                var dc = new DataColumn(item.Name, colType);
+                DataColumn dc = new(item.Name, colType);
                 dt.Columns.Add(dc);
             }
             dt.TableName = type.Name;

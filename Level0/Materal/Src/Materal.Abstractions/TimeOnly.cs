@@ -1,10 +1,11 @@
-﻿namespace Materal.Abstractions
+﻿#if NETSTANDARD
+namespace Materal.Abstractions
 {
     /// <summary>
     /// 时间
     /// </summary>
     [Serializable]
-    public struct Time
+    public struct TimeOnly
     {
         private int _hour;
         private int _minute;
@@ -50,7 +51,7 @@
         /// <param name="hour"></param>
         /// <param name="minute"></param>
         /// <param name="second"></param>
-        public Time(int hour, int minute, int second)
+        public TimeOnly(int hour, int minute, int second)
         {
             Hour = hour;
             Minute = minute;
@@ -60,13 +61,13 @@
         /// 构造方法
         /// </summary>
         /// <param name="dateTime"></param>
-        public Time(DateTime dateTime) : this(dateTime.Hour, dateTime.Minute, dateTime.Second)
+        public TimeOnly(DateTime dateTime) : this(dateTime.Hour, dateTime.Minute, dateTime.Second)
         {
         }
         /// <summary>
         /// 构造方法
         /// </summary>
-        public Time() : this(DateTime.Now)
+        public TimeOnly() : this(DateTime.Now)
         {
         }
         /// <summary>
@@ -74,7 +75,7 @@
         /// </summary>
         /// <param name="hour"></param>
         /// <returns></returns>
-        public Time AddHour(int hour)
+        public TimeOnly AddHour(int hour)
         {
             int trueHour = Hour + hour;
             int trueMinute = Minute;
@@ -90,7 +91,7 @@
         /// </summary>
         /// <param name="minute"></param>
         /// <returns></returns>
-        public Time AddMinute(int minute)
+        public TimeOnly AddMinute(int minute)
         {
             int trueHour = Hour;
             int trueMinute = Minute + minute;
@@ -106,7 +107,7 @@
         /// </summary>
         /// <param name="second"></param>
         /// <returns></returns>
-        public Time AddSecond(int second)
+        public TimeOnly AddSecond(int second)
         {
             int trueHour = Hour;
             int trueMinute = Minute;
@@ -131,7 +132,7 @@
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
-        public readonly DateTime ToDateTime(Date day) => ToDateTime(day.Year, day.Month, day.Day);
+        public readonly DateTime ToDateTime(DateOnly day) => ToDateTime(day.Year, day.Month, day.Day);
         /// <summary>
         /// 转换为DateTime
         /// </summary>
@@ -150,7 +151,7 @@
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
-        public readonly DateTimeOffset ToDateTimeOffset(Date day) => ToDateTimeOffset(day.Year, day.Month, day.Day);
+        public readonly DateTimeOffset ToDateTimeOffset(DateOnly day) => ToDateTimeOffset(day.Year, day.Month, day.Day);
         /// <summary>
         /// 转换为DateTimeOffset
         /// </summary>
@@ -170,21 +171,21 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator ==(Time a, Time b) => a.Equals(b);
+        public static bool operator ==(TimeOnly a, TimeOnly b) => a.Equals(b);
         /// <summary>
         /// 不等
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator !=(Time a, Time b) => !a.Equals(b);
+        public static bool operator !=(TimeOnly a, TimeOnly b) => !a.Equals(b);
         /// <summary>
         /// 大于
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator >(Time a, Time b)
+        public static bool operator >(TimeOnly a, TimeOnly b)
         {
             if (a.Hour > b.Hour) return true;
             else if (a.Hour < b.Hour) return false;
@@ -200,7 +201,7 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator >=(Time a, Time b)
+        public static bool operator >=(TimeOnly a, TimeOnly b)
         {
             if (a == b) return true;
             return a > b;
@@ -211,7 +212,7 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator <(Time a, Time b)
+        public static bool operator <(TimeOnly a, TimeOnly b)
         {
             if (a.Hour < b.Hour) return true;
             else if (a.Hour > b.Hour) return false;
@@ -227,7 +228,7 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static bool operator <=(Time a, Time b)
+        public static bool operator <=(TimeOnly a, TimeOnly b)
         {
             if (a == b) return true;
             return a < b;
@@ -239,7 +240,7 @@
         /// <returns></returns>
         public override readonly bool Equals(object? obj)
         {
-            if (obj is null || obj is not Time time) return false;
+            if (obj is null || obj is not TimeOnly time) return false;
             return Hour == time.Hour && Minute == time.Minute && Second == time.Second;
         }
         /// <summary>
@@ -360,3 +361,4 @@
         #endregion
     }
 }
+#endif

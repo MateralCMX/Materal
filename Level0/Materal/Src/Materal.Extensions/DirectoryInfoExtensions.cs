@@ -11,10 +11,7 @@
         /// <param name="directoryInfo">文件夹信息</param>
         /// <param name="targetPath">目标图路径</param>
         /// <param name="overwrite">覆盖标识</param>
-        public static void CopyTo(this DirectoryInfo directoryInfo, string targetPath, bool overwrite = true)
-        {
-            CopyTo(directoryInfo, new DirectoryInfo(targetPath), overwrite);
-        }
+        public static void CopyTo(this DirectoryInfo directoryInfo, string targetPath, bool overwrite = true) => CopyTo(directoryInfo, new DirectoryInfo(targetPath), overwrite);
         /// <summary>
         /// 复制
         /// </summary>

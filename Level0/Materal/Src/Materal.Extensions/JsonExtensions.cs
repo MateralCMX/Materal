@@ -9,6 +9,12 @@ namespace Materal.Extensions
     public static class JsonExtensions
     {
         /// <summary>
+        /// Json序列化配置
+        /// </summary>
+        public static JsonSerializerSettings JsonSerializerSettings { get; } = new()
+        {
+        };
+        /// <summary>
         /// Json转换为XML文档对象
         /// </summary>
         /// <param name="jsonStr">json字符串</param>
@@ -24,7 +30,7 @@ namespace Materal.Extensions
         {
             try
             {
-                object model = JsonConvert.DeserializeObject(jsonStr, type) ?? throw new ExtensionException("转换失败");
+                object model = JsonConvert.DeserializeObject(jsonStr, type, JsonSerializerSettings) ?? throw new ExtensionException("转换失败");
                 return model;
             }
             catch (Exception ex)
@@ -41,7 +47,7 @@ namespace Materal.Extensions
         {
             try
             {
-                object model = JsonConvert.DeserializeObject(jsonStr) ?? throw new ExtensionException("转换失败");
+                object model = JsonConvert.DeserializeObject(jsonStr, JsonSerializerSettings) ?? throw new ExtensionException("转换失败");
                 return model;
             }
             catch (Exception ex)
@@ -59,7 +65,7 @@ namespace Materal.Extensions
         {
             try
             {
-                T model = JsonConvert.DeserializeObject<T>(jsonStr) ?? throw new ExtensionException("转换失败");
+                T model = JsonConvert.DeserializeObject<T>(jsonStr, JsonSerializerSettings) ?? throw new ExtensionException("转换失败");
                 return model;
             }
             catch (Exception ex)
@@ -85,6 +91,6 @@ namespace Materal.Extensions
         /// </summary>
         /// <param name="obj">要转换的对象</param>
         /// <returns>转换后的Json字符串</returns>
-        public static string ToJson(this object obj) => JsonConvert.SerializeObject(obj);
+        public static string ToJson(this object obj) => JsonConvert.SerializeObject(obj, JsonSerializerSettings);
     }
 }

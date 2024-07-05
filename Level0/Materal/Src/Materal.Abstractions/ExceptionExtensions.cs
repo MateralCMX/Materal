@@ -45,7 +45,7 @@
                     MethodInfo? methodInfo = exception.GetType().GetMethod("GetDetailMessage", [typeof(string)]);
                     if (methodInfo is not null && methodInfo.ReturnType == typeof(string))
                     {
-                        object? detailMessage = methodInfo.Invoke(exception, new object[] { prefix });
+                        object? detailMessage = methodInfo.Invoke(exception, [prefix]);
                         if (detailMessage is not null && detailMessage is string detailMessageString)
                         {
                             message = detailMessageString;

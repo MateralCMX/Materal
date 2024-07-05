@@ -18,7 +18,7 @@ namespace Materal.Utils.Text
         {
             if (minLength <= 0) throw new UtilException("长度必须大于0");
             if (minLength >= maxLength) throw new UtilException("最大长度必须大于最小长度");
-            var rd = new Random();
+            Random rd = new();
             int length = rd.Next(minLength, maxLength);
             return GetRandomStringByGuid(length);
         }
@@ -51,7 +51,7 @@ namespace Materal.Utils.Text
         {
             if (minLength <= 0) throw new UtilException("长度必须大于0");
             if (minLength >= maxLength) throw new UtilException("最大长度必须大于最小长度");
-            var rd = new Random();
+            Random rd = new();
             int length = rd.Next(minLength, maxLength);
             return GetRandomStringByDictionary(length, dictionary);
         }
@@ -65,8 +65,8 @@ namespace Materal.Utils.Text
         public static string GetRandomStringByDictionary(int length = 32, string dictionary = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
         {
             if (length <= 0) throw new UtilException("长度必须大于0");
-            var rd = new Random();
-            var result = new StringBuilder(length);
+            Random rd = new();
+            StringBuilder result = new(length);
             for (int i = 0; i < length; i++)
             {
                 result.Append(dictionary[rd.Next(0, dictionary.Length)]);
@@ -85,7 +85,7 @@ namespace Materal.Utils.Text
             int rep = 0;
             string str = string.Empty;
             long tick = DateTime.Now.Ticks + rep++;
-            var random = new Random((int)((ulong)tick & 0xffffffffL) | (int)(tick >> rep));
+            Random random = new((int)((ulong)tick & 0xffffffffL) | (int)(tick >> rep));
             for (int i = 0; i < length; i++)
             {
                 char ch;

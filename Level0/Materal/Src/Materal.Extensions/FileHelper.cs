@@ -6,26 +6,43 @@
     public static class FileHelper
     {
         /// <summary>
-        /// 获得Base64的图片
+        /// 转换为Base64字符串
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public static string GetBase64Image(string filePath)
-        {
-            using FileStream fileStream = new(filePath, FileMode.Open);
-            return GetBase64Image(fileStream);
-        }
+        public static string ConvertToBase64String(string filePath) => new FileInfo(filePath).GetBase64String();
         /// <summary>
-        /// 获得Base64的图片
+        /// 是否是图片文件
         /// </summary>
-        /// <param name="fileStream"></param>
+        /// <param name="filePath"></param>
+        /// <param name="imageTyp"></param>
         /// <returns></returns>
-        public static string GetBase64Image(FileStream fileStream)
-        {
-            byte[] imageArray = new byte[fileStream.Length];
-            fileStream.Position = 0;
-            fileStream.Read(imageArray, 0, (int)fileStream.Length);
-            return "data:image/png;base64," + Convert.ToBase64String(imageArray);
-        }
+        public static bool IsImageFile(string filePath, out string? imageTyp) => new FileInfo(filePath).IsImageFile(out imageTyp);
+        /// <summary>
+        /// 是否是图片文件
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool IsImageFile(string filePath) => new FileInfo(filePath).IsImageFile();
+        /// <summary>
+        /// 获取Base64图片
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static string ConvertToBase64Image(string filePath) => new FileInfo(filePath).GetBase64Image();
+        /// <summary>
+        /// 获得MD5(32位)签名
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="isLower"></param>
+        /// <returns></returns>
+        public static string GetFileMd5_32(string filePath, bool isLower = false) => new FileInfo(filePath).GetMd5_32(isLower);
+        /// <summary>
+        /// 获得MD5(16位)签名
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="isLower"></param>
+        /// <returns></returns>
+        public static string GetFileMd5_16(string filePath, bool isLower = false) => new FileInfo(filePath).GetMd5_16(isLower);
     }
 }

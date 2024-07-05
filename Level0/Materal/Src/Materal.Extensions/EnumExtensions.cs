@@ -10,11 +10,7 @@
         /// </summary>
         /// <param name="enum"></param>
         /// <returns></returns>
-        public static List<Enum> GetAllEnum(this Enum @enum)
-        {
-            Type type = @enum.GetType();
-            return type.GetAllEnum();
-        }
+        public static List<Enum> GetAllEnum(this Enum @enum) => @enum.GetType().GetAllEnum();
         /// <summary>
         /// 获取所有枚举
         /// </summary>
@@ -23,7 +19,7 @@
         public static List<Enum> GetAllEnum(this Type type)
         {
             if (!type.IsEnum) throw new ExtensionException("该类型不是枚举类型");
-            var result = new List<Enum>();
+            List<Enum> result = [];
             Array allEnums = Enum.GetValues(type);
             foreach (Enum item in allEnums)
             {
@@ -36,10 +32,6 @@
         /// </summary>
         /// <param name="enum"></param>
         /// <returns></returns>
-        public static int GetEnumCount(this Enum @enum)
-        {
-            Type type = @enum.GetType();
-            return type.GetEnumCount();
-        }
+        public static int GetEnumCount(this Enum @enum) => @enum.GetType().GetEnumCount();
     }
 }

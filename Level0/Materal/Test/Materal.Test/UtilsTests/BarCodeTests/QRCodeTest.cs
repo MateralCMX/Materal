@@ -1,5 +1,5 @@
 ﻿using Materal.Utils.BarCode;
-using System.Drawing;
+using SkiaSharp;
 
 namespace Materal.Test.UtilsTests.BarCodeTests
 {
@@ -17,9 +17,12 @@ namespace Materal.Test.UtilsTests.BarCodeTests
         {
             const string input = "HelloWorld";
             //创建二维码
-            Bitmap qrCodeImage = QRCodeHelper.CreateQRCode(input, 300);
+            string savePath = @"D:\QRCodeImage.png";
+            SKBitmap qrCodeImage = QRCodeHelper.CreateQRCode(input, 300);
+            qrCodeImage.SaveAs(savePath);
             //读取二维码
-            string result = QRCodeHelper.ReadQRCode(qrCodeImage);
+            SKBitmap diskQRCodeImage = SKBitmap.Decode(savePath);
+            string result = QRCodeHelper.ReadQRCode(diskQRCodeImage);
             Assert.AreEqual(input, result);
         }
     }

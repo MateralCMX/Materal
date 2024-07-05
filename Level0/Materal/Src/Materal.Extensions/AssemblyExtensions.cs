@@ -23,7 +23,7 @@
             {
                 yield break;
             }
-            foreach (var type in types)
+            foreach (Type type in types)
             {
                 if (typeof(T).IsAssignableFrom(type) && type.IsPublic && type.IsClass && !type.IsAbstract) yield return type;
             }

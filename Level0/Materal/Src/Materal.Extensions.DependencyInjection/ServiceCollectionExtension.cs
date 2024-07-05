@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceProvider BuildMateralServiceProvider(this IServiceCollection services) 
+        public static IServiceProvider BuildMateralServiceProvider(this IServiceCollection services)
             => services.BuildServiceContextProvider();
     }
 }

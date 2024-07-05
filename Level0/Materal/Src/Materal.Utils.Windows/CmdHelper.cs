@@ -21,7 +21,7 @@
         public async Task RunCmdCommandsAsync(params string[] commands)
         {
             ProcessStartInfo processStartInfo = ProcessHelper.GetProcessStartInfo("cmd.exe", string.Empty);
-            using var process = new Process { StartInfo = processStartInfo };
+            using Process process = new() { StartInfo = processStartInfo };
             if (OutputDataReceived is not null)
             {
                 process.OutputDataReceived += OutputDataReceived;

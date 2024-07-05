@@ -1,7 +1,7 @@
-﻿using System.Drawing;
+﻿using SkiaSharp;
 using ZXing;
 using ZXing.Common;
-using ZXing.Windows.Compatibility;
+using ZXing.SkiaSharp;
 
 namespace Materal.Utils.BarCode
 {
@@ -16,7 +16,7 @@ namespace Materal.Utils.BarCode
         /// <param name="content"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static Bitmap CreateQRCode(string content, int size = 300) => CreateQRCode(content, size, size);
+        public static SKBitmap CreateQRCode(string content, int size = 300) => CreateQRCode(content, size, size);
         /// <summary>
         /// 创建二维码
         /// </summary>
@@ -24,7 +24,7 @@ namespace Materal.Utils.BarCode
         /// <param name="heigth"></param>
         /// <param name="width"></param>
         /// <returns></returns>
-        public static Bitmap CreateQRCode(string content, int heigth, int width) => CreateQRCode(content, new EncodingOptions
+        public static SKBitmap CreateQRCode(string content, int heigth, int width) => CreateQRCode(content, new EncodingOptions
         {
             Height = heigth,
             Width = width
@@ -35,14 +35,14 @@ namespace Materal.Utils.BarCode
         /// <param name="content"></param>
         /// <param name="encodingOptions"></param>
         /// <returns></returns>
-        public static Bitmap CreateQRCode(string content, EncodingOptions encodingOptions)
+        public static SKBitmap CreateQRCode(string content, EncodingOptions encodingOptions)
         {
             BarcodeWriter writer = new()
             {
                 Format = BarcodeFormat.QR_CODE,
                 Options = encodingOptions
             };
-            Bitmap result = writer.Write(content);
+            SKBitmap result = writer.Write(content);
             return result;
         }
         /// <summary>
@@ -51,7 +51,7 @@ namespace Materal.Utils.BarCode
         /// <param name="bitmap"></param>
         /// <returns></returns>
         /// <exception cref="UtilException"></exception>
-        public static string ReadQRCode(Bitmap bitmap)
+        public static string ReadQRCode(SKBitmap bitmap)
         {
             string result = BarCodeHelper.ReadBarCode(bitmap, out BarcodeFormat barcodeFormat);
             if (barcodeFormat != BarcodeFormat.QR_CODE) throw new UtilException("图片不是二维码");
@@ -70,7 +70,7 @@ namespace Materal.Utils.BarCode
         /// <param name="barcodeFormat"></param>
         /// <returns></returns>
         /// <exception cref="UtilException"></exception>
-        public static string ReadBarCode(Bitmap bitmap, out BarcodeFormat barcodeFormat)
+        public static string ReadBarCode(SKBitmap bitmap, out BarcodeFormat barcodeFormat)
         {
             BarcodeReader reader = new();
             Result result = reader.Decode(bitmap) ?? throw new UtilException("读取条码失败");
