@@ -111,10 +111,10 @@ namespace Materal.Logger.Abstractions
         {
             if (data.Count <= 0) return text;
             string result = text;
-#if NETSTANDARD
-            Regex regex = new(@"\$\{[^\}]+\}");
-#else
+#if NET8_0_OR_GREATER
             Regex regex = ExpressionRegex();
+#else
+            Regex regex = new(@"\$\{[^\}]+\}");
 #endif
             MatchCollection matchCollection = regex.Matches(result);
             foreach (object? matchItem in matchCollection)

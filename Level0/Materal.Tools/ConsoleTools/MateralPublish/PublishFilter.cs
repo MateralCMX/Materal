@@ -13,8 +13,8 @@ namespace MateralPublish
         public static bool CanPublish(BaseProjectModel project)
         {
             if (false
-                || project is Models.ProjectModels.Level0.MateralProjectModel
-                //|| project is Models.ProjectModels.Level0.ToolsProjectModel
+                //|| project is Models.ProjectModels.Level0.MateralProjectModel
+                || project is Models.ProjectModels.Level0.ToolsProjectModel
                 //|| project is Models.ProjectModels.Level1.LoggerProjectModel
                 //|| project is Models.ProjectModels.Level2.EventBusProjectModel
                 //|| project is Models.ProjectModels.Level2.OscillatorProjectModel

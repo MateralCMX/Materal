@@ -181,7 +181,8 @@ namespace MateralPublish.Models
         /// </summary>
         /// <param name="csprojFileInfo"></param>
         /// <returns></returns>
-        protected virtual string[] GetPackageCommand(FileInfo csprojFileInfo) => [$"dotnet pack {csprojFileInfo.FullName} -o {NugetServerHelper.NugetDirectoryInfo} -c Release"];
+        protected virtual string[] GetPackageCommand(FileInfo csprojFileInfo)
+            => [$"msbuild {csprojFileInfo.FullName} /t:pack /p:Configuration=Release /p:PackageOutputPath={NugetServerHelper.NugetDirectoryInfo}"];
         #endregion
         #region 发布
         /// <summary>
@@ -215,7 +216,7 @@ namespace MateralPublish.Models
         {
             string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
             CmdHelper cmdHelper = new();
-            string[] cmds = await GetPublishCommandAsync(csprojFileInfo);
+            string[] cmds = GetPublishCommand(csprojFileInfo);
             ConsoleHelper.WriteLine($"正在发布{projectName}代码...");
             cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
             cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;
@@ -227,26 +228,10 @@ namespace MateralPublish.Models
         /// </summary>
         /// <param name="csprojFileInfo"></param>
         /// <returns></returns>
-        protected virtual async Task<string[]> GetPublishCommandAsync(FileInfo csprojFileInfo)
+        protected virtual string[] GetPublishCommand(FileInfo csprojFileInfo)
         {
             StringBuilder stringBuilder = new();
-            stringBuilder.Append($"dotnet publish {csprojFileInfo.FullName}");
-            string[] csprojFileContent = await File.ReadAllLinesAsync(csprojFileInfo.FullName);
-            string[] targetFrameworks = [];
-            foreach (string fileLine in csprojFileContent)
-            {
-                string content = fileLine.Trim();
-                if (content.StartsWith("<TargetFramework>"))
-                {
-                    targetFrameworks = [content[17..^18]];
-                    break;
-                }
-                else if (content.StartsWith("<TargetFrameworks>"))
-                {
-                    targetFrameworks = content[18..^19].Split(";");
-                    break;
-                }
-            }
+            stringBuilder.Append($"msbuild {csprojFileInfo.FullName} /p:Configuration=Release");
             string? publishPath = null;
             if (PublishHelper.PublishDirectoryInfo is not null)
             {
@@ -254,30 +239,72 @@ namespace MateralPublish.Models
                 DirectoryInfo publishDirectoryInfo = Path.Combine(PublishHelper.PublishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
                 publishPath = publishDirectoryInfo.FullName;
             }
-            stringBuilder.Append(" -c Release");
-            List<string> result = [];
-            if (targetFrameworks.Length > 1)
+            if (!string.IsNullOrWhiteSpace(publishPath))
             {
-                foreach (string targetFramework in targetFrameworks)
-                {
-                    string item = stringBuilder.ToString();
-                    if (!string.IsNullOrWhiteSpace(publishPath))
-                    {
-                        item += $" -o {publishPath}\\{targetFramework}";
-                    }
-                    item += $" -f {targetFramework}";
-                    result.Add(item);
-                }
+                stringBuilder.Append($" /p:OutputPath={publishPath}");
             }
-            else
-            {
-                if (!string.IsNullOrWhiteSpace(publishPath))
-                {
-                    stringBuilder.Append($" -o {publishPath}");
-                }
-                result.Add(stringBuilder.ToString());
-            }
-            return [.. result];
+            string cmd = stringBuilder.ToString();
+            return [cmd];
+            //$"msbuild {csprojFileInfo.FullName} /p:Configuration=Release /p:OutputPath={publishPath}"
+
+
+
+
+
+            //            StringBuilder stringBuilder = new();
+            //            stringBuilder.Append($"dotnet publish {csprojFileInfo.FullName}");
+            //#if NET6_0_OR_GREATER
+            //            string[] csprojFileContent = await File.ReadAllLinesAsync(csprojFileInfo.FullName);
+            //#else
+            //            string[] csprojFileContent = File.ReadAllLines(csprojFileInfo.FullName);
+            //            await Task.CompletedTask;
+            //#endif
+            //            string[] targetFrameworks = [];
+            //            foreach (string fileLine in csprojFileContent)
+            //            {
+            //                string content = fileLine.Trim();
+            //                if (content.StartsWith("<TargetFramework>"))
+            //                {
+            //                    targetFrameworks = [content[17..^18]];
+            //                    break;
+            //                }
+            //                else if (content.StartsWith("<TargetFrameworks>"))
+            //                {
+            //                    targetFrameworks = content[18..^19].Split(';');
+            //                    break;
+            //                }
+            //            }
+            //            string? publishPath = null;
+            //            if (PublishHelper.PublishDirectoryInfo is not null)
+            //            {
+            //                string projectName = Path.GetFileNameWithoutExtension(csprojFileInfo.Name);
+            //                DirectoryInfo publishDirectoryInfo = Path.Combine(PublishHelper.PublishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
+            //                publishPath = publishDirectoryInfo.FullName;
+            //            }
+            //            stringBuilder.Append(" -c Release");
+            //            List<string> result = [];
+            //            if (targetFrameworks.Length > 1)
+            //            {
+            //                foreach (string targetFramework in targetFrameworks)
+            //                {
+            //                    string item = stringBuilder.ToString();
+            //                    if (!string.IsNullOrWhiteSpace(publishPath))
+            //                    {
+            //                        item += $" -o {publishPath}\\{targetFramework}";
+            //                    }
+            //                    item += $" -f {targetFramework}";
+            //                    result.Add(item);
+            //                }
+            //            }
+            //            else
+            //            {
+            //                if (!string.IsNullOrWhiteSpace(publishPath))
+            //                {
+            //                    stringBuilder.Append($" -o {publishPath}");
+            //                }
+            //                result.Add(stringBuilder.ToString());
+            //            }
+            //            return [.. result];
         }
         /// <summary>
         /// 是要发布的项目

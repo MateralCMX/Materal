@@ -22,8 +22,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="*" />
-		<PackageReference Include="Materal.Logger" Version="1.1.76" />
-		<PackageReference Include="Materal.Utils" Version="1.1.76" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 		<Manifest Include="$(ApplicationManifest)" />

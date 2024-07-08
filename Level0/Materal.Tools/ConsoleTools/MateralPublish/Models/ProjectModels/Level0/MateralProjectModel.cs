@@ -7,10 +7,10 @@
             string rootPath = Path.Combine(ProjectDirectoryInfo.FullName, "Src", "Materal.Abstractions", "Materal.Abstractions.csproj");
             FileInfo csprojFileInfo = new(rootPath);
             if (!csprojFileInfo.Exists) throw new Exception("主项目丢失");
-            string[] coedeContent = await File.ReadAllLinesAsync(csprojFileInfo.FullName);
+            string[] codeContent = await File.ReadAllLinesAsync(csprojFileInfo.FullName);
             const string versionStartCode = "<Version>";
             const string versionEndCode = "</Version>";
-            foreach (string code in coedeContent)
+            foreach (string code in codeContent)
             {
                 string tempCode = code.Trim();
                 if (tempCode.StartsWith(versionStartCode))

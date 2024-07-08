@@ -1,11 +1,9 @@
-﻿using Materal.Abstractions;
-
-namespace Materal.Tools.Core
+﻿namespace Materal.Tools.Core
 {
     /// <summary>
     /// 工具异常
     /// </summary>
-    public class ToolsException : MateralException
+    public class ToolsException : Exception
     {
         /// <summary>
         /// 构造方法

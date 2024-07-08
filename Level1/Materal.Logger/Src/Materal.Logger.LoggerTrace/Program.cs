@@ -52,12 +52,12 @@ namespace Materal.Logger.LoggerTrace
             List<LogLevel> ignoreLogLevels = [];
             if (targets is not null && !string.IsNullOrWhiteSpace(targets))
             {
-                string[] targetLevels = targets.Split(",");
+                string[] targetLevels = targets.Split(',');
                 targetLogLevels.AddRange(targetLevels.Select(m => (LogLevel)Enum.Parse(typeof(LogLevel), m)));
             }
             if (ignores is not null && !string.IsNullOrWhiteSpace(ignores))
             {
-                string[] ignoreLevels = ignores.Split(",");
+                string[] ignoreLevels = ignores.Split(',');
                 ignoreLogLevels.AddRange(ignoreLevels.Select(m => (LogLevel)Enum.Parse(typeof(LogLevel), m)));
             }
             _webSocket = new();
@@ -76,9 +76,10 @@ namespace Materal.Logger.LoggerTrace
             {
                 try
                 {
-                    byte[] buffer = new byte[4096];
+                    byte[] bufferArray = new byte[4096];
+                    ArraySegment<byte> buffer = new(bufferArray);
                     WebSocketReceiveResult result = await _webSocket.ReceiveAsync(buffer, CancellationToken.None);
-                    string message = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                    string message = Encoding.UTF8.GetString(bufferArray, 0, result.Count);
                     if (message.IsJson())
                     {
                         Log model = message.JsonToObject<Log>();

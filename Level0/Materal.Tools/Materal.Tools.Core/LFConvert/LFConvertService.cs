@@ -139,14 +139,23 @@ namespace Materal.Tools.Core.LFConvert
         {
             if (!fileInfo.Exists) throw new FileNotFoundException($"文件{fileInfo.FullName}不存在");
             logger?.LogInformation($"正在转换{fileInfo.FullName}为LF");
+#if NETSTANDARD
+            string[] contents = File.ReadAllLines(fileInfo.FullName);
+            await Task.CompletedTask;
+#else
             string[] contents = await File.ReadAllLinesAsync(fileInfo.FullName);
+#endif
             for (int i = 0; i < contents.Length; i++)
             {
                 if (!contents[i].EndsWith("\n")) continue;
                 contents[i] = contents[i].Replace("\n", "\r\n");
             }
             logger?.LogInformation($"转换{fileInfo.FullName}成功");
+#if NETSTANDARD
+            File.WriteAllLines(fileInfo.FullName, contents);
+#else
             await File.WriteAllLinesAsync(fileInfo.FullName, contents);
+#endif
         }
     }
 }

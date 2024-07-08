@@ -1,4 +1,3 @@
-using Materal.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -30,7 +29,7 @@ namespace Materal.Tools.WinUI
         /// </summary>
         private void LoadMenu()
         {
-            IEnumerable<Type> pageTypes = GetType().Assembly.GetTypes().Where(m => m.IsAssignableTo<Page>());
+            IEnumerable<Type> pageTypes = GetType().Assembly.GetTypes().Where(m => typeof(Page).IsAssignableFrom(m));
             foreach (Type pageType in pageTypes)
             {
                 MenuAttribute? menuAttribute = pageType.GetCustomAttribute<MenuAttribute>();

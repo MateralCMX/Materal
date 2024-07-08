@@ -46,7 +46,7 @@ namespace MateralPublish.Helper
         public void ProcessStart(string cmd, string arg)
         {
             ProcessStartInfo processStartInfo = GetProcessStartInfo(cmd, arg);
-            using var process = new Process { StartInfo = processStartInfo };
+            using Process process = new() { StartInfo = processStartInfo };
             if (OutputDataReceived != null)
             {
                 process.OutputDataReceived += OutputDataReceived;

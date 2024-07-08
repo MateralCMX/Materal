@@ -23,7 +23,7 @@ namespace MateralPublish.Helper
         public async Task RunCmdCommandsAsync(params string[] commands)
         {
             ProcessStartInfo processStartInfo = ProcessHelper.GetProcessStartInfo("cmd.exe", string.Empty);
-            using var process = new Process { StartInfo = processStartInfo };
+            using Process process = new() { StartInfo = processStartInfo };
             if (OutputDataReceived != null)
             {
                 process.OutputDataReceived += OutputDataReceived;
@@ -50,8 +50,6 @@ namespace MateralPublish.Helper
             await process.StandardInput.WriteLineAsync("exit");
             process.StandardInput.AutoFlush = true;
             await process.WaitForExitAsync();
-            //process.CloseMainWindow();
-            //process.Close();
         }
     }
 }

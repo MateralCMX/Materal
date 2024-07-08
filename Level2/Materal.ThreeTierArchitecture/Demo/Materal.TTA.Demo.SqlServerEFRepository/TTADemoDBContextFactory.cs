@@ -13,7 +13,7 @@ namespace Materal.TTA.Demo.SqlServerEFRepository
         /// <returns></returns>
         public TTADemoDBContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<TTADemoDBContext>();
+            DbContextOptionsBuilder<TTADemoDBContext> optionsBuilder = new DbContextOptionsBuilder<TTADemoDBContext>();
             SqlServerConfigModel config = new()
             {
                 Address = "127.0.0.1",

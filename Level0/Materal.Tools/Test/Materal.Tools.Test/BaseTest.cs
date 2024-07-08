@@ -1,9 +1,4 @@
-﻿using Materal.Logger.Abstractions.Extensions;
-using Materal.Logger.ConsoleLogger;
-using Materal.Logger.Extensions;
-using Materal.Tools.Core;
-using Materal.Utils.Extensions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Tools.Test
 {
@@ -13,12 +8,6 @@ namespace Materal.Tools.Test
         public BaseTest()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddMateralUtils();
-            services.AddMateralLogger(options =>
-            {
-                options.AddConsoleTarget("ConsoleLogger").AddAllTargetsRule();
-            }, true);
-            services.AddMateralTools();
             OnConfig(services);
             ServiceProvider = services.BuildServiceProvider();
         }

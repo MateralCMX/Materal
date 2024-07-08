@@ -25,10 +25,10 @@
         {
             Type type = typeof(TDBContext);
             SqlServerSubordinateConfigModel config = SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext>.GetConfig(subordinateConfigs.ToList());
-            var contextOptions = new DbContextOptions<TDBContext>();
-            var optionsBuilder = new DbContextOptionsBuilder(contextOptions);
+            DbContextOptions<TDBContext> contextOptions = new DbContextOptions<TDBContext>();
+            DbContextOptionsBuilder optionsBuilder = new DbContextOptionsBuilder(contextOptions);
             optionAction(optionsBuilder, config.ConnectionString);
-            var arg = (DbContextOptions<TDBContext>)optionsBuilder.Options;
+            DbContextOptions<TDBContext> arg = (DbContextOptions<TDBContext>)optionsBuilder.Options;
             SubordinateDB = (TDBContext)type.Instantiation(new object[] { arg });
         }
         /// <summary>
@@ -638,7 +638,7 @@
         {
             if (SubordinateDB == null) throw new MateralException("没有从属数据库");
             IQueryable<T> queryable = GetSubordinateQueryable(SubordinateDB);
-            var result = await func(queryable);
+            TResult? result = await func(queryable);
             return result;
         }
         /// <summary>
@@ -651,7 +651,7 @@
         {
             if (SubordinateDB == null) throw new MateralException("没有从属数据库");
             IQueryable<T> queryable = GetSubordinateQueryable(SubordinateDB);
-            var result = func(queryable);
+            TResult? result = func(queryable);
             return result;
         }
         /// <summary>

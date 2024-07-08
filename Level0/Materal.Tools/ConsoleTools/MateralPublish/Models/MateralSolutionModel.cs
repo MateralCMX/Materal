@@ -29,7 +29,7 @@ namespace MateralPublish.Models
             foreach (Type projectType in allProjectTypes)
             {
                 ConstructorInfo? constructorInfo = projectType.GetConstructor([typeof(string)]) ?? throw new MateralPublishException("未找到构造函数");
-                object projectObj = constructorInfo.Invoke(new[] { ProjectDirectoryInfo.FullName });
+                object projectObj = constructorInfo.Invoke([ProjectDirectoryInfo.FullName]);
                 if (projectObj is not BaseProjectModel projectModel) throw new MateralPublishException("类型不是BaseProjectModel");
                 _projects.Add(projectModel);
             }
@@ -45,7 +45,7 @@ namespace MateralPublish.Models
             string[] versions = nowVersion.Split('.');
             int lastVersionNumber = Convert.ToInt32(versions.Last());
             versions[^1] = (lastVersionNumber + 1).ToString();
-            string nextVersion = string.Join('.', versions);
+            string nextVersion = string.Join(".", versions);
             return nextVersion;
         }
         /// <summary>

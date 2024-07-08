@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0;</TargetFrameworks>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<LangVersion>12.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
@@ -8,7 +9,14 @@
 		<NoWarn>CA2254;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.76" />
-	  <PackageReference Include="Ude.NetStandard" Version="1.2.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="*" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+		<PackageReference Include="Ude.NetStandard" Version="*" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="*" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="*" />
 	</ItemGroup>
 </Project>

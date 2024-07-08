@@ -1,10 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Materal.Abstractions;
-using Materal.Logger.Abstractions;
 using Materal.Tools.Core.LFConvert;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -32,22 +29,10 @@ namespace Materal.Tools.WinUI.ViewModels
         /// 日志消息
         /// </summary>
         public ObservableCollection<string> LogMessages { get; } = [];
-        private readonly ILoggerListener _loggerListener;
         private readonly ILFConvertService _LFConvertService;
         public LFConvertViewModel()
         {
-            _loggerListener = App.ServiceProvider.GetRequiredService<ILoggerListener>();
-            _loggerListener.Subscribe(OnLog);
             _LFConvertService = App.ServiceProvider.GetRequiredService<ILFConvertService>();
-        }
-        private void OnLog(Log log)
-        {
-            string message = $"{DateTime.Now}|{log.Level}|{log.Message}";
-            if (log.Exception is not null)
-            {
-                message += log.Exception.GetErrorMessage();
-            }
-            LogMessages.Add(message);
         }
         [RelayCommand]
         private async Task LFToCRLFAsync()

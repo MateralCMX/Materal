@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace MateralVersion.Helper
 {
-    public static class NugetServerHelper
+    public static partial class NugetServerHelper
     {
         private const string _ftpUrl = "ftp://82.156.11.176:21/NugetPackages/";
         private const string _ftpUser = "GDB_FTP";
@@ -42,14 +42,14 @@ namespace MateralVersion.Helper
             {
                 if (item.Name != "entry") continue;
                 string? value = item.FirstChild?.FirstChild?.Value;
-                if (string.IsNullOrWhiteSpace(value)) continue;
+                if (value is null || string.IsNullOrWhiteSpace(value)) continue;
                 value = value[$"{_nugetUrl}Packages(Id='".Length..];
                 string id = value[.._materalID.Length];
                 if (id != _materalID) continue;
                 reslut = GetMaxVersion(value[(id.Length + 11)..^2], reslut);
             }
             if (string.IsNullOrWhiteSpace(reslut)) throw new Exception($"未在Nuget服务器上找到包{_materalID}");
-            return reslut;
+            return reslut ?? string.Empty;
         }
         /// <summary>
         /// 获得最大版本号
@@ -59,9 +59,9 @@ namespace MateralVersion.Helper
         /// <returns></returns>
         public static string GetMaxVersion(string version1, string? version2)
         {
-            if (string.IsNullOrEmpty(version2)) return version1;
-            int[] version1s = version1.Split(".").Select(m => Convert.ToInt32(m)).ToArray();
-            int[] version2s = version2.Split(".").Select(m => Convert.ToInt32(m)).ToArray();
+            if (version2 is null || string.IsNullOrEmpty(version2)) return version1;
+            int[] version1s = version1.Split('.').Select(m => Convert.ToInt32(m)).ToArray();
+            int[] version2s = version2.Split('.').Select(m => Convert.ToInt32(m)).ToArray();
             int length = version1s.Length > version2s.Length ? version2s.Length : version1s.Length;
             for (int i = 0; i < length; i++)
             {
@@ -123,6 +123,11 @@ namespace MateralVersion.Helper
             fs.Close();
             ConsoleHelper.WriteLine($"{nugetFileInfo.Name}上传成功...");
         }
+#if NET8_0_OR_GREATER
+
+        [GeneratedRegex("\\d+")]
+        private static partial Regex NumberRegex();
+#endif
         /// <summary>
         /// 检查是否上传成功
         /// </summary>
@@ -132,9 +137,13 @@ namespace MateralVersion.Helper
         private static async Task<bool> CheckUploadSuccessAsync(string fileName)
         {
             string[] fileNames = fileName.Split('.');
-            List<string> ids = new();
-            List<string> versions = new();
+            List<string> ids = [];
+            List<string> versions = [];
+#if NET8_0_OR_GREATER
+            Regex regex = NumberRegex();
+#else
             Regex regex = new("\\d+");
+#endif
             foreach (string item in fileNames)
             {
                 if (item == "nupkg") break;
@@ -147,8 +156,8 @@ namespace MateralVersion.Helper
                     ids.Add(item);
                 }
             }
-            string id = string.Join('.', ids);
-            string version = string.Join('.', versions);
+            string id = string.Join(".", ids);
+            string version = string.Join(".", versions);
             return await CheckUploadSuccessAsync(id, version);
         }
         /// <summary>

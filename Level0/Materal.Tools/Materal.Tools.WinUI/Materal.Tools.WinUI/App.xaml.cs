@@ -1,9 +1,4 @@
-﻿using Materal.Logger.Abstractions.Extensions;
-using Materal.Logger.ConsoleLogger;
-using Materal.Logger.Extensions;
-using Materal.Tools.Core;
-using Materal.Utils.Extensions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
 
@@ -16,12 +11,6 @@ namespace Materal.Tools.WinUI
         static App()
         {
             IServiceCollection services = new ServiceCollection();
-            services.AddMateralUtils();
-            services.AddMateralLogger(options =>
-            {
-                options.AddConsoleTarget("ConsoleLogger").AddAllTargetsRule();
-            }, true);
-            services.AddMateralTools();
             ServiceProvider = services.BuildServiceProvider();
         }
         public App() => InitializeComponent();

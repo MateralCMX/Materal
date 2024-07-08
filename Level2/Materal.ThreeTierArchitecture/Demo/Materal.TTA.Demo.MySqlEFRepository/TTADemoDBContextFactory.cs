@@ -13,7 +13,7 @@ namespace Materal.TTA.Demo.MySqlEFRepository
         /// <returns></returns>
         public TTADemoDBContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<TTADemoDBContext>();
+            DbContextOptionsBuilder<TTADemoDBContext> optionsBuilder = new DbContextOptionsBuilder<TTADemoDBContext>();
             MySqlConfigModel config = new()
             {
                 Address = "127.0.0.1",

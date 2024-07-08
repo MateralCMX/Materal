@@ -13,7 +13,7 @@ namespace Materal.TTA.Demo.SqliteEFRepository
         /// <returns></returns>
         public TTADemoDBContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<TTADemoDBContext>();
+            DbContextOptionsBuilder<TTADemoDBContext> optionsBuilder = new DbContextOptionsBuilder<TTADemoDBContext>();
             SqliteConfigModel config = new();
             optionsBuilder.UseSqlite(config.ConnectionString);
             return new TTADemoDBContext(optionsBuilder.Options);

@@ -5,6 +5,14 @@ namespace MateralVersion.Helper
     public static class ConsoleHelper
     {
         private readonly static ActionBlock<ConsoleMessageModel> _actionBlock = new(Hanlder);
+        static ConsoleHelper()
+        {
+            AppDomain.CurrentDomain.ProcessExit += (sender, e) =>
+            {
+                _actionBlock.Complete();
+                _actionBlock.Completion.Wait();
+            };
+        }
         public static void WriteLine(string? message, ConsoleColor? consoleColor = null)
         {
             _actionBlock.Post(new ConsoleMessageModel
