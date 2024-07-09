@@ -1,9 +1,14 @@
+using CommunityToolkit.Mvvm.Input;
 using Materal.Tools.Core;
 using Materal.Tools.WinUI.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using WinRT.Interop;
 
 namespace Materal.Tools.WinUI.Pages
 {
@@ -50,5 +55,21 @@ namespace Materal.Tools.WinUI.Pages
             }
         });
         private void ItemsControl_SizeChanged(object sender, SizeChangedEventArgs e) => MessageViewer.ChangeView(null, double.MaxValue, null);
+        [RelayCommand]
+        private async Task SelectionProjectFolderAsync()
+        {
+            FolderPicker folderPicker = new()
+            {
+                ViewMode = PickerViewMode.List,
+                SuggestedStartLocation = PickerLocationId.ComputerFolder
+            };
+            IntPtr hWnd = WindowNative.GetWindowHandle(App.MainWindow);
+            InitializeWithWindow.Initialize(folderPicker, hWnd);
+            folderPicker.FileTypeFilter.Add("*");
+            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            if (folder is null) return;
+            if (!ViewModel.IsMateralProjectPath(folder.Path)) throw new ToolsException("不是Materal项目路径");
+            ViewModel.ProjectPath = folder.Path;
+        }
     }
 }

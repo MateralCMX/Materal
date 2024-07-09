@@ -29,21 +29,27 @@ namespace Materal.Tools.WinUI.ViewModels
         public MateralPublishViewModel()
         {
             _publishService = App.ServiceProvider.GetRequiredService<IMateralPublishService>();
-            ReloadProjectAsync();
-        }
-        /// <summary>
-        /// 重新加载项目
-        /// </summary>
-        private async void ReloadProjectAsync()
-        {
-            Version = await _publishService.GetNowVersionAsync(ProjectPath);
             MateralProjectViewModel[] allProjects = _publishService.GetAllProjects().Select(m => new MateralProjectViewModel(m)).ToArray();
             Projects.Clear();
             foreach (MateralProjectViewModel project in allProjects)
             {
                 Projects.Add(project);
             }
+            if (_publishService.IsMateralProjectPath(ProjectPath))
+            {
+                Version = _publishService.GetNowVersion(ProjectPath);
+            }
+            else
+            {
+                ProjectPath = string.Empty;
+            }
         }
+        partial void OnProjectPathChanged(string? oldValue, string newValue)
+        {
+            if (!_publishService.IsMateralProjectPath(ProjectPath)) return;
+            Version = _publishService.GetNowVersion(ProjectPath);
+        }
+        public bool IsMateralProjectPath(string path) => _publishService.IsMateralProjectPath(path);
         [RelayCommand]
         private void SelectionAllProject()
         {

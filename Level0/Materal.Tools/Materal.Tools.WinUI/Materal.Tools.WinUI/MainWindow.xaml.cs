@@ -10,6 +10,7 @@ namespace Materal.Tools.WinUI
 {
     public sealed partial class MainWindow : Window
     {
+        public MessageDialogViewModel MessageDialogViewModel { get; } = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -49,6 +50,11 @@ namespace Materal.Tools.WinUI
                 };
                 MainNavigationView.MenuItems.Add(item);
             }
+        }
+        public async void ShowMessage(Exception ex)
+        {
+            MessageDialogViewModel.ChangeMessage(ex);
+            await MyContentDialog.ShowAsync();
         }
     }
 }

@@ -31,14 +31,14 @@
         /// <param name="projectPath"></param>
         /// <returns></returns>
         /// <exception cref="ToolsException"></exception>
-        public async Task<string> GetNowVersionAsync(string projectPath)
+        public string GetNowVersion(string projectPath)
         {
             DirectoryInfo projectDirectoryInfo = new(projectPath);
             if (!projectDirectoryInfo.Exists) throw new ToolsException($"\"{projectDirectoryInfo}\"文件夹不存在");
             string csprojFilePath = Path.Combine(projectDirectoryInfo.FullName, "Level0", "Materal", "Src", "Materal.Abstractions", "Materal.Abstractions.csproj");
             FileInfo csprojFileInfo = new(csprojFilePath);
             if (!csprojFileInfo.Exists) throw new ToolsException($"\"{csprojFileInfo.FullName}\"不存在");
-            string[] codeContent = await File.ReadAllLinesAsync(csprojFileInfo.FullName);
+            string[] codeContent = File.ReadAllLines(csprojFileInfo.FullName);
             const string versionStartCode = "<Version>";
             const string versionEndCode = "</Version>";
             foreach (string code in codeContent)
@@ -53,6 +53,21 @@
             }
             throw new ToolsException("未找到版本号");
         }
+        /// <summary>
+        /// 是Materal项目路径
+        /// </summary>
+        /// <param name="projectPath"></param>
+        /// <returns></returns>
+        /// <exception cref="ToolsException"></exception>
+        public bool IsMateralProjectPath(string projectPath)
+        {
+            DirectoryInfo projectDirectoryInfo = new(projectPath);
+            if (!projectDirectoryInfo.Exists) throw new ToolsException($"\"{projectDirectoryInfo}\"文件夹不存在");
+            string csprojFilePath = Path.Combine(projectDirectoryInfo.FullName, "Level0", "Materal", "Src", "Materal.Abstractions", "Materal.Abstractions.csproj");
+            FileInfo csprojFileInfo = new(csprojFilePath);
+            return csprojFileInfo.Exists;
+        }
+
         /// <summary>
         /// 发布
         /// </summary>

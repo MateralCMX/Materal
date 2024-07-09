@@ -7,7 +7,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <NavigationView x:Name="MainNavigationView" SelectionChanged="MainNavigationView_SelectionChanged" IsSettingsVisible="False" IsBackButtonVisible="Collapsed">
-        <Frame x:Name="contentFrame" Padding="10" />
-    </NavigationView>
+    <Grid>
+        <NavigationView x:Name="MainNavigationView" SelectionChanged="MainNavigationView_SelectionChanged" IsSettingsVisible="False" IsBackButtonVisible="Collapsed">
+            <Frame x:Name="contentFrame" Padding="10" />
+        </NavigationView>
+        <ContentDialog x:Name="MyContentDialog" Title="提示" CloseButtonText="关闭">
+            <ScrollViewer>
+                <TextBlock Text="{x:Bind MessageDialogViewModel.Message, Mode=OneWay}" />
+            </ScrollViewer>
+        </ContentDialog>
+    </Grid>
 </Window>

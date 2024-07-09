@@ -10,7 +10,7 @@ namespace Materal.Tools.WinUI
 {
     public partial class App : Application
     {
-        private Window? m_window;
+        public static MainWindow? MainWindow { get; private set; }
         public static IServiceProvider ServiceProvider { get; }
         static App()
         {
@@ -36,13 +36,11 @@ namespace Materal.Tools.WinUI
             e.Handled = true;
             LogError(e.Exception);
         }
-        private void LogError(Exception ex)
-        {
-        }
+        private void LogError(Exception ex) => MainWindow?.ShowMessage(ex);
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            m_window = new MainWindow();
-            m_window.Activate();
+            MainWindow = new MainWindow();
+            MainWindow.Activate();
         }
     }
 }

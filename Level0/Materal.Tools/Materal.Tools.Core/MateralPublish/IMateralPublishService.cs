@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="projectPath"></param>
         /// <returns></returns>
-        Task<string> GetNowVersionAsync(string projectPath);
+        string GetNowVersion(string projectPath);
         /// <summary>
         /// 发布
         /// </summary>
@@ -25,5 +25,11 @@
         /// <param name="OnMessage"></param>
         /// <returns></returns>
         Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects, Action<MessageLevel, string?>? OnMessage);
+        /// <summary>
+        /// 是Materal项目路径
+        /// </summary>
+        /// <param name="projectPath"></param>
+        /// <returns></returns>
+        bool IsMateralProjectPath(string projectPath);
     }
 }
