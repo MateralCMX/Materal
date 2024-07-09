@@ -51,7 +51,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="version"></param>
         /// <param name="onMessage"></param>
         /// <returns></returns>
-        public virtual async Task PublishAsync(string version, Action<MessageLevel, string>? onMessage = null)
+        public virtual async Task PublishAsync(string version, Action<MessageLevel, string?>? onMessage = null)
         {
             await UpdateVersionAsync(version, RootDirectoryInfo, onMessage);
             await PackageAsync(RootDirectoryInfo, onMessage);
@@ -64,7 +64,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="directoryInfo"></param>
         /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateVersionAsync(string version, DirectoryInfo directoryInfo, Action<MessageLevel, string>? onMessage = null)
+        protected virtual async Task UpdateVersionAsync(string version, DirectoryInfo directoryInfo, Action<MessageLevel, string?>? onMessage = null)
         {
             if (!directoryInfo.Exists) throw new ToolsException($"{directoryInfo.FullName}不存在");
             FileInfo? csprojFileInfo = directoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
@@ -93,7 +93,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="fileInfo"></param>
         /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateVsixVersionAsync(string version, FileInfo fileInfo, Action<MessageLevel, string>? onMessage = null)
+        protected virtual async Task UpdateVsixVersionAsync(string version, FileInfo fileInfo, Action<MessageLevel, string?>? onMessage = null)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
             XmlDocument xmlDocument = new();
@@ -121,7 +121,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="fileInfo"></param>
         /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateCsprojVersionAsync(string version, FileInfo fileInfo, Action<MessageLevel, string>? onMessage = null)
+        protected virtual async Task UpdateCsprojVersionAsync(string version, FileInfo fileInfo, Action<MessageLevel, string?>? onMessage = null)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
             XmlDocument xmlDocument = new();
@@ -155,7 +155,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="version"></param>
         /// <param name="node"></param>
         /// <param name="onMessage"></param>
-        protected virtual void UpdateCsprojPropertyGroupVersion(string projectName, string version, XmlNode node, Action<MessageLevel, string>? onMessage = null)
+        protected virtual void UpdateCsprojPropertyGroupVersion(string projectName, string version, XmlNode node, Action<MessageLevel, string?>? onMessage = null)
         {
             foreach (XmlNode childNode in node.ChildNodes)
             {
@@ -173,7 +173,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="version"></param>
         /// <param name="node"></param>
         /// <param name="onMessage"></param>
-        protected virtual void UpdateCsprojItemGroupVersion(string projectName, string version, XmlNode node, Action<MessageLevel, string>? onMessage = null)
+        protected virtual void UpdateCsprojItemGroupVersion(string projectName, string version, XmlNode node, Action<MessageLevel, string?>? onMessage = null)
         {
             foreach (XmlNode childNode in node.ChildNodes)
             {
@@ -196,7 +196,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="directoryInfo"></param>
         /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task PackageAsync(DirectoryInfo directoryInfo, Action<MessageLevel, string>? onMessage = null)
+        protected virtual async Task PackageAsync(DirectoryInfo directoryInfo, Action<MessageLevel, string?>? onMessage = null)
         {
             if (!directoryInfo.Exists) throw new ToolsException($"{directoryInfo.FullName}不存在");
             FileInfo? csprojFileInfo = directoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
@@ -226,7 +226,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
             xmlDocument.Load(fileInfo.FullName);
             XmlNode? identityNode = xmlDocument.SelectSingleNode("//Project//PropertyGroup//IsPackable");
             if (identityNode is null) return false;
-            if (!string.IsNullOrWhiteSpace(identityNode.Value) && identityNode.Value.Equals("true", StringComparison.OrdinalIgnoreCase)) return true;
+            if (!string.IsNullOrWhiteSpace(identityNode.InnerText) && identityNode.InnerText.Equals("true", StringComparison.OrdinalIgnoreCase)) return true;
             return false;
         }
         /// <summary>
@@ -235,9 +235,24 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="fileInfo"></param>
         /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task PackageAsync(FileInfo fileInfo, Action<MessageLevel, string>? onMessage = null)
+        protected virtual async Task PackageAsync(FileInfo fileInfo, Action<MessageLevel, string?>? onMessage = null)
         {
+            string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
+            CmdHelper cmdHelper = new();
+            string[] cmds = GetPackageCommand(fileInfo);
+            onMessage?.Invoke(MessageLevel.Information, $"正在打包{projectName}...");
+            cmdHelper.OutputDataReceived += (sender, e) => onMessage?.Invoke(MessageLevel.Information, e.Data);
+            cmdHelper.ErrorDataReceived += (sender, e) => onMessage?.Invoke(MessageLevel.Error, e.Data);
+            await cmdHelper.RunCmdCommandsAsync(cmds);
+            onMessage?.Invoke(MessageLevel.Information, $"{projectName}打包完毕");
         }
+        /// <summary>
+        /// 获得发布命令
+        /// </summary>
+        /// <param name="csprojFileInfo"></param>
+        /// <returns></returns>
+        protected virtual string[] GetPackageCommand(FileInfo csprojFileInfo)
+            => [$"msbuild {csprojFileInfo.FullName} /t:pack /p:Configuration=Release /p:PackageOutputPath={NugetDirectoryInfo}"];
         #endregion
         #region 发布
 

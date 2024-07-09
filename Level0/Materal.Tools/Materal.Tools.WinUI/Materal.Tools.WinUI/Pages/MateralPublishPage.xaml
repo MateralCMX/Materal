@@ -48,8 +48,8 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-            <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                <ItemsControl ItemsSource="{x:Bind ViewModel.Messages, Mode=OneWay}">
+            <ScrollViewer x:Name="MessageViewer" Grid.Column="1" Padding="0,0,15,15" HorizontalScrollBarVisibility="Visible">
+                <ItemsControl ItemsSource="{x:Bind Messages, Mode=OneWay}" SizeChanged="ItemsControl_SizeChanged">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel />

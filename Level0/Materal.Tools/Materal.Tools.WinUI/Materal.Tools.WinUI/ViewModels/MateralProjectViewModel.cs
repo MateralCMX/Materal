@@ -10,7 +10,7 @@ namespace Materal.Tools.WinUI.ViewModels
         /// </summary>
         public IMateralProject MateralProject { get; } = materalProject;
         [ObservableProperty]
-        private bool _isPublish = true;
+        private bool _isPublish = false;
         /// <summary>
         /// 名称
         /// </summary>

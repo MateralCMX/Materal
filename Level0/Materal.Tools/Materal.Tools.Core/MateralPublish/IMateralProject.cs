@@ -23,6 +23,6 @@
         /// <param name="version"></param>
         /// <param name="onMessage"></param>
         /// <returns></returns>
-        Task PublishAsync(string version, Action<MessageLevel, string>? onMessage = null);
+        Task PublishAsync(string version, Action<MessageLevel, string?>? onMessage = null);
     }
 }

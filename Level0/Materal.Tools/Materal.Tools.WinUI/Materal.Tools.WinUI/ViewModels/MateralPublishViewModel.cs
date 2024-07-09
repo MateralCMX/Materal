@@ -24,7 +24,8 @@ namespace Materal.Tools.WinUI.ViewModels
         private string _version = "1.0.0";
         public ObservableCollection<MateralProjectViewModel> Projects = [];
         private readonly IMateralPublishService _publishService;
-        public ObservableCollection<MessageViewModel> Messages = [];
+        public event Action<MessageLevel, string?>? OnMessage;
+        public event Action? OnClearMessage;
         public MateralPublishViewModel()
         {
             _publishService = App.ServiceProvider.GetRequiredService<IMateralPublishService>();
@@ -46,30 +47,23 @@ namespace Materal.Tools.WinUI.ViewModels
         [RelayCommand]
         private async Task PublishAsync()
         {
-            Messages.Clear();
+            OnClearMessage?.Invoke();
             try
             {
-                OnMessage(MessageLevel.Information, "开始发布...");
+                OnMessage?.Invoke(MessageLevel.Information, "开始发布...");
                 foreach (MateralProjectViewModel project in Projects.Where(m => m.IsPublish))
                 {
-                    OnMessage(MessageLevel.Information, $"开始发布{project.Name}...");
+                    OnMessage?.Invoke(MessageLevel.Information, $"开始发布{project.Name}...");
                     await project.MateralProject.PublishAsync(Version, OnMessage);
-                    OnMessage(MessageLevel.Information, $"{project.Name}发布完毕");
+                    OnMessage?.Invoke(MessageLevel.Information, $"{project.Name}发布完毕");
                 }
+                OnMessage?.Invoke(MessageLevel.Information, "发布完毕");
             }
             catch (Exception ex)
             {
-                OnMessage(MessageLevel.Error, ex.Message);
-                if (!string.IsNullOrWhiteSpace(ex.StackTrace))
-                {
-                    OnMessage(MessageLevel.Error, ex.StackTrace);
-                }
+                OnMessage?.Invoke(MessageLevel.Error, ex.Message);
+                OnMessage?.Invoke(MessageLevel.Error, ex.StackTrace);
             }
-        }
-        private void OnMessage(MessageLevel level, string message)
-        {
-            if (string.IsNullOrWhiteSpace(message)) return;
-            Messages.Add(new(level, message));
         }
     }
 }
