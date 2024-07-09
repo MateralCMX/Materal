@@ -69,7 +69,7 @@ namespace MateralPublish.Models
         {
             const string materalPackageStartCode = "<PackageReference Include=\"Materal.";
             const string rcPackageStartCode = "<PackageReference Include=\"RC.";
-            await UpdateVersionAsync(version, csprojFileInfo, materalPackageStartCode, rcPackageStartCode);
+            await UpdateVersionAsync(version, csprojFileInfo, [materalPackageStartCode, rcPackageStartCode]);
         }
         /// <summary>
         /// 更新版本号
@@ -77,7 +77,7 @@ namespace MateralPublish.Models
         /// <param name="version"></param>
         /// <param name="csprojFileInfo"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateVersionAsync(string version, FileInfo csprojFileInfo, params string[] packageStartCodes)
+        protected virtual async Task UpdateVersionAsync(string version, FileInfo csprojFileInfo, string[] packageStartCodes)
         {
             const string versionStartCode = "<Version>";
             const string materalPackageVersionStartCode = "\" Version=\"";

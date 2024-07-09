@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Materal.Tools.Core.MateralPublish;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
 
@@ -11,6 +12,7 @@ namespace Materal.Tools.WinUI
         static App()
         {
             IServiceCollection services = new ServiceCollection();
+            services.AddSingleton<IMateralPublishService, MateralPublishService>();
             ServiceProvider = services.BuildServiceProvider();
         }
         public App() => InitializeComponent();
