@@ -21,12 +21,12 @@
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public override DateTimeOffset? GetTriggerStartTime(Date date) => null;
+        public override DateTimeOffset? GetTriggerStartTime(DateOnly date) => null;
         /// <summary>
         /// 获得结束时间
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public override DateTimeOffset? GetTriggerEndTime(Date date) => null;
+        public override DateTimeOffset? GetTriggerEndTime(DateOnly date) => null;
     }
 }

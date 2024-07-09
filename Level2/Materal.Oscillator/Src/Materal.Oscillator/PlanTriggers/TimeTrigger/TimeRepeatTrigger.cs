@@ -8,11 +8,11 @@
         /// <summary>
         /// 开始时间
         /// </summary>
-        public Time StartTime { get; set; } = new(0, 0, 0);
+        public TimeOnly StartTime { get; set; } = new(0, 0, 0);
         /// <summary>
         /// 结束时间
         /// </summary>
-        public Time EndTime { get; set; } = new(23, 59, 59);
+        public TimeOnly EndTime { get; set; } = new(23, 59, 59);
         /// <summary>
         /// 间隔
         /// </summary>
@@ -32,7 +32,7 @@
             DateTimeOffset? result = null;
             DateTime nowDateTime = DateTime.Now;
             DateTimeOffset nowTime = nowDateTime.ToDateTimeOffset();
-            Date nowDate = nowTime.ToDate();
+            DateOnly nowDate = nowTime.ToDateOnly();
             DateTimeOffset startTime = StartTime.MergeDateTimeOffset(nowDate);
             if (nowTime < startTime)
             {
@@ -71,13 +71,13 @@
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public override DateTimeOffset? GetTriggerStartTime(Date date) => date.MergeDateTimeOffset(StartTime);
+        public override DateTimeOffset? GetTriggerStartTime(DateOnly date) => date.MergeDateTimeOffset(StartTime);
         /// <summary>
         /// 获得结束时间
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public override DateTimeOffset? GetTriggerEndTime(Date date) => date.MergeDateTimeOffset(EndTime);
+        public override DateTimeOffset? GetTriggerEndTime(DateOnly date) => date.MergeDateTimeOffset(EndTime);
         #region 私有方法
         /// <summary>
         /// 获得预计执行次数

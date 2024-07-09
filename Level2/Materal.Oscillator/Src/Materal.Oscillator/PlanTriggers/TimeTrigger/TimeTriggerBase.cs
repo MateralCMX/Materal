@@ -21,12 +21,12 @@
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public abstract DateTimeOffset? GetTriggerEndTime(Date date);
+        public abstract DateTimeOffset? GetTriggerEndTime(DateOnly date);
         /// <summary>
         /// 获得开始时间
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public abstract DateTimeOffset? GetTriggerStartTime(Date date);
+        public abstract DateTimeOffset? GetTriggerStartTime(DateOnly date);
     }
 }

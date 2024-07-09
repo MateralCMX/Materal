@@ -10,25 +10,16 @@ namespace Materal.Gateway.OcelotConsulExtension
     /// <summary>
     /// 网关Consul服务生成器
     /// </summary>
-    public class GatewayConsulServiceBuilder : IConsulServiceBuilder
+    public class GatewayConsulServiceBuilder(Func<ConsulRegistryConfiguration> configurationFactory, IOcelotLoggerFactory loggerFactory) : IConsulServiceBuilder
     {
         private const string VersionPrefix = "version-";
-        private readonly ConsulRegistryConfiguration _configuration;
+        private readonly ConsulRegistryConfiguration _configuration = configurationFactory.Invoke();
         /// <summary>
         /// 配置
         /// </summary>
         public ConsulRegistryConfiguration Configuration => _configuration;
-        private readonly IConsulClient _client;
-        private readonly IOcelotLogger _logger;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public GatewayConsulServiceBuilder(Func<ConsulRegistryConfiguration> configurationFactory, IConsulClientFactory clientFactory, IOcelotLoggerFactory loggerFactory)
-        {
-            _configuration = configurationFactory.Invoke();
-            _client = clientFactory.Get(_configuration);
-            _logger = loggerFactory.CreateLogger<DefaultConsulServiceBuilder>();
-        }
+        private readonly IOcelotLogger _logger = loggerFactory.CreateLogger<DefaultConsulServiceBuilder>();
+
         /// <summary>
         /// 验证
         /// </summary>

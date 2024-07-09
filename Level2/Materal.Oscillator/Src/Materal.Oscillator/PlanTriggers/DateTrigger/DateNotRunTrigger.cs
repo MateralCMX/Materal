@@ -37,6 +37,6 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
         /// </summary>
         /// <param name="upRunTime"></param>
         /// <returns></returns>
-        protected override Date? GetNextRunDate(DateTimeOffset upRunTime) => null;
+        protected override DateOnly? GetNextRunDate(DateTimeOffset upRunTime) => null;
     }
 }

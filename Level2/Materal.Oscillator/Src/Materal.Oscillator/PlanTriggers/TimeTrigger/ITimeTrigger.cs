@@ -10,13 +10,13 @@
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        DateTimeOffset? GetTriggerStartTime(Date date);
+        DateTimeOffset? GetTriggerStartTime(DateOnly date);
         /// <summary>
         /// 获得结束时间
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        DateTimeOffset? GetTriggerEndTime(Date date);
+        DateTimeOffset? GetTriggerEndTime(DateOnly date);
         /// <summary>
         /// 获得下次执行时间
         /// </summary>

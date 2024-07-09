@@ -96,14 +96,14 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
         /// </summary>
         /// <param name="upRunTime"></param>
         /// <returns></returns>
-        protected override Date? GetNextRunDate(DateTimeOffset upRunTime)
+        protected override DateOnly? GetNextRunDate(DateTimeOffset upRunTime)
         {
             var nextDate = upRunTime.AddDays(1);
             if (nextDate.DayOfWeek != DayOfWeek.Sunday)
             {
                 while (true)
                 {
-                    if (Weeks.Contains(nextDate.DayOfWeek)) return nextDate.ToDate();
+                    if (Weeks.Contains(nextDate.DayOfWeek)) return nextDate.ToDateOnly();
                     if (nextDate.DayOfWeek == DayOfWeek.Sunday) break;
                     nextDate = nextDate.AddDays(1);
                 }
@@ -113,7 +113,7 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
             {
                 nextDate = nextDate.AddDays(1);
             }
-            Date result = nextDate.ToDate();
+            DateOnly result = nextDate.ToDateOnly();
             return result;
         }
     }

@@ -10,11 +10,11 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
         /// <summary>
         /// 开始日期
         /// </summary>
-        public Date StartDate { get; set; } = new(DateTime.Now);
+        public DateOnly StartDate { get; set; } = DateTime.Now.ToDateOnly();
         /// <summary>
         /// 结束日期
         /// </summary>
-        public Date? EndDate { get; set; }
+        public DateOnly? EndDate { get; set; }
         /// <summary>
         /// 间隔
         /// </summary>
@@ -77,7 +77,7 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
             if (Interval <= 0) return null;
             DateTimeOffset? result = everyDayTrigger.GetNextRunTime(upRunTime);
             if (result != null) return result;
-            Date? nextRunDate = GetNextRunDate(upRunTime);
+            DateOnly? nextRunDate = GetNextRunDate(upRunTime);
             if (nextRunDate == null) return null;
             if (EndDate != null && nextRunDate > EndDate) return null;
             result = everyDayTrigger.GetTriggerStartTime(nextRunDate.Value);
@@ -88,6 +88,6 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
         /// </summary>
         /// <param name="upRunTime"></param>
         /// <returns></returns>
-        protected abstract Date? GetNextRunDate(DateTimeOffset upRunTime);
+        protected abstract DateOnly? GetNextRunDate(DateTimeOffset upRunTime);
     }
 }

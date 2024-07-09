@@ -1,6 +1,5 @@
 ﻿using Materal.Extensions;
 using Materal.Oscillator.Abstractions;
-using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.Demo.Works;
 using Materal.Oscillator.PlanTriggers;
@@ -16,14 +15,14 @@ namespace Materal.Oscillator.Demo.Services
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             IWorkData workData = new TestWorkData() { Message = "你好，世界！" };
-            IPlanTrigger planTrigger = new RepeatPlanTrigger()
+            RepeatPlanTrigger planTrigger = new()
             {
                 Name = "测试计划",
                 DateTrigger = new DateDayTrigger
                 {
-                    StartDate = DateTime.Now.ToDate(),
+                    StartDate = DateTime.Now.ToDateOnly(),
                     Interval = 1,
-                    EndDate = DateTime.Now.AddDays(1).ToDate(),
+                    EndDate = DateTime.Now.AddDays(1).ToDateOnly(),
                 },
                 TimeTrigger = new TimeRepeatTrigger
                 {

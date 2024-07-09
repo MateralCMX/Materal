@@ -84,7 +84,7 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
         /// <param name="upRunTime"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        protected override Date? GetNextRunDate(DateTimeOffset upRunTime)
+        protected override DateOnly? GetNextRunDate(DateTimeOffset upRunTime)
         {
             DayOfWeek ToDayOfWeek()
             {
@@ -104,11 +104,11 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
             {
                 if (IsAscending)
                 {
-                    return new Date(upRunTime.Year, upRunTime.Month, Convert.ToInt32(Index)).AddMonth(Convert.ToInt32(Interval));
+                    return new DateOnly(upRunTime.Year, upRunTime.Month, Convert.ToInt32(Index)).AddMonths(Convert.ToInt32(Interval));
                 }
                 else
                 {
-                    return new Date(upRunTime.Year, upRunTime.Month, 1).AddMonth(Convert.ToInt32(Interval) + 1).AddDay(-1 * Convert.ToInt32(Index));
+                    return new DateOnly(upRunTime.Year, upRunTime.Month, 1).AddMonths(Convert.ToInt32(Interval) + 1).AddDays(-1 * Convert.ToInt32(Index));
                 }
             }
             DateTime nextRunDate;
@@ -120,7 +120,7 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
                     nextRunDate = nextRunDate.AddDays(1);
                 }
                 nextRunDate = nextRunDate.AddDays(Convert.ToInt32(Index - 1) * 7);
-                return nextRunDate.ToDate();
+                return nextRunDate.ToDateOnly();
             }
             else
             {
@@ -130,7 +130,7 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
                     nextRunDate = nextRunDate.AddDays(-1);
                 }
                 nextRunDate = nextRunDate.AddDays(Convert.ToInt32(Index - 1) * -7);
-                return nextRunDate.ToDate();
+                return nextRunDate.ToDateOnly();
             }
         }
     }

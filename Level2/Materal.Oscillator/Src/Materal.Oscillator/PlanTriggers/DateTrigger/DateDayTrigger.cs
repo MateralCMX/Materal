@@ -30,10 +30,10 @@ namespace Materal.Oscillator.PlanTriggers.DateTrigger
         /// </summary>
         /// <param name="upRunTime"></param>
         /// <returns></returns>
-        protected override Date? GetNextRunDate(DateTimeOffset upRunTime)
+        protected override DateOnly? GetNextRunDate(DateTimeOffset upRunTime)
         {
             DateTimeOffset nextRunDate = upRunTime.AddDays(Interval);
-            return nextRunDate.ToDate();
+            return nextRunDate.ToDateOnly();
         }
     }
 }

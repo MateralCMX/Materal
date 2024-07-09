@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Abstractions.Oscillator;
+﻿using Materal.Extensions;
+using Materal.MergeBlock.Abstractions.Oscillator;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.PlanTriggers;
 using Materal.Oscillator.PlanTriggers.DateTrigger;
@@ -15,6 +16,10 @@ namespace Materal.MergeBlock.OscillatorTest.Oscillator
         /// 消息
         /// </summary>
         public string Message { get; set; } = "Hello World!";
+        /// <summary>
+        /// 获得初始化计划触发器
+        /// </summary>
+        /// <returns></returns>
         public override IPlanTrigger GetInitPlanTrigger() => new OneTimePlanTrigger() { StartTime = DateTime.Now.AddSeconds(10) };
         /// <summary>
         /// 获取计划触发器
@@ -28,7 +33,7 @@ namespace Materal.MergeBlock.OscillatorTest.Oscillator
                 Enable = true,
                 DateTrigger = new DateDayTrigger()
                 {
-                    StartDate = new(DateTime.Now),
+                    StartDate = DateTime.Now.ToDateOnly(),
                     Interval = 1
                 },
                 TimeTrigger = new TimeRepeatTrigger()
