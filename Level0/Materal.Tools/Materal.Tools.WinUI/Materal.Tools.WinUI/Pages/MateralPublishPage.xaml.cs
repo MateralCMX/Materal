@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace Materal.Tools.WinUI.Pages
 {
-    [Menu("Materal发布", "\uE7B8")]
+    [Menu("Materal发布", "\uE7B8", 0)]
     public sealed partial class MateralPublishPage : Page
     {
         public MateralPublishViewModel ViewModel { get; } = new();

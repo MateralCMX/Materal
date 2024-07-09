@@ -1,3 +1,4 @@
+using Materal.Tools.WinUI.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -30,15 +31,21 @@ namespace Materal.Tools.WinUI
         private void LoadMenu()
         {
             IEnumerable<Type> pageTypes = GetType().Assembly.GetTypes().Where(m => typeof(Page).IsAssignableFrom(m));
+            List<MenuViewModel> menus = [];
             foreach (Type pageType in pageTypes)
             {
                 MenuAttribute? menuAttribute = pageType.GetCustomAttribute<MenuAttribute>();
                 if (menuAttribute is null) return;
+                menus.Add(new(pageType, menuAttribute.Name, menuAttribute.Icon, menuAttribute.Index));
+            }
+            menus = [.. menus.OrderBy(m => m.Index).ThenBy(m => m.Name)];
+            foreach (MenuViewModel menu in menus)
+            {
                 NavigationViewItem item = new()
                 {
-                    Content = menuAttribute.Name,
-                    Tag = pageType,
-                    Icon = new FontIcon() { Glyph = menuAttribute.Icon }
+                    Content = menu.Name,
+                    Tag = menu.PageType,
+                    Icon = new FontIcon() { Glyph = menu.Icon }
                 };
                 MainNavigationView.MenuItems.Add(item);
             }
