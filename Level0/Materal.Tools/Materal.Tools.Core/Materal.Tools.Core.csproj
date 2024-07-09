@@ -19,4 +19,7 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="*" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="ProjectClear\" />
+	</ItemGroup>
 </Project>

@@ -12,8 +12,7 @@ namespace ProjectClear
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
             Solution solution = await VS.Solutions.GetCurrentSolutionAsync();
-            string solutionPath = Path.GetDirectoryName(solution.FullPath);
-            List<string> messages = ClearDirectories(solutionPath);
+            List<string> messages = ClearSolution(solution);
             if (messages.Count <= 0)
             {
                 await VS.StatusBar.ShowMessageAsync("清理bin、obj完成");
@@ -21,14 +20,24 @@ namespace ProjectClear
             }
             await VS.MessageBox.ShowErrorAsync(string.Join("\n", messages));
         }
-        private List<string> ClearDirectories(string startLocation)
+        private List<string> ClearSolution(Solution solution)
         {
             List<string> messages = [];
-            DirectoryInfo directoryInfo = new(startLocation);
-            foreach (DirectoryInfo subDirectoryInfo in directoryInfo.GetDirectories())
+            foreach (SolutionItem item in solution.Children)
             {
-                if (subDirectoryInfo.Name == "bin" || subDirectoryInfo.Name == "obj")
+                messages.AddRange(ClearProject(item));
+            }
+            return messages;
+        }
+        private List<string> ClearProject(SolutionItem solutionItem)
+        {
+            List<string> messages = [];
+            if (solutionItem.Type == SolutionItemType.Project)
+            {
+                DirectoryInfo directoryInfo = new(Path.GetDirectoryName(solutionItem.FullPath));
+                foreach (DirectoryInfo subDirectoryInfo in directoryInfo.GetDirectories())
                 {
+                    if (subDirectoryInfo.Name != "bin" && subDirectoryInfo.Name != "obj") continue;
                     try
                     {
                         subDirectoryInfo.Delete(true);
@@ -39,10 +48,12 @@ namespace ProjectClear
                         messages.Add(ex.Message);
                     }
                 }
-                else
+            }
+            else
+            {
+                foreach (SolutionItem item in solutionItem.Children)
                 {
-                    List<string> subMessages = ClearDirectories(subDirectoryInfo.FullName);
-                    messages.AddRange(subMessages);
+                    messages.AddRange(ClearProject(item));
                 }
             }
             return messages;
