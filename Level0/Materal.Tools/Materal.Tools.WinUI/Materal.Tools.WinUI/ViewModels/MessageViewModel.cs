@@ -18,5 +18,9 @@ namespace Materal.Tools.WinUI.ViewModels
         /// 等级
         /// </summary>
         public MessageLevel Level { get; } = messageLevel;
+        /// <summary>
+        /// 组合消息
+        /// </summary>
+        public string CompositeMessage => $"[{DateTime:yyyy/MM/dd HH:mm:ss}]{Message}";
     }
 }

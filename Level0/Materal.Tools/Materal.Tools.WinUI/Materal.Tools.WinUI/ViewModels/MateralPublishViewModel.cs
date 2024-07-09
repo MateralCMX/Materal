@@ -22,7 +22,7 @@ namespace Materal.Tools.WinUI.ViewModels
         /// </summary>
         [ObservableProperty]
         private string _version = "1.0.0";
-        public ObservableCollection<MateralProjectViewModel> Projects = [];
+        public ObservableCollection<MateralProjectViewModel> Projects { get; } = [];
         private readonly IMateralPublishService _publishService;
         public event Action<MessageLevel, string?>? OnMessage;
         public event Action? OnClearMessage;
@@ -37,11 +37,27 @@ namespace Materal.Tools.WinUI.ViewModels
         private async void ReloadProjectAsync()
         {
             Version = await _publishService.GetNowVersionAsync(ProjectPath);
-            MateralProjectViewModel[] allProjects = _publishService.GetAllProjects(ProjectPath).Select(m => new MateralProjectViewModel(m)).ToArray();
+            MateralProjectViewModel[] allProjects = _publishService.GetAllProjects().Select(m => new MateralProjectViewModel(m)).ToArray();
             Projects.Clear();
             foreach (MateralProjectViewModel project in allProjects)
             {
                 Projects.Add(project);
+            }
+        }
+        [RelayCommand]
+        private void SelectionAllProject()
+        {
+            foreach (MateralProjectViewModel project in Projects)
+            {
+                project.IsPublish = true;
+            }
+        }
+        [RelayCommand]
+        private void InvertSelectionProject()
+        {
+            foreach (MateralProjectViewModel project in Projects)
+            {
+                project.IsPublish = !project.IsPublish;
             }
         }
         [RelayCommand]
@@ -50,14 +66,8 @@ namespace Materal.Tools.WinUI.ViewModels
             OnClearMessage?.Invoke();
             try
             {
-                OnMessage?.Invoke(MessageLevel.Information, "开始发布...");
-                foreach (MateralProjectViewModel project in Projects.Where(m => m.IsPublish))
-                {
-                    OnMessage?.Invoke(MessageLevel.Information, $"开始发布{project.Name}...");
-                    await project.MateralProject.PublishAsync(Version, OnMessage);
-                    OnMessage?.Invoke(MessageLevel.Information, $"{project.Name}发布完毕");
-                }
-                OnMessage?.Invoke(MessageLevel.Information, "发布完毕");
+                IMateralProject[] projects = Projects.Where(m => m.IsPublish).Select(m => m.MateralProject).ToArray();
+                await _publishService.PublishAsync(ProjectPath, Version, projects, OnMessage);
             }
             catch (Exception ex)
             {

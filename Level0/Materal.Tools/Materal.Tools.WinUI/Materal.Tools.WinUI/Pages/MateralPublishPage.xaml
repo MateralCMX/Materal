@@ -32,8 +32,8 @@
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <Button Content="全选" />
-                    <Button Content="反选" />
+                    <Button Content="全选" Command="{x:Bind ViewModel.SelectionAllProjectCommand}" />
+                    <Button Content="反选" Command="{x:Bind ViewModel.InvertSelectionProjectCommand}" />
                 </StackPanel>
                 <ItemsControl ItemsSource="{x:Bind ViewModel.Projects, Mode=OneWay}">
                     <ItemsControl.ItemsPanel>
@@ -48,25 +48,32 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-            <ScrollViewer x:Name="MessageViewer" Grid.Column="1" Padding="0,0,15,15" HorizontalScrollBarVisibility="Visible">
-                <ItemsControl ItemsSource="{x:Bind Messages, Mode=OneWay}" SizeChanged="ItemsControl_SizeChanged">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel />
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="viewModels:MessageViewModel">
-                            <TextBlock IsTextSelectionEnabled="True" Foreground="{x:Bind Level, Mode=OneWay, Converter={StaticResource MessageLevelToColorConverter}}">
-                                <Run Text="[" />
-                                <Run Text="{x:Bind DateTime,Mode=OneWay}" />
-                                <Run Text="]" />
-                                <Run Text="{x:Bind Message,Mode=OneWay}" />
-                            </TextBlock>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+            <Grid Grid.Column="1" Padding="10" BorderBrush="Black" BorderThickness="1,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <ScrollViewer x:Name="MessageViewer" Grid.Row="0" Padding="0,0,15,15" HorizontalScrollBarVisibility="Visible">
+                    <ItemsControl ItemsSource="{x:Bind Messages, Mode=OneWay}" SizeChanged="ItemsControl_SizeChanged">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="viewModels:MessageViewModel">
+                                <TextBlock Text="{x:Bind CompositeMessage,Mode=OneTime}" IsTextSelectionEnabled="True" Foreground="{x:Bind Level, Mode=OneTime, Converter={StaticResource MessageLevelToColorConverter}}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="警告消息：" Foreground="Orange" />
+                    <TextBlock Text="{x:Bind WarringMessageCount, Mode=OneWay}"  Foreground="Orange" />
+                    <TextBlock Text="错误消息：" Foreground="Red" Margin="10,0,0,0" />
+                    <TextBlock Text="{x:Bind ErrorMessageCount, Mode=OneWay}" Foreground="Red" />
+                </StackPanel>
+            </Grid>
         </Grid>
     </Grid>
 </Page>

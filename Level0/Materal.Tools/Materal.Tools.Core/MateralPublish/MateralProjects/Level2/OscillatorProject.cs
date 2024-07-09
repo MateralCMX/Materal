@@ -3,8 +3,7 @@
     /// <summary>
     /// 调度器
     /// </summary>
-    /// <param name="projectDirectoryInfo"></param>
-    public class OscillatorProject(DirectoryInfo projectDirectoryInfo) : BaseMateralProject(projectDirectoryInfo, 2, 2, "Materal.Oscillator")
+    public class OscillatorProject() : BaseMateralProject(2, 2, "Materal.Oscillator")
     {
     }
 }

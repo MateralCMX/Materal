@@ -3,8 +3,7 @@
     /// <summary>
     /// MergeBlock
     /// </summary>
-    /// <param name="projectDirectoryInfo"></param>
-    public class MergeBlockProject(DirectoryInfo projectDirectoryInfo) : BaseMateralProject(projectDirectoryInfo, 4, 0, "Materal.MergeBlock")
+    public class MergeBlockProject() : BaseMateralProject(4, 0, "Materal.MergeBlock")
     {
         //private readonly DirectoryInfo _vsixDirectoryInfo;
         //private const string MateralMergeBlockVSIXName = "MateralMergeBlockVSIX";

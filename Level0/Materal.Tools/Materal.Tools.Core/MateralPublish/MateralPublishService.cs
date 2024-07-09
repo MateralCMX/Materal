@@ -8,20 +8,17 @@
         /// <summary>
         /// 获得所有项目
         /// </summary>
-        /// <param name="projectPath"></param>
         /// <returns></returns>
         /// <exception cref="ToolsException"></exception>
-        public ICollection<IMateralProject> GetAllProjects(string projectPath)
+        public ICollection<IMateralProject> GetAllProjects()
         {
-            DirectoryInfo projectDirectoryInfo = new(projectPath);
-            if (!projectDirectoryInfo.Exists) throw new ToolsException($"\"{projectDirectoryInfo}\"文件夹不存在");
             Type baseProjectType = typeof(IMateralProject);
             List<Type> allProjectTypes = baseProjectType.Assembly.GetTypes().Where(m => !m.IsAbstract && m.IsAssignableTo(baseProjectType)).ToList();
             List<IMateralProject> _projects = [];
             foreach (Type projectType in allProjectTypes)
             {
-                ConstructorInfo? constructorInfo = projectType.GetConstructor([typeof(DirectoryInfo)]) ?? throw new ToolsException("未找到构造函数");
-                object projectObj = constructorInfo.Invoke([projectDirectoryInfo]);
+                ConstructorInfo? constructorInfo = projectType.GetConstructor([]) ?? throw new ToolsException("未找到构造函数");
+                object projectObj = constructorInfo.Invoke([]);
                 if (projectObj is not IMateralProject projectModel) throw new ToolsException("类型不是IMateralProject");
                 _projects.Add(projectModel);
             }
@@ -55,6 +52,28 @@
                 }
             }
             throw new ToolsException("未找到版本号");
+        }
+        /// <summary>
+        /// 发布
+        /// </summary>
+        /// <param name="projectPath"></param>
+        /// <param name="version"></param>
+        /// <param name="projects"></param>
+        /// <param name="OnMessage"></param>
+        /// <returns></returns>
+        public async Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects, Action<MessageLevel, string?>? OnMessage)
+        {
+            OnMessage?.Invoke(MessageLevel.Information, "开始发布...");
+            DirectoryInfo projectDirectoryInfo = new(projectPath);
+            DirectoryInfo nugetDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
+            DirectoryInfo publishDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
+            foreach (IMateralProject project in projects)
+            {
+                OnMessage?.Invoke(MessageLevel.Information, $"开始发布{project.Name}...");
+                await project.PublishAsync(projectDirectoryInfo, nugetDirectoryInfo, publishDirectoryInfo, version, OnMessage);
+                OnMessage?.Invoke(MessageLevel.Information, $"{project.Name}发布完毕");
+            }
+            OnMessage?.Invoke(MessageLevel.Information, "发布完毕");
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿namespace Materal.Tools.Core.MateralPublish.MateralProjects.Level5
 {
-    public class GatewayProject(DirectoryInfo projectDirectoryInfo) : BaseMateralProject(projectDirectoryInfo, 5, 0, "Materal.Gateway")
+    /// <summary>
+    /// 网关
+    /// </summary>
+    public class GatewayProject() : BaseMateralProject(5, 0, "Materal.Gateway")
     {
     }
 }

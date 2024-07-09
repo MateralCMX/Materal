@@ -3,8 +3,7 @@
     /// <summary>
     /// 日志项目
     /// </summary>
-    /// <param name="projectDirectoryInfo"></param>
-    public class LoggerProject(DirectoryInfo projectDirectoryInfo) : BaseMateralProject(projectDirectoryInfo, 1, 0, "Materal.Logger")
+    public class LoggerProject() : BaseMateralProject(1, 0, "Materal.Logger")
     {
     }
 }

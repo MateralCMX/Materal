@@ -20,9 +20,12 @@
         /// <summary>
         /// 发布
         /// </summary>
+        /// <param name="projectDirectoryInfo"></param>
+        /// <param name="nugetDirectoryInfo"></param>
+        /// <param name="publishDirectoryInfo"></param>
         /// <param name="version"></param>
         /// <param name="onMessage"></param>
         /// <returns></returns>
-        Task PublishAsync(string version, Action<MessageLevel, string?>? onMessage = null);
+        Task PublishAsync(DirectoryInfo projectDirectoryInfo, DirectoryInfo nugetDirectoryInfo, DirectoryInfo publishDirectoryInfo, string version, Action<MessageLevel, string?>? onMessage = null);
     }
 }

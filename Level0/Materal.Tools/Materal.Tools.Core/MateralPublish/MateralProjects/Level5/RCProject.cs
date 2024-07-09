@@ -1,6 +1,9 @@
 ﻿namespace Materal.Tools.Core.MateralPublish.MateralProjects.Level5
 {
-    public class RCProject(DirectoryInfo projectDirectoryInfo) : BaseMateralProject(projectDirectoryInfo, 5, 1, "RC")
+    /// <summary>
+    /// RC项目
+    /// </summary>
+    public class RCProject() : BaseMateralProject(5, 1, "RC")
     {
     }
 }

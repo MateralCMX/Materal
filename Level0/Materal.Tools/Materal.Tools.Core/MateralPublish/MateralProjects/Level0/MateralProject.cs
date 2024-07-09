@@ -3,7 +3,7 @@
     /// <summary>
     /// Materal项目
     /// </summary>
-    public class MateralProject(DirectoryInfo projectDirectoryInfo) : BaseMateralProject(projectDirectoryInfo, 0, 1, "Materal")
+    public class MateralProject() : BaseMateralProject(0, 1, "Materal")
     {
     }
 }
