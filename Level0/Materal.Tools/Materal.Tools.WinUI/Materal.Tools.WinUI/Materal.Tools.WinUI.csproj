@@ -17,6 +17,9 @@
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	</PropertyGroup>
 	<ItemGroup>
+		<None Remove="Pages\MateralVersionPage.xaml" />
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="*" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
@@ -24,5 +27,10 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Page Update="Pages\MateralVersionPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 </Project>

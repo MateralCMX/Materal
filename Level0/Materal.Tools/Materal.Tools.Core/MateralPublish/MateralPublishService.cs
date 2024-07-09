@@ -74,21 +74,21 @@
         /// <param name="projectPath"></param>
         /// <param name="version"></param>
         /// <param name="projects"></param>
-        /// <param name="OnMessage"></param>
+        /// <param name="onMessage"></param>
         /// <returns></returns>
-        public async Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects, Action<MessageLevel, string?>? OnMessage)
+        public async Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects, Action<MessageLevel, string?>? onMessage)
         {
-            OnMessage?.Invoke(MessageLevel.Information, "开始发布...");
+            onMessage?.Invoke(MessageLevel.Information, "开始发布...");
             DirectoryInfo projectDirectoryInfo = new(projectPath);
             DirectoryInfo nugetDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
             DirectoryInfo publishDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
             foreach (IMateralProject project in projects)
             {
-                OnMessage?.Invoke(MessageLevel.Information, $"开始发布{project.Name}...");
-                await project.PublishAsync(projectDirectoryInfo, nugetDirectoryInfo, publishDirectoryInfo, version, OnMessage);
-                OnMessage?.Invoke(MessageLevel.Information, $"{project.Name}发布完毕");
+                onMessage?.Invoke(MessageLevel.Information, $"开始发布{project.Name}...");
+                await project.PublishAsync(projectDirectoryInfo, nugetDirectoryInfo, publishDirectoryInfo, version, onMessage);
+                onMessage?.Invoke(MessageLevel.Information, $"{project.Name}发布完毕");
             }
-            OnMessage?.Invoke(MessageLevel.Information, "发布完毕");
+            onMessage?.Invoke(MessageLevel.Information, "发布完毕");
         }
     }
 }

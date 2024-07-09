@@ -22,9 +22,9 @@
         /// <param name="projectPath"></param>
         /// <param name="version"></param>
         /// <param name="projects"></param>
-        /// <param name="OnMessage"></param>
+        /// <param name="onMessage"></param>
         /// <returns></returns>
-        Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects, Action<MessageLevel, string?>? OnMessage);
+        Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects, Action<MessageLevel, string?>? onMessage);
         /// <summary>
         /// 是Materal项目路径
         /// </summary>

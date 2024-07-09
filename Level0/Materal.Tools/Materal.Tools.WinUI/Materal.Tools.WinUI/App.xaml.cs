@@ -1,6 +1,7 @@
 ﻿using Materal.Tools.Core.ChangeEncoding;
 using Materal.Tools.Core.LFConvert;
 using Materal.Tools.Core.MateralPublish;
+using Materal.Tools.Core.MateralVersion;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using System;
@@ -18,6 +19,7 @@ namespace Materal.Tools.WinUI
             services.AddSingleton<ILFConvertService, LFConvertService>();
             services.AddSingleton<IChangeEncodingService, ChangeEncodingService>();
             services.AddSingleton<IMateralPublishService, MateralPublishService>();
+            services.AddSingleton<IMateralVersionService, MateralVersionService>();
             ServiceProvider = services.BuildServiceProvider();
         }
         public App()

@@ -67,7 +67,7 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
                     <TextBlock Text="警告消息：" Foreground="Orange" />
                     <TextBlock Text="{x:Bind WarringMessageCount, Mode=OneWay}"  Foreground="Orange" />
                     <TextBlock Text="错误消息：" Foreground="Red" Margin="10,0,0,0" />
