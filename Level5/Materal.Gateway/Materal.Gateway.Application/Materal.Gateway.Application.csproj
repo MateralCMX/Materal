@@ -23,8 +23,8 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="Ocelot.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="Ocelot.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

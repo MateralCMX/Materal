@@ -14,6 +14,6 @@
 		<!--<PackageReference Include="Materal.Logger" Version="1.1.76" />-->
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
+		<ProjectReference Include="..\..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
 	</ItemGroup>
 </Project>

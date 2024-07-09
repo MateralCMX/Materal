@@ -25,6 +25,6 @@
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Logger.Abstractions\Materal.Logger.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.Logger.Abstractions\Materal.Logger.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

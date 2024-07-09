@@ -22,6 +22,6 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\RC.ConfigClient\RC.ConfigClient.csproj" />
+		<ProjectReference Include="..\RC.ConfigClient\RC.ConfigClient.csproj" />
 	</ItemGroup>
 </Project>

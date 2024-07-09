@@ -17,16 +17,16 @@
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-	  <NoWarn>1701;1702;CA2254</NoWarn>
+		<NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
-	  <NoWarn>1701;1702;CA2254</NoWarn>
+		<NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-	  <NoWarn>1701;1702;CA2254</NoWarn>
+		<NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
-	  <NoWarn>1701;1702;CA2254</NoWarn>
+		<NoWarn>1701;1702;CA2254</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="../../../../README.md" Pack="true" PackagePath="" />
@@ -37,8 +37,8 @@
 		<PackageReference Include="Polly" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj" />
-	  <ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
-	  <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
+		<ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
+		<ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 </Project>

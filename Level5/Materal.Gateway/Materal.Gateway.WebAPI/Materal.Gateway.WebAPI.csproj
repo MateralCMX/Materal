@@ -16,6 +16,6 @@
 		<PackageReference Include="Materal.MergeBlock" Version="1.1.76" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Gateway.Application\Materal.Gateway.Application.csproj" />
+		<ProjectReference Include="..\Materal.Gateway.Application\Materal.Gateway.Application.csproj" />
 	</ItemGroup>
 </Project>

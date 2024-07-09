@@ -21,10 +21,10 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="*" />
-	  <PackageReference Include="Tencent.QCloud.Cos.Sts.Sdk" Version="*" />
+		<PackageReference Include="Tencent.QCloud.Cos.Sdk" Version="*" />
+		<PackageReference Include="Tencent.QCloud.Cos.Sts.Sdk" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
+		<ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 </Project>

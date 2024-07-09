@@ -1,22 +1,22 @@
-﻿<?xml version="1.0" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-    <Metadata>
-        <Identity Id="MateralMergeBlockVSIX.b1552ba8-4727-4fcf-8258-ef4040604f52" Version="1.1.76.14" Language="zh-Hans" Publisher="Materal" />
-        <DisplayName>MateralMergeBlockVSIX</DisplayName>
-        <Description xml:space="preserve">Materal.MergeBlock项目专用插件</Description>
-        <Icon>Icon.jpg</Icon>
-        <PreviewImage>Icon.jpg</PreviewImage>
-        <Tags>Materal.MergeBlock</Tags>
-    </Metadata>
-    <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-    </Installation>
-    <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
-    </Prerequisites>
-    <Assets>
-        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-    </Assets>
+	<Metadata>
+		<Identity Id="MateralMergeBlockVSIX.b1552ba8-4727-4fcf-8258-ef4040604f52" Version="1.1.76.14" Language="zh-Hans" Publisher="Materal" />
+		<DisplayName>MateralMergeBlockVSIX</DisplayName>
+		<Description xml:space="preserve">Materal.MergeBlock项目专用插件</Description>
+		<Icon>Icon.jpg</Icon>
+		<PreviewImage>Icon.jpg</PreviewImage>
+		<Tags>Materal.MergeBlock</Tags>
+	</Metadata>
+	<Installation>
+		<InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+			<ProductArchitecture>amd64</ProductArchitecture>
+		</InstallationTarget>
+	</Installation>
+	<Prerequisites>
+		<Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,)" DisplayName="Visual Studio core editor" />
+	</Prerequisites>
+	<Assets>
+		<Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+	</Assets>
 </PackageManifest>

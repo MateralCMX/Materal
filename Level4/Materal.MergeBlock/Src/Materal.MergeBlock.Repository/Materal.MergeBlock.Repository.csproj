@@ -24,6 +24,6 @@
 		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.76" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

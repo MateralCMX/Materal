@@ -6,12 +6,12 @@
 		<LangVersion>12.0</LangVersion>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Src\Materal.EventBus.Abstraction\Materal.EventBus.Abstraction.csproj" />
-	  <ProjectReference Include="..\..\Src\Materal.EventBus.RabbitMQ\Materal.EventBus.RabbitMQ.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.EventBus.Abstraction\Materal.EventBus.Abstraction.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.EventBus.RabbitMQ\Materal.EventBus.RabbitMQ.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

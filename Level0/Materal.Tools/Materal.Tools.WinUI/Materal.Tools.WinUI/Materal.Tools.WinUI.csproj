@@ -17,26 +17,12 @@
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="Pages\ChangeEncodingPage.xaml" />
-	  <None Remove="Pages\LFConvertPage.xaml" />
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="*" />
 		<PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.230913002" />
 		<PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.755" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Page Update="Pages\LFConvertPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
-	</ItemGroup>
-	<ItemGroup>
-	  <Page Update="Pages\ChangeEncodingPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<ProjectReference Include="..\..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
 	</ItemGroup>
 </Project>

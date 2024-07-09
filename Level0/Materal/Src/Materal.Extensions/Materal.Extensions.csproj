@@ -26,9 +26,9 @@
 		<PackageReference Include="Newtonsoft.Json" Version="*" />
 		<PackageReference Include="System.Drawing.Common" Version="*" />
 	</ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-        <PackageReference Include="System.Reflection.Emit.Lightweight" Version="*" />
-    </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+		<PackageReference Include="System.Reflection.Emit.Lightweight" Version="*" />
+	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj" />
 	</ItemGroup>

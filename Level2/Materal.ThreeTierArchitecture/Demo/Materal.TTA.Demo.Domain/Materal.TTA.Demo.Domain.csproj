@@ -5,6 +5,6 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Src\Materal.TTA.Common\Materal.TTA.Common.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.TTA.Common\Materal.TTA.Common.csproj" />
 	</ItemGroup>
 </Project>

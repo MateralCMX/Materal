@@ -24,6 +24,6 @@
 		<PackageReference Include="NPOI" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
+		<ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 </Project>

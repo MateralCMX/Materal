@@ -27,6 +27,6 @@
 		<PackageReference Include="System.Drawing.Common" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
+		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
 	</ItemGroup>
 </Project>

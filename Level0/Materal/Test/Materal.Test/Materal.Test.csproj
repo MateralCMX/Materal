@@ -32,7 +32,7 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="UtilsTests\CloudStorage\TencentCloudStorageConfig.json">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="UtilsTests\ExcelTests\Data.xlsx">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>

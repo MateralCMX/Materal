@@ -8,11 +8,11 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>
