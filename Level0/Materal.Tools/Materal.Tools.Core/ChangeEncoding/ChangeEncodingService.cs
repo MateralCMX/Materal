@@ -22,6 +22,7 @@ namespace Materal.Tools.Core.ChangeEncoding
         /// <exception cref="ToolsException"></exception>
         public async Task ChangeEncodingAsync(string path, ChangeEncodingOptions? options = null)
         {
+            logger?.LogInformation($"转换开始...");
             options ??= new();
             FileInfo fileInfo = new(path);
             if (fileInfo.Exists)
@@ -40,6 +41,7 @@ namespace Materal.Tools.Core.ChangeEncoding
                     throw new ToolsException($"路径{path}不存在");
                 }
             }
+            logger?.LogInformation($"转换完成");
         }
         /// <summary>
         /// 更改编码

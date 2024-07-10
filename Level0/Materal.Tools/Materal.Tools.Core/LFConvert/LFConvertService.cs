@@ -17,6 +17,7 @@ namespace Materal.Tools.Core.LFConvert
         /// <exception cref="ToolsException"></exception>
         public async Task CRLFToLFAsync(string path, LFConvertOptions? options = null)
         {
+            logger?.LogInformation($"转换开始...");
             options ??= new();
             FileInfo fileInfo = new(path);
             if (fileInfo.Exists)
@@ -35,6 +36,7 @@ namespace Materal.Tools.Core.LFConvert
                     throw new ToolsException($"路径{path}不存在");
                 }
             }
+            logger?.LogInformation($"转换完成");
         }
         /// <summary>
         /// LF转换为CRLF
@@ -45,6 +47,7 @@ namespace Materal.Tools.Core.LFConvert
         /// <exception cref="ToolsException"></exception>
         public async Task LFToCRLFAsync(string path, LFConvertOptions? options = null)
         {
+            logger?.LogInformation($"转换开始...");
             options ??= new();
             FileInfo fileInfo = new(path);
             if (fileInfo.Exists)
@@ -63,6 +66,7 @@ namespace Materal.Tools.Core.LFConvert
                     throw new ToolsException($"路径{path}不存在");
                 }
             }
+            logger?.LogInformation($"转换完成");
         }
         /// <summary>
         /// CRLF转换为LF

@@ -12,16 +12,16 @@
     <UserControl.Resources>
         <converters:LogLevelToColorConverter x:Key="LogLevelToColorConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid BorderBrush="{x:Bind BorderBrush, Mode=OneWay}" BorderThickness="{x:Bind BorderThickness, Mode=OneWay}" Padding="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <ScrollViewer x:Name="MessageViewer" Grid.Row="0" Padding="0,0,15,0" HorizontalScrollBarVisibility="Visible">
+        <ScrollViewer x:Name="MessageViewer" Grid.Row="0" Padding="0,0,7,0" HorizontalScrollBarVisibility="Auto">
             <ItemsControl ItemsSource="{x:Bind ViewModel.Logs, Mode=OneWay}" SizeChanged="ItemsControl_SizeChanged">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Padding="0,0,0,15" />
+                        <StackPanel Padding="0,0,0,10" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
