@@ -46,10 +46,22 @@ namespace Materal.Tools.WinUI.ViewModels
         }
         partial void OnProjectPathChanged(string? oldValue, string newValue)
         {
-            if (!_publishService.IsMateralProjectPath(ProjectPath)) return;
-            Version = _publishService.GetNowVersion(ProjectPath);
+            try
+            {
+                if (string.IsNullOrWhiteSpace(ProjectPath))
+                {
+                    Version = "1.0.0";
+                    return;
+                }
+                if (!_publishService.IsMateralProjectPath(ProjectPath)) throw new ToolsException($"\"{ProjectPath}\"不是Materal项目路径");
+                Version = _publishService.GetNowVersion(ProjectPath);
+            }
+            catch (Exception)
+            {
+                ProjectPath = oldValue ?? string.Empty;
+                throw;
+            }
         }
-        public bool IsMateralProjectPath(string path) => _publishService.IsMateralProjectPath(path);
         [RelayCommand]
         private void SelectionAllProject()
         {
