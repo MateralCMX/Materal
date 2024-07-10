@@ -36,11 +36,7 @@ namespace Materal.Tools.WinUI.ViewModels
             {
                 if (string.IsNullOrWhiteSpace(Version))
                 {
-                    string[] nugetPaths = {
-                        "https://nuget.gudianbustu.com/nuget/",
-                        @"E:\Project\Materal\Materal\Nupkgs"
-                    };
-                    await _versionService.UpdateVersionAsync(ProjectPath, nugetPaths);
+                    await _versionService.UpdateVersionAsync(ProjectPath);
                 }
                 else
                 {

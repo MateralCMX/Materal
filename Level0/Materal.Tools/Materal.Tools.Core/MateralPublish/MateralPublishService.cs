@@ -36,7 +36,7 @@ namespace Materal.Tools.Core.MateralPublish
         /// <exception cref="ToolsException"></exception>
         public string GetNowVersion(string projectPath)
         {
-            DirectoryInfo projectDirectoryInfo = new(projectPath);
+            DirectoryInfo projectDirectoryInfo = GetMateralProjectRootPath(projectPath);
             if (!projectDirectoryInfo.Exists) throw new ToolsException($"\"{projectDirectoryInfo}\"文件夹不存在");
             string csprojFilePath = Path.Combine(projectDirectoryInfo.FullName, "Level0", "Materal", "Src", "Materal.Abstractions", "Materal.Abstractions.csproj");
             FileInfo csprojFileInfo = new(csprojFilePath);
@@ -57,6 +57,31 @@ namespace Materal.Tools.Core.MateralPublish
             throw new ToolsException("未找到版本号");
         }
         /// <summary>
+        /// 获得Materal项目根路径
+        /// </summary>
+        /// <param name="projectPath"></param>
+        /// <returns></returns>
+        /// <exception cref="ToolsException"></exception>
+        public DirectoryInfo GetMateralProjectRootPath(string projectPath)
+        {
+            DirectoryInfo? projectDirectoryInfo = new(projectPath);
+            if (!projectDirectoryInfo.Exists) throw new ToolsException($"\"{projectDirectoryInfo}\"文件夹不存在");
+            string csprojFilePath = Path.Combine(projectDirectoryInfo.FullName, "Level0", "Materal", "Src", "Materal.Abstractions", "Materal.Abstractions.csproj");
+            FileInfo csprojFileInfo = new(csprojFilePath);
+            if (csprojFileInfo.Exists) return projectDirectoryInfo;
+            projectDirectoryInfo = projectDirectoryInfo.Parent;
+            if (projectDirectoryInfo is null) throw new ToolsException("未找到Materal项目根路径");
+            csprojFilePath = Path.Combine(projectDirectoryInfo.FullName, "Level0", "Materal", "Src", "Materal.Abstractions", "Materal.Abstractions.csproj");
+            csprojFileInfo = new(csprojFilePath);
+            if (csprojFileInfo.Exists) return projectDirectoryInfo;
+            projectDirectoryInfo = projectDirectoryInfo.Parent;
+            if (projectDirectoryInfo is null) throw new ToolsException("未找到Materal项目根路径");
+            csprojFilePath = Path.Combine(projectDirectoryInfo.FullName, "Level0", "Materal", "Src", "Materal.Abstractions", "Materal.Abstractions.csproj");
+            csprojFileInfo = new(csprojFilePath);
+            if (csprojFileInfo.Exists) return projectDirectoryInfo;
+            throw new ToolsException("未找到Materal项目根路径");
+        }
+        /// <summary>
         /// 是Materal项目路径
         /// </summary>
         /// <param name="projectPath"></param>
@@ -64,11 +89,15 @@ namespace Materal.Tools.Core.MateralPublish
         /// <exception cref="ToolsException"></exception>
         public bool IsMateralProjectPath(string projectPath)
         {
-            DirectoryInfo projectDirectoryInfo = new(projectPath);
-            if (!projectDirectoryInfo.Exists) throw new ToolsException($"\"{projectDirectoryInfo}\"文件夹不存在");
-            string csprojFilePath = Path.Combine(projectDirectoryInfo.FullName, "Level0", "Materal", "Src", "Materal.Abstractions", "Materal.Abstractions.csproj");
-            FileInfo csprojFileInfo = new(csprojFilePath);
-            return csprojFileInfo.Exists;
+            try
+            {
+                GetMateralProjectRootPath(projectPath);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -83,12 +112,10 @@ namespace Materal.Tools.Core.MateralPublish
             _logger?.LogInformation("开始发布...");
             ClearNugetPackages();
             DirectoryInfo projectDirectoryInfo = new(projectPath);
-            DirectoryInfo nugetDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
-            DirectoryInfo publishDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
             foreach (IMateralProject project in projects)
             {
                 _logger?.LogInformation($"开始发布{project.Name}...");
-                await project.PublishAsync(projectDirectoryInfo, nugetDirectoryInfo, publishDirectoryInfo, version);
+                await project.PublishAsync(projectDirectoryInfo, version);
                 _logger?.LogInformation($"{project.Name}发布完毕");
             }
             _logger?.LogInformation("发布完毕");

@@ -18,13 +18,19 @@
         /// </summary>
         string Name { get; }
         /// <summary>
+        /// 获取根目录信息
+        /// </summary>
+        /// <param name="projectDirectoryInfo"></param>
+        /// <returns></returns>
+        DirectoryInfo GetRootDirectoryInfo(DirectoryInfo projectDirectoryInfo);
+        /// <summary>
         /// 发布
         /// </summary>
         /// <param name="projectDirectoryInfo"></param>
+        /// <param name="version"></param>
         /// <param name="nugetDirectoryInfo"></param>
         /// <param name="publishDirectoryInfo"></param>
-        /// <param name="version"></param>
         /// <returns></returns>
-        Task PublishAsync(DirectoryInfo projectDirectoryInfo, DirectoryInfo nugetDirectoryInfo, DirectoryInfo publishDirectoryInfo, string version);
+        Task PublishAsync(DirectoryInfo projectDirectoryInfo, string version, DirectoryInfo? nugetDirectoryInfo = null, DirectoryInfo? publishDirectoryInfo = null);
     }
 }

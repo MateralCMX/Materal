@@ -1,0 +1,8 @@
+﻿{
+  "profiles": {
+    "Materal.Tools.Command": {
+      "commandName": "Project",
+      "commandLineArgs": "MateralPublish"
+    }
+  }
+}

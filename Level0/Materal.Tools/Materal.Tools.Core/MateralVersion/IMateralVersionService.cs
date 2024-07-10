@@ -11,7 +11,7 @@
         /// <param name="projectPath"></param>
         /// <param name="nugetPaths"></param>
         /// <returns></returns>
-        Task UpdateVersionAsync(string projectPath, string[] nugetPaths);
+        Task UpdateVersionAsync(string projectPath, string[]? nugetPaths = null);
         /// <summary>
         /// 更新版本
         /// </summary>
@@ -24,6 +24,6 @@
         /// </summary>
         /// <param name="nugetPaths"></param>
         /// <returns></returns>
-        Task<string> GetNowVersionAsync(string[] nugetPaths);
+        Task<string> GetNowVersionAsync(string[]? nugetPaths = null);
     }
 }

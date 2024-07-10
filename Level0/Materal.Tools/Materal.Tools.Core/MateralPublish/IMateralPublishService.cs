@@ -30,5 +30,11 @@
         /// <param name="projectPath"></param>
         /// <returns></returns>
         bool IsMateralProjectPath(string projectPath);
+        /// <summary>
+        /// 获得Materal项目根路径
+        /// </summary>
+        /// <param name="projectPath"></param>
+        /// <returns></returns>
+        DirectoryInfo GetMateralProjectRootPath(string projectPath);
     }
 }

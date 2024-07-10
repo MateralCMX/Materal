@@ -10,6 +10,10 @@ namespace Materal.Tools.Core.MateralVersion
     /// </summary>
     public class MateralVersionService(ILogger<MateralVersionService>? logger = null) : IMateralVersionService
     {
+        private readonly string[] _defaultNugetPaths = {
+            "https://nuget.gudianbustu.com/nuget/",
+            @"E:\Project\Materal\Materal\Nupkgs"
+        };
         private const string _materalID = "Materal.Abstractions";
         private readonly HttpClient _httpClient = new();
         /// <summary>
@@ -18,7 +22,7 @@ namespace Materal.Tools.Core.MateralVersion
         /// <param name="projectPath"></param>
         /// <param name="nugetPaths"></param>
         /// <returns></returns>
-        public async Task UpdateVersionAsync(string projectPath, string[] nugetPaths)
+        public async Task UpdateVersionAsync(string projectPath, string[]? nugetPaths = null)
         {
             logger?.LogInformation("正在获取最新的Materal版本...");
             string version = await GetNowVersionAsync(nugetPaths);
@@ -115,9 +119,10 @@ namespace Materal.Tools.Core.MateralVersion
         /// <param name="nugetPaths"></param>
         /// <returns></returns>
         /// <exception cref="ToolsException"></exception>
-        public async Task<string> GetNowVersionAsync(string[] nugetPaths)
+        public async Task<string> GetNowVersionAsync(string[]? nugetPaths = null)
         {
             string? version = null;
+            nugetPaths ??= _defaultNugetPaths;
             foreach (string nugetPath in nugetPaths)
             {
                 try

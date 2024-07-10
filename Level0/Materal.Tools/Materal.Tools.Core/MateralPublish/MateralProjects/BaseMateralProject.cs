@@ -59,8 +59,10 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="publishDirectoryInfo"></param>
         /// <param name="version"></param>
         /// <returns></returns>
-        public virtual async Task PublishAsync(DirectoryInfo projectDirectoryInfo, DirectoryInfo nugetDirectoryInfo, DirectoryInfo publishDirectoryInfo, string version)
+        public virtual async Task PublishAsync(DirectoryInfo projectDirectoryInfo, string version, DirectoryInfo? nugetDirectoryInfo = null, DirectoryInfo? publishDirectoryInfo = null)
         {
+            nugetDirectoryInfo ??= Path.Combine(projectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
+            publishDirectoryInfo ??= Path.Combine(projectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
             DirectoryInfo rootDirectoryInfo = GetRootDirectoryInfo(projectDirectoryInfo);
             await UpdateVersionAsync(version, rootDirectoryInfo);
             await PackageAsync(rootDirectoryInfo, nugetDirectoryInfo);

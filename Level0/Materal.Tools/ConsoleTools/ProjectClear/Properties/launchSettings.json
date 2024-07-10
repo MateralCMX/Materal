@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "ProjectClear": {
-      "commandName": "Project",
-      "commandLineArgs": "-a"
-    }
-  }
-}
