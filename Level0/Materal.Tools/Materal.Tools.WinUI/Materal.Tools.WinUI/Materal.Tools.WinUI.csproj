@@ -19,6 +19,7 @@
 	<ItemGroup>
 		<None Remove="Controls\FolderPickerButton.xaml" />
 		<None Remove="Controls\LogPrintControl.xaml" />
+		<None Remove="Pages\ProjectClearPage.xaml" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="*" />
@@ -28,6 +29,11 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Page Update="Pages\ProjectClearPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </Page>
 	</ItemGroup>
 	<ItemGroup>
 		<Page Update="Controls\LogPrintControl.xaml">

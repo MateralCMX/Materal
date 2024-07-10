@@ -1,0 +1,22 @@
+<Page
+    x:Class="Materal.Tools.WinUI.Pages.ProjectClearPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Materal.Tools.WinUI.Pages"
+    xmlns:localControls="using:Materal.Tools.WinUI.Controls"
+    mc:Ignorable="d">
+
+    <Grid RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="5">
+            <localControls:FolderPickerButton Header="路径" FolderPath="{x:Bind ViewModel.ProjectPath, Mode=TwoWay}" Width="400" />
+            <Button Content="清理" Command="{x:Bind ViewModel.ProjectClearCommand}" VerticalAlignment="Bottom" />
+        </StackPanel>
+        <localControls:LogPrintControl x:Name="logPrint" Grid.Row="1" />
+    </Grid>
+</Page>
