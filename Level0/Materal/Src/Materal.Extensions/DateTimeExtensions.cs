@@ -7,6 +7,15 @@ namespace Materal.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
+#if NET6_0_OR_GREATER
+        /// <summary>
+        /// 添加秒
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="seconds"></param>
+        /// <returns></returns>
+        public static TimeOnly AddSeconds(this TimeOnly time, int seconds) => time.Add(new TimeSpan(0, 0, seconds));
+#endif
         /// <summary>
         /// 转换为时间
         /// </summary>

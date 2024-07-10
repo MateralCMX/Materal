@@ -119,6 +119,12 @@ namespace Materal.Abstractions
             return this;
         }
         /// <summary>
+        /// 添加时间间隔
+        /// </summary>
+        /// <param name="timeSpan"></param>
+        /// <returns></returns>
+        public TimeOnly Add(TimeSpan timeSpan) => AddHours(timeSpan.Hours).AddMinutes(timeSpan.Minutes).AddSeconds(timeSpan.Seconds);
+        /// <summary>
         /// 转换为DateTime
         /// </summary>
         /// <returns></returns>
