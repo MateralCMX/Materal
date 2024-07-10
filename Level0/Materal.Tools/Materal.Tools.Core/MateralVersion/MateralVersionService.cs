@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Microsoft.Extensions.Logging;
+using System.Net;
 using System.Text;
 using System.Xml;
 
@@ -7,7 +8,7 @@ namespace Materal.Tools.Core.MateralVersion
     /// <summary>
     /// Materal版本服务
     /// </summary>
-    public class MateralVersionService : IMateralVersionService
+    public class MateralVersionService(ILogger<MateralVersionService>? logger = null) : IMateralVersionService
     {
         private const string _materalID = "Materal.Abstractions";
         private readonly HttpClient _httpClient = new();
@@ -16,50 +17,47 @@ namespace Materal.Tools.Core.MateralVersion
         /// </summary>
         /// <param name="projectPath"></param>
         /// <param name="nugetPaths"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        public async Task UpdateVersionAsync(string projectPath, string[] nugetPaths, Action<MessageLevel, string?>? onMessage = null)
+        public async Task UpdateVersionAsync(string projectPath, string[] nugetPaths)
         {
-            onMessage?.Invoke(MessageLevel.Information, "正在获取最新的Materal版本...");
+            logger?.LogInformation("正在获取最新的Materal版本...");
             string version = await GetNowVersionAsync(nugetPaths);
-            onMessage?.Invoke(MessageLevel.Information, $"最新的Materal版本为{version}");
-            await UpdateVersionAsync(projectPath, version, onMessage);
+            logger?.LogInformation($"最新的Materal版本为{version}");
+            await UpdateVersionAsync(projectPath, version);
         }
         /// <summary>
         /// 更新版本
         /// </summary>
         /// <param name="projectPath"></param>
         /// <param name="version"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        public async Task UpdateVersionAsync(string projectPath, string version, Action<MessageLevel, string?>? onMessage = null)
+        public async Task UpdateVersionAsync(string projectPath, string version)
         {
-            onMessage?.Invoke(MessageLevel.Information, $"开始更新Materal版本到{version}...");
+            logger?.LogInformation($"开始更新Materal版本到{version}...");
             DirectoryInfo directoryInfo = new(projectPath);
-            await UpdateVersionAsync(version, directoryInfo, onMessage);
-            onMessage?.Invoke(MessageLevel.Information, "Materal版本更新完毕");
+            await UpdateVersionAsync(version, directoryInfo);
+            logger?.LogInformation("Materal版本更新完毕");
         }
         /// <summary>
         /// 更新版本
         /// </summary>
         /// <param name="version"></param>
         /// <param name="directoryInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateVersionAsync(string version, DirectoryInfo directoryInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task UpdateVersionAsync(string version, DirectoryInfo directoryInfo)
         {
             if (!directoryInfo.Exists) throw new ToolsException($"{directoryInfo.FullName}不存在");
             FileInfo? csprojFileInfo = directoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
             if (csprojFileInfo != null)
             {
-                await UpdateCsprojVersionAsync(version, csprojFileInfo, onMessage);
+                await UpdateCsprojVersionAsync(version, csprojFileInfo);
             }
             else
             {
                 IEnumerable<DirectoryInfo> subDirectoryInfos = directoryInfo.GetDirectories();
                 foreach (DirectoryInfo subDirectoryInfo in subDirectoryInfos)
                 {
-                    await UpdateVersionAsync(version, subDirectoryInfo, onMessage);
+                    await UpdateVersionAsync(version, subDirectoryInfo);
                 }
             }
         }
@@ -68,9 +66,8 @@ namespace Materal.Tools.Core.MateralVersion
         /// </summary>
         /// <param name="version"></param>
         /// <param name="fileInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateCsprojVersionAsync(string version, FileInfo fileInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task UpdateCsprojVersionAsync(string version, FileInfo fileInfo)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
             XmlDocument xmlDocument = new();
@@ -80,7 +77,7 @@ namespace Materal.Tools.Core.MateralVersion
             foreach (XmlNode node in projectNode.ChildNodes)
             {
                 if (node.Name != "ItemGroup") continue;
-                UpdateCsprojItemGroupVersion(projectName, version, node, onMessage);
+                UpdateCsprojItemGroupVersion(projectName, version, node);
             }
             string xmlContent = xmlDocument.GetFormatXmlContent();
             xmlContent = xmlContent.StartsWith("<?xml") switch
@@ -97,8 +94,7 @@ namespace Materal.Tools.Core.MateralVersion
         /// <param name="projectName"></param>
         /// <param name="version"></param>
         /// <param name="node"></param>
-        /// <param name="onMessage"></param>
-        protected virtual void UpdateCsprojItemGroupVersion(string projectName, string version, XmlNode node, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual void UpdateCsprojItemGroupVersion(string projectName, string version, XmlNode node)
         {
             foreach (XmlNode childNode in node.ChildNodes)
             {
@@ -108,7 +104,7 @@ namespace Materal.Tools.Core.MateralVersion
                 XmlAttribute? versionAttribute = childNode.Attributes["Version"];
                 if (versionAttribute is null) continue;
                 if (versionAttribute.Value == version) return;
-                onMessage?.Invoke(MessageLevel.Information, $"正在更新{projectName}->{nameAttribute.Value}的版本到{version}");
+                logger?.LogInformation($"正在更新{projectName}->{nameAttribute.Value}的版本到{version}");
                 versionAttribute.Value = version;
                 return;
             }

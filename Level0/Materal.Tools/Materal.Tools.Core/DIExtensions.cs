@@ -1,7 +1,10 @@
 ﻿using Materal.Tools.Core.ChangeEncoding;
 using Materal.Tools.Core.LFConvert;
+using Materal.Tools.Core.Logger;
+using Materal.Tools.Core.MateralPublish;
+using Materal.Tools.Core.MateralVersion;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.Tools.Core
 {
@@ -17,8 +20,20 @@ namespace Materal.Tools.Core
         /// <returns></returns>
         public static IServiceCollection AddMateralTools(this IServiceCollection services)
         {
-            services.TryAddSingleton<IChangeEncodingService, ChangeEncodingService>();
-            services.TryAddSingleton<ILFConvertService, LFConvertService>();
+            services.AddSingleton<ILFConvertService, LFConvertService>();
+            services.AddSingleton<IChangeEncodingService, ChangeEncodingService>();
+            services.AddSingleton<IMateralPublishService, MateralPublishService>();
+            services.AddSingleton<IMateralVersionService, MateralVersionService>();
+            #region AddLogger
+            services.AddLogging(builder =>
+            {
+                builder.ClearProviders();
+                builder.SetMinimumLevel(LogLevel.Trace);
+                builder.Services.AddSingleton<ILoggerProvider, LoggerProvider>();
+                builder.Services.AddSingleton<ILoggerListener, LoggerListener>();
+            });
+            #endregion
+            //services.AddSingleton<ILoggerListener, LoggerListener>();
             return services;
         }
     }

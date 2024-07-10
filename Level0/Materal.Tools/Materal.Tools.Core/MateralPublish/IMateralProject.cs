@@ -24,8 +24,7 @@
         /// <param name="nugetDirectoryInfo"></param>
         /// <param name="publishDirectoryInfo"></param>
         /// <param name="version"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        Task PublishAsync(DirectoryInfo projectDirectoryInfo, DirectoryInfo nugetDirectoryInfo, DirectoryInfo publishDirectoryInfo, string version, Action<MessageLevel, string?>? onMessage = null);
+        Task PublishAsync(DirectoryInfo projectDirectoryInfo, DirectoryInfo nugetDirectoryInfo, DirectoryInfo publishDirectoryInfo, string version);
     }
 }

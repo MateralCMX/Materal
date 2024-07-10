@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.Text;
 using System.Xml;
 
 namespace Materal.Tools.Core.MateralPublish.MateralProjects
@@ -6,23 +8,38 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
     /// <summary>
     /// 基础Materal项目
     /// </summary>
-    /// <remarks>
-    /// 构造方法
-    /// </remarks>
-    public abstract class BaseMateralProject(int level, int index, string name) : IMateralProject
+    public abstract class BaseMateralProject : IMateralProject
     {
         /// <summary>
         /// 等级
         /// </summary>
-        public int Level { get; } = level;
+        public int Level { get; }
         /// <summary>
         /// 位序
         /// </summary>
-        public int Index { get; } = index;
+        public int Index { get; }
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; } = name;
+        public string Name { get; }
+        /// <summary>
+        /// 日志对象
+        /// </summary>
+        protected ILogger? Logger { get; }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="index"></param>
+        /// <param name="name"></param>
+        /// <param name="loggerFactory"></param>
+        public BaseMateralProject(int level, int index, string name, ILoggerFactory? loggerFactory = null)
+        {
+            Level = level;
+            Index = index;
+            Name = name;
+            Logger = loggerFactory?.CreateLogger(GetType());
+        }
         /// <summary>
         /// 发布
         /// </summary>
@@ -30,15 +47,14 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="nugetDirectoryInfo"></param>
         /// <param name="publishDirectoryInfo"></param>
         /// <param name="version"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        public virtual async Task PublishAsync(DirectoryInfo projectDirectoryInfo, DirectoryInfo nugetDirectoryInfo, DirectoryInfo publishDirectoryInfo, string version, Action<MessageLevel, string?>? onMessage = null)
+        public virtual async Task PublishAsync(DirectoryInfo projectDirectoryInfo, DirectoryInfo nugetDirectoryInfo, DirectoryInfo publishDirectoryInfo, string version)
         {
             string rootPath = Path.Combine(projectDirectoryInfo.FullName, $"Level{Level}", Name);
             DirectoryInfo rootDirectoryInfo = new(rootPath);
-            await UpdateVersionAsync(version, rootDirectoryInfo, onMessage);
-            await PackageAsync(rootDirectoryInfo, nugetDirectoryInfo, onMessage);
-            await PublishAsync(rootDirectoryInfo, publishDirectoryInfo, onMessage);
+            await UpdateVersionAsync(version, rootDirectoryInfo);
+            await PackageAsync(rootDirectoryInfo, nugetDirectoryInfo);
+            await PublishAsync(rootDirectoryInfo, publishDirectoryInfo);
         }
         #region 版本更新
         /// <summary>
@@ -46,27 +62,26 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// </summary>
         /// <param name="version"></param>
         /// <param name="directoryInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateVersionAsync(string version, DirectoryInfo directoryInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task UpdateVersionAsync(string version, DirectoryInfo directoryInfo)
         {
             if (!directoryInfo.Exists) throw new ToolsException($"{directoryInfo.FullName}不存在");
             FileInfo? csprojFileInfo = directoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
             FileInfo? vsixmanifestFileInfo = directoryInfo.GetFiles().FirstOrDefault(m => m.Name == "source.extension.vsixmanifest");
             if (vsixmanifestFileInfo != null)
             {
-                await UpdateVsixVersionAsync(version, vsixmanifestFileInfo, onMessage);
+                await UpdateVsixVersionAsync(version, vsixmanifestFileInfo);
             }
             else if (csprojFileInfo != null)
             {
-                await UpdateCsprojVersionAsync(version, csprojFileInfo, onMessage);
+                await UpdateCsprojVersionAsync(version, csprojFileInfo);
             }
             else
             {
                 IEnumerable<DirectoryInfo> subDirectoryInfos = directoryInfo.GetDirectories();
                 foreach (DirectoryInfo subDirectoryInfo in subDirectoryInfos)
                 {
-                    await UpdateVersionAsync(version, subDirectoryInfo, onMessage);
+                    await UpdateVersionAsync(version, subDirectoryInfo);
                 }
             }
         }
@@ -75,9 +90,8 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// </summary>
         /// <param name="version"></param>
         /// <param name="fileInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateVsixVersionAsync(string version, FileInfo fileInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task UpdateVsixVersionAsync(string version, FileInfo fileInfo)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
             XmlDocument xmlDocument = new();
@@ -91,7 +105,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
             if (!versionAttribute.Value.StartsWith(version))
             {
                 string newVersion = $"{version}.1";
-                onMessage?.Invoke(MessageLevel.Information, $"正在更新{projectName}版本到{newVersion}");
+                Logger?.LogInformation($"正在更新{projectName}版本到{newVersion}");
                 versionAttribute.Value = newVersion;
             }
             string xmlContent = xmlDocument.GetFormatXmlContent();
@@ -103,9 +117,8 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// </summary>
         /// <param name="version"></param>
         /// <param name="fileInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task UpdateCsprojVersionAsync(string version, FileInfo fileInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task UpdateCsprojVersionAsync(string version, FileInfo fileInfo)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
             XmlDocument xmlDocument = new();
@@ -117,10 +130,10 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
                 switch (node.Name)
                 {
                     case "PropertyGroup":
-                        UpdateCsprojPropertyGroupVersion(projectName, version, node, onMessage);
+                        UpdateCsprojPropertyGroupVersion(projectName, version, node);
                         break;
                     case "ItemGroup":
-                        UpdateCsprojItemGroupVersion(projectName, version, node, onMessage);
+                        UpdateCsprojItemGroupVersion(projectName, version, node);
                         break;
                 }
             }
@@ -139,14 +152,13 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="projectName"></param>
         /// <param name="version"></param>
         /// <param name="node"></param>
-        /// <param name="onMessage"></param>
-        protected virtual void UpdateCsprojPropertyGroupVersion(string projectName, string version, XmlNode node, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual void UpdateCsprojPropertyGroupVersion(string projectName, string version, XmlNode node)
         {
             foreach (XmlNode childNode in node.ChildNodes)
             {
                 if (childNode.Name != "Version") continue;
                 if (childNode.InnerText == version) return;
-                onMessage?.Invoke(MessageLevel.Information, $"正在更新{projectName}版本到{version}");
+                Logger?.LogInformation($"正在更新{projectName}版本到{version}");
                 childNode.InnerText = version;
                 return;
             }
@@ -157,8 +169,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="projectName"></param>
         /// <param name="version"></param>
         /// <param name="node"></param>
-        /// <param name="onMessage"></param>
-        protected virtual void UpdateCsprojItemGroupVersion(string projectName, string version, XmlNode node, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual void UpdateCsprojItemGroupVersion(string projectName, string version, XmlNode node)
         {
             foreach (XmlNode childNode in node.ChildNodes)
             {
@@ -168,7 +179,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
                 XmlAttribute? versionAttribute = childNode.Attributes["Version"];
                 if (versionAttribute is null) continue;
                 if (versionAttribute.Value == version) return;
-                onMessage?.Invoke(MessageLevel.Information, $"正在更新{projectName}->{nameAttribute.Value}的版本到{version}");
+                Logger?.LogInformation($"正在更新{projectName}->{nameAttribute.Value}的版本到{version}");
                 versionAttribute.Value = version;
                 return;
             }
@@ -180,23 +191,22 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// </summary>
         /// <param name="directoryInfo"></param>
         /// <param name="nugetDirectoryInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task PackageAsync(DirectoryInfo directoryInfo, DirectoryInfo nugetDirectoryInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task PackageAsync(DirectoryInfo directoryInfo, DirectoryInfo nugetDirectoryInfo)
         {
             if (!directoryInfo.Exists) throw new ToolsException($"{directoryInfo.FullName}不存在");
             FileInfo? csprojFileInfo = directoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
             if (csprojFileInfo != null)
             {
                 if (!CanPackage(csprojFileInfo)) return;
-                await PackageAsync(csprojFileInfo, nugetDirectoryInfo, onMessage);
+                await PackageAsync(csprojFileInfo, nugetDirectoryInfo);
             }
             else
             {
                 IEnumerable<DirectoryInfo> subDirectoryInfos = directoryInfo.GetDirectories();
                 foreach (DirectoryInfo subDirectoryInfo in subDirectoryInfos)
                 {
-                    await PackageAsync(subDirectoryInfo, nugetDirectoryInfo, onMessage);
+                    await PackageAsync(subDirectoryInfo, nugetDirectoryInfo);
                 }
             }
         }
@@ -220,19 +230,19 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// </summary>
         /// <param name="fileInfo"></param>
         /// <param name="nugetDirectoryInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task PackageAsync(FileInfo fileInfo, DirectoryInfo nugetDirectoryInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task PackageAsync(FileInfo fileInfo, DirectoryInfo nugetDirectoryInfo)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
             CmdHelper cmdHelper = new();
             string[] cmds = GetPackageCommand(fileInfo, nugetDirectoryInfo);
-            onMessage?.Invoke(MessageLevel.Information, $"正在打包{projectName}...");
-            cmdHelper.OutputDataReceived += (sender, e) => onMessage?.Invoke(MessageLevel.Information, e.Data);
-            cmdHelper.ErrorDataReceived += (sender, e) => onMessage?.Invoke(MessageLevel.Error, e.Data);
+            Logger?.LogInformation($"正在打包{projectName}...");
+            cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
+            cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;
             await cmdHelper.RunCmdCommandsAsync(cmds);
-            onMessage?.Invoke(MessageLevel.Information, $"{projectName}打包完毕");
+            Logger?.LogInformation($"{projectName}打包完毕");
         }
+
         /// <summary>
         /// 获得发布命令
         /// </summary>
@@ -249,9 +259,8 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// </summary>
         /// <param name="directoryInfo"></param>
         /// <param name="publishDirectoryInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task PublishAsync(DirectoryInfo directoryInfo, DirectoryInfo publishDirectoryInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task PublishAsync(DirectoryInfo directoryInfo, DirectoryInfo publishDirectoryInfo)
         {
             if (!directoryInfo.Exists) throw new ToolsException($"{directoryInfo.FullName}不存在");
             FileInfo? csprojFileInfo = directoryInfo.GetFiles().FirstOrDefault(m => m.Extension == ".csproj");
@@ -259,11 +268,11 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
             {
                 if (CanPublish(csprojFileInfo))
                 {
-                    await PublishAsync(csprojFileInfo, publishDirectoryInfo, onMessage);
+                    await PublishAsync(csprojFileInfo, publishDirectoryInfo);
                 }
                 else if (CanPublishVSIX(csprojFileInfo))
                 {
-                    await PublishVSIXAsync(csprojFileInfo, publishDirectoryInfo, onMessage);
+                    await PublishVSIXAsync(csprojFileInfo, publishDirectoryInfo);
                 }
             }
             else
@@ -271,7 +280,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
                 IEnumerable<DirectoryInfo> subDirectoryInfos = directoryInfo.GetDirectories();
                 foreach (DirectoryInfo subDirectoryInfo in subDirectoryInfos)
                 {
-                    await PublishAsync(subDirectoryInfo, publishDirectoryInfo, onMessage);
+                    await PublishAsync(subDirectoryInfo, publishDirectoryInfo);
                 }
             }
         }
@@ -295,18 +304,17 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// </summary>
         /// <param name="fileInfo"></param>
         /// <param name="publishDirectoryInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task PublishAsync(FileInfo fileInfo, DirectoryInfo publishDirectoryInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task PublishAsync(FileInfo fileInfo, DirectoryInfo publishDirectoryInfo)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
             CmdHelper cmdHelper = new();
             string[] cmds = GetPublishCommand(fileInfo, publishDirectoryInfo);
-            onMessage?.Invoke(MessageLevel.Information, $"正在发布{projectName}...");
-            cmdHelper.OutputDataReceived += (sender, e) => OutputDataReceived(e.Data, onMessage);
-            cmdHelper.ErrorDataReceived += (sender, e) => ErrorDataReceived(e.Data, onMessage);
+            Logger?.LogInformation($"正在发布{projectName}...");
+            cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
+            cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;
             await cmdHelper.RunCmdCommandsAsync(cmds);
-            onMessage?.Invoke(MessageLevel.Information, $"{projectName}发布完毕");
+            Logger?.LogInformation($"{projectName}发布完毕");
         }
         /// <summary>
         /// 获得发布命令
@@ -379,23 +387,22 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// </summary>
         /// <param name="fileInfo"></param>
         /// <param name="publishDirectoryInfo"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        protected virtual async Task PublishVSIXAsync(FileInfo fileInfo, DirectoryInfo publishDirectoryInfo, Action<MessageLevel, string?>? onMessage = null)
+        protected virtual async Task PublishVSIXAsync(FileInfo fileInfo, DirectoryInfo publishDirectoryInfo)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
             CmdHelper cmdHelper = new();
             DirectoryInfo publishProjectDirectoryInfo = Path.Combine(publishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
             string[] cmds = GetPublishVSIXCommand(fileInfo, publishProjectDirectoryInfo);
-            onMessage?.Invoke(MessageLevel.Information, $"正在发布VS插件{projectName}...");
-            cmdHelper.OutputDataReceived += (sender, e) => OutputDataReceived(e.Data, onMessage);
-            cmdHelper.ErrorDataReceived += (sender, e) => ErrorDataReceived(e.Data, onMessage);
+            Logger?.LogInformation($"正在发布VS插件{projectName}...");
+            cmdHelper.OutputDataReceived += CmdHelper_OutputDataReceived;
+            cmdHelper.ErrorDataReceived += CmdHelper_ErrorDataReceived;
             await cmdHelper.RunCmdCommandsAsync(cmds);
             FileInfo vsixFileInfo = new(Path.Combine(publishProjectDirectoryInfo.FullName, $"{projectName}.vsix"));
             if (!vsixFileInfo.Exists) throw new ToolsException($"{vsixFileInfo.FullName}不存在");
             vsixFileInfo.MoveTo(Path.Combine(publishDirectoryInfo.FullName, vsixFileInfo.Name));
             publishProjectDirectoryInfo.Delete(true);
-            onMessage?.Invoke(MessageLevel.Information, $"VS插件{projectName}发布完毕");
+            Logger?.LogInformation($"VS插件{projectName}发布完毕");
         }
         /// <summary>
         /// 获得发布命令
@@ -408,32 +415,36 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
                 $"msbuild {fileInfo.FullName} /t:Rebuild /p:Configuration=Release /p:OutputPath={publishDirectoryInfo.FullName}"];
         #endregion
         /// <summary>
-        /// 错误数据接收
+        /// 输出错误
         /// </summary>
-        /// <param name="message"></param>
-        /// <param name="onMessage"></param>
-        protected virtual void ErrorDataReceived(string? message, Action<MessageLevel, string?>? onMessage = null)
-            => onMessage?.Invoke(MessageLevel.Error, message);
-        /// <summary>
-        /// 输出数据接收
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="onMessage"></param>
-        protected virtual void OutputDataReceived(string? message, Action<MessageLevel, string?>? onMessage = null)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CmdHelper_ErrorDataReceived(object sender, DataReceivedEventArgs e)
         {
-            MessageLevel messageLevel = MessageLevel.Information;
-            if (!string.IsNullOrWhiteSpace(message))
+            if (string.IsNullOrWhiteSpace(e.Data)) return;
+            Logger?.LogError(e.Data);
+        }
+        /// <summary>
+        /// 输出数据
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CmdHelper_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e.Data)) return;
+            LogLevel logLevel = LogLevel.Information;
+            if (!string.IsNullOrWhiteSpace(e.Data))
             {
-                if (message.Contains(" error ", StringComparison.OrdinalIgnoreCase))
+                if (e.Data.Contains(" error ", StringComparison.OrdinalIgnoreCase))
                 {
-                    messageLevel = MessageLevel.Error;
+                    logLevel = LogLevel.Error;
                 }
-                else if (message.Contains(" warning ", StringComparison.OrdinalIgnoreCase))
+                else if (e.Data.Contains(" warning ", StringComparison.OrdinalIgnoreCase))
                 {
-                    messageLevel = MessageLevel.Warning;
+                    logLevel = LogLevel.Warning;
                 }
             }
-            onMessage?.Invoke(messageLevel, message);
+            Logger?.Log(logLevel, e.Data);
         }
     }
 }

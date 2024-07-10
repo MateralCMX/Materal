@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Materal.Tools.Core;
 using Materal.Tools.Core.MateralVersion;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -21,11 +21,12 @@ namespace Materal.Tools.WinUI.ViewModels
         [ObservableProperty]
         private string _version = string.Empty;
         private readonly IMateralVersionService _versionService;
-        public event Action<MessageLevel, string?>? OnMessage;
+        private readonly ILogger<MateralVersionViewModel> _logger;
         public event Action? OnClearMessage;
         public MateralVersionViewModel()
         {
             _versionService = App.ServiceProvider.GetRequiredService<IMateralVersionService>();
+            _logger = App.ServiceProvider.GetRequiredService<ILogger<MateralVersionViewModel>>();
         }
         [RelayCommand]
         private async Task UpdateVersionAsync()
@@ -39,17 +40,16 @@ namespace Materal.Tools.WinUI.ViewModels
                         "https://nuget.gudianbustu.com/nuget/",
                         @"E:\Project\Materal\Materal\Nupkgs"
                     };
-                    await _versionService.UpdateVersionAsync(ProjectPath, nugetPaths, OnMessage);
+                    await _versionService.UpdateVersionAsync(ProjectPath, nugetPaths);
                 }
                 else
                 {
-                    await _versionService.UpdateVersionAsync(ProjectPath, Version, OnMessage);
+                    await _versionService.UpdateVersionAsync(ProjectPath, Version);
                 }
             }
             catch (Exception ex)
             {
-                OnMessage?.Invoke(MessageLevel.Error, ex.Message);
-                OnMessage?.Invoke(MessageLevel.Error, ex.StackTrace);
+                _logger.LogError(ex, ex.Message);
             }
         }
     }

@@ -1,10 +1,13 @@
-﻿namespace Materal.Tools.Core.MateralPublish
+﻿using Microsoft.Extensions.Logging;
+
+namespace Materal.Tools.Core.MateralPublish
 {
     /// <summary>
     /// Materal发布服务
     /// </summary>
-    public class MateralPublishService : IMateralPublishService
+    public class MateralPublishService(ILoggerFactory? loggerFactory = null) : IMateralPublishService
     {
+        private readonly ILogger<MateralPublishService>? _logger = loggerFactory?.CreateLogger<MateralPublishService>();
         /// <summary>
         /// 获得所有项目
         /// </summary>
@@ -17,8 +20,8 @@
             List<IMateralProject> _projects = [];
             foreach (Type projectType in allProjectTypes)
             {
-                ConstructorInfo? constructorInfo = projectType.GetConstructor([]) ?? throw new ToolsException("未找到构造函数");
-                object projectObj = constructorInfo.Invoke([]);
+                ConstructorInfo? constructorInfo = projectType.GetConstructor([typeof(ILoggerFactory)]) ?? throw new ToolsException("未找到构造函数");
+                object projectObj = constructorInfo.Invoke([loggerFactory]);
                 if (projectObj is not IMateralProject projectModel) throw new ToolsException("类型不是IMateralProject");
                 _projects.Add(projectModel);
             }
@@ -74,26 +77,25 @@
         /// <param name="projectPath"></param>
         /// <param name="version"></param>
         /// <param name="projects"></param>
-        /// <param name="onMessage"></param>
         /// <returns></returns>
-        public async Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects, Action<MessageLevel, string?>? onMessage)
+        public async Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects)
         {
-            onMessage?.Invoke(MessageLevel.Information, "开始发布...");
-            ClearNugetPackages(onMessage);
+            _logger?.LogInformation("开始发布...");
+            ClearNugetPackages();
             DirectoryInfo projectDirectoryInfo = new(projectPath);
             DirectoryInfo nugetDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
             DirectoryInfo publishDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
             foreach (IMateralProject project in projects)
             {
-                onMessage?.Invoke(MessageLevel.Information, $"开始发布{project.Name}...");
-                await project.PublishAsync(projectDirectoryInfo, nugetDirectoryInfo, publishDirectoryInfo, version, onMessage);
-                onMessage?.Invoke(MessageLevel.Information, $"{project.Name}发布完毕");
+                _logger?.LogInformation($"开始发布{project.Name}...");
+                await project.PublishAsync(projectDirectoryInfo, nugetDirectoryInfo, publishDirectoryInfo, version);
+                _logger?.LogInformation($"{project.Name}发布完毕");
             }
-            onMessage?.Invoke(MessageLevel.Information, "发布完毕");
+            _logger?.LogInformation("发布完毕");
         }
-        private static void ClearNugetPackages(Action<MessageLevel, string?>? onMessage)
+        private void ClearNugetPackages()
         {
-            onMessage?.Invoke(MessageLevel.Information, $"开始清理包缓存...");
+            _logger?.LogInformation($"开始清理包缓存...");
             string nugetPackagesPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
             DirectoryInfo nugetDirectoryInfo = new(nugetPackagesPath);
             if (!nugetDirectoryInfo.Exists) return;
@@ -101,10 +103,10 @@
             foreach (DirectoryInfo directoryInfo in directoryInfos)
             {
                 if (!directoryInfo.Name.StartsWith("materal.") && !directoryInfo.Name.StartsWith("rc.")) continue;
-                onMessage?.Invoke(MessageLevel.Information, $"删除包缓存:{directoryInfo.FullName}");
+                _logger?.LogInformation($"删除包缓存:{directoryInfo.FullName}");
                 directoryInfo.Delete(true);
             }
-            onMessage?.Invoke(MessageLevel.Information, $"包缓存清理完毕");
+            _logger?.LogInformation($"包缓存清理完毕");
         }
     }
 }

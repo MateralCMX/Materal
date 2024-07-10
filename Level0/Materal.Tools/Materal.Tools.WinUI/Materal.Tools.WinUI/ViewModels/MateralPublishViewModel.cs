@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Materal.Tools.Core;
 using Materal.Tools.Core.MateralPublish;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,11 +25,12 @@ namespace Materal.Tools.WinUI.ViewModels
         private string _version = "1.0.0";
         public ObservableCollection<MateralProjectViewModel> Projects { get; } = [];
         private readonly IMateralPublishService _publishService;
-        public event Action<MessageLevel, string?>? OnMessage;
+        private readonly ILogger<MateralVersionViewModel> _logger;
         public event Action? OnClearMessage;
         public MateralPublishViewModel()
         {
             _publishService = App.ServiceProvider.GetRequiredService<IMateralPublishService>();
+            _logger = App.ServiceProvider.GetRequiredService<ILogger<MateralVersionViewModel>>();
             MateralProjectViewModel[] allProjects = _publishService.GetAllProjects().Select(m => new MateralProjectViewModel(m)).ToArray();
             Projects.Clear();
             foreach (MateralProjectViewModel project in allProjects)
@@ -85,12 +87,11 @@ namespace Materal.Tools.WinUI.ViewModels
             try
             {
                 IMateralProject[] projects = Projects.Where(m => m.IsPublish).Select(m => m.MateralProject).ToArray();
-                await _publishService.PublishAsync(ProjectPath, Version, projects, OnMessage);
+                await _publishService.PublishAsync(ProjectPath, Version, projects);
             }
             catch (Exception ex)
             {
-                OnMessage?.Invoke(MessageLevel.Error, ex.Message);
-                OnMessage?.Invoke(MessageLevel.Error, ex.StackTrace);
+                _logger.LogError(ex, ex.Message);
             }
         }
     }

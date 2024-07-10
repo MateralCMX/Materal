@@ -8,7 +8,7 @@
     xmlns:viewModels="using:Materal.Tools.WinUI.ViewModels"
     xmlns:converters="using:Materal.Tools.WinUI.Converters"
     xmlns:localControls="using:Materal.Tools.WinUI.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Unloaded="Page_Unloaded">
     <Page.Resources>
         <converters:MessageLevelToColorConverter x:Key="MessageLevelToColorConverter" />
     </Page.Resources>

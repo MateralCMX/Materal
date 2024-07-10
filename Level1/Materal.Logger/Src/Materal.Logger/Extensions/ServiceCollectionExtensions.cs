@@ -15,7 +15,7 @@
         /// <returns></returns>
         public static IServiceCollection AddMateralLogger(this IServiceCollection services, IConfiguration? configuration, Action<LoggerOptions>? options, bool clearOtherProvider = false)
         {
-            services.AddLogging(bulider => bulider.AddMateralLogger(configuration, options, clearOtherProvider));
+            services.AddLogging(builder => builder.AddMateralLogger(configuration, options, clearOtherProvider));
             return services;
         }
         /// <summary>
