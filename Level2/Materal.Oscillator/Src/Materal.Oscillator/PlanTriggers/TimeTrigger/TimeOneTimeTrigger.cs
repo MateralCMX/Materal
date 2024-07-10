@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public override DateTimeOffset? GetTriggerStartTime(DateOnly date) => date.MergeDateTimeOffset(StartTime);
+        public override DateTimeOffset? GetTriggerStartTime(DateOnly date) => date.ToDateTimeOffset(StartTime);
         /// <summary>
         /// 获得结束时间
         /// </summary>

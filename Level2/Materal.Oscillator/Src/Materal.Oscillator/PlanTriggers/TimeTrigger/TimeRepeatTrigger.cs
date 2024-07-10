@@ -33,14 +33,14 @@
             DateTime nowDateTime = DateTime.Now;
             DateTimeOffset nowTime = nowDateTime.ToDateTimeOffset();
             DateOnly nowDate = nowTime.ToDateOnly();
-            DateTimeOffset startTime = StartTime.MergeDateTimeOffset(nowDate);
+            DateTimeOffset startTime = StartTime.ToDateTimeOffset(nowDate);
             if (nowTime < startTime)
             {
                 result = startTime;
             }
             else
             {
-                DateTimeOffset endTime = EndTime.MergeDateTimeOffset(nowDate);
+                DateTimeOffset endTime = EndTime.ToDateTimeOffset(nowDate);
                 int count = GetEstimatedNumber(startTime, endTime);
                 int nowCount = GetEstimatedNumber(startTime, upRunTime);
                 if (nowCount < count)
@@ -71,13 +71,13 @@
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public override DateTimeOffset? GetTriggerStartTime(DateOnly date) => date.MergeDateTimeOffset(StartTime);
+        public override DateTimeOffset? GetTriggerStartTime(DateOnly date) => date.ToDateTimeOffset(StartTime);
         /// <summary>
         /// 获得结束时间
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public override DateTimeOffset? GetTriggerEndTime(DateOnly date) => date.MergeDateTimeOffset(EndTime);
+        public override DateTimeOffset? GetTriggerEndTime(DateOnly date) => date.ToDateTimeOffset(EndTime);
         #region 私有方法
         /// <summary>
         /// 获得预计执行次数
