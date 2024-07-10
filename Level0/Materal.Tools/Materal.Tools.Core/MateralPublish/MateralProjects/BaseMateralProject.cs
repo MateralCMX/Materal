@@ -236,11 +236,12 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <summary>
         /// 获得发布命令
         /// </summary>
-        /// <param name="csprojFileInfo"></param>
+        /// <param name="fileInfo"></param>
         /// <param name="nugetDirectoryInfo"></param>
         /// <returns></returns>
-        protected virtual string[] GetPackageCommand(FileInfo csprojFileInfo, DirectoryInfo nugetDirectoryInfo)
-            => [$"msbuild {csprojFileInfo.FullName} /t:pack  /t:Rebuild /p:Configuration=Release /p:PackageOutputPath={nugetDirectoryInfo}"];
+        protected virtual string[] GetPackageCommand(FileInfo fileInfo, DirectoryInfo nugetDirectoryInfo)
+            => [$"msbuild {fileInfo.FullName} /t:restore",
+                $"msbuild {fileInfo.FullName} /t:pack /t:Rebuild /p:Configuration=Release /p:PackageOutputPath={nugetDirectoryInfo}"];
         #endregion
         #region 发布
         /// <summary>
@@ -315,7 +316,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <returns></returns>
         protected virtual string[] GetPublishCommand(FileInfo fileInfo, DirectoryInfo publishDirectoryInfo)
         {
-            List<string> cmds = [];
+            List<string> cmds = [$"msbuild {fileInfo.FullName} /t:restore",];
             XmlDocument xmlDocument = new();
             xmlDocument.Load(fileInfo.FullName);
             XmlNode? targetFrameworksNode = xmlDocument.SelectSingleNode("//Project//PropertyGroup//TargetFrameworks");
@@ -343,17 +344,17 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         protected virtual string GetPublishCommand(FileInfo fileInfo, DirectoryInfo publishDirectoryInfo, string? targetFrameworks)
         {
             string projectName = Path.GetFileNameWithoutExtension(fileInfo.Name);
-            StringBuilder stringBuilder = new();
-            stringBuilder.Append($"msbuild {fileInfo.FullName} /t:Rebuild /p:Configuration=Release");
+            StringBuilder cmdBuilder = new();
+            cmdBuilder.Append($"msbuild {fileInfo.FullName} /t:Rebuild /p:Configuration=Release");
             DirectoryInfo publishProjectDirectoryInfo = Path.Combine(publishDirectoryInfo.FullName, projectName).GetNewDirectoryInfo();
             if (!string.IsNullOrWhiteSpace(targetFrameworks))
             {
                 publishProjectDirectoryInfo = Path.Combine(publishProjectDirectoryInfo.FullName, targetFrameworks).GetNewDirectoryInfo();
-                stringBuilder.Append($" /p:TargetFramework={targetFrameworks}");
+                cmdBuilder.Append($" /p:TargetFramework={targetFrameworks}");
             }
             string? publishPath = publishProjectDirectoryInfo.FullName;
-            stringBuilder.Append($" /p:OutputPath={publishPath}");
-            string cmd = stringBuilder.ToString();
+            cmdBuilder.Append($" /p:OutputPath={publishPath}");
+            string cmd = cmdBuilder.ToString();
             return cmd;
         }
         /// <summary>
@@ -403,7 +404,8 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <param name="publishDirectoryInfo"></param>
         /// <returns></returns>
         protected virtual string[] GetPublishVSIXCommand(FileInfo fileInfo, DirectoryInfo publishDirectoryInfo)
-            => [$"msbuild {fileInfo.FullName} /t:Rebuild /p:Configuration=Release /p:OutputPath={publishDirectoryInfo.FullName}"];
+            => [$"msbuild {fileInfo.FullName} /t:restore",
+                $"msbuild {fileInfo.FullName} /t:Rebuild /p:Configuration=Release /p:OutputPath={publishDirectoryInfo.FullName}"];
         #endregion
         /// <summary>
         /// 错误数据接收

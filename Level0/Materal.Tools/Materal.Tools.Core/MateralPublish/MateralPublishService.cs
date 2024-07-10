@@ -79,6 +79,7 @@
         public async Task PublishAsync(string projectPath, string version, ICollection<IMateralProject> projects, Action<MessageLevel, string?>? onMessage)
         {
             onMessage?.Invoke(MessageLevel.Information, "开始发布...");
+            ClearNugetPackages(onMessage);
             DirectoryInfo projectDirectoryInfo = new(projectPath);
             DirectoryInfo nugetDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Nupkgs").GetNewDirectoryInfo();
             DirectoryInfo publishDirectoryInfo = Path.Combine(projectDirectoryInfo.FullName, "Publish").GetNewDirectoryInfo();
@@ -89,6 +90,21 @@
                 onMessage?.Invoke(MessageLevel.Information, $"{project.Name}发布完毕");
             }
             onMessage?.Invoke(MessageLevel.Information, "发布完毕");
+        }
+        private static void ClearNugetPackages(Action<MessageLevel, string?>? onMessage)
+        {
+            onMessage?.Invoke(MessageLevel.Information, $"开始清理包缓存...");
+            string nugetPackagesPath = Environment.GetEnvironmentVariable("NUGET_PACKAGES") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".nuget", "packages");
+            DirectoryInfo nugetDirectoryInfo = new(nugetPackagesPath);
+            if (!nugetDirectoryInfo.Exists) return;
+            DirectoryInfo[] directoryInfos = nugetDirectoryInfo.GetDirectories();
+            foreach (DirectoryInfo directoryInfo in directoryInfos)
+            {
+                if (!directoryInfo.Name.StartsWith("materal.") && !directoryInfo.Name.StartsWith("rc.")) continue;
+                onMessage?.Invoke(MessageLevel.Information, $"删除包缓存:{directoryInfo.FullName}");
+                directoryInfo.Delete(true);
+            }
+            onMessage?.Invoke(MessageLevel.Information, $"包缓存清理完毕");
         }
     }
 }
