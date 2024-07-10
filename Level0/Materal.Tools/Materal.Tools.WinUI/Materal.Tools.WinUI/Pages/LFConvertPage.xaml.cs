@@ -7,6 +7,11 @@ namespace Materal.Tools.WinUI.Pages
     public sealed partial class LFConvertPage : Page
     {
         public LFConvertViewModel ViewModel { get; } = new();
-        public LFConvertPage() => InitializeComponent();
+        public LFConvertPage()
+        {
+            ViewModel.OnClearMessage += ViewModel_OnClearMessage;
+            InitializeComponent();
+        }
+        private void ViewModel_OnClearMessage() => logPrint.ClearLogs();
     }
 }

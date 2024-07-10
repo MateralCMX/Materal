@@ -10,6 +10,11 @@ namespace Materal.Tools.WinUI.Pages
     public sealed partial class ChageEncodingPage : Page
     {
         public ChangeEncodingViewModel ViewModel { get; } = new();
-        public ChageEncodingPage() => InitializeComponent();
+        public ChageEncodingPage()
+        {
+            ViewModel.OnClearMessage += ViewModel_OnClearMessage;
+            InitializeComponent();
+        }
+        private void ViewModel_OnClearMessage() => logPrint.ClearLogs();
     }
 }

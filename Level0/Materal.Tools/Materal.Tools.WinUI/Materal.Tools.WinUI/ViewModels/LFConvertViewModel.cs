@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Materal.Tools.Core.LFConvert;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.ObjectModel;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -25,11 +25,8 @@ namespace Materal.Tools.WinUI.ViewModels
         /// </summary>
         [ObservableProperty]
         private bool _recursive = true;
-        /// <summary>
-        /// 日志消息
-        /// </summary>
-        public ObservableCollection<string> LogMessages { get; } = [];
         private readonly ILFConvertService _LFConvertService;
+        public event Action? OnClearMessage;
         public LFConvertViewModel()
         {
             _LFConvertService = App.ServiceProvider.GetRequiredService<ILFConvertService>();
@@ -37,7 +34,7 @@ namespace Materal.Tools.WinUI.ViewModels
         [RelayCommand]
         private async Task LFToCRLFAsync()
         {
-            LogMessages.Clear();
+            OnClearMessage?.Invoke();
             LFConvertOptions options = new()
             {
                 Filter = fileInfo => new Regex(FileNameFilter).Match(fileInfo.Name).Success,
@@ -48,7 +45,7 @@ namespace Materal.Tools.WinUI.ViewModels
         [RelayCommand]
         private async Task CRLFToLFAsync()
         {
-            LogMessages.Clear();
+            OnClearMessage?.Invoke();
             LFConvertOptions options = new()
             {
                 Filter = fileInfo => new Regex(FileNameFilter).Match(fileInfo.Name).Success,

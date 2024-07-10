@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Materal.Tools.Core.ChangeEncoding;
 using Materal.Tools.WinUI;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.ObjectModel;
+using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -16,7 +16,7 @@ namespace MateralTools.ViewModels
         /// 路径
         /// </summary>
         [ObservableProperty]
-        private string _path = "E:\\Project";
+        private string _path = "D:\\Test";
         /// <summary>
         /// 编码
         /// </summary>
@@ -42,11 +42,8 @@ namespace MateralTools.ViewModels
         /// </summary>
         [ObservableProperty]
         private bool _recursive = true;
-        /// <summary>
-        /// 日志消息
-        /// </summary>
-        public ObservableCollection<string> LogMessages { get; } = [];
         private readonly IChangeEncodingService _changeEncodingService;
+        public event Action? OnClearMessage;
         public ChangeEncodingViewModel()
         {
             _changeEncodingService = App.ServiceProvider.GetRequiredService<IChangeEncodingService>();
@@ -54,7 +51,7 @@ namespace MateralTools.ViewModels
         [RelayCommand]
         private async Task ChangeEncodingAsync()
         {
-            LogMessages.Clear();
+            OnClearMessage?.Invoke();
             ChangeEncodingOptions options = new()
             {
                 Filter = fileInfo => new Regex(FileNameFilter).Match(fileInfo.Name).Success,

@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="Materal.Tools.WinUI.Controls.ConsolePrintControl"
+    x:Class="Materal.Tools.WinUI.Controls.LogPrintControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,32 +7,35 @@
     xmlns:local="using:Materal.Tools.WinUI.Controls"
     xmlns:viewModels="using:Materal.Tools.WinUI.ViewModels"
     xmlns:converters="using:Materal.Tools.WinUI.Converters"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Unloaded="UserControl_Unloaded">
 
+    <UserControl.Resources>
+        <converters:LogLevelToColorConverter x:Key="LogLevelToColorConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <ScrollViewer x:Name="MessageViewer" Grid.Row="0" Padding="0,0,15,0" HorizontalScrollBarVisibility="Visible">
-            <ItemsControl ItemsSource="{x:Bind Messages, Mode=OneWay}" SizeChanged="ItemsControl_SizeChanged">
+            <ItemsControl ItemsSource="{x:Bind ViewModel.Logs, Mode=OneWay}" SizeChanged="ItemsControl_SizeChanged">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Padding="0,0,0,15" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="viewModels:MessageViewModel">
-                        <TextBlock Text="{x:Bind CompositeMessage,Mode=OneTime}" IsTextSelectionEnabled="True" Foreground="{x:Bind Level, Mode=OneTime, Converter={StaticResource MessageLevelToColorConverter}}" />
+                    <DataTemplate x:DataType="viewModels:LogViewModel">
+                        <TextBlock Text="{x:Bind CompositeMessage, Mode=OneTime}" IsTextSelectionEnabled="True" Foreground="{x:Bind Level, Mode=OneTime, Converter={StaticResource LogLevelToColorConverter}}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="警告消息：" Foreground="Orange" />
-            <TextBlock Text="{x:Bind WarringMessageCount, Mode=OneWay}"  Foreground="Orange" />
+            <TextBlock Text="{x:Bind ViewModel.WarringCount, Mode=OneWay}"  Foreground="Orange" />
             <TextBlock Text="错误消息：" Foreground="Red" Margin="10,0,0,0" />
-            <TextBlock Text="{x:Bind ErrorMessageCount, Mode=OneWay}" Foreground="Red" />
+            <TextBlock Text="{x:Bind ViewModel.ErrorCount, Mode=OneWay}" Foreground="Red" />
         </StackPanel>
     </Grid>
 </UserControl>

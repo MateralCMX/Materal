@@ -6,12 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Materal.Tools.WinUI.Pages"
     xmlns:viewModels="using:Materal.Tools.WinUI.ViewModels"
-    xmlns:converters="using:Materal.Tools.WinUI.Converters"
     xmlns:localControls="using:Materal.Tools.WinUI.Controls"
-    mc:Ignorable="d" Unloaded="Page_Unloaded">
-    <Page.Resources>
-        <converters:MessageLevelToColorConverter x:Key="MessageLevelToColorConverter" />
-    </Page.Resources>
+    mc:Ignorable="d">
 
     <Grid RowSpacing="10">
         <Grid.RowDefinitions>
@@ -46,7 +42,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-            <localControls:ConsolePrintControl x:Name="consolePrint" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0" />
+            <localControls:LogPrintControl x:Name="logPrint" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0" />
         </Grid>
     </Grid>
 </Page>

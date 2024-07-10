@@ -5,26 +5,24 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Materal.Tools.WinUI.Pages"
+    xmlns:localControls="using:Materal.Tools.WinUI.Controls"
     mc:Ignorable="d">
 
-    <StackPanel Spacing="10">
-        <StackPanel Orientation="Horizontal" Spacing="5">
+    <Grid RowSpacing="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="5">
             <TextBox Header="路径" Text="{x:Bind ViewModel.Path, Mode=TwoWay}" CornerRadius="4,0,0,4" MinWidth="100" />
             <TextBox Header="文件名正则" Text="{x:Bind ViewModel.FileNameFilter, Mode=TwoWay}" />
             <ToggleButton VerticalAlignment="Bottom" IsChecked="{x:Bind ViewModel.Recursive, Mode=TwoWay}" Content="递归转换" />
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="5">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="5">
             <Button Content="LF转换为CRLF" Width="200" Command="{x:Bind ViewModel.LFToCRLFCommand}" />
             <Button Content="CRLF转换为LF" Width="200" Command="{x:Bind ViewModel.CRLFToLFCommand}" />
         </StackPanel>
-        <ScrollViewer Height="560">
-            <ItemsControl ItemsSource="{x:Bind ViewModel.LogMessages, Mode=OneWay}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <TextBlock IsTextSelectionEnabled="True" Text="{Binding}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-    </StackPanel>
+        <localControls:LogPrintControl x:Name="logPrint" Grid.Row="2" />
+    </Grid>
 </Page>
