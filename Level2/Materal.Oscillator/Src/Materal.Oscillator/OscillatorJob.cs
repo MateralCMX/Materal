@@ -77,8 +77,9 @@ namespace Materal.Oscillator
                     {
                         await work.SuccessExecuteAsync(workContext);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        workContext.LoggerScope.ScopeData.TryAdd("SuccessException", ex.GetErrorMessage());
                     }
                 }
                 else
@@ -88,8 +89,9 @@ namespace Materal.Oscillator
                     {
                         await work.FailExecuteAsync(workContext);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        workContext.LoggerScope.ScopeData.TryAdd("FailException", ex.GetErrorMessage());
                     }
                 }
                 stopwatch.Stop();

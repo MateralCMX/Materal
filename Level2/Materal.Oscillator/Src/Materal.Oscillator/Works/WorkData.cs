@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 
 namespace Materal.Oscillator.Works
 {
-
     /// <summary>
     /// 任务数据
     /// </summary>

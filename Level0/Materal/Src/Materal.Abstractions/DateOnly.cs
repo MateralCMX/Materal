@@ -94,7 +94,7 @@ namespace Materal.Abstractions
         /// </summary>
         /// <param name="year"></param>
         /// <returns></returns>
-        public DateOnly AddYear(int year)
+        public DateOnly AddYears(int year)
         {
             int trueYear = Year + year;
             int trueMonth = Month;
@@ -110,7 +110,7 @@ namespace Materal.Abstractions
         /// </summary>
         /// <param name="month"></param>
         /// <returns></returns>
-        public DateOnly AddMonth(int month)
+        public DateOnly AddMonths(int month)
         {
             int trueYear = Year;
             int trueMonth = Month + month;
@@ -126,7 +126,7 @@ namespace Materal.Abstractions
         /// </summary>
         /// <param name="day"></param>
         /// <returns></returns>
-        public DateOnly AddDay(int day)
+        public DateOnly AddDays(int day)
         {
             int trueYear = Year;
             int trueMonth = Month;
@@ -137,44 +137,6 @@ namespace Materal.Abstractions
             Day = trueDay;
             return this;
         }
-        /// <summary>
-        /// 转换为DateTime
-        /// </summary>
-        /// <returns></returns>
-        public readonly DateTime ToDateTime() => new(Year, Month, Day);
-        /// <summary>
-        /// 转换为DateTime
-        /// </summary>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        public readonly DateTime ToDateTime(TimeOnly time) => ToDateTime(time.Hour, time.Minute, time.Second);
-        /// <summary>
-        /// 转换为DateTime
-        /// </summary>
-        /// <param name="hour"></param>
-        /// <param name="minute"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        public readonly DateTime ToDateTime(int hour, int minute, int second) => new(Year, Month, Day, hour, minute, second);
-        /// <summary>
-        /// 转换为DateTimeOffset
-        /// </summary>
-        /// <returns></returns>
-        public readonly DateTimeOffset ToDateTimeOffset() => new(ToDateTime());
-        /// <summary>
-        /// 转换为DateTimeOffset
-        /// </summary>
-        /// <param name="time"></param>
-        /// <returns></returns>
-        public readonly DateTimeOffset ToDateTimeOffset(TimeOnly time) => ToDateTimeOffset(time.Hour, time.Minute, time.Second);
-        /// <summary>
-        /// 转换为DateTimeOffset
-        /// </summary>
-        /// <param name="hour"></param>
-        /// <param name="minute"></param>
-        /// <param name="second"></param>
-        /// <returns></returns>
-        public readonly DateTimeOffset ToDateTimeOffset(int hour, int minute, int second) => new(ToDateTime(hour, minute, second));
         /// <summary>
         /// 相等
         /// </summary>

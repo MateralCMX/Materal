@@ -8,67 +8,87 @@ namespace Materal.Extensions
     public static class DateTimeExtensions
     {
         /// <summary>
-        /// 转换为DateTime
+        /// 转换为时间
         /// </summary>
         /// <param name="dateTime"></param>
+        /// <param name="dateTimeKind"></param>
         /// <returns></returns>
-        public static DateTime ToDateTime(this DateTimeOffset dateTime) => dateTime.DateTime;
+        public static DateTime ToDateTime(this DateTimeOffset dateTime, DateTimeKind dateTimeKind = DateTimeKind.Local)
+            => DateTime.SpecifyKind(dateTime.DateTime, dateTimeKind);
         /// <summary>
-        /// 转换为DateTimeOffset
+        /// 转换为时间偏移
         /// </summary>
         /// <param name="dateTime"></param>
+        /// <param name="dateTimeKind"></param>
         /// <returns></returns>
-        public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime) => new(DateTime.SpecifyKind(dateTime, dateTime.Kind));
+        public static DateTimeOffset ToDateTimeOffset(this DateTime dateTime, DateTimeKind? dateTimeKind = null) => new(DateTime.SpecifyKind(dateTime, dateTimeKind ?? dateTime.Kind));
         /// <summary>
-        /// 合并时间
+        /// 转换为时间
         /// </summary>
         /// <param name="time"></param>
         /// <param name="date"></param>
         /// <param name="dateTimeKind"></param>
         /// <returns></returns>
-        public static DateTime MergeDateTime(this TimeOnly time, DateOnly date, DateTimeKind dateTimeKind = DateTimeKind.Local)
+        public static DateTime ToDateTime(this TimeOnly time, DateOnly date, DateTimeKind dateTimeKind = DateTimeKind.Local)
             => new(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, dateTimeKind);
         /// <summary>
-        /// 合并时间
+        /// 转换为时间偏移
         /// </summary>
         /// <param name="time"></param>
         /// <param name="date"></param>
+        /// <param name="dateTimeKind"></param>
         /// <returns></returns>
-        public static DateTimeOffset MergeDateTimeOffset(this TimeOnly time, DateOnly date) => time.MergeDateTime(date).ToDateTimeOffset();
+        public static DateTimeOffset ToDateTimeOffset(this TimeOnly time, DateOnly date, DateTimeKind dateTimeKind = DateTimeKind.Local) => time.ToDateTime(date, dateTimeKind).ToDateTimeOffset();
         /// <summary>
-        /// 合并时间
+        /// 转换为时间
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="dateTimeKind"></param>
+        /// <returns></returns>
+        public static DateTime ToDateTime(this DateOnly date, DateTimeKind dateTimeKind = DateTimeKind.Local) => date.ToDateTime(new TimeOnly(0, 0, 0), dateTimeKind);
+        /// <summary>
+        /// 转换为时间
         /// </summary>
         /// <param name="date"></param>
         /// <param name="time"></param>
+        /// <param name="dateTimeKind"></param>
         /// <returns></returns>
-        public static DateTime MergeDateTime(this DateOnly date, TimeOnly time) => time.MergeDateTime(date);
+        public static DateTime ToDateTime(this DateOnly date, TimeOnly time, DateTimeKind dateTimeKind = DateTimeKind.Local) => time.ToDateTime(date, dateTimeKind);
         /// <summary>
-        /// 合并时间
+        /// 转换为时间偏移
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="dateTimeKind"></param>
+        /// <returns></returns>
+        public static DateTimeOffset ToDateTimeOffset(this DateOnly date, DateTimeKind dateTimeKind = DateTimeKind.Local) => date.ToDateTimeOffset(new TimeOnly(0, 0, 0), dateTimeKind);
+        /// <summary>
+        /// 转换为时间偏移
         /// </summary>
         /// <param name="date"></param>
         /// <param name="time"></param>
+        /// <param name="dateTimeKind"></param>
         /// <returns></returns>
-        public static DateTimeOffset MergeDateTimeOffset(this DateOnly date, TimeOnly time) => date.MergeDateTime(time).ToDateTimeOffset();
+        public static DateTimeOffset ToDateTimeOffset(this DateOnly date, TimeOnly time, DateTimeKind dateTimeKind = DateTimeKind.Local) => date.ToDateTime(time, dateTimeKind).ToDateTimeOffset();
         /// <summary>
-        /// 获得日期
+        /// 转换为日期
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
         public static DateOnly ToDateOnly(this DateTime dateTime) => new(dateTime.Year, dateTime.Month, dateTime.Day);
         /// <summary>
-        /// 获得日期
+        /// 转换为日期
         /// </summary>
         /// <param name="dateTimeOffset"></param>
         /// <returns></returns>
         public static DateOnly ToDateOnly(this DateTimeOffset dateTimeOffset) => new(dateTimeOffset.Year, dateTimeOffset.Month, dateTimeOffset.Day);
         /// <summary>
-        /// 获得时间
+        /// 转换为时间
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
         public static TimeOnly ToTimeOnly(this DateTime dateTime) => new(dateTime.Hour, dateTime.Minute, dateTime.Second);
         /// <summary>
-        /// 获得时间
+        /// 转换为时间
         /// </summary>
         /// <param name="dateTimeOffset"></param>
         /// <returns></returns>
@@ -103,12 +123,6 @@ namespace Materal.Extensions
         /// <param name="date"></param>
         /// <returns></returns>
         public static int GetWeekOfYear(this DateOnly date) => date.ToDateTime().GetWeekOfYear();
-        /// <summary>
-        /// 转换为DateTime
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime ToDateTime(this DateOnly date) => date.ToDateTime(new TimeOnly(0, 0, 0));
         /// <summary>
         /// 获得该日期是该月的第几周
         /// </summary>

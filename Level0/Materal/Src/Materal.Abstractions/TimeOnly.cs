@@ -75,7 +75,7 @@ namespace Materal.Abstractions
         /// </summary>
         /// <param name="hour"></param>
         /// <returns></returns>
-        public TimeOnly AddHour(int hour)
+        public TimeOnly AddHours(int hour)
         {
             int trueHour = Hour + hour;
             int trueMinute = Minute;
@@ -91,7 +91,7 @@ namespace Materal.Abstractions
         /// </summary>
         /// <param name="minute"></param>
         /// <returns></returns>
-        public TimeOnly AddMinute(int minute)
+        public TimeOnly AddMinutes(int minute)
         {
             int trueHour = Hour;
             int trueMinute = Minute + minute;
@@ -107,7 +107,7 @@ namespace Materal.Abstractions
         /// </summary>
         /// <param name="second"></param>
         /// <returns></returns>
-        public TimeOnly AddSecond(int second)
+        public TimeOnly AddSeconds(int second)
         {
             int trueHour = Hour;
             int trueMinute = Minute;
