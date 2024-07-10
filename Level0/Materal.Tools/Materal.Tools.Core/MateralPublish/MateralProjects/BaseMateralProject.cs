@@ -41,6 +41,17 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
             Logger = loggerFactory?.CreateLogger(GetType());
         }
         /// <summary>
+        /// 获得根目录信息
+        /// </summary>
+        /// <param name="projectDirectoryInfo"></param>
+        /// <returns></returns>
+        public DirectoryInfo GetRootDirectoryInfo(DirectoryInfo projectDirectoryInfo)
+        {
+            string rootPath = Path.Combine(projectDirectoryInfo.FullName, $"Level{Level}", Name);
+            DirectoryInfo rootDirectoryInfo = new(rootPath);
+            return rootDirectoryInfo;
+        }
+        /// <summary>
         /// 发布
         /// </summary>
         /// <param name="projectDirectoryInfo"></param>
@@ -50,8 +61,7 @@ namespace Materal.Tools.Core.MateralPublish.MateralProjects
         /// <returns></returns>
         public virtual async Task PublishAsync(DirectoryInfo projectDirectoryInfo, DirectoryInfo nugetDirectoryInfo, DirectoryInfo publishDirectoryInfo, string version)
         {
-            string rootPath = Path.Combine(projectDirectoryInfo.FullName, $"Level{Level}", Name);
-            DirectoryInfo rootDirectoryInfo = new(rootPath);
+            DirectoryInfo rootDirectoryInfo = GetRootDirectoryInfo(projectDirectoryInfo);
             await UpdateVersionAsync(version, rootDirectoryInfo);
             await PackageAsync(rootDirectoryInfo, nugetDirectoryInfo);
             await PublishAsync(rootDirectoryInfo, publishDirectoryInfo);

@@ -28,12 +28,12 @@
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
+		<ProjectReference Include="..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Page Update="Pages\ProjectClearPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </Page>
+		<Page Update="Pages\ProjectClearPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</Page>
 	</ItemGroup>
 	<ItemGroup>
 		<Page Update="Controls\LogPrintControl.xaml">
