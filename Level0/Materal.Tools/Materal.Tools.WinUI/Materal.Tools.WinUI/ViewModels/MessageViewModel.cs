@@ -4,7 +4,7 @@ using System;
 
 namespace Materal.Tools.WinUI.ViewModels
 {
-    public partial class MessageViewModel(MessageLevel messageLevel, string message) : ObservableObject
+    public partial class MessageViewModel(MessageLevel messageLevel, string? message) : ObservableObject
     {
         /// <summary>
         /// 时间
@@ -13,7 +13,7 @@ namespace Materal.Tools.WinUI.ViewModels
         /// <summary>
         /// 消息
         /// </summary>
-        public string Message { get; } = message;
+        public string? Message { get; } = message;
         /// <summary>
         /// 等级
         /// </summary>
@@ -21,6 +21,6 @@ namespace Materal.Tools.WinUI.ViewModels
         /// <summary>
         /// 组合消息
         /// </summary>
-        public string CompositeMessage => $"[{DateTime:yyyy/MM/dd HH:mm:ss}]{Message}";
+        public string CompositeMessage => string.IsNullOrWhiteSpace(Message) ? string.Empty : $"[{DateTime:yyyy/MM/dd HH:mm:ss}]{Message}";
     }
 }

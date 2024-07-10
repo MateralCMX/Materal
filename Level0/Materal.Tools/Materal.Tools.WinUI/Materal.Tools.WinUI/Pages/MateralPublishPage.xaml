@@ -7,6 +7,7 @@
     xmlns:local="using:Materal.Tools.WinUI.Pages"
     xmlns:viewModels="using:Materal.Tools.WinUI.ViewModels"
     xmlns:converters="using:Materal.Tools.WinUI.Converters"
+    xmlns:localControls="using:Materal.Tools.WinUI.Controls"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:MessageLevelToColorConverter x:Key="MessageLevelToColorConverter" />
@@ -48,32 +49,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </StackPanel>
-            <Grid Grid.Column="1" Padding="10" BorderBrush="Black" BorderThickness="1,0,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <ScrollViewer x:Name="MessageViewer" Grid.Row="0" Padding="0,0,15,15" HorizontalScrollBarVisibility="Visible">
-                    <ItemsControl ItemsSource="{x:Bind Messages, Mode=OneWay}" SizeChanged="ItemsControl_SizeChanged">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <StackPanel />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="viewModels:MessageViewModel">
-                                <TextBlock Text="{x:Bind CompositeMessage,Mode=OneTime}" IsTextSelectionEnabled="True" Foreground="{x:Bind Level, Mode=OneTime, Converter={StaticResource MessageLevelToColorConverter}}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <TextBlock Text="警告消息：" Foreground="Orange" />
-                    <TextBlock Text="{x:Bind WarringMessageCount, Mode=OneWay}"  Foreground="Orange" />
-                    <TextBlock Text="错误消息：" Foreground="Red" Margin="10,0,0,0" />
-                    <TextBlock Text="{x:Bind ErrorMessageCount, Mode=OneWay}" Foreground="Red" />
-                </StackPanel>
-            </Grid>
+            <localControls:ConsolePrintControl x:Name="consolePrint" Grid.Column="1" BorderBrush="Black" BorderThickness="1,0,0,0" />
         </Grid>
     </Grid>
 </Page>
