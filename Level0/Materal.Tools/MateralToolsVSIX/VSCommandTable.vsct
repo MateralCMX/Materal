@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<Extern href="stdidcmd.h"/>
+	<Extern href="vsshlids.h"/>
+	<Include href="KnownImageIds.vsct"/>
+	<Include href="VSGlobals.vsct"/>
+	<Commands package="MateralToolsVSIX">
+		<Groups>
+			<Group guid="MateralToolsVSIX" id="SolutionMenuGroup" priority="0x0101">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_SOLNNODE" />
+			</Group>
+			<Group guid="MateralToolsVSIX" id="ProjectMenuGroup" priority="0x0102">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE" />
+			</Group>
+		</Groups>
+		<Buttons>
+			<Button guid="MateralToolsVSIX" id="SolutionClearCommand" priority="0x0101" type="Button">
+				<Parent guid="MateralToolsVSIX" id="SolutionMenuGroup"/>
+				<Icon guid="ImageCatalogGuid" id="ModulePublic" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>删除bin、obj</ButtonText>
+					<LocCanonicalName>.MateralToolsVSIX.SolutionClearCommand</LocCanonicalName>
+				</Strings>
+			</Button>
+			<Button guid="MateralToolsVSIX" id="ProjectClearCommand" priority="0x0102" type="Button">
+				<Parent guid="MateralToolsVSIX" id="ProjectMenuGroup"/>
+				<Icon guid="ImageCatalogGuid" id="ModulePublic" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>删除bin、obj</ButtonText>
+					<LocCanonicalName>.MateralToolsVSIX.ProjectClearCommand</LocCanonicalName>
+				</Strings>
+			</Button>
+			<!--<Button guid="MateralToolsVSIX" id="MyCommand" priority="0x0100" type="Button">
+				<Parent guid="VSMainMenu" id="View.DevWindowsGroup.OtherWindows.Group1"/>
+				<Icon guid="ImageCatalogGuid" id="ToolWindow" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>My Tool Window</ButtonText>
+					<LocCanonicalName>.View.MyToolWindow</LocCanonicalName>
+				</Strings>
+			</Button>-->
+		</Buttons>
+	</Commands>
+	<Symbols>
+		<GuidSymbol name="MateralToolsVSIX" value="{a8145487-f682-4352-b2c8-345bec8ec476}">
+			<IDSymbol name="SolutionMenuGroup" value="0x0001" />
+			<IDSymbol name="ProjectMenuGroup" value="0x0002" />
+			<IDSymbol name="SolutionClearCommand" value="0x0101" />
+			<IDSymbol name="ProjectClearCommand" value="0x0102" />
+		</GuidSymbol>
+	</Symbols>
+</CommandTable>
