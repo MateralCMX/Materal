@@ -41,35 +41,7 @@ namespace Materal.Extensions
         /// </summary>
         /// <param name="stringValue"></param>
         /// <returns></returns>
-        public static object? ToExpandoObject(this string stringValue)
-        {
-            if (stringValue is null) return null;
-            try
-            {
-                if (stringValue.IsArrayJson())
-                {
-                    return (object)stringValue.JsonToObject<List<ExpandoObject>>() ?? stringValue;
-                }
-                else if (stringValue.IsObjectJson())
-                {
-                    return (object)stringValue.JsonToObject<ExpandoObject>() ?? stringValue;
-                }
-                else if (stringValue.IsXml())
-                {
-                    XmlDocument xmlDocument = new();
-                    xmlDocument.LoadXml(stringValue);
-                    return xmlDocument.ToExpandoObject();
-                }
-                else
-                {
-                    return stringValue;
-                }
-            }
-            catch
-            {
-                return stringValue;
-            }
-        }
+        public static string ToExpandoObject(this string stringValue) => stringValue;
         /// <summary>
         /// 转换为动态对象
         /// </summary>
