@@ -44,21 +44,28 @@ namespace Materal.Extensions
         public static object? ToExpandoObject(this string stringValue)
         {
             if (stringValue is null) return null;
-            if (stringValue.IsArrayJson())
+            try
             {
-                return (object)stringValue.JsonToObject<List<ExpandoObject>>() ?? stringValue;
+                if (stringValue.IsArrayJson())
+                {
+                    return (object)stringValue.JsonToObject<List<ExpandoObject>>() ?? stringValue;
+                }
+                else if (stringValue.IsObjectJson())
+                {
+                    return (object)stringValue.JsonToObject<ExpandoObject>() ?? stringValue;
+                }
+                else if (stringValue.IsXml())
+                {
+                    XmlDocument xmlDocument = new();
+                    xmlDocument.LoadXml(stringValue);
+                    return xmlDocument.ToExpandoObject();
+                }
+                else
+                {
+                    return stringValue;
+                }
             }
-            else if (stringValue.IsObjectJson())
-            {
-                return (object)stringValue.JsonToObject<ExpandoObject>() ?? stringValue;
-            }
-            else if (stringValue.IsXml())
-            {
-                XmlDocument xmlDocument = new();
-                xmlDocument.LoadXml(stringValue);
-                return xmlDocument.ToExpandoObject();
-            }
-            else
+            catch
             {
                 return stringValue;
             }
