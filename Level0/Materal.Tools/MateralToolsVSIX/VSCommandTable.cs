@@ -24,5 +24,6 @@ namespace MateralToolsVSIX
         public const int ProjectMenuGroup = 0x0002;
         public const int SolutionClearCommand = 0x0101;
         public const int ProjectClearCommand = 0x0102;
+        public const int MateralToolCommand = 0x0111;
     }
 }

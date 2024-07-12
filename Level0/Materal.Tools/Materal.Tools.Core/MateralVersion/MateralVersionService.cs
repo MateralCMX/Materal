@@ -107,10 +107,9 @@ namespace Materal.Tools.Core.MateralVersion
                 if (nameAttribute is null || (!nameAttribute.Value.StartsWith("Materal.") && !nameAttribute.Value.StartsWith("RC."))) continue;
                 XmlAttribute? versionAttribute = childNode.Attributes["Version"];
                 if (versionAttribute is null) continue;
-                if (versionAttribute.Value == version) return;
+                if (versionAttribute.Value == version) continue;
                 logger?.LogInformation($"正在更新{projectName}->{nameAttribute.Value}的版本到{version}");
                 versionAttribute.Value = version;
-                return;
             }
         }
         /// <summary>

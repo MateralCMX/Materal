@@ -32,15 +32,15 @@
 					<LocCanonicalName>.MateralToolsVSIX.ProjectClearCommand</LocCanonicalName>
 				</Strings>
 			</Button>
-			<!--<Button guid="MateralToolsVSIX" id="MyCommand" priority="0x0100" type="Button">
-				<Parent guid="VSMainMenu" id="View.DevWindowsGroup.OtherWindows.Group1"/>
-				<Icon guid="ImageCatalogGuid" id="ToolWindow" />
+			<Button guid="MateralToolsVSIX" id="MateralToolCommand" priority="0x0100" type="Button">
+				<Parent guid="VSMainMenu" id="Extensions.DefaultGroup"/>
+				<Icon guid="ImageCatalogGuid" id="ModulePublic" />
 				<CommandFlag>IconIsMoniker</CommandFlag>
 				<Strings>
-					<ButtonText>My Tool Window</ButtonText>
-					<LocCanonicalName>.View.MyToolWindow</LocCanonicalName>
+					<ButtonText>MateralTool</ButtonText>
+					<LocCanonicalName>.MateralToolsVSIX.MateralToolWindow</LocCanonicalName>
 				</Strings>
-			</Button>-->
+			</Button>
 		</Buttons>
 	</Commands>
 	<Symbols>
@@ -49,6 +49,7 @@
 			<IDSymbol name="ProjectMenuGroup" value="0x0002" />
 			<IDSymbol name="SolutionClearCommand" value="0x0101" />
 			<IDSymbol name="ProjectClearCommand" value="0x0102" />
+			<IDSymbol name="MateralToolCommand" value="0x0111" />
 		</GuidSymbol>
 	</Symbols>
 </CommandTable>
