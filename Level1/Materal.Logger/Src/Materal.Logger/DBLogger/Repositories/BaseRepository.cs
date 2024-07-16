@@ -40,7 +40,7 @@ namespace Materal.Logger.DBLogger.Repositories
         /// <exception cref="LoggerException"></exception>
         public virtual void CloseDBConnection()
         {
-            if (DBConnection == null || DBConnection.State != ConnectionState.Open) return;
+            if (DBConnection is null || DBConnection.State != ConnectionState.Open) return;
             DBConnection.Close();
             DBConnection.Dispose();
             DBConnection = null;
