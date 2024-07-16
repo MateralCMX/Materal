@@ -11,7 +11,7 @@ namespace Materal.Oscillator.Works
         /// <summary>
         /// 类型名称
         /// </summary>
-        public string TypeName => GetType().Name;
+        public string TypeName => GetType().FullName ?? throw new OscillatorException("获取类型全称失败");
         /// <summary>
         /// 数据
         /// </summary>

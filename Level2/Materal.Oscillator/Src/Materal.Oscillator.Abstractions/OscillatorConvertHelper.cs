@@ -18,7 +18,7 @@ namespace Materal.Oscillator.Abstractions
         /// <exception cref="OscillatorException"></exception>
         public static IWork CreateNewWork(IWorkData workData, IServiceProvider serviceProvider)
         {
-            Type workType = workData.WorkTypeName.GetTypeByTypeName<IWork>() ?? throw new OscillatorException($"获取任务类型失败:{workData.WorkTypeName}"); ;
+            Type workType = workData.WorkTypeName.GetTypeByTypeFullName<IWork>() ?? throw new OscillatorException($"获取任务类型失败:{workData.WorkTypeName}"); ;
             IWork work = workType.InstantiationOrDefault<IWork>(serviceProvider) ?? throw new OscillatorException($"实例化任务失败:{workData.WorkTypeName}");
             work.SetData(workData);
             return work;
@@ -63,7 +63,7 @@ namespace Materal.Oscillator.Abstractions
         public static async Task<T> DeserializationAsync<T>(string typeName, JObject data, IServiceProvider serviceProvider)
             where T : IOscillatorData
         {
-            Type type = typeName.GetTypeByTypeName<T>() ?? throw new OscillatorException($"获取{typeof(T)}的实现类型{typeName}失败");
+            Type type = typeName.GetTypeByTypeFullName<T>() ?? throw new OscillatorException($"获取{typeof(T)}的实现类型{typeName}失败");
             T result = type.Instantiation<T>(serviceProvider);
             await result.DeserializationAsync(data, serviceProvider);
             return result;

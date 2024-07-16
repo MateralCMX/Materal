@@ -6,14 +6,13 @@
     public static class AssemblyExtensions
     {
         /// <summary>
-        /// 获取类型 T 及其子类的实现
+        /// 获得类型
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="assembly"></param>
+        /// <param name="filter">过滤器</param>
         /// <returns></returns>
-        public static IEnumerable<Type> GetTypes<T>(this Assembly assembly)
+        public static Type? GetTypeByFilter(this Assembly assembly, Func<Type, bool> filter)
         {
-            if (assembly == null) yield break;
             Type[] types;
             try
             {
@@ -21,13 +20,36 @@
             }
             catch
             {
-                yield break;
+                return null;
             }
-            foreach (Type type in types)
-            {
-                if (typeof(T).IsAssignableFrom(type) && type.IsPublic && type.IsClass && !type.IsAbstract) yield return type;
-            }
+            return types.FirstOrDefault(m => filter(m));
         }
+        /// <summary>
+        /// 获得类型
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <param name="filter">过滤器</param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetTypesByFilter(this Assembly assembly, Func<Type, bool> filter)
+        {
+            Type[] types;
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch
+            {
+                return [];
+            }
+            return types.Where(m => filter(m));
+        }
+        /// <summary>
+        /// 获取类型 T 及其子类的实现
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
+        public static IEnumerable<Type> GetTypes<T>(this Assembly assembly) => assembly.GetTypesByFilter(type => type.IsAssignableTo(typeof(T)) && type.IsPublic && type.IsClass && !type.IsAbstract);
         /// <summary>
         /// 获取所在文件夹路径
         /// </summary>

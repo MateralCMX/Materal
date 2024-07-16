@@ -6,7 +6,7 @@ namespace Materal.Oscillator.Works
     /// <summary>
     /// 任务数据
     /// </summary>
-    public abstract class WorkData<TWork>(string name = "新任务") : WorkData(typeof(TWork).Name, name), IWorkData
+    public abstract class WorkData<TWork>(string name = "新任务") : WorkData(typeof(TWork).FullName ?? throw new OscillatorException("获取类型全称失败"), name), IWorkData
         where TWork : IWork
     {
     }
