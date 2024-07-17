@@ -1,12 +1,11 @@
-﻿using Materal.Logger.Abstractions;
-using Materal.Oscillator.Abstractions.Works;
+﻿using Materal.Oscillator.Abstractions.Works;
 
 namespace Materal.Oscillator.Works
 {
     /// <summary>
     /// 任务上下文
     /// </summary>
-    public class WorkContext(IServiceProvider serviceProvider, IOscillator oscillator) : IWorkContext
+    public class WorkContext(IServiceProvider serviceProvider, IOscillator oscillator, Dictionary<string, object?> loggerScopeData) : IWorkContext
     {
         /// <summary>
         /// 服务容器
@@ -15,11 +14,11 @@ namespace Materal.Oscillator.Works
         /// <summary>
         /// 日志作用域
         /// </summary>
-        public LoggerScope LoggerScope { get; } = new("Oscillator", []);
+        public Dictionary<string, object?> LoggerScopeData { get; } = loggerScopeData;
         /// <summary>
         /// 异常
         /// </summary>
-        public Exception? Exception { get; set; }
+        public string? Exception { get; set; }
         /// <summary>
         /// 调度器对象
         /// </summary>

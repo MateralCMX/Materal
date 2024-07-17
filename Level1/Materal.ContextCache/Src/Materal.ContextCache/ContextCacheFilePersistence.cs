@@ -16,7 +16,7 @@ namespace Materal.ContextCache
         /// </summary>
         /// <param name="groupModel"></param>
         /// <param name="model"></param>
-        public void Save(ContextCacheGroupModel groupModel, ContextCacheModel model)
+        public virtual void Save(ContextCacheGroupModel groupModel, ContextCacheModel model)
         {
             string filePath = GetContextCacheFilePath(groupModel.ID);
             FileInfo fileInfo = new(filePath);
@@ -36,7 +36,7 @@ namespace Materal.ContextCache
         /// <param name="groupModel"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task SaveAsync(ContextCacheGroupModel groupModel, ContextCacheModel model)
+        public virtual async Task SaveAsync(ContextCacheGroupModel groupModel, ContextCacheModel model)
         {
             string filePath = GetContextCacheFilePath(groupModel.ID);
             FileInfo fileInfo = new(filePath);
@@ -59,7 +59,7 @@ namespace Materal.ContextCache
         /// 保存
         /// </summary>
         /// <param name="model"></param>
-        public void Save(ContextCacheModel model)
+        public virtual void Save(ContextCacheModel model)
         {
             (string savePath, StringBuilder contentBuilder) = GetSaveInfo(model);
             File.AppendAllText(savePath, contentBuilder.ToString(), _encoding);
@@ -69,7 +69,7 @@ namespace Materal.ContextCache
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task SaveAsync(ContextCacheModel model)
+        public virtual async Task SaveAsync(ContextCacheModel model)
         {
             (string savePath, StringBuilder contentBuilder) = GetSaveInfo(model);
 #if NETSTANDARD2_0
@@ -83,7 +83,7 @@ namespace Materal.ContextCache
         /// 移除
         /// </summary>
         /// <param name="groupID"></param>
-        public void Remove(Guid groupID)
+        public virtual void Remove(Guid groupID)
         {
             FileInfo fileInfo = GetContextCacheFileInfo(groupID);
             if (!fileInfo.Exists) return;
@@ -94,7 +94,7 @@ namespace Materal.ContextCache
         /// </summary>
         /// <param name="groupID"></param>
         /// <returns></returns>
-        public async Task RemoveAsync(Guid groupID)
+        public virtual async Task RemoveAsync(Guid groupID)
         {
             Remove(groupID);
             await Task.CompletedTask;
@@ -103,7 +103,7 @@ namespace Materal.ContextCache
         /// 获得所有分组信息
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ContextCacheGroupModel> GetAllGroupInfo()
+        public virtual IEnumerable<ContextCacheGroupModel> GetAllGroupInfo()
         {
             DirectoryInfo directoryInfo = GetContextCacheDirectoryInfo();
             FileInfo[] fileInfos = directoryInfo.GetFiles($"*.{_fileExtension}");

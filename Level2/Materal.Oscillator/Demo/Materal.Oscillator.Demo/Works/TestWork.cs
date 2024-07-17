@@ -12,5 +12,15 @@ namespace Dy.Oscillator.Demo.Works
             ConsoleQueue.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]{Data.Message}");
             await Task.CompletedTask;
         }
+        public override async Task SuccessExecuteAsync(IWorkContext workContext)
+        {
+            ConsoleQueue.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]TestWork Success!");
+            await Task.CompletedTask;
+        }
+        public override async Task FailExecuteAsync(IWorkContext workContext)
+        {
+            ConsoleQueue.WriteLine($"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]TestWork Fail!");
+            await Task.CompletedTask;
+        }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Materal.Logger.Abstractions;
-
-namespace Materal.Oscillator.Abstractions.Works
+﻿namespace Materal.Oscillator.Abstractions.Works
 {
     /// <summary>
     /// 任务上下文
@@ -14,11 +12,11 @@ namespace Materal.Oscillator.Abstractions.Works
         /// <summary>
         /// 日志作用域
         /// </summary>
-        LoggerScope LoggerScope { get; }
+        Dictionary<string, object?> LoggerScopeData { get; }
         /// <summary>
         /// 异常
         /// </summary>
-        Exception? Exception { get; set; }
+        string? Exception { get; set; }
         /// <summary>
         /// 调度器对象
         /// </summary>

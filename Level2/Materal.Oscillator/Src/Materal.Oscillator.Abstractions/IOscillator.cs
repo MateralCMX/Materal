@@ -6,7 +6,7 @@ namespace Materal.Oscillator.Abstractions
     /// <summary>
     /// 调度器
     /// </summary>
-    public interface IOscillator
+    public interface IOscillator : IOscillatorData
     {
         /// <summary>
         /// 唯一标识

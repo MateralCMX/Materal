@@ -20,7 +20,7 @@ namespace Materal.ContextCache.SqlitePersistence
         /// </summary>
         /// <param name="groupModel"></param>
         /// <param name="model"></param>
-        public void Save(ContextCacheGroupModel groupModel, ContextCacheModel model)
+        public virtual void Save(ContextCacheGroupModel groupModel, ContextCacheModel model)
         {
             SqliteConnection dbConnection = OpenDBConnection();
             SqliteTransaction transaction = dbConnection.BeginTransaction();
@@ -68,7 +68,7 @@ namespace Materal.ContextCache.SqlitePersistence
         /// <param name="groupModel"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task SaveAsync(ContextCacheGroupModel groupModel, ContextCacheModel model)
+        public virtual async Task SaveAsync(ContextCacheGroupModel groupModel, ContextCacheModel model)
         {
             SqliteConnection dbConnection = OpenDBConnection();
             SqliteTransaction transaction = dbConnection.BeginTransaction();
@@ -114,7 +114,7 @@ namespace Materal.ContextCache.SqlitePersistence
         /// 保存
         /// </summary>
         /// <param name="model"></param>
-        public void Save(ContextCacheModel model)
+        public virtual void Save(ContextCacheModel model)
         {
             SqliteConnection dbConnection = OpenDBConnection();
             try
@@ -133,7 +133,7 @@ namespace Materal.ContextCache.SqlitePersistence
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task SaveAsync(ContextCacheModel model)
+        public virtual async Task SaveAsync(ContextCacheModel model)
         {
             SqliteConnection dbConnection = OpenDBConnection();
             try
@@ -151,7 +151,7 @@ namespace Materal.ContextCache.SqlitePersistence
         /// 移除
         /// </summary>
         /// <param name="groupID"></param>
-        public void Remove(Guid groupID)
+        public virtual void Remove(Guid groupID)
         {
             SqliteConnection dbConnection = OpenDBConnection();
             try
@@ -170,7 +170,7 @@ namespace Materal.ContextCache.SqlitePersistence
         /// </summary>
         /// <param name="groupID"></param>
         /// <returns></returns>
-        public async Task RemoveAsync(Guid groupID)
+        public virtual async Task RemoveAsync(Guid groupID)
         {
             SqliteConnection dbConnection = OpenDBConnection();
             try
@@ -188,7 +188,7 @@ namespace Materal.ContextCache.SqlitePersistence
         /// 获得所有分组信息
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<ContextCacheGroupModel> GetAllGroupInfo()
+        public virtual IEnumerable<ContextCacheGroupModel> GetAllGroupInfo()
         {
             List<ContextCacheGroupModel> result = [];
             List<ContextCacheModel> contextCaches = [];

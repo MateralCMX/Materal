@@ -21,6 +21,9 @@
 		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
+	  <PackageReference Include="Materal.ContextCache.SqlitePersistence" Version="1.1.76" />
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
 	</ItemGroup>
 </Project>
