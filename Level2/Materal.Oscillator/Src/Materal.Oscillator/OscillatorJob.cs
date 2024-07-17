@@ -8,33 +8,6 @@ using System.Diagnostics;
 
 namespace Materal.Oscillator
 {
-    internal enum OscillatorJobStep : byte
-    {
-        RunWork = 0,
-        Success = 1,
-        Fail = 2
-    }
-    internal class RestorerContext
-    {
-        /// <summary>
-        /// 触发器名称
-        /// </summary>
-        public string TriggerName { get; set; } = string.Empty;
-        /// <summary>
-        /// Oscillator数据
-        /// </summary>
-        public string? OscillatorData { get; set; }
-        /// <summary>
-        /// 日志作用域
-        /// </summary>
-        public Dictionary<string, object?> LoggerScopeData { get; set; } = [];
-        /// <summary>
-        /// 耗时
-        /// </summary>
-        public long ElapsedMilliseconds { get; set; }
-        public OscillatorJobStep Step { get; set; } = OscillatorJobStep.RunWork;
-        public string? Exception { get; set; }
-    }
     /// <summary>
     /// 调度器作业
     /// </summary>
@@ -43,7 +16,7 @@ namespace Materal.Oscillator
         private readonly IServiceScope _scope;
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<OscillatorJob> _logger;
-        private Dictionary<string, object?> _loggerScopeData;
+        private readonly Dictionary<string, object?> _loggerScopeData;
         private readonly IDisposable? _loggerScope;
         public OscillatorJob()
         {
@@ -54,8 +27,13 @@ namespace Materal.Oscillator
             LoggerScope loggerScope = new("Oscillator", _loggerScopeData);
             _loggerScope = _logger.BeginScope(loggerScope);
         }
-        private WorkContext Init(IOscillator oscillator)
+        private WorkContext Init(IOscillator oscillator, RestorerContext restorerContext)
         {
+            foreach (KeyValuePair<string, object?> data in restorerContext.LoggerScopeData)
+            {
+                _loggerScopeData.TryAdd(data.Key, data.Value);
+            }
+            restorerContext.LoggerScopeData = _loggerScopeData;
             WorkContext workContext = new(_serviceProvider, oscillator, _loggerScopeData);
             workContext.LoggerScopeData.TryAdd("StartTime", DateTime.Now);
             workContext.LoggerScopeData.TryAdd("OscillatorID", oscillator.ID);
@@ -184,8 +162,7 @@ namespace Materal.Oscillator
         {
             if (contextCache.Context is not RestorerContext restorerContext || string.IsNullOrWhiteSpace(restorerContext.OscillatorData)) return;
             IOscillator oscillator = await OscillatorConvertHelper.DeserializationAsync<IOscillator>(restorerContext.OscillatorData, _serviceProvider);
-            _loggerScopeData = restorerContext.LoggerScopeData;
-            WorkContext workContext = Init(oscillator);
+            WorkContext workContext = Init(oscillator, restorerContext);
             await ExecuteAsync(workContext, restorerContext, contextCache);
             await EndAsync(contextCache);
         }
@@ -206,7 +183,7 @@ namespace Materal.Oscillator
             };
             IContextCacheService contextCacheService = _serviceProvider.GetRequiredService<IContextCacheService>();
             IContextCache contextCache = await contextCacheService.BeginContextCacheAsync<OscillatorJob, RestorerContext>(restorerContext);
-            WorkContext workContext = Init(oscillator);
+            WorkContext workContext = Init(oscillator, restorerContext);
             await ExecuteAsync(workContext, restorerContext, contextCache);
             await EndAsync(contextCache);
         }
