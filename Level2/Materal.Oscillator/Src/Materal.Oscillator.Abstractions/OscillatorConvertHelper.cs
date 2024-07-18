@@ -18,7 +18,7 @@ namespace Materal.Oscillator.Abstractions
         /// <exception cref="OscillatorException"></exception>
         public static IWork CreateNewWork(IWorkData workData, IServiceProvider serviceProvider)
         {
-            Type workType = workData.WorkTypeName.GetTypeByTypeFullName<IWork>() ?? throw new OscillatorException($"获取任务类型失败:{workData.WorkTypeName}"); ;
+            Type workType = workData.WorkTypeName.GetTypeByTypeFullName<IWork>() ?? throw new OscillatorException($"获取任务类型失败:{workData.WorkTypeName}");
             IWork work = workType.InstantiationOrDefault<IWork>(serviceProvider) ?? throw new OscillatorException($"实例化任务失败:{workData.WorkTypeName}");
             work.SetData(workData);
             return work;

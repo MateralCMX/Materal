@@ -17,16 +17,22 @@ namespace Materal.Oscillator
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<OscillatorJob> _logger;
         private readonly Dictionary<string, object?> _loggerScopeData;
-        private readonly IDisposable? _loggerScope;
+        /// <summary>
+        /// 构造方法
+        /// </summary>
         public OscillatorJob()
         {
             _scope = OscillatorServices.ServiceProvider.CreateScope();
             _serviceProvider = _scope.ServiceProvider;
             _logger = _serviceProvider.GetRequiredService<ILogger<OscillatorJob>>();
             _loggerScopeData = [];
-            LoggerScope loggerScope = new("Oscillator", _loggerScopeData);
-            _loggerScope = _logger.BeginScope(loggerScope);
         }
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        /// <param name="oscillator"></param>
+        /// <param name="restorerContext"></param>
+        /// <returns></returns>
         private WorkContext Init(IOscillator oscillator, RestorerContext restorerContext)
         {
             foreach (KeyValuePair<string, object?> data in restorerContext.LoggerScopeData)
@@ -41,13 +47,43 @@ namespace Materal.Oscillator
             workContext.LoggerScopeData.TryAdd("WorkName", oscillator.WorkData.Name);
             return workContext;
         }
-        private async Task EndAsync(IContextCache contextCache)
+        /// <summary>
+        /// 结束收尾
+        /// </summary>
+        /// <param name="workContext"></param>
+        /// <param name="contextCache"></param>
+        /// <param name="exception"></param>
+        /// <returns></returns>
+        private async Task EndAsync(WorkContext workContext, IContextCache contextCache, Exception? exception)
         {
+            LoggerScope loggerScope = new("Oscillator", _loggerScopeData);
+            using IDisposable? _ = _logger.BeginScope(loggerScope);
+            if (exception is null)
+            {
+                if (workContext.Exception is null)
+                {
+                    _logger.LogInformation($"调度器[${{PlanTriggerName}}_{workContext.Oscillator.WorkData.Name}]执行完毕");
+                }
+                else
+                {
+                    _logger.LogError($"调度器[${{PlanTriggerName}}_{workContext.Oscillator.WorkData.Name}]执行失败");
+                }
+            }
+            else
+            {
+                _logger.LogError(exception, $"调度器[${{PlanTriggerName}}_{workContext.Oscillator.WorkData.Name}]发生错误");
+            }
             await contextCache.DisposeAsync();
             _scope.Dispose();
-            _loggerScope?.Dispose();
         }
-        private async Task ExecuteAsync(WorkContext workContext, RestorerContext restorerContext, IContextCache contextCache)
+        /// <summary>
+        /// 执行任务
+        /// </summary>
+        /// <param name="workContext"></param>
+        /// <param name="restorerContext"></param>
+        /// <param name="contextCache"></param>
+        /// <returns></returns>
+        private async Task ExecuteWorkAsync(WorkContext workContext, RestorerContext restorerContext, IContextCache contextCache)
         {
             #region 准备工作
             IWork work = OscillatorConvertHelper.CreateNewWork(workContext.Oscillator.WorkData, _serviceProvider);
@@ -81,9 +117,17 @@ namespace Materal.Oscillator
                 workContext.LoggerScopeData.TryAdd("WarrningMessage", "获取计划触发器信息失败:TriggerKey格式错误");
             }
             #endregion
-            await ExcuteAsync(workContext, restorerContext, contextCache, work, triggerName);
+            await ExcuteWorkAsync(workContext, restorerContext, contextCache, work);
         }
-        private async Task ExcuteAsync(WorkContext workContext, RestorerContext restorerContext, IContextCache contextCache, IWork work, string triggerName)
+        /// <summary>
+        /// 执行任务
+        /// </summary>
+        /// <param name="workContext"></param>
+        /// <param name="restorerContext"></param>
+        /// <param name="contextCache"></param>
+        /// <param name="work"></param>
+        /// <returns></returns>
+        private static async Task ExcuteWorkAsync(WorkContext workContext, RestorerContext restorerContext, IContextCache contextCache, IWork work)
         {
             Stopwatch stopwatch = new();
             stopwatch.Start();
@@ -115,26 +159,24 @@ namespace Materal.Oscillator
             {
                 if (string.IsNullOrWhiteSpace(workContext.Exception))
                 {
-                    await SuccessExcuteAsync(workContext, work);
+                    await ExcuteSuccessWorkAsync(workContext, work);
                 }
                 else
                 {
-                    await FailExcuteAsync(workContext, work);
+                    await ExcuteFailWorkAsync(workContext, work);
                 }
                 stopwatch.Stop();
                 workContext.LoggerScopeData.TryAdd("ElapsedTime", restorerContext.ElapsedMilliseconds + stopwatch.ElapsedMilliseconds);
                 workContext.LoggerScopeData.TryAdd("EndTime", DateTime.Now);
-                if (workContext.Exception is null)
-                {
-                    _logger.LogInformation($"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]执行完毕");
-                }
-                else
-                {
-                    _logger.LogError(workContext.Exception, $"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]执行失败");
-                }
             }
         }
-        private static async Task SuccessExcuteAsync(WorkContext workContext, IWork work)
+        /// <summary>
+        /// 执行成功任务
+        /// </summary>
+        /// <param name="workContext"></param>
+        /// <param name="work"></param>
+        /// <returns></returns>
+        private static async Task ExcuteSuccessWorkAsync(WorkContext workContext, IWork work)
         {
             workContext.LoggerScopeData.TryAdd("IsSuccess", true);
             try
@@ -146,7 +188,13 @@ namespace Materal.Oscillator
                 workContext.LoggerScopeData.TryAdd("SuccessException", ex.GetErrorMessage());
             }
         }
-        private static async Task FailExcuteAsync(WorkContext workContext, IWork work)
+        /// <summary>
+        /// 执行失败任务
+        /// </summary>
+        /// <param name="workContext"></param>
+        /// <param name="work"></param>
+        /// <returns></returns>
+        private static async Task ExcuteFailWorkAsync(WorkContext workContext, IWork work)
         {
             workContext.LoggerScopeData.TryAdd("IsSuccess", false);
             try
@@ -158,13 +206,29 @@ namespace Materal.Oscillator
                 workContext.LoggerScopeData.TryAdd("FailException", ex.GetErrorMessage());
             }
         }
+        /// <summary>
+        /// 重新开始
+        /// </summary>
+        /// <param name="contextCache"></param>
+        /// <returns></returns>
         public async Task RenewAsync(IContextCache contextCache)
         {
             if (contextCache.Context is not RestorerContext restorerContext || string.IsNullOrWhiteSpace(restorerContext.OscillatorData)) return;
             IOscillator oscillator = await OscillatorConvertHelper.DeserializationAsync<IOscillator>(restorerContext.OscillatorData, _serviceProvider);
             WorkContext workContext = Init(oscillator, restorerContext);
-            await ExecuteAsync(workContext, restorerContext, contextCache);
-            await EndAsync(contextCache);
+            Exception? exception = null;
+            try
+            {
+                await ExecuteWorkAsync(workContext, restorerContext, contextCache);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+            finally
+            {
+                await EndAsync(workContext, contextCache, exception);
+            }
         }
         /// <summary>
         /// 执行
@@ -184,8 +248,19 @@ namespace Materal.Oscillator
             IContextCacheService contextCacheService = _serviceProvider.GetRequiredService<IContextCacheService>();
             IContextCache contextCache = await contextCacheService.BeginContextCacheAsync<OscillatorJob, RestorerContext>(restorerContext);
             WorkContext workContext = Init(oscillator, restorerContext);
-            await ExecuteAsync(workContext, restorerContext, contextCache);
-            await EndAsync(contextCache);
+            Exception? exception = null;
+            try
+            {
+                await ExecuteWorkAsync(workContext, restorerContext, contextCache);
+            }
+            catch (Exception ex)
+            {
+                exception = ex;
+            }
+            finally
+            {
+                await EndAsync(workContext, contextCache, exception);
+            }
         }
     }
 }
