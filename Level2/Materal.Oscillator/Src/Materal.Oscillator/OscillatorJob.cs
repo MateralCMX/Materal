@@ -58,40 +58,40 @@ namespace Materal.Oscillator
         private async Task EndAsync(WorkContext workContext, IContextCache contextCache, Exception? exception)
         {
             LoggerScope loggerScope = new("Oscillator", _loggerScopeData);
+            string? triggerName;
+            if (workContext.LoggerScopeData.TryGetValue(PlanTriggerNameKey, out object? triggerNameObj))
+            {
+                if (triggerNameObj is string tempTriggerName)
+                {
+                    triggerName = tempTriggerName;
+                }
+                else
+                {
+                    triggerName = triggerNameObj?.ToString();
+                }
+            }
+            else
+            {
+                triggerName = workContext.Oscillator.Triggers.FirstOrDefault()?.Name;
+            }
+            if (string.IsNullOrWhiteSpace(triggerName))
+            {
+                triggerName = "未知任务";
+            }
             using IDisposable? _ = _logger.BeginScope(loggerScope);
             if (exception is null)
             {
                 if (workContext.Exception is null)
                 {
-                    _logger.LogInformation($"调度器[${{PlanTriggerName}}_{workContext.Oscillator.WorkData.Name}]执行完毕");
+                    _logger.LogInformation($"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]执行完毕");
                 }
                 else
                 {
-                    _logger.LogError($"调度器[${{PlanTriggerName}}_{workContext.Oscillator.WorkData.Name}]执行失败");
+                    _logger.LogError($"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]执行失败");
                 }
             }
             else
             {
-                string? triggerName;
-                if (workContext.LoggerScopeData.TryGetValue(PlanTriggerNameKey, out object? triggerNameObj))
-                {
-                    if (triggerNameObj is string tempTriggerName)
-                    {
-                        triggerName = tempTriggerName;
-                    }
-                    else
-                    {
-                        triggerName = triggerNameObj?.ToString();
-                    }
-                }
-                else
-                {
-                    triggerName = workContext.Oscillator.Triggers.FirstOrDefault()?.Name;
-                }
-                if (string.IsNullOrWhiteSpace(triggerName))
-                {
-                    triggerName = "未知任务";
-                }
                 _logger.LogError(exception, $"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]发生错误");
             }
             await contextCache.DisposeAsync();
