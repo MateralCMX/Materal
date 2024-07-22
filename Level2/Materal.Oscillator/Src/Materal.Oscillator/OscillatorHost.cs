@@ -8,36 +8,12 @@ namespace Materal.Oscillator
     /// <summary>
     /// 调度器主机
     /// </summary>
-    public class OscillatorHost : IOscillatorHost
+    public class OscillatorHost(IOptionsMonitor<OscillatorOptions> options, IEnumerable<IJobListener>? jobListeners = null) : IOscillatorHost
     {
         /// <summary>
         /// 调度器
         /// </summary>
         private IScheduler? _scheduler;
-        private readonly IOptionsMonitor<OscillatorOptions>? _optionsMonitor;
-        private readonly IEnumerable<IJobListener>? _jobListeners;
-        private readonly OscillatorOptions? _options;
-        private OscillatorOptions Options => _optionsMonitor?.CurrentValue ?? _options ?? throw new OscillatorException("获取配置对象失败");
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="jobListeners"></param>
-        public OscillatorHost(IOptionsMonitor<OscillatorOptions> options, IEnumerable<IJobListener>? jobListeners = null)
-        {
-            _optionsMonitor = options;
-            _jobListeners = jobListeners;
-        }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="jobListeners"></param>
-        public OscillatorHost(OscillatorOptions options, IEnumerable<IJobListener>? jobListeners = null)
-        {
-            _options = options;
-            _jobListeners = jobListeners;
-        }
         /// <summary>
         /// 启动
         /// </summary>
@@ -47,11 +23,11 @@ namespace Materal.Oscillator
             await StopAsync();
             NameValueCollection properties = [];
             _scheduler = await SchedulerBuilder.Create(properties)
-                    .UseDefaultThreadPool(x => x.MaxConcurrency = Options.MaxConcurrency)
+                    .UseDefaultThreadPool(x => x.MaxConcurrency = options.CurrentValue.MaxConcurrency)
                     .BuildScheduler();
-            if (_jobListeners is not null && _jobListeners.Any())
+            if (jobListeners is not null && jobListeners.Any())
             {
-                foreach (IJobListener jobListener in _jobListeners)
+                foreach (IJobListener jobListener in jobListeners)
                 {
                     _scheduler.ListenerManager.AddJobListener(jobListener, GroupMatcher<JobKey>.AnyGroup());
                 }

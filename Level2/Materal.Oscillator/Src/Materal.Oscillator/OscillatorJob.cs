@@ -17,6 +17,7 @@ namespace Materal.Oscillator
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<OscillatorJob> _logger;
         private readonly Dictionary<string, object?> _loggerScopeData;
+        private const string PlanTriggerNameKey = "PlanTriggerName";
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -71,7 +72,27 @@ namespace Materal.Oscillator
             }
             else
             {
-                _logger.LogError(exception, $"调度器[${{PlanTriggerName}}_{workContext.Oscillator.WorkData.Name}]发生错误");
+                string? triggerName;
+                if (workContext.LoggerScopeData.TryGetValue(PlanTriggerNameKey, out object? triggerNameObj))
+                {
+                    if (triggerNameObj is string tempTriggerName)
+                    {
+                        triggerName = tempTriggerName;
+                    }
+                    else
+                    {
+                        triggerName = triggerNameObj?.ToString();
+                    }
+                }
+                else
+                {
+                    triggerName = workContext.Oscillator.Triggers.FirstOrDefault()?.Name;
+                }
+                if (string.IsNullOrWhiteSpace(triggerName))
+                {
+                    triggerName = "未知任务";
+                }
+                _logger.LogError(exception, $"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]发生错误");
             }
             await contextCache.DisposeAsync();
             _scope.Dispose();
@@ -98,7 +119,7 @@ namespace Materal.Oscillator
                     triggerName = restorerContext.TriggerName[(triggerSplitValues[0].Length + 1)..];
                     workContext.LoggerScopeData.TryAdd("PlanTriggerID", triggerID);
                     workContext.PlanTriggerID = triggerID;
-                    workContext.LoggerScopeData.TryAdd("PlanTriggerName", triggerName);
+                    workContext.LoggerScopeData.TryAdd(PlanTriggerNameKey, triggerName);
                     foreach (IPlanTrigger planTrigger in workContext.Oscillator.Triggers)
                     {
                         if (planTrigger.ID != triggerID) continue;
