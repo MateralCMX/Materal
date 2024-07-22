@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Materal.Oscillator
 {
@@ -24,13 +23,12 @@ namespace Materal.Oscillator
         /// <summary>
         /// 反序列化
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="jsonData"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public virtual async Task DeserializationAsync(JObject data, IServiceProvider serviceProvider)
+        public virtual async Task DeserializationAsync(string jsonData, IServiceProvider serviceProvider)
         {
-            object dataObj = data.ToObject(GetType()) ?? throw new OscillatorException("反序列化失败");
-            dataObj.CopyProperties(this);
+            JsonConvert.PopulateObject(jsonData, this);
             await Task.CompletedTask;
         }
     }

@@ -43,23 +43,31 @@ namespace Materal.Oscillator
         /// <summary>
         /// 反序列化
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="jsonData"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        public override async Task DeserializationAsync(JObject data, IServiceProvider serviceProvider)
+        public override async Task DeserializationAsync(string jsonData, IServiceProvider serviceProvider)
         {
-            ID = data[nameof(ID)]?.ToObject<Guid>() ?? throw new OscillatorException($"反序列化失败:{nameof(ID)}");
-            Enable = data[nameof(Enable)]?.ToObject<bool>() ?? throw new OscillatorException($"反序列化失败:{nameof(Enable)}");
-            JToken workDataJson = data[nameof(WorkData)] ?? throw new OscillatorException($"反序列化失败:{nameof(WorkData)}");
-            if (workDataJson is not JObject workDataObject) throw new OscillatorException($"反序列化失败:{nameof(WorkData)}");
-            WorkData = await OscillatorConvertHelper.DeserializationAsync<IWorkData>(workDataObject, serviceProvider);
-            JToken triggersData = data[nameof(Triggers)] ?? throw new OscillatorException($"反序列化失败:{nameof(Triggers)}");
-            if (triggersData is not JArray triggersArrayData) throw new OscillatorException($"反序列化失败:{nameof(Triggers)}");
-            foreach (JToken triggerData in triggersArrayData)
+            JObject jsonObject = JObject.Parse(jsonData);
+            if (jsonObject[nameof(ID)] is JValue idValue)
             {
-                if (triggerData is not JObject triggerObject) throw new OscillatorException("反序列化失败:TriggerValue");
-                IPlanTrigger trigger = await OscillatorConvertHelper.DeserializationAsync<IPlanTrigger>(triggerObject, serviceProvider);
-                Triggers.Add(trigger);
+                ID = idValue.ToObject<Guid>();
+            }
+            if (jsonObject[nameof(Enable)] is JValue enableValue)
+            {
+                Enable = enableValue.ToObject<bool>();
+            }
+            if (jsonObject[nameof(WorkData)] is JObject workDataObject)
+            {
+                WorkData = await OscillatorConvertHelper.DeserializationAsync<IWorkData>(workDataObject, serviceProvider);
+            }
+            if (jsonObject[nameof(Triggers)] is JArray triggersArray)
+            {
+                foreach (JToken triggerToken in triggersArray)
+                {
+                    IPlanTrigger trigger = await OscillatorConvertHelper.DeserializationAsync<IPlanTrigger>(triggerToken, serviceProvider);
+                    Triggers.Add(trigger);
+                }
             }
         }
     }

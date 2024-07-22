@@ -17,7 +17,7 @@ namespace Materal.Oscillator.PlanTriggers
         /// <summary>
         /// 日期触发器类型名称
         /// </summary>
-        public string DateTriggerTypeName => DateTrigger.GetType().Name;
+        public string DateTriggerTypeName => DateTrigger.GetType().FullName ?? throw new OscillatorException("获取DateTrigger类型名称失败");
         /// <summary>
         /// 日期触发器
         /// </summary>
@@ -25,30 +25,11 @@ namespace Materal.Oscillator.PlanTriggers
         /// <summary>
         /// 时间触发器类型名称
         /// </summary>
-        public string TimeTriggerTypeName => TimeTrigger.GetType().Name;
+        public string TimeTriggerTypeName => TimeTrigger.GetType().FullName ?? throw new OscillatorException("获取TimeTrigger类型名称失败");
         /// <summary>
         /// 时间触发器
         /// </summary>
         public ITimeTrigger TimeTrigger { get; set; } = new TimeNotRunTrigger();
-        /// <summary>
-        /// 反序列化
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        public override async Task DeserializationAsync(JObject data, IServiceProvider serviceProvider)
-        {
-            object dataObj = data.ToObject(GetType()) ?? throw new OscillatorException("反序列化失败");
-            dataObj.CopyProperties(this, [nameof(DateTrigger), nameof(TimeTrigger)]);
-            string dateTriggerTypeName = data[nameof(DateTriggerTypeName)]?.ToString() ?? throw new OscillatorException($"反序列化失败:{nameof(DateTriggerTypeName)}");
-            JToken dateTriggerData = data[nameof(DateTrigger)] ?? throw new OscillatorException($"反序列化失败:{nameof(DateTrigger)}");
-            if (dateTriggerData is not JObject dateTriggerObject) throw new OscillatorException($"反序列化失败:{nameof(DateTrigger)}");
-            DateTrigger = await OscillatorConvertHelper.DeserializationAsync<IDateTrigger>(dateTriggerTypeName, dateTriggerObject, serviceProvider);
-            string timeTriggerTypeName = data[nameof(TimeTriggerTypeName)]?.ToString() ?? throw new OscillatorException($"反序列化失败:{nameof(TimeTriggerTypeName)}");
-            JToken timeTriggerData = data[nameof(TimeTrigger)] ?? throw new OscillatorException($"反序列化失败:{nameof(TimeTrigger)}");
-            if (timeTriggerData is not JObject timeTriggerObject) throw new OscillatorException($"反序列化失败:{nameof(TimeTrigger)}");
-            TimeTrigger = await OscillatorConvertHelper.DeserializationAsync<ITimeTrigger>(timeTriggerTypeName, timeTriggerObject, serviceProvider);
-        }
         /// <summary>
         /// 创建触发器
         /// </summary>
@@ -73,5 +54,24 @@ namespace Materal.Oscillator.PlanTriggers
         /// <param name="upRunTime"></param>
         /// <returns></returns>
         public override DateTimeOffset? GetNextRunTime(DateTimeOffset upRunTime) => DateTrigger.GetNextRunTime(upRunTime, TimeTrigger);
+        /// <summary>
+        /// 反序列化
+        /// </summary>
+        /// <param name="jsonData"></param>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        public override async Task DeserializationAsync(string jsonData, IServiceProvider serviceProvider)
+        {
+            await base.DeserializationAsync(jsonData, serviceProvider);
+            JObject jsonObject = JObject.Parse(jsonData);
+            if (jsonObject[nameof(DateTrigger)] is JObject dateTriggerObject)
+            {
+                DateTrigger = await OscillatorConvertHelper.DeserializationAsync<IDateTrigger>(dateTriggerObject, serviceProvider);
+            }
+            if (jsonObject[nameof(TimeTrigger)] is JObject timeTriggerObject)
+            {
+                TimeTrigger = await OscillatorConvertHelper.DeserializationAsync<ITimeTrigger>(timeTriggerObject, serviceProvider);
+            }
+        }
     }
 }

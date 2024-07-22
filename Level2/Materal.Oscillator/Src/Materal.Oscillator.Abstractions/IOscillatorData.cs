@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace Materal.Oscillator.Abstractions
+﻿namespace Materal.Oscillator.Abstractions
 {
     /// <summary>
     /// Osciilator数据
@@ -19,9 +17,9 @@ namespace Materal.Oscillator.Abstractions
         /// <summary>
         /// 反序列化
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="jsonData"></param>
         /// <param name="serviceProvider"></param>
         /// <returns></returns>
-        Task DeserializationAsync(JObject data, IServiceProvider serviceProvider);
+        Task DeserializationAsync(string jsonData, IServiceProvider serviceProvider);
     }
 }
