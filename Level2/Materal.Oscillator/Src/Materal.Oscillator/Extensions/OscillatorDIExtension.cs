@@ -1,5 +1,4 @@
 ﻿using Materal.ContextCache;
-using Materal.ContextCache.SqlitePersistence;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.Oscillator.Extensions
@@ -16,7 +15,8 @@ namespace Materal.Oscillator.Extensions
         /// <returns></returns>
         public static IServiceCollection AddOscillator(this IServiceCollection services)
         {
-            services.AddOscillator<ContextCacheSqlitePersistence>();
+            services.AddOscillator<ContextCacheFilePersistence>();
+            //services.AddOscillator<ContextCacheSqlitePersistence>();
             return services;
         }
         /// <summary>

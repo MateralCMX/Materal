@@ -55,7 +55,7 @@ namespace Materal.Oscillator
         /// <param name="contextCache"></param>
         /// <param name="exception"></param>
         /// <returns></returns>
-        private async Task EndAsync(WorkContext workContext, IContextCache contextCache, Exception? exception)
+        private void End(WorkContext workContext, IContextCache contextCache, Exception? exception)
         {
             LoggerScope loggerScope = new("Oscillator", _loggerScopeData);
             string? triggerName;
@@ -94,7 +94,7 @@ namespace Materal.Oscillator
             {
                 _logger.LogError(exception, $"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]发生错误");
             }
-            await contextCache.DisposeAsync();
+            contextCache.EndAsync();
             _scope.Dispose();
         }
         /// <summary>
@@ -159,7 +159,7 @@ namespace Materal.Oscillator
                     await work.ExecuteAsync(workContext);
                     restorerContext.Step = OscillatorJobStep.Success;
                     restorerContext.ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-                    contextCache.NextStep();
+                    contextCache.NextStepAsync();
                     restorerContext.ElapsedMilliseconds = 0;
                 }
                 else
@@ -173,7 +173,7 @@ namespace Materal.Oscillator
                 restorerContext.Exception = workContext.Exception;
                 restorerContext.Step = OscillatorJobStep.Fail;
                 restorerContext.ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-                contextCache.NextStep();
+                contextCache.NextStepAsync();
                 restorerContext.ElapsedMilliseconds = 0;
             }
             finally
@@ -248,7 +248,7 @@ namespace Materal.Oscillator
             }
             finally
             {
-                await EndAsync(workContext, contextCache, exception);
+                End(workContext, contextCache, exception);
             }
         }
         /// <summary>
@@ -267,7 +267,7 @@ namespace Materal.Oscillator
                 TriggerName = context.Trigger.Key.Name
             };
             IContextCacheService contextCacheService = _serviceProvider.GetRequiredService<IContextCacheService>();
-            IContextCache contextCache = await contextCacheService.BeginContextCacheAsync<OscillatorJob, RestorerContext>(restorerContext);
+            IContextCache contextCache = contextCacheService.BeginContextCache<OscillatorJob, RestorerContext>(restorerContext);
             WorkContext workContext = Init(oscillator, restorerContext);
             Exception? exception = null;
             try
@@ -280,7 +280,7 @@ namespace Materal.Oscillator
             }
             finally
             {
-                await EndAsync(workContext, contextCache, exception);
+                End(workContext, contextCache, exception);
             }
         }
     }
