@@ -15,16 +15,18 @@ namespace Materal.ContextCache.Test
         {
             IContextCacheService service = Services.GetRequiredService<IContextCacheService>();
             TestContext context = new() { NowIndex = 1, TargetIndex = 100 };
-            IContextCache contextCache = await service.BeginContextCacheAsync<TestRestorer, TestContext>(context);
-            await TestRestorer.HandlerAsync(contextCache, context);
+            IContextCache contextCache = service.BeginContextCache<TestRestorer, TestContext>(context);
+            TestRestorer.Handler(contextCache, context);
+            await Task.Delay(1000);
         }
         [TestMethod]
-        public async Task TestRenew()
+        public async Task TestRenewAsync()
         {
             IContextCacheService service = Services.GetRequiredService<IContextCacheService>();
             TestContext context = new() { NowIndex = 1, TargetIndex = 100 };
-            await service.BeginContextCacheAsync<TestRestorer, TestContext>(context);
+            service.BeginContextCache<TestRestorer, TestContext>(context);
             await service.RenewAsync();
+            await Task.Delay(1000);
         }
     }
     public class TestContext
@@ -34,20 +36,23 @@ namespace Materal.ContextCache.Test
     }
     public class TestRestorer : IContextRestorer
     {
-        public static async Task HandlerAsync(IContextCache contextCache, TestContext context)
+        public static void Handler(IContextCache contextCache, TestContext context)
         {
             while (context.NowIndex < context.TargetIndex)
             {
                 Handler(context);
-                await contextCache.NextStepAsync();
+                //contextCache.NextStep();
+                contextCache.NextStepAsync();
             }
-            await contextCache.EndAsync();
+            //contextCache.End();
+            contextCache.EndAsync();
         }
         public static void Handler(TestContext context) => context.NowIndex++;
         public async Task RenewAsync(IContextCache contextCache)
         {
             if (contextCache.Context is not TestContext context) return;
-            await HandlerAsync(contextCache, context);
+            Handler(contextCache, context);
+            await Task.CompletedTask;
         }
     }
 }

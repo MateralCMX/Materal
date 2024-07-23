@@ -1,4 +1,6 @@
-﻿namespace Materal.ContextCache
+﻿using System.Threading.Tasks.Dataflow;
+
+namespace Materal.ContextCache
 {
     /// <summary>
     /// 上下文缓存
@@ -23,6 +25,7 @@
         private Guid LastID => GroupInfo?.ContextCacheData.LastOrDefault()?.ID ?? throw new ContextCacheException("上下文缓存未开始");
         private bool _isEnd = false;
         private readonly IContextCachePersistence _contextCachePersistence;
+        private readonly ActionBlock<ContextCacheBlockModel> _handlerBlock;
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -35,13 +38,9 @@
                 ContextCacheModel lastData = GroupInfo.ContextCacheData.Last();
                 (ContextType, Context) = lastData.GetContext();
             }
+            _handlerBlock = new(Handler);
         }
-        /// <summary>
-        /// 开始
-        /// </summary>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="context"></param>
-        /// <exception cref="ContextCacheException"></exception>
+        /// <inheritdoc/>
         public void Begin<TContext>(TContext? context) where TContext : class, new()
         {
             if (_isEnd) throw new ContextCacheException("上下文缓存已结束");
@@ -53,135 +52,75 @@
             ContextType = typeof(TContext);
             Context = context;
         }
-        /// <summary>
-        /// 开始
-        /// </summary>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        /// <exception cref="ContextCacheException"></exception>
-        public async Task BeginAsync<TContext>(TContext? context) where TContext : class, new()
+        /// <inheritdoc/>
+        private static void Handler(ContextCacheBlockModel model)
         {
-            if (_isEnd) throw new ContextCacheException("上下文缓存已结束");
-            if (GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
-            if (GroupInfo.ContextCacheData.Count > 0) throw new ContextCacheException("上下文缓存已开始");
-            ContextCacheModel contextCache = ContextCacheModel.CreateContextCacheModel(null, GroupInfo.ID, context);
-            await _contextCachePersistence.SaveAsync(GroupInfo, contextCache);
-            GroupInfo.ContextCacheData.Add(contextCache);
-            ContextType = typeof(TContext);
-            Context = context;
+            if (model.RunNextStep)
+            {
+                if (model.IsEnd) throw new ContextCacheException("上下文缓存已结束");
+                if (model.GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
+                if (model.ContextType is null) throw new ContextCacheException("上下文缓存未开始");
+                model.ChangeContextAction?.Invoke(model.Context);
+                ContextCacheModel contextCache = ContextCacheModel.CreateContextCacheModel(model.LastID, model.GroupInfo.ID, model.ContextType, model.Context);
+                model.ContextCachePersistence.Save(contextCache);
+                model.GroupInfo.ContextCacheData.Add(contextCache);
+            }
+            else
+            {
+                if (model.IsEnd) throw new ContextCacheException("上下文缓存已结束");
+                if (model.GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
+                if (model.ContextType is null) throw new ContextCacheException("上下文缓存未开始");
+                model.ContextCachePersistence.Remove(model.GroupInfo.ID);
+            }
         }
-        /// <summary>
-        /// 下一个步骤
-        /// </summary>
-        /// <exception cref="ContextCacheException"></exception>
-        public void NextStep()
+        /// <inheritdoc/>
+        public void NextStep(Action<object?>? changeContext = null)
         {
-            if (_isEnd) throw new ContextCacheException("上下文缓存已结束");
-            if (GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
-            if (ContextType is null) throw new ContextCacheException("上下文缓存未开始");
-            ContextCacheModel contextCache = ContextCacheModel.CreateContextCacheModel(LastID, GroupInfo.ID, ContextType, Context);
-            _contextCachePersistence.Save(contextCache);
-            GroupInfo.ContextCacheData.Add(contextCache);
+            ContextCacheBlockModel nextStepModel = new(true, _isEnd, GroupInfo, ContextType, LastID, Context, _contextCachePersistence, changeContext);
+            Handler(nextStepModel);
         }
-        /// <summary>
-        /// 下一个步骤
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="ContextCacheException"></exception>
-        public async Task NextStepAsync()
+        /// <inheritdoc/>
+        public void NextStep<TContext>(Action<TContext>? changeContext = null) => NextStep(context =>
         {
-            if (_isEnd) throw new ContextCacheException("上下文缓存已结束");
-            if (GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
-            if (ContextType is null) throw new ContextCacheException("上下文缓存未开始");
-            ContextCacheModel contextCache = ContextCacheModel.CreateContextCacheModel(LastID, GroupInfo.ID, ContextType, Context);
-            await _contextCachePersistence.SaveAsync(contextCache);
-            GroupInfo.ContextCacheData.Add(contextCache);
-        }
-        /// <summary>
-        /// 下一个步骤
-        /// </summary>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="context"></param>
-        /// <exception cref="ContextCacheException"></exception>
-        public void NextStep<TContext>(TContext context) where TContext : class, new()
+            if (context is not TContext tContext) return;
+            changeContext?.Invoke(tContext);
+        });
+        /// <inheritdoc/>
+        public void NextStepAsync(Action<object?>? changeContext = null)
         {
-            if (_isEnd) throw new ContextCacheException("上下文缓存已结束");
-            if (GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
-            ContextType = typeof(TContext);
-            Context = context;
-            NextStep();
+            ContextCacheBlockModel nextStepModel = new(true, _isEnd, GroupInfo, ContextType, LastID, Context, _contextCachePersistence, changeContext);
+            _handlerBlock.Post(nextStepModel);
         }
-        /// <summary>
-        /// 下一个步骤
-        /// </summary>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        /// <exception cref="ContextCacheException"></exception>
-        public async Task NextStepAsync<TContext>(TContext context) where TContext : class, new()
+        /// <inheritdoc/>
+        public void NextStepAsync<TContext>(Action<TContext>? changeContext = null) => NextStepAsync(context =>
         {
-            if (_isEnd) throw new ContextCacheException("上下文缓存已结束");
-            if (GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
-            ContextType = typeof(TContext);
-            Context = context;
-            await NextStepAsync();
-        }
-        /// <summary>
-        /// 结束
-        /// </summary>
-        /// <exception cref="ContextCacheException"></exception>
+            if (context is not TContext tContext) return;
+            changeContext?.Invoke(tContext);
+        });
+        /// <inheritdoc/>
         public void End()
         {
             if (_isEnd) throw new ContextCacheException("上下文缓存已结束");
             if (GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
             if (GroupInfo.ContextCacheData.Count <= 0) throw new ContextCacheException("未开始上下文缓存");
-            _contextCachePersistence.Remove(GroupInfo.ID);
-            _isEnd = true;
+            Handler(new(false, _isEnd, GroupInfo, ContextType, LastID, Context, _contextCachePersistence, m =>
+            {
+                _isEnd = true;
+            }));
+            _handlerBlock.Complete();
+            _handlerBlock.Completion.Wait();
         }
-        /// <summary>
-        /// 结束
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="ContextCacheException"></exception>
-        public async Task EndAsync()
+        /// <inheritdoc/>
+        public void EndAsync()
         {
             if (_isEnd) throw new ContextCacheException("上下文缓存已结束");
             if (GroupInfo is null) throw new ContextCacheException("未初始化上下文缓存");
             if (GroupInfo.ContextCacheData.Count <= 0) throw new ContextCacheException("未开始上下文缓存");
-            await _contextCachePersistence.RemoveAsync(GroupInfo.ID);
-            _isEnd = true;
-        }
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            if (GroupInfo is null) return;
-            if (GroupInfo.ContextCacheData.Count > 0 && !_isEnd)
+            _handlerBlock.Post(new(false, _isEnd, GroupInfo, ContextType, LastID, Context, _contextCachePersistence, m =>
             {
-                End();
-            }
-            ContextType = null;
-            Context = null;
-            GroupInfo.ContextCacheData.Clear();
-            GroupInfo = null;
-            GC.SuppressFinalize(this);
+                _isEnd = true;
+            }));
+            _handlerBlock.Complete();
         }
-#if NETSTANDARD2_0
-#else
-        /// <inheritdoc/>
-        public async ValueTask DisposeAsync()
-        {
-            if (GroupInfo is null) return;
-            if (GroupInfo.ContextCacheData.Count > 0 && !_isEnd)
-            {
-                await EndAsync();
-            }
-            ContextType = null;
-            Context = null;
-            GroupInfo.ContextCacheData.Clear();
-            GroupInfo = null;
-            GC.SuppressFinalize(this);
-        }
-#endif
     }
 }

@@ -9,39 +9,6 @@
         /// 开始上下文缓存
         /// </summary>
         /// <typeparam name="TRestorer"></typeparam>
-        /// <returns></returns>
-        public IContextCache BeginContextCache<TRestorer>()
-            where TRestorer : IContextRestorer
-        {
-            ContextCacheGroupModel groupInfo = new()
-            {
-                ID = Guid.NewGuid(),
-                RestorerType = typeof(TRestorer)
-            };
-            IContextCache contextCache = groupInfo.CreateContextCache(persistence);
-            return contextCache;
-        }
-        /// <summary>
-        /// 开始上下文缓存
-        /// </summary>
-        /// <typeparam name="TRestorer"></typeparam>
-        /// <returns></returns>
-        public async Task<IContextCache> BeginContextCacheAsync<TRestorer>()
-            where TRestorer : IContextRestorer
-        {
-            ContextCacheGroupModel groupInfo = new()
-            {
-                ID = Guid.NewGuid(),
-                RestorerType = typeof(TRestorer)
-            };
-            IContextCache contextCache = groupInfo.CreateContextCache(persistence);
-            await Task.CompletedTask;
-            return contextCache;
-        }
-        /// <summary>
-        /// 开始上下文缓存
-        /// </summary>
-        /// <typeparam name="TRestorer"></typeparam>
         /// <typeparam name="TContext"></typeparam>
         /// <param name="context"></param>
         /// <returns></returns>
@@ -49,23 +16,13 @@
             where TRestorer : IContextRestorer
             where TContext : class, new()
         {
-            IContextCache contextCache = BeginContextCache<TRestorer>();
+            ContextCacheGroupModel groupInfo = new()
+            {
+                ID = Guid.NewGuid(),
+                RestorerType = typeof(TRestorer)
+            };
+            IContextCache contextCache = groupInfo.CreateContextCache(persistence);
             contextCache.Begin(context);
-            return contextCache;
-        }
-        /// <summary>
-        /// 开始上下文缓存
-        /// </summary>
-        /// <typeparam name="TRestorer"></typeparam>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public async Task<IContextCache> BeginContextCacheAsync<TRestorer, TContext>(TContext? context)
-            where TRestorer : IContextRestorer
-            where TContext : class, new()
-        {
-            IContextCache contextCache = await BeginContextCacheAsync<TRestorer>();
-            await contextCache.BeginAsync(context);
             return contextCache;
         }
         /// <summary>

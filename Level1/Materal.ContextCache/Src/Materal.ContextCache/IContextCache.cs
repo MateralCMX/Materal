@@ -3,11 +3,7 @@
     /// <summary>
     /// 上下文缓存
     /// </summary>
-#if NETSTANDARD2_0
-    public interface IContextCache : IDisposable
-#else
-    public interface IContextCache : IDisposable, IAsyncDisposable
-#endif
+    public interface IContextCache
     {
         /// <summary>
         /// 分组信息
@@ -28,34 +24,23 @@
         void Begin<TContext>(TContext? context)
             where TContext : class, new();
         /// <summary>
-        /// 开始
+        /// 下一个步骤
         /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        Task BeginAsync<TContext>(TContext? context)
-            where TContext : class, new();
+        void NextStep(Action<object?>? changeContext = null);
         /// <summary>
         /// 下一个步骤
         /// </summary>
-        void NextStep();
+        void NextStep<TContext>(Action<TContext>? changeContext = null);
         /// <summary>
         /// 下一个步骤
         /// </summary>
         /// <returns></returns>
-        Task NextStepAsync();
+        void NextStepAsync(Action<object?>? changeContext = null);
         /// <summary>
         /// 下一个步骤
         /// </summary>
-        /// <param name="context"></param>
-        void NextStep<TContext>(TContext context)
-            where TContext : class, new();
-        /// <summary>
-        /// 下一个步骤
-        /// </summary>
-        /// <param name="context"></param>
         /// <returns></returns>
-        Task NextStepAsync<TContext>(TContext context)
-            where TContext : class, new();
+        void NextStepAsync<TContext>(Action<TContext>? changeContext = null);
         /// <summary>
         /// 结束
         /// </summary>
@@ -63,7 +48,6 @@
         /// <summary>
         /// 结束
         /// </summary>
-        /// <returns></returns>
-        Task EndAsync();
+        void EndAsync();
     }
 }

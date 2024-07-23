@@ -9,34 +9,10 @@
         /// 开始上下文缓存
         /// </summary>
         /// <typeparam name="TRestorer"></typeparam>
-        /// <returns></returns>
-        IContextCache BeginContextCache<TRestorer>()
-            where TRestorer : IContextRestorer;
-        /// <summary>
-        /// 开始上下文缓存
-        /// </summary>
-        /// <typeparam name="TRestorer"></typeparam>
-        /// <returns></returns>
-        Task<IContextCache> BeginContextCacheAsync<TRestorer>()
-            where TRestorer : IContextRestorer;
-        /// <summary>
-        /// 开始上下文缓存
-        /// </summary>
-        /// <typeparam name="TRestorer"></typeparam>
         /// <typeparam name="TContext"></typeparam>
         /// <param name="context"></param>
         /// <returns></returns>
         IContextCache BeginContextCache<TRestorer, TContext>(TContext context)
-            where TRestorer : IContextRestorer
-            where TContext : class, new();
-        /// <summary>
-        /// 开始上下文缓存
-        /// </summary>
-        /// <typeparam name="TRestorer"></typeparam>
-        /// <typeparam name="TContext"></typeparam>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        Task<IContextCache> BeginContextCacheAsync<TRestorer, TContext>(TContext context)
             where TRestorer : IContextRestorer
             where TContext : class, new();
         /// <summary>
