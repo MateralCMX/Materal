@@ -1,5 +1,4 @@
-﻿using Materal.ContextCache;
-using Materal.Logger.Abstractions;
+﻿using Materal.Logger.Abstractions;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.Abstractions.Works;
 using Materal.Oscillator.Works;
@@ -11,7 +10,7 @@ namespace Materal.Oscillator
     /// <summary>
     /// 调度器作业
     /// </summary>
-    internal class OscillatorJob : IJob, IContextRestorer
+    internal class OscillatorJob : IJob
     {
         private readonly IServiceScope _scope;
         private readonly IServiceProvider _serviceProvider;
@@ -32,16 +31,11 @@ namespace Materal.Oscillator
         /// 初始化
         /// </summary>
         /// <param name="oscillator"></param>
-        /// <param name="restorerContext"></param>
+        /// <param name="triggerName"></param>
         /// <returns></returns>
-        private WorkContext Init(IOscillator oscillator, RestorerContext restorerContext)
+        private WorkContext Init(IOscillator oscillator, string triggerName)
         {
-            foreach (KeyValuePair<string, object?> data in restorerContext.LoggerScopeData)
-            {
-                _loggerScopeData.TryAdd(data.Key, data.Value);
-            }
-            restorerContext.LoggerScopeData = _loggerScopeData;
-            WorkContext workContext = new(_serviceProvider, oscillator, _loggerScopeData);
+            WorkContext workContext = new(_serviceProvider, oscillator, _loggerScopeData, triggerName);
             workContext.LoggerScopeData.TryAdd("StartTime", DateTime.Now);
             workContext.LoggerScopeData.TryAdd("OscillatorID", oscillator.ID);
             workContext.LoggerScopeData.TryAdd("WorkID", oscillator.WorkData.ID);
@@ -49,74 +43,23 @@ namespace Materal.Oscillator
             return workContext;
         }
         /// <summary>
-        /// 结束收尾
-        /// </summary>
-        /// <param name="workContext"></param>
-        /// <param name="contextCache"></param>
-        /// <param name="exception"></param>
-        /// <returns></returns>
-        private void End(WorkContext workContext, IContextCache contextCache, Exception? exception)
-        {
-            LoggerScope loggerScope = new("Oscillator", _loggerScopeData);
-            string? triggerName;
-            if (workContext.LoggerScopeData.TryGetValue(PlanTriggerNameKey, out object? triggerNameObj))
-            {
-                if (triggerNameObj is string tempTriggerName)
-                {
-                    triggerName = tempTriggerName;
-                }
-                else
-                {
-                    triggerName = triggerNameObj?.ToString();
-                }
-            }
-            else
-            {
-                triggerName = workContext.Oscillator.Triggers.FirstOrDefault()?.Name;
-            }
-            if (string.IsNullOrWhiteSpace(triggerName))
-            {
-                triggerName = "未知任务";
-            }
-            using IDisposable? _ = _logger.BeginScope(loggerScope);
-            if (exception is null)
-            {
-                if (workContext.Exception is null)
-                {
-                    _logger.LogInformation($"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]执行完毕");
-                }
-                else
-                {
-                    _logger.LogError($"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]执行失败");
-                }
-            }
-            else
-            {
-                _logger.LogError(exception, $"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]发生错误");
-            }
-            contextCache.EndAsync();
-            _scope.Dispose();
-        }
-        /// <summary>
         /// 执行任务
         /// </summary>
         /// <param name="workContext"></param>
-        /// <param name="restorerContext"></param>
-        /// <param name="contextCache"></param>
         /// <returns></returns>
-        private async Task ExecuteWorkAsync(WorkContext workContext, RestorerContext restorerContext, IContextCache contextCache)
+        private async Task ExecuteWorkAsync(WorkContext workContext)
         {
             #region 准备工作
             IWork work = OscillatorConvertHelper.CreateNewWork(workContext.Oscillator.WorkData, _serviceProvider);
             workContext.LoggerScopeData.TryAdd("WorkType", work.TypeName);
-            string[] triggerSplitValues = restorerContext.TriggerName.Split('_');
+            string[] triggerSplitValues = workContext.TriggerName.Split('_');
             string triggerName = string.Empty;
             if (triggerSplitValues.Length >= 2)
             {
                 try
                 {
                     Guid triggerID = Guid.Parse(triggerSplitValues[0]);
-                    triggerName = restorerContext.TriggerName[(triggerSplitValues[0].Length + 1)..];
+                    triggerName = workContext.TriggerName[(triggerSplitValues[0].Length + 1)..];
                     workContext.LoggerScopeData.TryAdd("PlanTriggerID", triggerID);
                     workContext.PlanTriggerID = triggerID;
                     workContext.LoggerScopeData.TryAdd(PlanTriggerNameKey, triggerName);
@@ -138,43 +81,25 @@ namespace Materal.Oscillator
                 workContext.LoggerScopeData.TryAdd("WarrningMessage", "获取计划触发器信息失败:TriggerKey格式错误");
             }
             #endregion
-            await ExcuteWorkAsync(workContext, restorerContext, contextCache, work);
+            await ExcuteWorkAsync(workContext, work);
         }
         /// <summary>
         /// 执行任务
         /// </summary>
         /// <param name="workContext"></param>
-        /// <param name="restorerContext"></param>
-        /// <param name="contextCache"></param>
         /// <param name="work"></param>
         /// <returns></returns>
-        private static async Task ExcuteWorkAsync(WorkContext workContext, RestorerContext restorerContext, IContextCache contextCache, IWork work)
+        private static async Task ExcuteWorkAsync(WorkContext workContext, IWork work)
         {
             Stopwatch stopwatch = new();
             stopwatch.Start();
             try
             {
-                if (restorerContext.Step == OscillatorJobStep.RunWork)
-                {
-                    await work.ExecuteAsync(workContext);
-                    restorerContext.Step = OscillatorJobStep.Success;
-                    restorerContext.ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-                    contextCache.NextStepAsync();
-                    restorerContext.ElapsedMilliseconds = 0;
-                }
-                else
-                {
-                    workContext.Exception = restorerContext.Exception;
-                }
+                await work.ExecuteAsync(workContext);
             }
             catch (Exception ex)
             {
                 workContext.Exception = ex.GetErrorMessage();
-                restorerContext.Exception = workContext.Exception;
-                restorerContext.Step = OscillatorJobStep.Fail;
-                restorerContext.ElapsedMilliseconds = stopwatch.ElapsedMilliseconds;
-                contextCache.NextStepAsync();
-                restorerContext.ElapsedMilliseconds = 0;
             }
             finally
             {
@@ -187,7 +112,7 @@ namespace Materal.Oscillator
                     await ExcuteFailWorkAsync(workContext, work);
                 }
                 stopwatch.Stop();
-                workContext.LoggerScopeData.TryAdd("ElapsedTime", restorerContext.ElapsedMilliseconds + stopwatch.ElapsedMilliseconds);
+                workContext.LoggerScopeData.TryAdd("ElapsedTime", stopwatch.ElapsedMilliseconds);
                 workContext.LoggerScopeData.TryAdd("EndTime", DateTime.Now);
             }
         }
@@ -228,28 +153,51 @@ namespace Materal.Oscillator
             }
         }
         /// <summary>
-        /// 重新开始
+        /// 结束收尾
         /// </summary>
-        /// <param name="contextCache"></param>
+        /// <param name="workContext"></param>
+        /// <param name="exception"></param>
         /// <returns></returns>
-        public async Task RenewAsync(IContextCache contextCache)
+        private void End(WorkContext workContext, Exception? exception)
         {
-            if (contextCache.Context is not RestorerContext restorerContext || string.IsNullOrWhiteSpace(restorerContext.OscillatorData)) return;
-            IOscillator oscillator = await OscillatorConvertHelper.DeserializationAsync<IOscillator>(restorerContext.OscillatorData, _serviceProvider);
-            WorkContext workContext = Init(oscillator, restorerContext);
-            Exception? exception = null;
-            try
+            LoggerScope loggerScope = new("Oscillator", _loggerScopeData);
+            string? triggerName;
+            if (workContext.LoggerScopeData.TryGetValue(PlanTriggerNameKey, out object? triggerNameObj))
             {
-                await ExecuteWorkAsync(workContext, restorerContext, contextCache);
+                if (triggerNameObj is string tempTriggerName)
+                {
+                    triggerName = tempTriggerName;
+                }
+                else
+                {
+                    triggerName = triggerNameObj?.ToString();
+                }
             }
-            catch (Exception ex)
+            else
             {
-                exception = ex;
+                triggerName = workContext.Oscillator.Triggers.FirstOrDefault()?.Name;
             }
-            finally
+            if (string.IsNullOrWhiteSpace(triggerName))
             {
-                End(workContext, contextCache, exception);
+                triggerName = "未知任务";
             }
+            using IDisposable? _ = _logger.BeginScope(loggerScope);
+            if (exception is null)
+            {
+                if (workContext.Exception is null)
+                {
+                    _logger.LogInformation($"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]执行完毕");
+                }
+                else
+                {
+                    _logger.LogError($"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]执行失败");
+                }
+            }
+            else
+            {
+                _logger.LogError(exception, $"调度器[{triggerName}_{workContext.Oscillator.WorkData.Name}]发生错误");
+            }
+            _scope.Dispose();
         }
         /// <summary>
         /// 执行
@@ -260,19 +208,11 @@ namespace Materal.Oscillator
         {
             object oscillatorObj = context.JobDetail.JobDataMap.Get(ConstData.OscillatorKey);
             if (oscillatorObj is null || oscillatorObj is not IOscillator oscillator) return;
-            RestorerContext restorerContext = new()
-            {
-                OscillatorData = await oscillator.SerializationAsync(),
-                LoggerScopeData = _loggerScopeData,
-                TriggerName = context.Trigger.Key.Name
-            };
-            IContextCacheService contextCacheService = _serviceProvider.GetRequiredService<IContextCacheService>();
-            IContextCache contextCache = contextCacheService.BeginContextCache<OscillatorJob, RestorerContext>(restorerContext);
-            WorkContext workContext = Init(oscillator, restorerContext);
+            WorkContext workContext = Init(oscillator, context.Trigger.Key.Name);
             Exception? exception = null;
             try
             {
-                await ExecuteWorkAsync(workContext, restorerContext, contextCache);
+                await ExecuteWorkAsync(workContext);
             }
             catch (Exception ex)
             {
@@ -280,7 +220,7 @@ namespace Materal.Oscillator
             }
             finally
             {
-                End(workContext, contextCache, exception);
+                End(workContext, exception);
             }
         }
     }

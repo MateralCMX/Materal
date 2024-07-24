@@ -5,7 +5,7 @@ namespace Materal.Oscillator.Works
     /// <summary>
     /// 任务上下文
     /// </summary>
-    public class WorkContext(IServiceProvider serviceProvider, IOscillator oscillator, Dictionary<string, object?> loggerScopeData) : IWorkContext
+    public class WorkContext(IServiceProvider serviceProvider, IOscillator oscillator, Dictionary<string, object?> loggerScopeData, string triggerName) : IWorkContext
     {
         /// <summary>
         /// 服务容器
@@ -27,5 +27,9 @@ namespace Materal.Oscillator.Works
         /// 计划触发器唯一标识
         /// </summary>
         public Guid? PlanTriggerID { get; set; }
+        /// <summary>
+        /// 触发器名称
+        /// </summary>
+        public string TriggerName { get; set; } = triggerName;
     }
 }

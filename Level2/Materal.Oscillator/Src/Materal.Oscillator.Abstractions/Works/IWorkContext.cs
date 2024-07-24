@@ -25,5 +25,9 @@
         /// 计划触发器唯一标识
         /// </summary>
         Guid? PlanTriggerID { get; set; }
+        /// <summary>
+        /// 触发器名称
+        /// </summary>
+        string TriggerName { get; set; }
     }
 }
