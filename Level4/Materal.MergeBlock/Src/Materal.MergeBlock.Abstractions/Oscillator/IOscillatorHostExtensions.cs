@@ -1,8 +1,7 @@
-﻿using Materal.Oscillator;
-using Materal.Oscillator.Abstractions;
+﻿using Materal.Oscillator.Abstractions;
+using Materal.Oscillator.Abstractions.Oscillators;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Materal.Oscillator.Abstractions.Works;
-using Materal.Oscillator.PlanTriggers;
 
 namespace Materal.MergeBlock.Abstractions.Oscillator
 {
@@ -44,18 +43,20 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
         public static async Task<IOscillatorHost> InitWorkAsync(this IOscillatorHost oscillatorHost, IWorkData workData)
         {
             OscillatorInitManager.AddInitKey(workData);
-            IPlanTrigger planTrigger;
+            IPlanTriggerData planTrigger;
             if (workData is IMergeBlockWorkData mergeBlockWorkData)
             {
                 planTrigger = mergeBlockWorkData.GetInitPlanTrigger();
             }
             else
             {
-                planTrigger = new NowPlanTrigger();
+                planTrigger = new NowPlanTriggerData();
             }
-            IOscillator oscillator = new DefaultOscillator(workData, planTrigger)
+            IOscillatorData oscillator = new NormalOscillatorData()
             {
-                Enable = true
+                Enable = true,
+                Work = workData,
+                PlanTriggers = [planTrigger]
             };
             await oscillatorHost.StartOscillatorAsync(oscillator);
             return oscillatorHost;
@@ -93,9 +94,11 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
         public static async Task<IOscillatorHost> InitNowWorkAsync(this IOscillatorHost oscillatorHost, IWorkData workData)
         {
             OscillatorInitManager.AddInitKey(workData);
-            IOscillator oscillator = new DefaultOscillator(workData, new NowPlanTrigger())
+            IOscillatorData oscillator = new NormalOscillatorData()
             {
-                Enable = true
+                Enable = true,
+                Work = workData,
+                PlanTriggers = [new NowPlanTriggerData()]
             };
             await oscillatorHost.StartOscillatorAsync(oscillator);
             return oscillatorHost;
@@ -132,9 +135,11 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
         /// <returns></returns>
         public static async Task<IOscillatorHost> RunNowWorkAsync(this IOscillatorHost oscillatorHost, IWorkData workData)
         {
-            IOscillator oscillator = new DefaultOscillator(workData, new NowPlanTrigger())
+            IOscillatorData oscillator = new NormalOscillatorData()
             {
-                Enable = true
+                Enable = true,
+                Work = workData,
+                PlanTriggers = [new NowPlanTriggerData()]
             };
             await oscillatorHost.StartOscillatorAsync(oscillator);
             return oscillatorHost;

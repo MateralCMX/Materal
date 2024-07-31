@@ -1,5 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.Oscillator;
-using Materal.Oscillator;
+using Materal.Oscillator.Abstractions.Oscillators;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Microsoft.Extensions.Hosting;
 
@@ -21,7 +21,7 @@ namespace Materal.MergeBlock.Oscillator
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             IEnumerable<Assembly> allAssemblies = MergeBlockHost.ModuleInfos.Select(m => m.ModuleType.Assembly);
-            List<IOscillator> oscillators = [];
+            List<IOscillatorData> oscillators = [];
             foreach (Assembly assembly in allAssemblies)
             {
                 Type[] workDataTypes = assembly.GetTypes<IMergeBlockWorkData>().ToArray();
@@ -29,18 +29,22 @@ namespace Materal.MergeBlock.Oscillator
                 foreach (Type workDataType in workDataTypes)
                 {
                     IMergeBlockWorkData workData = workDataType.InstantiationOrDefault<IMergeBlockWorkData>(serviceProvider) ?? throw new OscillatorException("实例化WorkData失败");
-                    ICollection<IPlanTrigger> planTriggers = workData.GetPlanTriggers();
-                    DefaultOscillator oscillator = new(workData, [.. planTriggers]);
+                    ICollection<IPlanTriggerData> planTriggers = workData.GetPlanTriggers();
+                    NormalOscillatorData oscillator = new()
+                    {
+                        Work = workData,
+                        PlanTriggers = [.. planTriggers]
+                    };
                     oscillators.Add(oscillator);
                 }
             }
             ThreadPool.QueueUserWorkItem(async _ =>
             {
-                foreach (IOscillator oscillator in oscillators)
+                foreach (IOscillatorData oscillator in oscillators)
                 {
-                    await oscillatorHost.InitWorkAsync(oscillator.WorkData);
+                    await oscillatorHost.InitWorkAsync(oscillator.Work);
                 }
-                foreach (IOscillator oscillator in oscillators)
+                foreach (IOscillatorData oscillator in oscillators)
                 {
                     await oscillatorHost.StartOscillatorAsync(oscillator);
                 }

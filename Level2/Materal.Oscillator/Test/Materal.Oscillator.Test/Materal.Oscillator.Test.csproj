@@ -15,11 +15,11 @@
 		<PackageReference Include="Materal.Logger" Version="1.1.76" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Src\Materal.Oscillator\Materal.Oscillator.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.Oscillator\Materal.Oscillator.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

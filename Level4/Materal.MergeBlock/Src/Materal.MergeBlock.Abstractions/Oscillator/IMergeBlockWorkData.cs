@@ -12,11 +12,11 @@ namespace Materal.MergeBlock.Abstractions.Oscillator
         /// 获取初始化计划触发器
         /// </summary>
         /// <returns></returns>
-        IPlanTrigger GetInitPlanTrigger();
+        IPlanTriggerData GetInitPlanTrigger();
         /// <summary>
         /// 获取计划触发器
         /// </summary>
         /// <returns></returns>
-        ICollection<IPlanTrigger> GetPlanTriggers();
+        ICollection<IPlanTriggerData> GetPlanTriggers();
     }
 }

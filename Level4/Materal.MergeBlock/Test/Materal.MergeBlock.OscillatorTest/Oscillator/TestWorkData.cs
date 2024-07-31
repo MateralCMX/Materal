@@ -1,16 +1,15 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions.Oscillator;
 using Materal.Oscillator.Abstractions.PlanTriggers;
-using Materal.Oscillator.PlanTriggers;
-using Materal.Oscillator.PlanTriggers.DateTrigger;
-using Materal.Oscillator.PlanTriggers.TimeTrigger;
+using Materal.Oscillator.Abstractions.PlanTriggers.DateTriggers;
+using Materal.Oscillator.Abstractions.PlanTriggers.TimeTriggers;
 
 namespace Materal.MergeBlock.OscillatorTest.Oscillator
 {
     /// <summary>
     /// 测试任务数据
     /// </summary>
-    public partial class TestWorkData() : MergeBlockWorkData<TestWork>("测试任务")
+    public partial class TestWorkData() : MergeBlockWorkData("测试任务")
     {
         /// <summary>
         /// 消息
@@ -20,23 +19,23 @@ namespace Materal.MergeBlock.OscillatorTest.Oscillator
         /// 获得初始化计划触发器
         /// </summary>
         /// <returns></returns>
-        public override IPlanTrigger GetInitPlanTrigger() => new OneTimePlanTrigger() { StartTime = DateTime.Now.AddSeconds(10) };
+        public override IPlanTriggerData GetInitPlanTrigger() => new OneTimePlanTriggerData() { StartTime = DateTime.Now.AddSeconds(10) };
         /// <summary>
         /// 获取计划触发器
         /// </summary>
         /// <returns></returns>
-        public override ICollection<IPlanTrigger> GetPlanTriggers()
+        public override ICollection<IPlanTriggerData> GetPlanTriggers()
         {
-            IPlanTrigger planTrigger = new RepeatPlanTrigger
+            IPlanTriggerData planTrigger = new RepeatPlanTriggerData
             {
                 Name = "测试计划",
                 Enable = true,
-                DateTrigger = new DateDayTrigger()
+                DateTrigger = new DayDateTriggerData()
                 {
                     StartDate = DateTime.Now.ToDateOnly(),
                     Interval = 1
                 },
-                TimeTrigger = new TimeRepeatTrigger()
+                TimeTrigger = new RepeatTimeTriggerData()
                 {
                     StartTime = new(0, 0, 0),
                     EndTime = new(23, 59, 59),

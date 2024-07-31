@@ -25,7 +25,7 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Oscillator" Version="1.1.76" />
+		<PackageReference Include="Materal.Oscillator.Abstractions" Version="1.1.76" />
 		<PackageReference Include="Materal.EventBus.RabbitMQ" Version="1.1.76" />
 		<PackageReference Include="Materal.Logger" Version="1.1.76" />
 		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.76" />
