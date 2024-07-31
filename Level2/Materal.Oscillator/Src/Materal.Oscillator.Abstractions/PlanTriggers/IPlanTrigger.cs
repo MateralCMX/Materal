@@ -1,34 +1,28 @@
-﻿using Newtonsoft.Json;
+﻿using Materal.Oscillator.Abstractions.Oscillators;
 
 namespace Materal.Oscillator.Abstractions.PlanTriggers
 {
     /// <summary>
     /// 计划触发器
     /// </summary>
-    public interface IPlanTrigger : IOscillatorData
+    public interface IPlanTrigger
     {
         /// <summary>
         /// 唯一标识
         /// </summary>
-        Guid ID { get; set; }
+        Guid ID { get; }
         /// <summary>
-        /// 名称
+        /// 类型名称
         /// </summary>
-        string Name { get; set; }
+        string TypeName { get; }
         /// <summary>
-        /// 重复执行的
+        /// 数据类型
         /// </summary>
-        [JsonIgnore]
-        bool CanRepeated { get; }
+        Type DataType { get; }
         /// <summary>
-        /// 启用标识
+        /// 计划触发器数据
         /// </summary>
-        bool Enable { get; set; }
-        /// <summary>
-        /// 获得说明文本
-        /// </summary>
-        /// <returns></returns>
-        string GetDescriptionText();
+        IPlanTriggerData PlanTriggerData { get; }
         /// <summary>
         /// 获得下一次运行时间
         /// </summary>
@@ -44,8 +38,19 @@ namespace Materal.Oscillator.Abstractions.PlanTriggers
         /// <summary>
         /// 创建触发器
         /// </summary>
+        /// <param name="oscillatorData"></param>
+        /// <returns></returns>
+        ITrigger? CreateTrigger(IOscillatorData oscillatorData);
+        /// <summary>
+        /// 创建触发器
+        /// </summary>
         /// <param name="triggerKey"></param>
         /// <returns></returns>
         ITrigger? CreateTrigger(TriggerKey triggerKey);
+        /// <summary>
+        /// 设置数据
+        /// </summary>
+        /// <param name="data"></param>
+        Task SetDataAsync(IPlanTriggerData data);
     }
 }

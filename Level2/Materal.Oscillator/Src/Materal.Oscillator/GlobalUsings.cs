@@ -1,9 +1,5 @@
-﻿global using Materal.Abstractions;
-global using Materal.Extensions;
+﻿global using Materal.Extensions;
 global using Materal.Oscillator.Abstractions;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Options;
 global using Quartz;
-global using Quartz.Impl.Matchers;
-global using System.ComponentModel;
-global using System.Text;

@@ -1,35 +1,23 @@
-﻿using Materal.Oscillator.Abstractions.PlanTriggers;
-using Materal.Oscillator.PlanTriggers.DateTrigger;
-using Materal.Oscillator.PlanTriggers.TimeTrigger;
-using Newtonsoft.Json.Linq;
+﻿using Materal.Oscillator.Abstractions.Extensions;
+using Materal.Oscillator.Abstractions.PlanTriggers;
+using Materal.Oscillator.Abstractions.PlanTriggers.DateTriggers;
+using Materal.Oscillator.Abstractions.PlanTriggers.TimeTriggers;
 
 namespace Materal.Oscillator.PlanTriggers
 {
     /// <summary>
     /// 重复执行计划触发器
     /// </summary>
-    public class RepeatPlanTrigger() : PlanTriggerBase("重复执行计划"), IPlanTrigger
+    public class RepeatPlanTrigger(IServiceProvider serviceProvider) : PlanTriggerBase<RepeatPlanTriggerData>, IPlanTrigger
     {
-        /// <summary>
-        /// 重复标识
-        /// </summary>
-        public override bool CanRepeated => true;
-        /// <summary>
-        /// 日期触发器类型名称
-        /// </summary>
-        public string DateTriggerTypeName => DateTrigger.GetType().FullName ?? throw new OscillatorException("获取DateTrigger类型名称失败");
-        /// <summary>
-        /// 日期触发器
-        /// </summary>
-        public IDateTrigger DateTrigger { get; set; } = new DateNotRunTrigger();
-        /// <summary>
-        /// 时间触发器类型名称
-        /// </summary>
-        public string TimeTriggerTypeName => TimeTrigger.GetType().FullName ?? throw new OscillatorException("获取TimeTrigger类型名称失败");
-        /// <summary>
-        /// 时间触发器
-        /// </summary>
-        public ITimeTrigger TimeTrigger { get; set; } = new TimeNotRunTrigger();
+        private IDateTrigger? _dateTrigger;
+        private ITimeTrigger? _timeTrigger;
+        /// <inheritdoc/>
+        protected override async Task InitAsync()
+        {
+            _dateTrigger = await Data.DateTrigger.GetDateTriggerAsync(serviceProvider);
+            _timeTrigger = await Data.TimeTrigger.GetTimeTriggerAsync(serviceProvider);
+        }
         /// <summary>
         /// 创建触发器
         /// </summary>
@@ -37,41 +25,22 @@ namespace Materal.Oscillator.PlanTriggers
         /// <returns></returns>
         public override ITrigger? CreateTrigger(TriggerKey triggerKey)
         {
-            DateTimeOffset? startTime = DateTrigger.GetDateStartTime(TimeTrigger);
+            if (_dateTrigger is null || _timeTrigger is null) return null;
+            DateTimeOffset? startTime = _dateTrigger.GetDateStartTime(_timeTrigger);
             if (startTime is null) return null;
-            DateTimeOffset? endTime = DateTrigger.GetDateEndTime(TimeTrigger);
+            DateTimeOffset? endTime = _dateTrigger.GetDateEndTime(_timeTrigger);
             ITrigger? trigger = CreateTrigger(triggerKey, startTime.Value.DateTime, endTime?.DateTime);
             return trigger;
         }
-        /// <summary>
-        /// 获得描述文本
-        /// </summary>
-        /// <returns></returns>
-        public override string GetDescriptionText() => DateTrigger.GetDescriptionText(TimeTrigger);
         /// <summary>
         /// 获得下一次执行时间
         /// </summary>
         /// <param name="upRunTime"></param>
         /// <returns></returns>
-        public override DateTimeOffset? GetNextRunTime(DateTimeOffset upRunTime) => DateTrigger.GetNextRunTime(upRunTime, TimeTrigger);
-        /// <summary>
-        /// 反序列化
-        /// </summary>
-        /// <param name="jsonData"></param>
-        /// <param name="serviceProvider"></param>
-        /// <returns></returns>
-        public override async Task DeserializationAsync(string jsonData, IServiceProvider serviceProvider)
+        public override DateTimeOffset? GetNextRunTime(DateTimeOffset upRunTime)
         {
-            await base.DeserializationAsync(jsonData, serviceProvider);
-            JObject jsonObject = JObject.Parse(jsonData);
-            if (jsonObject[nameof(DateTrigger)] is JObject dateTriggerObject)
-            {
-                DateTrigger = await OscillatorConvertHelper.DeserializationAsync<IDateTrigger>(dateTriggerObject, serviceProvider);
-            }
-            if (jsonObject[nameof(TimeTrigger)] is JObject timeTriggerObject)
-            {
-                TimeTrigger = await OscillatorConvertHelper.DeserializationAsync<ITimeTrigger>(timeTriggerObject, serviceProvider);
-            }
+            if (_dateTrigger is null || _timeTrigger is null) return null;
+            return _dateTrigger.GetNextRunTime(upRunTime, _timeTrigger);
         }
     }
 }

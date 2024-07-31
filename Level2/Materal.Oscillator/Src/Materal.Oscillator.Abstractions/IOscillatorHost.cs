@@ -1,4 +1,6 @@
-﻿namespace Materal.Oscillator.Abstractions
+﻿using Materal.Oscillator.Abstractions.Oscillators;
+
+namespace Materal.Oscillator.Abstractions
 {
     /// <summary>
     /// 调度器主机
@@ -16,33 +18,33 @@
         /// <summary>
         /// 启动调度器
         /// </summary>
-        /// <param name="oscillator"></param>
+        /// <param name="oscillatorData"></param>
         /// <returns></returns>
-        Task<bool> StartOscillatorAsync(IOscillator oscillator);
+        Task<bool> StartOscillatorAsync(IOscillatorData oscillatorData);
         /// <summary>
         /// 启动调度器
         /// </summary>
-        /// <param name="oscillators"></param>
+        /// <param name="oscillatorDatas"></param>
         /// <returns></returns>
-        Task StartOscillatorAsync(IEnumerable<IOscillator> oscillators);
+        Task StartOscillatorAsync(IEnumerable<IOscillatorData> oscillatorDatas);
         /// <summary>
         /// 停止调度器
         /// </summary>
-        /// <param name="oscillator"></param>
+        /// <param name="oscillatorData"></param>
         /// <returns></returns>
-        Task<bool> StopOscillatorAsync(IOscillator oscillator);
+        Task<bool> StopOscillatorAsync(IOscillatorData oscillatorData);
         /// <summary>
         /// 停止调度器
         /// </summary>
-        /// <param name="oscillators"></param>
+        /// <param name="oscillatorDatas"></param>
         /// <returns></returns>
-        Task StopOscillatorAsync(IEnumerable<IOscillator> oscillators);
+        Task StopOscillatorAsync(IEnumerable<IOscillatorData> oscillatorDatas);
         /// <summary>
         /// 是否正在运行
         /// </summary>
-        /// <param name="oscillator"></param>
+        /// <param name="oscillatorData"></param>
         /// <returns></returns>
-        Task<bool> CanRuningAsync(IOscillator oscillator);
+        Task<bool> CanRuningAsync(IOscillatorData oscillatorData);
         /// <summary>
         /// 是否正在运行
         /// </summary>

@@ -6,31 +6,43 @@
     public interface IWork
     {
         /// <summary>
+        /// 唯一标识
+        /// </summary>
+        Guid ID { get; }
+        /// <summary>
         /// 类型名称
         /// </summary>
         string TypeName { get; }
         /// <summary>
+        /// 数据类型
+        /// </summary>
+        Type DataType { get; }
+        /// <summary>
+        /// 任务数据
+        /// </summary>
+        IWorkData WorkData { get; }
+        /// <summary>
         /// 执行
         /// </summary>
-        /// <param name="workContext"></param>
+        /// <param name="oscillatorContext"></param>
         /// <returns></returns>
-        Task ExecuteAsync(IWorkContext workContext);
+        Task ExecuteAsync(IOscillatorContext oscillatorContext);
         /// <summary>
-        /// 成功执行
+        /// 成功
         /// </summary>
-        /// <param name="workContext"></param>
+        /// <param name="oscillatorContext"></param>
         /// <returns></returns>
-        Task SuccessExecuteAsync(IWorkContext workContext);
+        Task SuccessAsync(IOscillatorContext oscillatorContext);
         /// <summary>
-        /// 失败执行
+        /// 失败
         /// </summary>
-        /// <param name="workContext"></param>
+        /// <param name="oscillatorContext"></param>
         /// <returns></returns>
-        Task FailExecuteAsync(IWorkContext workContext);
+        Task FailAsync(IOscillatorContext oscillatorContext);
         /// <summary>
         /// 设置数据
         /// </summary>
         /// <param name="data"></param>
-        void SetData(IWorkData data);
+        Task SetDataAsync(IWorkData data);
     }
 }
