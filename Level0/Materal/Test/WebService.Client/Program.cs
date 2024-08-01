@@ -6,10 +6,17 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace WebService.Client
 {
+    /// <summary>
+    /// 程序入口
+    /// </summary>
     public class Program
     {
         private const string url = "http://localhost:55667/WebService1.asmx";
         private const string serviceNamespace = "http://WebService.Server/";
+        /// <summary>
+        /// 主函数
+        /// </summary>
+        /// <returns></returns>
         public static async Task Main()
         {
             IServiceCollection serviceCollection = new ServiceCollection();

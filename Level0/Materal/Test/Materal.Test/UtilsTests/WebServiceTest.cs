@@ -15,7 +15,7 @@ namespace Materal.Test.UtilsTests
         [TestMethod]
         public async Task HelloWorldTestAsync()
         {
-            IWebServiceHelper webServiceClient = Services.GetRequiredService<IWebServiceHelper>();
+            IWebServiceHelper webServiceClient = ServiceProvider.GetRequiredService<IWebServiceHelper>();
             string serviceName = "HelloWorld";
             const string result = "Hello World";
             string? soap1_1Result = await webServiceClient.SendSoapAsync<string>(url, serviceName, serviceNamespace, null, SoapVersionEnum.Soap1_1);
@@ -26,7 +26,7 @@ namespace Materal.Test.UtilsTests
         [TestMethod]
         public async Task GetUserTestAsync()
         {
-            IWebServiceHelper webServiceClient = Services.GetRequiredService<IWebServiceHelper>();
+            IWebServiceHelper webServiceClient = ServiceProvider.GetRequiredService<IWebServiceHelper>();
             string serviceName = "GetUser";
             UserInfo result = new() { Name = "Materal", Age = 18 };
             UserInfo? soap1_1Result = await webServiceClient.SendSoapAsync<UserInfo>(url, serviceName, serviceNamespace, null, SoapVersionEnum.Soap1_1);
@@ -41,7 +41,7 @@ namespace Materal.Test.UtilsTests
         [TestMethod]
         public async Task GetUsersTestAsync()
         {
-            IWebServiceHelper webServiceClient = Services.GetRequiredService<IWebServiceHelper>();
+            IWebServiceHelper webServiceClient = ServiceProvider.GetRequiredService<IWebServiceHelper>();
             string serviceName = "GetUsers";
             const int resultCount = 2;
             List<UserInfo>? soap1_1Result = await webServiceClient.SendSoapAsync<List<UserInfo>>(url, serviceName, serviceNamespace, null, SoapVersionEnum.Soap1_1);
@@ -54,7 +54,7 @@ namespace Materal.Test.UtilsTests
         [TestMethod]
         public async Task GetUserByUserInfoTestAsync()
         {
-            IWebServiceHelper webServiceClient = Services.GetRequiredService<IWebServiceHelper>();
+            IWebServiceHelper webServiceClient = ServiceProvider.GetRequiredService<IWebServiceHelper>();
             string serviceName = "GetUserByUserInfo";
             UserInfo result = new() { Name = "Materal", Age = 18 };
             UserInfo? soap1_1Result = await webServiceClient.SendSoapAsync<UserInfo>(url, serviceName, serviceNamespace, new() { ["user"] = result }, SoapVersionEnum.Soap1_1);
@@ -67,7 +67,7 @@ namespace Materal.Test.UtilsTests
         [TestMethod]
         public async Task GetUserByNameAndAgeTestAsync()
         {
-            IWebServiceHelper webServiceClient = Services.GetRequiredService<IWebServiceHelper>();
+            IWebServiceHelper webServiceClient = ServiceProvider.GetRequiredService<IWebServiceHelper>();
             string serviceName = "GetUserByNameAndAge";
             UserInfo result = new() { Name = "Materal", Age = 18 };
             UserInfo? soap1_1Result = await webServiceClient.SendSoapAsync<UserInfo>(url, serviceName, serviceNamespace, new() { ["name"] = result.Name, ["age"] = result.Age }, SoapVersionEnum.Soap1_1);

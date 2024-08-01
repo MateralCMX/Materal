@@ -11,7 +11,7 @@ namespace Materal.Test.UtilsTests.CloudStorage
         private const string fileKey = "你问我.gif";
         public TencentCloudStorage()
         {
-            _cloudStorageService = Services.GetRequiredService<TencentCloudStorageService>();
+            _cloudStorageService = ServiceProvider.GetRequiredService<TencentCloudStorageService>();
         }
         public override void AddConfig(IConfigurationBuilder builder)
         {

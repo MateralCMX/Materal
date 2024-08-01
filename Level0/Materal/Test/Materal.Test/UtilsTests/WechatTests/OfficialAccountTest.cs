@@ -12,7 +12,7 @@ namespace Materal.Test.UtilsTests.WechatTests
         private readonly WechatOfficialAccountHelper _wechatHelper;
         public OfficialAccountTest() : base()
         {
-            IHttpHelper httpHelper = Services.GetRequiredService<IHttpHelper>();
+            IHttpHelper httpHelper = ServiceProvider.GetRequiredService<IHttpHelper>();
             _wechatHelper = new(Config, httpHelper);
         }
         protected override async Task<AccessTokenResultModel> GetAccessTokenByWechatAsync() => await _wechatHelper.GetAccessTokenAsync();

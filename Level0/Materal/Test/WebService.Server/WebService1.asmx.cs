@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#nullable enable
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Web.Script.Services;
 using System.Web.Services;
@@ -18,26 +19,26 @@ namespace WebService.Server
         [WebMethod]
         public string HelloWorld() => "Hello World";
         [WebMethod]
-        public UserInfo GetUser() => new UserInfo { Name = "Materal", Age = 18 };
+        public UserInfo GetUser() => new() { Name = "Materal", Age = 18 };
         [WebMethod]
-        public List<UserInfo> GetUsers() => new List<UserInfo>() { new UserInfo { Name = "Materal", Age = 18 }, new UserInfo { Name = "Materal2", Age = 28 } };
+        public List<UserInfo> GetUsers() => [new UserInfo { Name = "Materal", Age = 18 }, new UserInfo { Name = "Materal2", Age = 28 }];
         [WebMethod]
-        public UserInfo GetUserByNameAndAge(string name, int age) => new UserInfo { Name = name, Age = age };
+        public UserInfo GetUserByNameAndAge(string name, int age) => new() { Name = name, Age = age };
         [WebMethod]
         public UserInfo GetUserByUserInfo(UserInfo user) => user;
     }
     public class UserInfo
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public int Age { get; set; }
         public int? TestNull { get; set; }
-        public ScoreInfo ScoreValue { get; set; }
-        public List<int> ArrayValues { get; set; }
-        public List<ScoreInfo> Scores { get; set; }
+        public ScoreInfo? ScoreValue { get; set; }
+        public List<int> ArrayValues { get; set; } = [];
+        public List<ScoreInfo> Scores { get; set; } = [];
     }
     public class ScoreInfo
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public int Score { get; set; }
         public int? TestNull { get; set; }
     }

@@ -1,29 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<LangVersion>10.0</LangVersion>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<IsPackable>true</IsPackable>
-		<Product>Materal.ThreeTierArchitecture</Product>
-		<Company>Materal</Company>
-		<Authors>Materal</Authors>
-		<Version>1.1.76</Version>
-		<Copyright>Materal</Copyright>
 		<Description>Materal.TTA.SqlServerRepository</Description>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="../../../../README.md" Pack="true" PackagePath="" />
-		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.*" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.*" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />

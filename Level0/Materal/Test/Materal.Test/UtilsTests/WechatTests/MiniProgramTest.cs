@@ -11,7 +11,7 @@ namespace Materal.Test.UtilsTests.WechatTests
         private readonly WechatMiniProgramHelper _wechatHelper;
         public MiniProgramTest() : base()
         {
-            IHttpHelper httpHelper = Services.GetRequiredService<IHttpHelper>();
+            IHttpHelper httpHelper = ServiceProvider.GetRequiredService<IHttpHelper>();
             _wechatHelper = new(Config, httpHelper);
         }
         protected override async Task<AccessTokenResultModel> GetAccessTokenByWechatAsync() => await _wechatHelper.GetAccessTokenAsync();

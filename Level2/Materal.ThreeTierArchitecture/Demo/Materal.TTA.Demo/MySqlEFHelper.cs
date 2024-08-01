@@ -1,5 +1,4 @@
-﻿#if NET6_0
-using Materal.Abstractions;
+﻿using Materal.Abstractions;
 using Materal.TTA.Demo.MySqlEFRepository;
 using Materal.TTA.EFRepository;
 using Materal.TTA.MySqlEFRepository;
@@ -21,4 +20,3 @@ namespace Materal.TTA.Demo
         }
     }
 }
-#endif

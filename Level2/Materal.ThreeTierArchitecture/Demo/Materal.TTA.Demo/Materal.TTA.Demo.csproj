@@ -2,31 +2,18 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.76" />
-		<PackageReference Include="Materal.Logger" Version="1.1.76" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<ProjectReference Include="..\Materal.TTA.Demo.MySqlEFRepository\Materal.TTA.Demo.MySqlEFRepository.csproj" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+	  <PackageReference Include="Materal.Logger" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\Materal.TTA.MySqlEFRepository\Materal.TTA.MySqlEFRepository.csproj" />
+		<ProjectReference Include="..\Materal.TTA.Demo.MySqlEFRepository\Materal.TTA.Demo.MySqlEFRepository.csproj" />
 		<ProjectReference Include="..\Materal.TTA.Demo.SqliteEFRepository\Materal.TTA.Demo.SqliteEFRepository.csproj" />
-		<ProjectReference Include="..\Materal.TTA.Demo.SqlServerEFRepository\Materal.TTA.Demo.SqlServerEFRepository.csproj" />
 		<ProjectReference Include="..\Materal.TTA.Demo.SqlServerEFRepository\Materal.TTA.Demo.SqlServerEFRepository.csproj" />
 	</ItemGroup>
 </Project>
