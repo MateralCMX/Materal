@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props" />
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<Title>Materal ORM包</Title>
+		<Description>Materal.TTA.EFRepository</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.TTA.Common\Materal.TTA.Common.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+	</ItemGroup>
+</Project>

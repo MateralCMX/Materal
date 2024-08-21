@@ -1,44 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<LangVersion>12.0</LangVersion>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.76</Version>
-		<Company>古典部工作室</Company>
-		<Product>Materal.MergeBlock.Abstractions</Product>
-		<Authors>Materal</Authors>
-		<NeutralLanguage>zh-CN</NeutralLanguage>
-		<Title>Materal.MergeBlock.Abstractions</Title>
 		<Description>Materal.MergeBlock抽象库</Description>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-		<NoWarn>CA2254;</NoWarn>
 	</PropertyGroup>
-	<ItemGroup>
-		<None Include="../../../../README.md" Pack="true" PackagePath="" />
-		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
-	</ItemGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.Oscillator.Abstractions" Version="1.1.76" />
-		<PackageReference Include="Materal.EventBus.RabbitMQ" Version="1.1.76" />
-		<PackageReference Include="Materal.Logger" Version="1.1.76" />
-		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.76" />
-		<PackageReference Include="Materal.Extensions.DependencyInjection" Version="1.1.76" />
-		<PackageReference Include="Materal.Utils.Consul" Version="1.1.76" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="*" />
-		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="*" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.*" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="*" />
+		<PackageReference Include="Materal.EventBus.RabbitMQ" />
+		<PackageReference Include="Materal.Extensions.DependencyInjection" />
+		<PackageReference Include="Materal.Logger" />
+		<PackageReference Include="Materal.Oscillator.Abstractions" />
+		<PackageReference Include="Materal.TTA.EFRepository" />
+		<PackageReference Include="Materal.Utils.Consul" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.MergeBlock.GeneratorCode\Materal.MergeBlock.GeneratorCode.csproj" />

@@ -1,26 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<LangVersion>12.0</LangVersion>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0;</TargetFrameworks>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.76</Version>
-		<Company>古典部工作室</Company>
-		<Product>Materal.MergeBlock.GeneratorCode</Product>
-		<Authors>Materal</Authors>
-		<NeutralLanguage>zh-CN</NeutralLanguage>
-		<Title>Materal.MergeBlock.GeneratorCode</Title>
-		<Description>Materal.MergeBlock代码生成器库</Description>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<Description>Materal.MergeBlock代码生成库</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="../../../../README.md" Pack="true" PackagePath="" />
-		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Materal.Utils" Version="1.1.76" />
+		<PackageReference Include="Materal.Utils" />
 	</ItemGroup>
 </Project>

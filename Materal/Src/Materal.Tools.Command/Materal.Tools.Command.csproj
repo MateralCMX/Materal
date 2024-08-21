@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props" />
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<Title>Materal工具</Title>
+		<Description>Materal命令行工具</Description>
+		<ToolCommandName>MateralTools</ToolCommandName>
+	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Include="System.CommandLine" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Tools.Core\Materal.Tools.Core.csproj" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MateralToolsVSIX", "MateralToolsVSIX.csproj", "{AD00AD1D-0B4B-4262-A6C4-6B5646C1B43F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AD00AD1D-0B4B-4262-A6C4-6B5646C1B43F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD00AD1D-0B4B-4262-A6C4-6B5646C1B43F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD00AD1D-0B4B-4262-A6C4-6B5646C1B43F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD00AD1D-0B4B-4262-A6C4-6B5646C1B43F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8611CA03-3235-4457-858F-9F6240BA857D}
+	EndGlobalSection
+EndGlobal

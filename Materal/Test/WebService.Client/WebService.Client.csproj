@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Common.props" />
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
+	</ItemGroup>
+</Project>

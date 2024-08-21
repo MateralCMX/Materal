@@ -75,9 +75,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MateralMergeBlockVSIX", "Sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeToStringCode", "Src\CodeToStringCode\CodeToStringCode.csproj", "{D1D62502-69BC-4E79-97E1-7CDD0CB3AF85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.ResponseCompression", "Modules\Materal.MergeBlock.ResponseCompression\Materal.MergeBlock.ResponseCompression.csproj", "{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.ResponseCompression", "Modules\Materal.MergeBlock.ResponseCompression\Materal.MergeBlock.ResponseCompression.csproj", "{E818DEAB-57C9-4965-AA0E-C305C0D9FCFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.Cors", "Modules\Materal.MergeBlock.Cors\Materal.MergeBlock.Cors.csproj", "{40C07513-F36B-418E-992F-F42FA189FFA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Cors", "Modules\Materal.MergeBlock.Cors\Materal.MergeBlock.Cors.csproj", "{40C07513-F36B-418E-992F-F42FA189FFA5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{4974B4A7-5FD6-421A-84EC-08B41640DFAB}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

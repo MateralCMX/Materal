@@ -1,27 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<LangVersion>12.0</LangVersion>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
 		<IsPackable>true</IsPackable>
-		<Version>1.1.76</Version>
-		<Company>古典部工作室</Company>
-		<Product>Materal.MergeBlock.Repository</Product>
-		<Authors>Materal</Authors>
-		<NeutralLanguage>zh-CN</NeutralLanguage>
-		<Title>Materal.MergeBlock.Repository</Title>
 		<Description>Materal.MergeBlock仓储库</Description>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<None Include="../../../../README.md" Pack="true" PackagePath="" />
-		<None Include="../../../../LICENSE" Pack="true" PackagePath="" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Materal.TTA.EFRepository" Version="1.1.76" />
+	  <PackageReference Include="Materal.TTA.EFRepository" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />

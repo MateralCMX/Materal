@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props" />
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.1;net6.0;net8.0</TargetFrameworks>
+		<Title>Materal调度器包</Title>
+		<Description>Materal.Oscillator.Abstractions</Description>
+	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Include="Quartz" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
+	</ItemGroup>
+</Project>

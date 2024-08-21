@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props" />
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netstandard2.1;net6.0;net8.0</TargetFrameworks>
+		<Title>Materal上下文缓存包</Title>
+		<Description>Materal上下文缓存包</Description>
+	</PropertyGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'netstandard2.1'">
+		<PackageReference Include="System.Threading.Tasks.Dataflow" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
+	</ItemGroup>
+</Project>
