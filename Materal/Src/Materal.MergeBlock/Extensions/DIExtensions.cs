@@ -14,11 +14,22 @@ namespace Materal.MergeBlock.Extensions
         /// <returns></returns>
         public static IHostApplicationBuilder AddMergeBlockCore(this IHostApplicationBuilder builder)
         {
-            IServiceCollection services = builder.Services;
-            services.Replace(ServiceDescriptor.Singleton(typeof(IConfiguration), builder.Configuration));
-            services.Replace(ServiceDescriptor.Singleton(builder.Services));
-            services.AddMergeBlockCore();
+            builder.Services.AddMergeBlockCore(builder.Configuration);
             return builder;
+        }
+        /// <summary>
+        /// 添加MergeBlock
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        /// <exception cref="MergeBlockException"></exception>
+        public static IServiceCollection AddMergeBlockCore(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Replace(ServiceDescriptor.Singleton(typeof(IConfiguration), configuration));
+            services.Replace(ServiceDescriptor.Singleton(services));
+            services.AddMergeBlockCore();
+            return services;
         }
         /// <summary>
         /// 添加MergeBlock

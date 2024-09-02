@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../Packable.props" />
-	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
-		<Title>Materal MergeBlock包</Title>
-		<Description>Materal MergeBlock Web包</Description>
-	</PropertyGroup>
-</Project>
