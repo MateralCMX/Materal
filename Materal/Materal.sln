@@ -157,6 +157,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{F4C6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Materal.MergeBlock.Logger", "Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj", "{2E707648-CCF2-4BCA-9CFF-0F28E9C6E715}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Materal.MergeBlock.EventBus", "Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj", "{F2A38A68-F7B8-406B-9232-4E6B8B85B863}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -1049,6 +1051,22 @@ Global
 		{2E707648-CCF2-4BCA-9CFF-0F28E9C6E715}.Release|x64.Build.0 = Release|Any CPU
 		{2E707648-CCF2-4BCA-9CFF-0F28E9C6E715}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E707648-CCF2-4BCA-9CFF-0F28E9C6E715}.Release|x86.Build.0 = Release|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Debug|x64.Build.0 = Debug|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Debug|x86.Build.0 = Debug|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Release|ARM64.Build.0 = Release|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Release|x64.ActiveCfg = Release|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Release|x64.Build.0 = Release|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Release|x86.ActiveCfg = Release|Any CPU
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1122,6 +1140,7 @@ Global
 		{16DEC674-A13D-4967-8B0B-9A67957F145A} = {B8017024-C362-4889-AD88-77C8CD26E0F5}
 		{F4C66F22-34C2-4BB7-BE6A-B62F88317DB6} = {B8017024-C362-4889-AD88-77C8CD26E0F5}
 		{2E707648-CCF2-4BCA-9CFF-0F28E9C6E715} = {F4C66F22-34C2-4BB7-BE6A-B62F88317DB6}
+		{F2A38A68-F7B8-406B-9232-4E6B8B85B863} = {F4C66F22-34C2-4BB7-BE6A-B62F88317DB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD54A1E3-B0F7-4FF0-8888-B85F006AA946}

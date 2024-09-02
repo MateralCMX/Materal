@@ -7,15 +7,6 @@
     public class DependencyTestModule() : MergeBlockModule("依赖测试模块")
     {
         /// <summary>
-        /// 配置服务
-        /// </summary>
-        /// <param name="context"></param>
-        public override void OnConfigureServices(ServiceConfigurationContext context)
-        {
-            MateralServices.Logger?.LogInformation("[依赖测试模块]配置中");
-            base.OnConfigureServices(context);
-        }
-        /// <summary>
         /// 应用初始化
         /// </summary>
         /// <param name="context"></param>

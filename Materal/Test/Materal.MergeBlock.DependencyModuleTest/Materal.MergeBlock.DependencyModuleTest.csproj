@@ -2,6 +2,7 @@
 	<Import Project="../../MergeBlockLibrary.props" />
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
