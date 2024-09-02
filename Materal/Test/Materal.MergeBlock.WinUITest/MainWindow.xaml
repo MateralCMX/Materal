@@ -1,0 +1,15 @@
+<Window
+    x:Class="Materal.MergeBlock.WinUITest.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Materal.MergeBlock.WinUITest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <TextBlock x:Name="Test" Loaded="Test_Loaded" VerticalAlignment="Center" HorizontalAlignment="Center" />
+    <!--<NavigationView x:Name="MainNavigationView" SelectionChanged="MainNavigationView_SelectionChanged" 
+                    IsSettingsVisible="False" IsBackButtonVisible="Collapsed">
+        <Frame x:Name="contentFrame" Padding="10" />
+    </NavigationView>-->
+</Window>

@@ -124,12 +124,23 @@ namespace Materal.MergeBlock.Extensions
         /// <returns></returns>
         public static IHost UseMergeBlock(this IHost host)
         {
-            MateralServices.ServiceProvider = host.Services;
-            AdvancedContext advancedContext = host.Services.GetRequiredService<AdvancedContext>();
-            advancedContext.App = host;
-            ApplicationInitializationContext context = new(host);
-            InitMergeBlock(context);
+            host.Services.UseMergeBlock(host);
             return host;
+        }
+        /// <summary>
+        /// 使用MergeBlock
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IServiceProvider UseMergeBlock(this IServiceProvider serviceProvider, object app)
+        {
+            MateralServices.ServiceProvider = serviceProvider;
+            AdvancedContext advancedContext = serviceProvider.GetRequiredService<AdvancedContext>();
+            advancedContext.App = app;
+            ApplicationInitializationContext context = new(serviceProvider);
+            InitMergeBlock(context);
+            return serviceProvider;
         }
         /// <summary>
         /// 初始化MergeBlock

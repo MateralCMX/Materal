@@ -6,8 +6,8 @@
     public static class ConstData
     {
         /// <summary>
-        /// 工作流日志记录器作用域名称
+        /// 日志记录器作用域名称
         /// </summary>
-        public const string AccessLogScopeName = "MergeBlockAccessLog";
+        public const string AccessLogScopeName = "AccessLog";
     }
 }

@@ -6,7 +6,7 @@ namespace Materal.MergeBlock.AccessLog
     /// 截断大访问日志拦截器
     /// </summary>
     /// <param name="config"></param>
-    public class TruncatedBigAccessLogInterceptor(IOptionsMonitor<AccessLogConfig> config) : IBigAccessLogInterceptor
+    public class TruncatedBigAccessLogInterceptor(IOptionsMonitor<AccessLogOptions> config) : IBigAccessLogInterceptor
     {
         /// <summary>
         /// 处理

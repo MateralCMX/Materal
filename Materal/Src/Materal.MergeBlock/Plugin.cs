@@ -110,9 +110,16 @@ namespace Materal.MergeBlock
             {
                 string name = Path.GetFileNameWithoutExtension(file);
                 if (ExcludedAssemblies.Contains(name)) continue;
-                Assembly assembly = target.LoadFromAssemblyName(new AssemblyName(name));
-                if (!assembly.HasCustomAttribute<MergeBlockAssemblyAttribute>()) continue;
-                result.Add(name);
+                try
+                {
+                    Assembly assembly = target.LoadFromAssemblyName(new AssemblyName(name));
+                    if (!assembly.HasCustomAttribute<MergeBlockAssemblyAttribute>()) continue;
+                    result.Add(name);
+                }
+                catch
+                {
+                    continue;
+                }
             }
             alcWeakRef = new WeakReference(target, true);
             target.Unload();

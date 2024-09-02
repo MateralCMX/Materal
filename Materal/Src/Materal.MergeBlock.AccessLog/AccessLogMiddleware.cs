@@ -1,4 +1,4 @@
-﻿using Materal.MergeBlock.AccessLog.Models;
+using Materal.MergeBlock.AccessLog.Models;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
 
@@ -17,6 +17,8 @@ namespace Materal.MergeBlock.AccessLog
         /// <returns></returns>
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
+            DateTime startTime = DateTime.Now;
+            DateTime? endTime = null;
             RequestModel request = new(context.Request);
             ResponseModel? response = null;
             LogLevel logLevel = LogLevel.Information;
@@ -31,6 +33,7 @@ namespace Materal.MergeBlock.AccessLog
                 await next(context);
                 stopwatch.Stop();
                 memStream.Position = 0;
+                endTime = DateTime.Now;
                 response = new ResponseModel(context.Response, memStream);
                 memStream.Position = 0;
                 await memStream.CopyToAsync(originalBody);
@@ -54,7 +57,7 @@ namespace Materal.MergeBlock.AccessLog
             {
                 if (response is not null)
                 {
-                    accessLogService.WriteAccessLog(logLevel, request, response, stopwatch.ElapsedMilliseconds, exception);
+                    accessLogService.WriteAccessLog(startTime, endTime, logLevel, request, response, stopwatch.ElapsedMilliseconds, exception);
                 }
                 context.Response.Body = originalBody;
             }

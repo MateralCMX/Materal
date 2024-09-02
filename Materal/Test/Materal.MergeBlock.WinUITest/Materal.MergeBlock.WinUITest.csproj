@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<RootNamespace>WinUITest</RootNamespace>
+		<ApplicationManifest>app.manifest</ApplicationManifest>
+		<Platforms>x86;x64;ARM64</Platforms>
+		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<UseWinUI>true</UseWinUI>
+		<LangVersion>12.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<!--不打包-->
+		<WindowsPackageType>None</WindowsPackageType>
+		<!--自包含 Windows App SDK Runtime-->
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="*" />
+		<Manifest Include="$(ApplicationManifest)" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.WinUIHosting\Materal.MergeBlock.WinUIHosting.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.DependencyModuleTest\Materal.MergeBlock.DependencyModuleTest.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.ModuleTest\Materal.MergeBlock.ModuleTest.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="appsettings.Development.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>

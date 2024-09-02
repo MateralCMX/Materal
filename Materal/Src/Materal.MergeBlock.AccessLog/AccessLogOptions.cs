@@ -3,12 +3,8 @@
     /// <summary>
     /// 访问日志配置
     /// </summary>
-    public class AccessLogConfig
+    public class AccessLogOptions : IOptions
     {
-        /// <summary>
-        /// 配置键
-        /// </summary>
-        public static string ConfigKey { get; } = "AccessLog";
         /// <summary>
         /// 最大请求体大小
         /// </summary>

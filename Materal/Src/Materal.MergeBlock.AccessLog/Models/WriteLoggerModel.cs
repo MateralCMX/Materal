@@ -1,10 +1,18 @@
-﻿namespace Materal.MergeBlock.AccessLog.Models
+namespace Materal.MergeBlock.AccessLog.Models
 {
     /// <summary>
     /// 写入日志模型
     /// </summary>
-    public class WriteLoggerModel(LogLevel level, RequestModel request, ResponseModel response, long elapsedMilliseconds, Exception? exception = null)
+    public class WriteLoggerModel(DateTime startTime, DateTime? endTime, LogLevel level, RequestModel request, ResponseModel response, long elapsedMilliseconds, Exception? exception = null)
     {
+        /// <summary>
+        /// 开始时间
+        /// </summary>
+        public DateTime StartTime { get; set; } = startTime;
+        /// <summary>
+        /// 结束时间
+        /// </summary>
+        public DateTime? EndTime { get; set; } = endTime;
         /// <summary>
         /// 日志等级
         /// </summary>
@@ -28,6 +36,6 @@
         /// <summary>
         /// 日志消息
         /// </summary>
-        public string LogMessage => $"[{Response.StatusCode}|{ElapsedMilliseconds:000}ms|{Request.Method}]{Request.Scheme}://{Request.Host}:{Request.Port}{Request.Path}";
+        public string LogMessage => $"[{Response.StatusCode}|{ElapsedMilliseconds}ms|{Request.Method}]{Request.Scheme}://{Request.Host}:{Request.Host}{Request.Path}";
     }
 }

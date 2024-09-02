@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props" />
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+		<Title>Materal MergeBlock包</Title>
+		<Description>Materal MergeBlock WinUI托管包</Description>
+		<IncludeBuildOutput>true</IncludeBuildOutput>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="build\**" Pack="True" PackagePath="build\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.WindowsAppSDK" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.MergeBlock\Materal.MergeBlock.csproj" />
+	</ItemGroup>
+</Project>

@@ -102,6 +102,7 @@
         /// <param name="plugin"></param>
         private static void ConfigOptions(IPlugin plugin)
         {
+            if (MateralServices.Configuration is null) return;
             MethodInfo? method = typeof(OptionsConfigurationServiceCollectionExtensions).GetMethod("Configure", BindingFlags.Static | BindingFlags.Public, [typeof(IServiceCollection), typeof(IConfiguration)]);
             if (method is null) return;
             foreach (Assembly assembly in plugin.Assemblies)
@@ -109,9 +110,22 @@
                 foreach (Type element in assembly.GetTypesByFilter(m => m.IsPublic && m.IsClass && !m.IsAbstract && !m.IsGenericType && typeof(IOptions).IsAssignableFrom(m)))
                 {
                     MethodInfo methodInfo = method.MakeGenericMethod(element);
+                    string key;
                     OptionsAttribute? optionsAttribute = element.GetCustomAttribute<OptionsAttribute>();
-                    string key = optionsAttribute is not null ? optionsAttribute.SectionName : element.Name;
-                    object?[] parameters = [MateralServices.Services, MateralServices.Configuration];
+                    if (optionsAttribute is null)
+                    {
+                        key = element.Name;
+                        if (key.EndsWith("Options"))
+                        {
+                            key = key[..^7];
+                        }
+                    }
+                    else
+                    {
+                        key = optionsAttribute.SectionName;
+                    }
+                    IConfigurationSection section = MateralServices.Configuration.GetSection(key);
+                    object?[] parameters = [MateralServices.Services, section];
                     methodInfo.Invoke(null, parameters);
                 }
             }
