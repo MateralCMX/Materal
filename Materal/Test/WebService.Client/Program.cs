@@ -1,4 +1,4 @@
-﻿using Materal.Abstractions;
+﻿using Materal.Extensions.DependencyInjection;
 using Materal.Utils.Extensions;
 using Materal.Utils.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,18 +19,17 @@ namespace WebService.Client
         /// <returns></returns>
         public static async Task Main()
         {
-            IServiceCollection serviceCollection = new ServiceCollection();
+            MateralServices.Services = new ServiceCollection();
             HttpMessageHandler handler = new HttpClientHandler()
             {
                 ServerCertificateCustomValidationCallback = (request, ceti, chain, errors) => true
             };
             HttpClient httpClient = new(handler);
-            serviceCollection.TryAddSingleton(httpClient);
-            serviceCollection.AddMateralUtils();
-            serviceCollection.AddSingleton<IWebServiceHelper, WebServiceHelper>();
-            MateralServices.Services = serviceCollection.BuildServiceProvider();
-            IServiceProvider Services = MateralServices.Services;
-            IWebServiceHelper webServiceClient = Services.GetRequiredService<IWebServiceHelper>();
+            MateralServices.Services.TryAddSingleton(httpClient);
+            MateralServices.Services.AddMateralUtils();
+            MateralServices.Services.AddSingleton<IWebServiceHelper, WebServiceHelper>();
+            MateralServices.ServiceProvider = MateralServices.Services.BuildServiceProvider();
+            IWebServiceHelper webServiceClient = MateralServices.ServiceProvider.GetRequiredService<IWebServiceHelper>();
             string serviceName = "GetUserByUserInfo";
             UserInfo result = new() { Name = "Materal", Age = 18 };
             UserInfo? soap1_1Result = await webServiceClient.SendSoapAsync<UserInfo>(url, serviceName, serviceNamespace, new() { ["user"] = result }, SoapVersionEnum.Soap1_1);

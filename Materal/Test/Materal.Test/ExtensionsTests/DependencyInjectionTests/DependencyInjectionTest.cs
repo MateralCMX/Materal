@@ -5,11 +5,6 @@ namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
     [TestClass]
     public class DependencyInjectionTest : MateralTestBase
     {
-        public override void AddServices(IServiceCollection services)
-        {
-            services.TryAddScoped<IService, ServiceImpl>();
-            services.TryAddScoped<IRepository, RepositoryImpl>();
-        }
         [TestMethod]
         public void PropertyInjectionTest()
         {

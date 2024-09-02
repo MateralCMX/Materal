@@ -1,5 +1,4 @@
-﻿using Materal.Abstractions;
-using Materal.Extensions.DependencyInjection;
+﻿using Materal.Extensions.DependencyInjection;
 using Materal.Utils.Extensions;
 using Materal.Utils.Model;
 using Microsoft.Extensions.Configuration;
@@ -13,11 +12,14 @@ namespace Materal.Test.Base
     /// </summary>
     public abstract class MateralTestBase
     {
-        private readonly IServiceCollection _serviceCollection;
         /// <summary>
-        /// 服务
+        /// 服务容器
         /// </summary>
-        protected IServiceProvider ServiceProvider;
+        protected static IServiceCollection Services => MateralServices.Services;
+        /// <summary>
+        /// 服务提供者
+        /// </summary>
+        protected static IServiceProvider ServiceProvider => MateralServices.ServiceProvider;
         /// <summary>
         /// 配置
         /// </summary>
@@ -27,7 +29,7 @@ namespace Materal.Test.Base
         /// </summary>
         protected MateralTestBase()
         {
-            _serviceCollection = new ServiceCollection();
+            MateralServices.Services = new ServiceCollection();
             PageRequestModel.PageStartNumber = 1;
             ConfigurationBuilder configurationBuilder = new();
             AddConfig(configurationBuilder);
@@ -37,12 +39,11 @@ namespace Materal.Test.Base
                 ServerCertificateCustomValidationCallback = (request, ceti, chain, errors) => true
             };
             HttpClient httpClient = new(handler);
-            _serviceCollection.TryAddSingleton(httpClient);
-            _serviceCollection.AddMateralUtils();
-            _serviceCollection.AddOptions();
-            AddServices(_serviceCollection);
-            MateralServices.Services = BuilderServiceProvider(_serviceCollection);
-            ServiceProvider = MateralServices.Services;
+            MateralServices.Services.TryAddSingleton(httpClient);
+            MateralServices.Services.AddMateralUtils();
+            MateralServices.Services.AddOptions();
+            AddServices(MateralServices.Services);
+            MateralServices.ServiceProvider = BuilderServiceProvider(MateralServices.Services);
         }
         /// <summary>
         /// 构建服务提供者

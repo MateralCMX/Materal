@@ -28,7 +28,7 @@ namespace Materal.Extensions.DependencyInjection
 #if NET8_0_OR_GREATER
             builder.ConfigureServices(services =>
             {
-                services.TryAddSingleton<IServiceProviderIsService, MyServiceProviderIsService>();
+                services.TryAddSingleton<IServiceProviderIsService, MateralServiceProviderIsService>();
             });
 #endif
             builder.UseServiceContext();

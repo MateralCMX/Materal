@@ -6,7 +6,7 @@ namespace Materal.Extensions.DependencyInjection
         /// <summary>
         /// 服务提供者是否是服务
         /// </summary>
-        public class MyServiceProviderIsService(IServiceProvider serviceProvider) : IServiceProviderIsService
+        public class MateralServiceProviderIsService(IServiceProvider serviceProvider) : IServiceProviderIsService
         {
             /// <summary>
             /// 是否是服务

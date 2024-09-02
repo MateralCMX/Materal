@@ -1,0 +1,7 @@
+<Project>
+	<Import Project="./Packable.props" />
+	<PropertyGroup>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+	</PropertyGroup>
+</Project>

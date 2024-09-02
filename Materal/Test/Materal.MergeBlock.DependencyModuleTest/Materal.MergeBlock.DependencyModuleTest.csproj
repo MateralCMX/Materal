@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../Common.props" />
+	<Import Project="../../MergeBlockLibrary.props" />
 	<PropertyGroup>
-		<OutputType>Exe</OutputType>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 	</PropertyGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.ModuleTest\Materal.MergeBlock.ModuleTest.csproj" />
 	</ItemGroup>
 </Project>

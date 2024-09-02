@@ -1,9 +1,10 @@
 ﻿using AspectCore.DependencyInjection;
+using Materal.Extensions.DependencyInjection;
 using System.Diagnostics;
 
 namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
 {
-    public class ServiceImpl : IService
+    public class ServiceImpl : IService, IScopedDependency<IService>
     {
 #pragma warning disable CS0649
         [FromServiceContext]
