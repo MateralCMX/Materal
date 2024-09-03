@@ -16,6 +16,6 @@
         /// <summary>
         /// 插件
         /// </summary>
-        public IList<IPluginBase> Plugins { get; set; } = [];
+        public IList<IPlugin> Plugins { get; set; } = [];
     }
 }

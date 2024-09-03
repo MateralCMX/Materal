@@ -40,9 +40,11 @@ namespace Materal.MergeBlock.Extensions
         private static IServiceCollection AddMergeBlockCore(this IServiceCollection services)
         {
             MateralServices.Services = services;
+            services.AddAutoService(typeof(Plugin).Assembly);
             services.AddOptions();
             services.AddLogging();
             services.AddLocalization();
+            services.AddOptions<MergeBlockOptions>(MergeBlockOptions.ConfigKey);
             services.AddMergeBlockLoggerFactory();
             AssemblyLoadContext.Default.Resolving += Default_Resolving;
             PluginManager pluginManager = new();
@@ -50,7 +52,7 @@ namespace Materal.MergeBlock.Extensions
             MergeBlockContext implementationInstance = new()
             {
                 ModuleDescriptors = ModuleLoader.ModuleDescriptors,
-                Plugins = pluginManager.Plugins.ToList<IPluginBase>(),
+                Plugins = pluginManager.Plugins.ToList<IPlugin>(),
                 MergeBlockAssemblies = pluginManager.Plugins.SelectMany(p => p.Assemblies).ToList()
             };
             services.AddSingleton(implementationInstance);

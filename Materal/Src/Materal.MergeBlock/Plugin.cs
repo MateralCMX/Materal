@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Runtime.Loader;
 
 namespace Materal.MergeBlock
 {
@@ -15,7 +16,7 @@ namespace Materal.MergeBlock
         /// <inheritdoc/>
         public string Name { get; set; } = string.Empty;
         /// <inheritdoc/>
-        public PluginLoadContext? LoadContext { get; private set; }
+        public AssemblyLoadContext? LoadContext { get; private set; }
         /// <inheritdoc/>
         public string RootPath { get; set; } = string.Empty;
         /// <inheritdoc/>

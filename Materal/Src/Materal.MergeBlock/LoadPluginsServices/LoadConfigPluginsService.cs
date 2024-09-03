@@ -1,0 +1,15 @@
+﻿namespace Materal.MergeBlock.LoadPluginsServices
+{
+    [Dependency(RegisterMode = ServiceRegisterMode.Add)]
+    internal class LoadConfigPluginsService : ILoadPluginsService, ISingletonDependency<ILoadPluginsService>
+    {
+        public IEnumerable<IPlugin> GetPlugins(MergeBlockOptions config)
+        {
+            IConfigurationSection? section = MateralServices.Configuration?.GetSection("MergeBlock:Plugins");
+            if (section is null || string.IsNullOrWhiteSpace(section.Value)) return [];
+            MateralServices.Logger?.LogDebug("从配置文件加载插件...");
+            List<Plugin> plugins = section.Get<List<Plugin>>() ?? [];
+            return plugins;
+        }
+    }
+}

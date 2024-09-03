@@ -3,13 +3,12 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<Title>Materal MergeBlock包</Title>
-		<Description>Materal MergeBlock异常拦截模块</Description>
+		<Description>Materal MergeBlock日志模块</Description>
 	</PropertyGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
 </Project>
