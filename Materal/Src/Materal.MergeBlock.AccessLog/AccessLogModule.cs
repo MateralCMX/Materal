@@ -17,7 +17,6 @@ namespace Materal.MergeBlock.AccessLog
         /// <param name="context"></param>
         public override void OnConfigureServices(ServiceConfigurationContext context)
         {
-            //context.Services.Configure<AccessLogConfig>(context.Configuration.GetSection(AccessLogConfig.ConfigKey));
             context.Services.TryAddSingleton<IAccessLogService, AccessLogServiceImpl>();
             context.Services.TryAddSingleton<AccessLogMiddleware>();
         }
