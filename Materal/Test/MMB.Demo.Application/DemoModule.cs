@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.Abstractions.Extensions;
+using Materal.MergeBlock.Consul.Abstractions;
 
 namespace MMB.Demo.Application
 {
@@ -6,6 +7,12 @@ namespace MMB.Demo.Application
     {
         public override void OnConfigureServices(ServiceConfigurationContext context)
         {
+            ModuleConsulConfig moduleConsulConfig = new()
+            {
+                ServiceName = "Demo模块",
+                Tags = ["Demo", "Demo模块"]
+            };
+            context.Services.AddSingleton(moduleConsulConfig);
             context.Services.AddHostedServiceWithDecorators<MyService>();
         }
         public override void OnApplicationInitialization(ApplicationInitializationContext context)

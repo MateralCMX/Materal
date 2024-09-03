@@ -1,4 +1,5 @@
 ﻿using Materal.MergeBlock.Logger;
+using Materal.MergeBlock.Web;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -8,7 +9,7 @@ namespace Materal.MergeBlock.AccessLog
     /// <summary>
     /// 访问日志模块
     /// </summary>
-    [DependsOn(typeof(Web.WebModule), typeof(LoggerModule))]
+    [DependsOn(typeof(WebModule), typeof(LoggerModule))]
     public class AccessLogModule() : MergeBlockModule("访问日志模块")
     {
         /// <summary>

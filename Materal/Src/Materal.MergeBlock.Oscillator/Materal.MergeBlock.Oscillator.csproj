@@ -6,8 +6,8 @@
 		<Description>Materal MergeBlock调度器模块</Description>
 	</PropertyGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.Oscillator.Abstractions\Materal.MergeBlock.Oscillator.Abstractions.csproj" />
-		<ProjectReference Include="..\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
 		<ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />
 	</ItemGroup>
 </Project>

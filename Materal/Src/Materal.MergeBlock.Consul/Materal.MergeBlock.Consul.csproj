@@ -3,12 +3,11 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<Title>Materal MergeBlock包</Title>
-		<Description>Materal MergeBlock响应压缩模块</Description>
+		<Description>Materal MergeBlock服务发现模块</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
-	<ItemGroup>
+		<ProjectReference Include="..\Materal.MergeBlock.Consul.Abstractions\Materal.MergeBlock.Consul.Abstractions.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
+		<ProjectReference Include="..\Materal.Utils.Consul\Materal.Utils.Consul.csproj" />
 	</ItemGroup>
 </Project>

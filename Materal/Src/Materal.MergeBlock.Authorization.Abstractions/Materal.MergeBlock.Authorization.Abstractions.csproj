@@ -10,6 +10,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
-		<ProjectReference Include="..\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

@@ -3,9 +3,10 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<Title>Materal MergeBlock包</Title>
-		<Description>Materal MergeBlock调度器模块</Description>
+		<Description>Materal MergeBlock服务发现模块</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\Materal.Oscillator.Abstractions\Materal.Oscillator.Abstractions.csproj" />
+	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+	  <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 </Project>
