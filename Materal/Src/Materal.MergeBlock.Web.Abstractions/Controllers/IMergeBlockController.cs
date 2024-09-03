@@ -8,7 +8,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Controllers
     /// <summary>
     /// WebAPI控制器基类
     /// </summary>
-    public interface IMergeBlockControllerBase
+    public interface IMergeBlockController
     {
     }
     /// <summary>
@@ -19,7 +19,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Controllers
     /// <typeparam name="TQueryRequestModel"></typeparam>
     /// <typeparam name="TDTO"></typeparam>
     /// <typeparam name="TListDTO"></typeparam>
-    public interface IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> : IMergeBlockControllerBase
+    public interface IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> : IMergeBlockController
         where TAddRequestModel : class, IAddRequestModel, new()
         where TEditRequestModel : class, IEditRequestModel, new()
         where TQueryRequestModel : IQueryRequestModel, new()

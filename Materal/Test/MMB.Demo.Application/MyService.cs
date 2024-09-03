@@ -8,14 +8,12 @@ namespace MMB.Demo.Application
         {
             logger?.LogInformation("服务启动");
             await Task.CompletedTask;
-            throw new MergeBlockModuleException("测试异常");
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
             logger?.LogInformation("服务停止");
             await Task.CompletedTask;
-            throw new NotImplementedException();
         }
     }
 }

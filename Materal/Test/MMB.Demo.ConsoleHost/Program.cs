@@ -1,4 +1,4 @@
-﻿using Materal.MergeBlock.ConsoleHosting;
+﻿using Materal.MergeBlock;
 
 namespace MMB.Demo.ConsoleHost
 {

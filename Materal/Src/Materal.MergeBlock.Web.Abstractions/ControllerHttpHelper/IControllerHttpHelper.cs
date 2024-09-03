@@ -28,7 +28,7 @@ namespace Materal.MergeBlock.Web.Abstractions.ControllerHttpHelper
         /// <param name="datas"></param>
         /// <returns></returns>
         Task<TResult> SendAsync<TController, TResult>(string projectName, string moduleName, string methodName, Dictionary<string, string> queryArgs, params object[] datas)
-            where TController : IMergeBlockControllerBase;
+            where TController : IMergeBlockController;
         /// <summary>
         /// 获取请求头
         /// </summary>

@@ -1,9 +1,11 @@
-﻿namespace Materal.MergeBlock.LoadPluginsServices
+﻿using Microsoft.Extensions.Options;
+
+namespace Materal.MergeBlock.LoadPluginsServices
 {
     [Dependency(RegisterMode = ServiceRegisterMode.Add)]
     internal class LoadConfigPluginsService : ILoadPluginsService, ISingletonDependency<ILoadPluginsService>
     {
-        public IEnumerable<IPlugin> GetPlugins(MergeBlockOptions config)
+        public IEnumerable<IPlugin> GetPlugins(IOptionsMonitor<MergeBlockOptions> config)
         {
             IConfigurationSection? section = MateralServices.Configuration?.GetSection("MergeBlock:Plugins");
             if (section is null || string.IsNullOrWhiteSpace(section.Value)) return [];

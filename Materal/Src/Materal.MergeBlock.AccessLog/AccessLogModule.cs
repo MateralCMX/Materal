@@ -8,7 +8,7 @@ namespace Materal.MergeBlock.AccessLog
     /// <summary>
     /// 访问日志模块
     /// </summary>
-    [DependsOn(typeof(LoggerModule))]
+    [DependsOn(typeof(Web.WebModule), typeof(LoggerModule))]
     public class AccessLogModule() : MergeBlockModule("访问日志模块")
     {
         /// <summary>

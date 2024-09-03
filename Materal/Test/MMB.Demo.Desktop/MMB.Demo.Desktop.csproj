@@ -20,19 +20,21 @@
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
-	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj" />
-	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
-	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.WinUIHosting\Materal.MergeBlock.WinUIHosting.csproj" />
-	  <ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
-	  <ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.Abstractions\Materal.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.WinUI.Abstractions\Materal.MergeBlock.WinUI.Abstractions.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
+		<ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="appsettings.Development.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+		<None Update="appsettings.Development.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

@@ -55,7 +55,7 @@ namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
         /// <returns></returns>
         /// <exception cref="MergeBlockModuleException"></exception>
         public virtual async Task<TResult> SendAsync<TController, TResult>(string projectName, string moduleName, string methodName, Dictionary<string, string> queryArgs, params object[] datas)
-            where TController : IMergeBlockControllerBase
+            where TController : IMergeBlockController
         {
             var controllerType = typeof(TController);
             var methodInfo = controllerType.GetMethods().FirstOrDefault(m => m.Name == methodName);

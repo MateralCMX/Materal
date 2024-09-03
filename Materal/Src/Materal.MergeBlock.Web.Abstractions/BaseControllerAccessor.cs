@@ -1,10 +1,8 @@
-﻿using Materal.Extensions;
-using Materal.MergeBlock.Abstractions.Models;
+﻿using Materal.MergeBlock.Abstractions.Models;
 using Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper;
 using Materal.MergeBlock.Web.Abstractions.ControllerHttpHelper;
 using Materal.MergeBlock.Web.Abstractions.Controllers;
 using Materal.Utils.Model;
-using Microsoft.Extensions.DependencyInjection;
 using System.ComponentModel.DataAnnotations;
 
 namespace Materal.MergeBlock.Web.Abstractions
@@ -13,7 +11,7 @@ namespace Materal.MergeBlock.Web.Abstractions
     /// 控制器基类访问器
     /// </summary>
     /// <param name="serviceProvider"></param>
-    public abstract class BaseControllerAccessor(IServiceProvider serviceProvider) : IMergeBlockControllerBase
+    public abstract class BaseControllerAccessor(IServiceProvider serviceProvider) : IMergeBlockController
     {
         /// <summary>
         /// 项目名称
@@ -36,8 +34,8 @@ namespace Materal.MergeBlock.Web.Abstractions
     /// 控制器基类访问器
     /// </summary>
     /// <param name="serviceProvider"></param>
-    public abstract class BaseControllerAccessor<TController, TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(IServiceProvider serviceProvider) : BaseControllerAccessor(serviceProvider), IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
-        where TController : IMergeBlockControllerBase
+    public abstract class BaseControllerAccessor<TController, TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(IServiceProvider serviceProvider) : BaseControllerAccessor(serviceProvider), IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
+        where TController : IMergeBlockController
         where TAddRequestModel : class, IAddRequestModel, new()
         where TEditRequestModel : class, IEditRequestModel, new()
         where TQueryRequestModel : IQueryRequestModel, new()

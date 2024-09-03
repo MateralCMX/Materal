@@ -6,12 +6,14 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Cors\Materal.MergeBlock.Cors.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.ResponseCompression\Materal.MergeBlock.ResponseCompression.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
+
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.WebHosting\Materal.MergeBlock.WebHosting.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock\Materal.MergeBlock.csproj" />
 		<ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />
 	</ItemGroup>
 </Project>

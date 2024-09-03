@@ -1,4 +1,7 @@
-﻿namespace Materal.MergeBlock
+﻿using Materal.MergeBlock.LoadPluginsServices;
+using Microsoft.Extensions.Options;
+
+namespace Materal.MergeBlock
 {
     /// <summary>
     /// 插件访问器
@@ -14,12 +17,9 @@
         /// </summary>
         public void LoadPlugins()
         {
-            MergeBlockOptions config = new();
-            if (MateralServices.Configuration is not null)
-            {
-                config = MateralServices.Configuration.GetSection(MergeBlockOptions.ConfigKey).Get<MergeBlockOptions>() ?? config;
-            }
-            IEnumerable<ILoadPluginsService> loadPluginsServices = MateralServices.Services.BuildMateralServiceProvider().GetServices<ILoadPluginsService>();
+            IServiceProvider serviceProvider = MateralServices.Services.BuildMateralServiceProvider();
+            IOptionsMonitor<MergeBlockOptions> config = serviceProvider.GetRequiredService<IOptionsMonitor<MergeBlockOptions>>();
+            IEnumerable<ILoadPluginsService> loadPluginsServices = serviceProvider.GetServices<ILoadPluginsService>();
             foreach (ILoadPluginsService loadPluginsService in loadPluginsServices)
             {
                 Plugins.AddRange(loadPluginsService.GetPlugins(config));

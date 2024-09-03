@@ -17,5 +17,6 @@
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.Swagger.Abstractions\Materal.MergeBlock.Swagger.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
 	</ItemGroup>
 </Project>

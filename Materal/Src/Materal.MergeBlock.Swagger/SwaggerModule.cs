@@ -12,6 +12,7 @@ namespace Materal.MergeBlock.Swagger
     /// <summary>
     /// Swagger模块
     /// </summary>
+    [DependsOn(typeof(Web.WebModule))]
     public class SwaggerModule() : MergeBlockModule("Swagger模块")
     {
         /// <summary>

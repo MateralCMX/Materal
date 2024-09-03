@@ -1,11 +1,13 @@
-﻿namespace Materal.MergeBlock.LoadPluginsServices
+﻿using Microsoft.Extensions.Options;
+
+namespace Materal.MergeBlock.LoadPluginsServices
 {
     [Dependency(RegisterMode = ServiceRegisterMode.Add)]
     internal class LoadPluginsFolderPluginsService : ILoadPluginsService, ISingletonDependency<ILoadPluginsService>
     {
-        public IEnumerable<IPlugin> GetPlugins(MergeBlockOptions config)
+        public IEnumerable<IPlugin> GetPlugins(IOptionsMonitor<MergeBlockOptions> config)
         {
-            if (!config.LoadFromPlugins) return [];
+            if (!config.CurrentValue.LoadFromPlugins) return [];
             string pluginsPath = Path.Combine(AppContext.BaseDirectory, "Plugins");
             DirectoryInfo directoryInfo = new(pluginsPath);
             if (!directoryInfo.Exists) return [];

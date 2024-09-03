@@ -44,7 +44,11 @@ namespace Materal.MergeBlock.Extensions
             services.AddOptions();
             services.AddLogging();
             services.AddLocalization();
-            services.AddOptions<MergeBlockOptions>(MergeBlockOptions.ConfigKey);
+            IConfigurationSection? section = MateralServices.Configuration?.GetSection(MergeBlockOptions.ConfigKey);
+            if (section is not null)
+            {
+                services.Configure<MergeBlockOptions>(section);
+            }
             services.AddMergeBlockLoggerFactory();
             AssemblyLoadContext.Default.Resolving += Default_Resolving;
             PluginManager pluginManager = new();

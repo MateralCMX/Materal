@@ -1,4 +1,4 @@
-using Materal.MergeBlock.WebHosting;
+using Materal.MergeBlock;
 
 namespace MMB.Demo.WebAPI
 {

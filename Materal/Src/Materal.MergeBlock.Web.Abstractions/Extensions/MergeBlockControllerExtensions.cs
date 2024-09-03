@@ -65,7 +65,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Extensions
         /// <param name="pageSize"></param>
         /// <param name="pageIndex"></param>
         /// <returns></returns>
-        public static async Task<(bool isQuery, ICollection<TListDTO>? data)> GetDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, object requestModel, int pageSize = 10, int pageIndex = 1)
+        public static async Task<(bool isQuery, ICollection<TListDTO>? data)> GetDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, object requestModel, int pageSize = 10, int pageIndex = 1)
             where TAddRequestModel : class, IAddRequestModel, new()
             where TEditRequestModel : class, IEditRequestModel, new()
             where TQueryRequestModel : IQueryRequestModel, new()
@@ -91,7 +91,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Extensions
         /// <param name="queryModel"></param>
         /// <returns></returns>
         /// <exception cref="MergeBlockModuleException"></exception>
-        public static async Task<ICollection<TListDTO>> GetDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, TQueryRequestModel queryModel)
+        public static async Task<ICollection<TListDTO>> GetDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, TQueryRequestModel queryModel)
             where TAddRequestModel : class, IAddRequestModel, new()
             where TEditRequestModel : class, IEditRequestModel, new()
             where TQueryRequestModel : IQueryRequestModel, new()
@@ -115,7 +115,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Extensions
         /// <param name="ids"></param>
         /// <returns></returns>
         /// <exception cref="MergeBlockModuleException"></exception>
-        public static async Task<ICollection<TListDTO>> GetDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, IEnumerable<Guid> ids)
+        public static async Task<ICollection<TListDTO>> GetDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, IEnumerable<Guid> ids)
             where TAddRequestModel : class, IAddRequestModel, new()
             where TEditRequestModel : class, IEditRequestModel, new()
             where TQueryRequestModel : IQueryRequestModel, new()
@@ -141,7 +141,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Extensions
         /// <param name="queryModel"></param>
         /// <returns></returns>
         /// <exception cref="MergeBlockModuleException"></exception>
-        public static async Task<TListDTO?> FirstOrDefaultAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, TQueryRequestModel queryModel)
+        public static async Task<TListDTO?> FirstOrDefaultAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, TQueryRequestModel queryModel)
             where TAddRequestModel : class, IAddRequestModel, new()
             where TEditRequestModel : class, IEditRequestModel, new()
             where TQueryRequestModel : IQueryRequestModel, new()
@@ -163,7 +163,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Extensions
         /// <param name="id"></param>
         /// <returns></returns>
         /// <exception cref="MergeBlockModuleException"></exception>
-        public static async Task<TListDTO?> FirstOrDefaultAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, Guid id)
+        public static async Task<TListDTO?> FirstOrDefaultAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, Guid id)
             where TAddRequestModel : class, IAddRequestModel, new()
             where TEditRequestModel : class, IEditRequestModel, new()
             where TQueryRequestModel : IQueryRequestModel, new()
@@ -190,7 +190,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Extensions
         /// <param name="id"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, Guid id, Action<TListDTO> action)
+        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, Guid id, Action<TListDTO> action)
             where TAddRequestModel : class, IAddRequestModel, new()
             where TEditRequestModel : class, IEditRequestModel, new()
             where TQueryRequestModel : IQueryRequestModel, new()
@@ -213,7 +213,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Extensions
         /// <param name="requestModel"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, TQueryRequestModel requestModel, Action<TListDTO> action)
+        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, TQueryRequestModel requestModel, Action<TListDTO> action)
             where TAddRequestModel : class, IAddRequestModel, new()
             where TEditRequestModel : class, IEditRequestModel, new()
             where TQueryRequestModel : IQueryRequestModel, new()
@@ -238,7 +238,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Extensions
         /// <param name="ids"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, IEnumerable<Guid> ids, Action<TListDTO> action)
+        public static async Task BindDataAsync<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>(this IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO> controller, IEnumerable<Guid> ids, Action<TListDTO> action)
             where TAddRequestModel : class, IAddRequestModel, new()
             where TEditRequestModel : class, IEditRequestModel, new()
             where TQueryRequestModel : IQueryRequestModel, new()

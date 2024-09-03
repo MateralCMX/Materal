@@ -6,6 +6,7 @@ namespace Materal.MergeBlock.Cors
     /// <summary>
     /// 跨域模块
     /// </summary>
+    [DependsOn(typeof(Web.WebModule))]
     public class CorsModule() : MergeBlockModule("跨域模块")
     {
         /// <summary>
