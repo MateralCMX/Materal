@@ -3,12 +3,11 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<Title>Materal MergeBlock包</Title>
-		<Description>Materal MergeBlock跨域模块</Description>
+		<Description>Materal MergeBlock调度器模块</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
-	<ItemGroup>
+		<ProjectReference Include="..\Materal.MergeBlock.Oscillator.Abstractions\Materal.MergeBlock.Oscillator.Abstractions.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
+		<ProjectReference Include="..\Materal.Oscillator\Materal.Oscillator.csproj" />
 	</ItemGroup>
 </Project>

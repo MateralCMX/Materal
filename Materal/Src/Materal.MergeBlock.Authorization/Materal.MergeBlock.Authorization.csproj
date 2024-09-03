@@ -10,7 +10,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.MergeBlock.Authorization.Abstractions\Materal.MergeBlock.Authorization.Abstractions.csproj" />
-		<ProjectReference Include="..\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
 	</ItemGroup>
 	<ItemGroup>
