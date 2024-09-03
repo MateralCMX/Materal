@@ -1,8 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../MergeBlockLibrary.props" />
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
 	</PropertyGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />

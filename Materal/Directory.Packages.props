@@ -2,6 +2,7 @@
   <ItemGroup>
     <PackageVersion Include="AspectCore.Extensions.DependencyInjection" Version="2.4.0" />
     <PackageVersion Include="AspectCore.Extensions.Hosting" Version="2.4.0" />
+    <PackageVersion Include="AutoMapper" Version="13.0.1" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageVersion Include="Consul" Version="1.7.14.4" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props" />
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net8.0;</TargetFrameworks>
+		<Title>Materal MergeBlock包</Title>
+		<Description>Materal MergeBlock应用程序抽象包</Description>
+	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Include="AutoMapper" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.MergeBlock.Repository.Abstractions\Materal.MergeBlock.Repository.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

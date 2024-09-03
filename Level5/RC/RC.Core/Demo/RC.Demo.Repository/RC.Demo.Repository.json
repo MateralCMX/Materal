@@ -1,7 +1,0 @@
-﻿{
-  "Demo": {
-    "DBConfig": {
-      "Source": "D:\\Project\\Materal\\Materal\\Level5\\RC\\RC.Core\\Demo\\RC.Demo.WebAPI\\bin\\RCDemo.db"
-    }
-  }
-}
