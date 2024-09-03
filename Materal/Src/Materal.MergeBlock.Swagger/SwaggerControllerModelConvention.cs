@@ -28,10 +28,8 @@ namespace Materal.MergeBlock.WebModule
         /// <returns></returns>
         public static string? GetGroupName(Assembly assembly)
         {
-            if (assembly.FullName is null) return null;
-            int index = assembly.FullName.IndexOf(',');
-            if (index < 0) return null;
-            string groupName = assembly.FullName[..index];
+            string? groupName = assembly.GetName().Name;
+            if (string.IsNullOrWhiteSpace(groupName)) return null;
             string[] assemblyNames = groupName.Split(".");
             if (assemblyNames.Length > 1)
             {

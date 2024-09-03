@@ -60,7 +60,7 @@ namespace Materal.MergeBlock.Swagger
             List<string> xmlFiles = [];
             foreach (ModuleDescriptor moduleDescriptor in context.ModuleDescriptors)
             {
-                if (moduleDescriptor.Type.Assembly.FullName == "Materal.MergeBlock.Authorization")
+                if (moduleDescriptor.Type.Assembly.GetName().Name == "Materal.MergeBlock.Authorization")
                 {
                     OpenAuthorization(config);
                 }
