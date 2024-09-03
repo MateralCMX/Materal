@@ -1,5 +1,7 @@
-﻿using Materal.MergeBlock.Extensions;
+﻿using Materal.Extensions.DependencyInjection;
+using Materal.MergeBlock.Extensions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace Materal.MergeBlock.ConsoleHosting
@@ -17,6 +19,9 @@ namespace Materal.MergeBlock.ConsoleHosting
         public static async Task RunAsync(string[] args)
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+            builder.UseMateralServiceProvider();
+            builder.Services.AddSingleton(builder);
+            builder.Services.AddSingleton<IHostApplicationBuilder>(builder);
 #if DEBUG
             if (File.Exists("appsettings.Development.json"))
             {

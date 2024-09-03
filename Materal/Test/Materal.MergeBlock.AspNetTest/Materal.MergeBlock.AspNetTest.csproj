@@ -6,6 +6,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
 	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.WebHosting\Materal.MergeBlock.WebHosting.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.DependencyModuleTest\Materal.MergeBlock.DependencyModuleTest.csproj" />
