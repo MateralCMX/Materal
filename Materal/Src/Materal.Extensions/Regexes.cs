@@ -149,6 +149,10 @@
         /// </summary>
         public const string Guid = @"[a-zA-Z\d]{8}-([a-zA-Z\d]{4}-){3}[a-zA-Z\d]{12}";
         /// <summary>
+        /// Guid
+        /// </summary>
+        public const string Guid2 = @"[a-zA-Z\d]{32}";
+        /// <summary>
         /// 16进制颜色
         /// </summary>
         public const string HexColor = @"#([\da-f]{6}|[\da-f]{3})";

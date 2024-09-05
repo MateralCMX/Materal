@@ -693,7 +693,7 @@ namespace Materal.Extensions
         /// true是Guid
         /// false不是Guid
         /// </returns>
-        public static bool IsGuid(this string obj) => obj.VerifyRegex(Regexes.Guid, true);
+        public static bool IsGuid(this string obj) => obj.VerifyRegex(Regexes.Guid, true) || obj.VerifyRegex(Regexes.Guid2, true);
         /// <summary>
         /// 获取输入字符串中所有的Guid
         /// </summary>
