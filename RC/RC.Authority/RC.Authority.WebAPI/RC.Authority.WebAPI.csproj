@@ -21,6 +21,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\${ProjectName}.${ModuleName}.Application\${ProjectName}.${ModuleName}.Application.csproj" />
+		<ProjectReference Include="..\RC.Authority.Application\RC.Authority.Application.csproj" />
 	</ItemGroup>
 </Project>

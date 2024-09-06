@@ -3,7 +3,8 @@
     /// <summary>
     /// 应用程序配置
     /// </summary>
-    public class ApplicationConfig
+    [Options("${ModuleName}")]
+    public class ApplicationConfig : IOptions
     {
     }
 }

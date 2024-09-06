@@ -1,0 +1,8 @@
+﻿{
+  "Authority": {
+    "DBConfig": {
+      //"Source": "E:\\Project\\Materal\\Materal\\RC\\RC.Authority\\RC.Authority.WebAPI\\bin\\RCAuthority.db"
+      "Source": "E:\\Project\\Materal\\Application\\DataBase\\RCAuthority.db"
+    }
+  }
+}

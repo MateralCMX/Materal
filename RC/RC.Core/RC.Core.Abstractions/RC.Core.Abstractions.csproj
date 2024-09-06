@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.Authorization.Abstractions" />
+		<PackageReference Include="Materal.MergeBlock.Domain.Abstractions" />
+		<PackageReference Include="Materal.MergeBlock.Repository.Abstractions" />
+		<PackageReference Include="Materal.TTA.EFRepository" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="RCConfig.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>

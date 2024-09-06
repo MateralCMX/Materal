@@ -12,7 +12,7 @@
 		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" />
 		<PackageReference Include="Materal.MergeBlock.Logger" />
 		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" />-->
-		<!--<PackageReference Include="Materal.MergeBlock.ResponseCompression" />-->
+		<PackageReference Include="Materal.MergeBlock.ResponseCompression" />
 		<PackageReference Include="Materal.MergeBlock.Swagger" />
 		<PackageReference Include="Materal.MergeBlock.Web" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
@@ -21,6 +21,6 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\${ProjectName}.${ModuleName}.Application\${ProjectName}.${ModuleName}.Application.csproj" />
+		<ProjectReference Include="..\RC.Demo.Application\RC.Demo.Application.csproj" />
 	</ItemGroup>
 </Project>

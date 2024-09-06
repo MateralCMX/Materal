@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.GeneratorCode" />
+		<PackageReference Include="Materal.MergeBlock.Web.Abstractions" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\RC.Core.Repository\RC.Core.Repository.csproj" />
+	</ItemGroup>
+</Project>

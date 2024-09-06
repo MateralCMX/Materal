@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.Application.Abstractions" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RC.Core.Abstractions\RC.Core.Abstractions.csproj" />
+	</ItemGroup>
+</Project>

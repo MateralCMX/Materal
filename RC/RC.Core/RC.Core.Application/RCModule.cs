@@ -1,13 +1,16 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
+using Materal.MergeBlock.Web.Abstractions.ControllerHttpHelper;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using RC.Core.Abstractions;
 
-namespace ${ProjectName}.Core.Application
+namespace RC.Core.Application
 {
     /// <summary>
-    /// ${ProjectName}模块
+    /// RC模块
     /// </summary>
-    public abstract class ${ProjectName}Module(string moduleName) : MergeBlockModule(moduleName)
+    public abstract class RCModule(string moduleName) : MergeBlockModule(moduleName)
     {
         /// <inheritdoc/>
         public override void OnPreConfigureServices(ServiceConfigurationContext context)
@@ -18,5 +21,8 @@ namespace ${ProjectName}.Core.Application
             configFilePath = Path.Combine(configFilePath, $"{moduleType.Namespace}.json");
             configurationBuilder.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);
         }
+        /// <inheritdoc/>
+        public override void OnConfigureServices(ServiceConfigurationContext context)
+            => context.Services.TryAddSingleton<IControllerHttpHelper, RCControllerHttpHelper>();
     }
 }
