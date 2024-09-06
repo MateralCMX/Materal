@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.Authorization.Abstractions" />
+		<PackageReference Include="Materal.MergeBlock.Consul.Abstractions" />
+		<PackageReference Include="Materal.MergeBlock.Web.Abstractions" />
+		<PackageReference Include="Materal.Utils.Windows" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\RC.Core\RC.Core.Application\RC.Core.Application.csproj" />
+		<ProjectReference Include="..\RC.Deploy.Repository\RC.Deploy.Repository.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="RC.Deploy.Application.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
