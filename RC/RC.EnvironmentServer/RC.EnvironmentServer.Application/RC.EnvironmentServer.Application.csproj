@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Common.props"/>
+	<ItemGroup>
+		<PackageReference Include="Materal.EventBus.RabbitMQ" />
+		<PackageReference Include="Materal.MergeBlock.Authorization.Abstractions" />
+		<PackageReference Include="Materal.MergeBlock.Consul.Abstractions" />
+		<PackageReference Include="Materal.MergeBlock.Web.Abstractions" />
+		<PackageReference Include="Polly" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\RC.Core\RC.Core.Application\RC.Core.Application.csproj" />
+		<ProjectReference Include="..\..\RC.ServerCenter\RC.ServerCenter.Abstractions\RC.ServerCenter.Abstractions.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer.Repository\RC.EnvironmentServer.Repository.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="RC.EnvironmentServer.Application.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>

@@ -2,6 +2,7 @@
   <ItemGroup>
     <PackageVersion Include="Materal.Abstractions" Version="1.1.77" />
     <PackageVersion Include="Materal.EventBus.Abstraction" Version="1.1.77" />
+    <PackageVersion Include="Materal.EventBus.RabbitMQ" Version="1.1.77" />
     <PackageVersion Include="Materal.Extensions" Version="1.1.77" />
     <PackageVersion Include="Materal.Extensions.DependencyInjection" Version="1.1.77" />
     <PackageVersion Include="Materal.MergeBlock" Version="1.1.77" />
@@ -30,5 +31,7 @@
     <PackageVersion Include="Materal.Utils.Consul" Version="1.1.77" />
     <PackageVersion Include="Materal.Utils.Windows" Version="1.1.77" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageVersion Include="Polly" Version="8.4.1" />
   </ItemGroup>
 </Project>

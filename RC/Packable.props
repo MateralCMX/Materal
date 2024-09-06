@@ -1,0 +1,23 @@
+<Project>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IsPackable>true</IsPackable>
+		<PackageOutputPath>/MateralNugetPackages</PackageOutputPath>
+		<Company>Materal</Company>
+		<Product>Materal</Product>
+		<Authors>Materal</Authors>
+		<Title>Materal</Title>
+		<NeutralLanguage>zh-CN</NeutralLanguage>
+		<Version>1.1.77</Version>
+		<PackageReleaseNotes>https://github.com/MateralCMX/Materal</PackageReleaseNotes>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	<ItemGroup>
+		<None Include="../../../README.md" Pack="true" PackagePath="" />
+		<None Include="../../../LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+</Project>

@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -20,8 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RC.Deploy.Application", "RC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决方案项", "{0DFF95F9-E0E4-4046-A178-25825EB36C9E}"
 	ProjectSection(SolutionItems) = preProject
+		..\Common.props = ..\Common.props
 		..\Directory.Build.props = ..\Directory.Build.props
 		..\Directory.Packages.props = ..\Directory.Packages.props
+		..\Packable.props = ..\Packable.props
 	EndProjectSection
 EndProject
 Global

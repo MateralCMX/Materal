@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props"/>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<Title>RC.ConfigClient</Title>
+		<Description>配置中心客户端</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.Abstractions" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="../../RC.EnvironmentServer/RC.EnvironmentServer.Abstractions/MGC/RequestModel/ConfigurationItem/QueryConfigurationItemRequestModel.cs" Link="RequestModel\MGC\QueryConfigurationItemRequestModel.cs" />
+		<Compile Include="../../RC.EnvironmentServer/RC.EnvironmentServer.Abstractions/RequestModel/ConfigurationItem/QueryConfigurationItemRequestModel.cs" Link="RequestModel\QueryConfigurationItemRequestModel.cs" />
+		<Compile Include="../../RC.EnvironmentServer/RC.EnvironmentServer.Abstractions/MGC/DTO/ConfigurationItem/ConfigurationItemListDTO.cs" Link="DTO\MGC\ConfigurationItemListDTO.cs" />
+	</ItemGroup>
+</Project>

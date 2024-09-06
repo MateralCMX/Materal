@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props"/>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<EnableDynamicLoading>true</EnableDynamicLoading>
+		<ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+		<Title>Materal.MergeBlock.ConfigCenter</Title>
+		<Description>Materal.MergeBlock配置中心库</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.Abstractions" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\RC.ConfigClient\RC.ConfigClient.csproj" />
+	</ItemGroup>
+</Project>

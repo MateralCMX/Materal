@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Common.props"/>
 	<ItemGroup>
 		<PackageReference Include="Materal.MergeBlock.Application.Abstractions" />
 	</ItemGroup>
