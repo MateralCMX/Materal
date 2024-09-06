@@ -1,6 +1,6 @@
 $codeDirPath = "E:\Project\Materal\Materal\RC";#源码地址
-$publishDirPath = "E:\Project\Materal\Materal\Publish\RC\";#发布地址
-$applicationSuffixs = @("WebAPI");#项目后缀
+$publishDirPath = "E:\Project\Materal\Materal\Publish\RC\Plugins\";#发布地址
+$applicationSuffixs = @("Application");#项目后缀
 $applicationPrefixs = @("RC.Authority","RC.Deploy","RC.EnvironmentServer","RC.ServerCenter");#项目前缀
 #"RC.Authority","RC.Deploy","RC.EnvironmentServer","RC.ServerCenter"
 $createPackage = 0#创建压缩包
