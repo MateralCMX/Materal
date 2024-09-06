@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Packable.props" />
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<Title>Materal MergeBlock包</Title>
+		<Description>Materal MergeBlock网关模块</Description>
+	</PropertyGroup>
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="Ocelot" />
+	  <PackageReference Include="Ocelot.Cache.CacheManager" />
+	  <PackageReference Include="Ocelot.Provider.Consul" />
+	  <PackageReference Include="Ocelot.Provider.Polly" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj" />
+		<ProjectReference Include="..\Materal.Gateway.Abstractions\Materal.Gateway.Abstractions.csproj" />
+		<ProjectReference Include="..\Materal.Utils.Consul\Materal.Utils.Consul.csproj" />
+	</ItemGroup>
+</Project>

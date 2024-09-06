@@ -1,8 +1,10 @@
 ﻿using Materal.MergeBlock.Web.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
 namespace Materal.MergeBlock.Web
@@ -19,13 +21,23 @@ namespace Materal.MergeBlock.Web
         public override void OnConfigureServices(ServiceConfigurationContext context)
         {
             IConfigurationSection? section = context.Configuration?.GetSection(WebOptions.ConfigKey);
+            WebOptions? webOptions = null;
             if (section is not null)
             {
                 context.Services.Configure<WebOptions>(section);
+                webOptions = section.GetConfigItem<WebOptions>();
             }
             IMvcBuilder mvcBuilder = context.Services.AddControllers(options =>
             {
                 options.SuppressAsyncSuffixInActionNames = true;
+                options.Filters.Add<ActionPageQueryFilterAttribute>();
+            }).AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null)
+            .AddNewtonsoftJson(options =>
+            {
+                if (webOptions is not null && webOptions.UsePascalCase)
+                {
+                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                }
             });
             context.Services.AddSingleton(mvcBuilder);
             MergeBlockContext? mergeBlockContext = context.Services.GetSingletonInstance<MergeBlockContext>();
@@ -37,6 +49,16 @@ namespace Materal.MergeBlock.Web
                 }
             }
             context.Services.AddEndpointsApiExplorer();//添加API探索器
+            if (webOptions is not null)
+            {
+                if (webOptions.HttpBodyMaxSize is not null)
+                {
+                    context.Services.Configure<KestrelServerOptions>(options =>
+                    {
+                        options.Limits.MaxRequestBodySize = webOptions.HttpBodyMaxSize.Value;
+                    });
+                }
+            }
         }
         /// <summary>
         /// 应用程序初始化前
