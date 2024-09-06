@@ -1,6 +1,6 @@
 ﻿using Materal.Gateway.Service;
 
-namespace Materal.Gateway.Controllers
+namespace Materal.Gateway.Application.Controllers
 {
     /// <summary>
     /// BaseUrl控制器

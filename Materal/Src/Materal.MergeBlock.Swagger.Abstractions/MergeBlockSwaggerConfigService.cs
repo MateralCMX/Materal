@@ -1,8 +1,7 @@
-﻿using Materal.MergeBlock.Swagger.Abstractions;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
-namespace Materal.MergeBlock.Abstractions
+namespace Materal.MergeBlock.Swagger.Abstractions
 {
     /// <summary>
     /// Swagger配置服务

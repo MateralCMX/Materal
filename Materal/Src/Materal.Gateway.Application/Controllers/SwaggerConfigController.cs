@@ -2,7 +2,7 @@
 using Materal.Gateway.Service;
 using Materal.Gateway.Service.Models.Swagger;
 
-namespace Materal.Gateway.Controllers
+namespace Materal.Gateway.Application.Controllers
 {
     /// <summary>
     /// Swagger控制器

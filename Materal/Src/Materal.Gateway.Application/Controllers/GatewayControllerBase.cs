@@ -1,4 +1,4 @@
-﻿namespace Materal.Gateway.Controllers
+﻿namespace Materal.Gateway.Application.Controllers
 {
     /// <summary>
     /// 网关控制器基类

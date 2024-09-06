@@ -1,5 +1,4 @@
 ﻿using Materal.MergeBlock.Web.Abstractions;
-using Materal.MergeBlock.Web.Abstractions.ControllerHttpHelper;
 using Materal.MergeBlock.Web.Abstractions.Controllers;
 using Materal.Utils.Http;
 using Materal.Utils.Model;
@@ -9,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
-namespace Materal.MergeBlock.Abstractions.WebModule.ControllerHttpHelper
+namespace Materal.MergeBlock.Web.Abstractions.ControllerHttpHelper
 {
     /// <summary>
     /// 默认控制器Http帮助类

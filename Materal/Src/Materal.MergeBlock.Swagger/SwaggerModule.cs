@@ -1,5 +1,4 @@
 ﻿using Materal.MergeBlock.Swagger.Abstractions;
-using Materal.MergeBlock.WebModule;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Reflection;
 
-namespace Materal.MergeBlock.WebModule
+namespace Materal.MergeBlock.Swagger
 {
     /// <summary>
     /// 控制器模型约定

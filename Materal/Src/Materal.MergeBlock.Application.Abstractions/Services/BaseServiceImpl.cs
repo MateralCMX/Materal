@@ -1,6 +1,6 @@
 ﻿using AspectCore.DependencyInjection;
 
-namespace Materal.MergeBlock.Application.Services
+namespace Materal.MergeBlock.Application.Abstractions.Services
 {
     /// <summary>
     /// 基础服务实现

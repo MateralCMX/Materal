@@ -1,6 +1,6 @@
 ﻿using Materal.Gateway.Service.Models.Tools;
 
-namespace Materal.Gateway.Controllers
+namespace Materal.Gateway.Application.Controllers
 {
     /// <summary>
     /// 枚举控制器

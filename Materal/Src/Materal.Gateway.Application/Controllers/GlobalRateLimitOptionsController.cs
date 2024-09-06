@@ -1,7 +1,7 @@
 ﻿using Materal.Gateway.OcelotExtension.ConfigModel;
 using Materal.Gateway.Service;
 
-namespace Materal.Gateway.Controllers
+namespace Materal.Gateway.Application.Controllers
 {
     /// <summary>
     /// 全局限流配置控制器

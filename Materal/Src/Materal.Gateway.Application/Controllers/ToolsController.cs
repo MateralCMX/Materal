@@ -1,7 +1,7 @@
 ﻿using Materal.Gateway.Service;
 using Materal.Gateway.Service.Models.Tools;
 
-namespace Materal.Gateway.Controllers
+namespace Materal.Gateway.Application.Controllers
 {
     /// <summary>
     /// 同步控制器

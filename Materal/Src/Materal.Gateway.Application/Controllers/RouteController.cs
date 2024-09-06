@@ -3,7 +3,7 @@ using Materal.Gateway.OcelotExtension.ConfigModel;
 using Materal.Gateway.Service;
 using Materal.Gateway.Service.Models.Route;
 
-namespace Materal.Gateway.Controllers
+namespace Materal.Gateway.Application.Controllers
 {
     /// <summary>
     /// 路由控制器

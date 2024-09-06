@@ -1,14 +1,12 @@
 ﻿using Materal.MergeBlock.Abstractions.Models;
 using Materal.MergeBlock.Abstractions.Services;
 using Materal.MergeBlock.GeneratorCode.Attributers;
-using Materal.MergeBlock.Web.Abstractions;
-using Materal.MergeBlock.Web.Abstractions.Controllers;
 using Materal.Utils.Model;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Materal.MergeBlock.Application.Abstractions.Controllers
+namespace Materal.MergeBlock.Web.Abstractions.Controllers
 {
     /// <summary>
     /// WebAPI控制器基类
