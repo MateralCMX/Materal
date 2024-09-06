@@ -193,7 +193,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             if (domain.HasAttribute<CacheAttribute>())
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext, ICacheHelper cacheHelper) : {_moduleName}CacheRepositoryImpl<{domain.Name}>(dbContext, cacheHelper), I{domain.Name}Repository, IScopedDependencyInjectionService<I{domain.Name}Repository>");
+                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext, ICacheHelper cacheHelper) : {_moduleName}CacheRepositoryImpl<{domain.Name}>(dbContext, cacheHelper), I{domain.Name}Repository, IScopedDependency<I{domain.Name}Repository>");
                 codeContent.AppendLine($"    {{");
                 codeContent.AppendLine($"        /// <summary>");
                 codeContent.AppendLine($"        /// 获得所有缓存名称");
@@ -202,7 +202,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             }
             else
             {
-                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext) : {_moduleName}RepositoryImpl<{domain.Name}>(dbContext), I{domain.Name}Repository, IScopedDependencyInjectionService<I{domain.Name}Repository>");
+                codeContent.AppendLine($"    public partial class {domain.Name}RepositoryImpl({_moduleName}DBContext dbContext) : {_moduleName}RepositoryImpl<{domain.Name}>(dbContext), I{domain.Name}Repository, IScopedDependency<I{domain.Name}Repository>");
                 codeContent.AppendLine($"    {{");
             }
             if (domain.IsIndexDomain && !domain.HasAttribute<EmptyIndexAttribute>())

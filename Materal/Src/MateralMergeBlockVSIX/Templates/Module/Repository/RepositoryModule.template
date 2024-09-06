@@ -3,7 +3,7 @@
     /// <summary>
     /// ${ModuleName}仓储模块
     /// </summary>
-    public class ${ModuleName}RepositoryModule() : ${ProjectName}RepositoryModule<${ModuleName}DBContext>("${ProjectName}.${ModuleName}仓储模块", "${ProjectName}.${ModuleName}.Repository")
+    public class ${ModuleName}RepositoryModule() : ${ProjectName}RepositoryModule<${ModuleName}DBContext>("${ProjectName}.${ModuleName}仓储模块")
     {
         /// <summary>
         /// 配置键

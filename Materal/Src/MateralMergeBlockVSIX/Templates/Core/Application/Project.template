@@ -1,15 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<LangVersion>12.0</LangVersion>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock.Application" Version="*" />
+		<PackageReference Include="Materal.MergeBlock.Application.Abstractions" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\${ProjectName}.Core.Abstractions\${ProjectName}.Core.Abstractions.csproj" />
+		<ProjectReference Include="..\MMB.Core.Abstractions\MMB.Core.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

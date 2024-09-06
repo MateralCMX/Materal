@@ -53,15 +53,16 @@ namespace Materal.MergeBlock.Extensions
             AssemblyLoadContext.Default.Resolving += Default_Resolving;
             PluginManager pluginManager = new();
             pluginManager.LoadModules();
-            MergeBlockContext implementationInstance = new()
+            MergeBlockContext mergeBlockContext = new()
             {
                 ModuleDescriptors = ModuleLoader.ModuleDescriptors,
-                Plugins = pluginManager.Plugins.ToList<IPlugin>(),
+                Plugins = pluginManager.Plugins.ToList(),
                 MergeBlockAssemblies = pluginManager.Plugins.SelectMany(p => p.Assemblies).ToList()
             };
-            services.AddSingleton(implementationInstance);
+            services.AddSingleton(mergeBlockContext);
             services.AddSingleton<AdvancedContext>();
             ConfigModules(services);
+            services.AddAutoMapper(config => config.AllowNullCollections = true, mergeBlockContext.MergeBlockAssemblies);
             return services;
         }
         /// <summary>

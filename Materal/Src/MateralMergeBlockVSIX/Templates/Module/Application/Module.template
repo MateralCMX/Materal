@@ -1,19 +1,18 @@
-﻿namespace ${ProjectName}.${ModuleName}.Application
+﻿using Materal.MergeBlock.Consul.Abstractions;
+using ${ProjectName}.${ModuleName}.Repository;
+
+namespace ${ProjectName}.${ModuleName}.Application
 {
     /// <summary>
     /// ${ModuleName}模块
     /// </summary>
-    public class ${ModuleName}Module() : ${ProjectName}Module("${ProjectName}${ModuleName}模块", "${ProjectName}.${ModuleName}", ["${ProjectName}.${ModuleName}.Repository", "Authorization"])
+    [DependsOn(typeof(${ModuleName}RepositoryModule))]
+    public class ${ModuleName}Module() : ${ProjectName}Module("${ProjectName}${ModuleName}模块")
     {
-        /// <summary>
-        /// 配置服务
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        /// <inheritdoc/>
+        public override void OnConfigureServices(ServiceConfigurationContext context)
         {
-            await base.OnConfigServiceAsync(context);
-            context.Services.Configure<ApplicationConfig>(context.Configuration.GetSection("${ModuleName}"));
+            base.OnConfigureServices(context);
             context.Services.AddConsulConfig("${ProjectName}${ModuleName}", ["${ProjectName}.${ModuleName}"]);
         }
     }

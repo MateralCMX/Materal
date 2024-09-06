@@ -1,6 +1,5 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
-using Materal.MergeBlock.Abstractions.WebModule;
 using Microsoft.Extensions.Configuration;
 
 namespace ${ProjectName}.Core.Application
@@ -8,20 +7,16 @@ namespace ${ProjectName}.Core.Application
     /// <summary>
     /// ${ProjectName}模块
     /// </summary>
-    public abstract class ${ProjectName}Module(string description, string? moduleName = null, string[]? depends = null) : MergeBlockWebModule(description, moduleName, depends)
+    public abstract class ${ProjectName}Module(string moduleName) : MergeBlockModule(moduleName)
     {
-        /// <summary>
-        /// 配置服务
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        /// <inheritdoc/>
+        public override void OnConfigureServices(ServiceConfigurationContext context)
         {
+            if (context.Configuration is not IConfigurationBuilder configurationBuilder) return;
             Type moduleType = GetType();
             string configFilePath = moduleType.Assembly.GetDirectoryPath();
             configFilePath = Path.Combine(configFilePath, $"{moduleType.Namespace}.json");
-            context.Configuration.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);
-            await base.OnConfigServiceAsync(context);
+            configurationBuilder.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);
         }
     }
 }

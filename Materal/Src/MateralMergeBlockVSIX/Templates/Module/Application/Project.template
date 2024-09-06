@@ -1,12 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<LangVersion>12.0</LangVersion>
-		<EnableDynamicLoading>true</EnableDynamicLoading>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Materal.MergeBlock.Authorization.Abstractions" />
+		<PackageReference Include="Materal.MergeBlock.Consul.Abstractions" />
+		<PackageReference Include="Materal.MergeBlock.Web.Abstractions" />
+	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\${ProjectName}.Core\${ProjectName}.Core.Application\${ProjectName}.Core.Application.csproj" />
 		<ProjectReference Include="..\${ProjectName}.${ModuleName}.Repository\${ProjectName}.${ModuleName}.Repository.csproj" />

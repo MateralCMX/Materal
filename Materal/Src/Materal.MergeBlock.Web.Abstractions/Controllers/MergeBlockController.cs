@@ -12,7 +12,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Controllers
     /// WebAPI控制器基类
     /// </summary>
     [Route("api/[controller]/[action]"), ApiController]
-    public abstract class MergeBlockControllerBase : ControllerBase
+    public abstract class MergeBlockController : ControllerBase
     {
         private IMapper? _mapper;
         /// <summary>
@@ -43,7 +43,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Controllers
     /// WebAPI服务控制器基类
     /// </summary>
     /// <typeparam name="TService"></typeparam>
-    public abstract class MergeBlockControllerBase<TService> : MergeBlockControllerBase
+    public abstract class MergeBlockController<TService> : MergeBlockController
         where TService : IBaseService
     {
         private TService? _defaultService;
@@ -64,7 +64,7 @@ namespace Materal.MergeBlock.Web.Abstractions.Controllers
     /// <typeparam name="TDTO"></typeparam>
     /// <typeparam name="TListDTO"></typeparam>
     /// <typeparam name="TService"></typeparam>
-    public abstract class MergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockControllerBase<TService>, IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
+    public abstract class MergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockController<TService>, IMergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TDTO, TListDTO>
         where TAddRequestModel : class, IAddRequestModel, new()
         where TEditRequestModel : class, IEditRequestModel, new()
         where TQueryRequestModel : IQueryRequestModel, new()

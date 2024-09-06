@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "${ProjectName}.Demo.WebAPI": {
+      "${ProjectName}.Demo.WebAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

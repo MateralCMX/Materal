@@ -48,7 +48,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {controller.Annotation}访问器");
             codeContent.AppendLine($"    /// </summary>");
-            string? interfaceCode = controller.Interfaces.FirstOrDefault(m => m.StartsWith("IMergeBlockControllerBase<"));
+            string? interfaceCode = controller.Interfaces.FirstOrDefault(m => m.StartsWith("IMergeBlockController<"));
             if (interfaceCode is not null)
             {
                 codeContent.AppendLine($"    public partial class {controller.DomainName}ControllerAccessor(IServiceProvider serviceProvider) : BaseControllerAccessor<I{controller.DomainName}Controller, Add{controller.DomainName}RequestModel, Edit{controller.DomainName}RequestModel, Query{controller.DomainName}RequestModel, {controller.DomainName}DTO, {controller.DomainName}ListDTO>(serviceProvider), I{controller.DomainName}Controller");

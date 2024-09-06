@@ -5,7 +5,7 @@
     /// </summary>
     /// <param name="context"></param>
     /// <param name="serviceProvider"></param>
-    public class ${ModuleName}UnitOfWorkImpl(${ModuleName}DBContext context, IServiceProvider serviceProvider) : ${ProjectName}UnitOfWorkImpl<${ModuleName}DBContext>(context, serviceProvider), I${ModuleName}UnitOfWork, IScopedDependencyInjectionService<I${ModuleName}UnitOfWork>
+    public class ${ModuleName}UnitOfWorkImpl(${ModuleName}DBContext context, IServiceProvider serviceProvider) : ${ProjectName}UnitOfWorkImpl<${ModuleName}DBContext>(context, serviceProvider), I${ModuleName}UnitOfWork, IScopedDependency<I${ModuleName}UnitOfWork>
     {
     }
 }

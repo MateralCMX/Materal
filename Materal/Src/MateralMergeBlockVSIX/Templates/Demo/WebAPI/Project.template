@@ -1,28 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<LangVersion>12.0</LangVersion>
-		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<InvariantGlobalization>true</InvariantGlobalization>
+		<InvariantGlobalization>false</InvariantGlobalization>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.*">
+		<PackageReference Include="Materal.MergeBlock" />
+		<PackageReference Include="Materal.MergeBlock.AccessLog" />
+		<PackageReference Include="Materal.MergeBlock.Authorization" />
+		<PackageReference Include="Materal.MergeBlock.Consul" />
+		<PackageReference Include="Materal.MergeBlock.Cors" />
+		<!--<PackageReference Include="Materal.MergeBlock.EventBus" />-->
+		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" />
+		<PackageReference Include="Materal.MergeBlock.Logger" />
+		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" />-->
+		<PackageReference Include="Materal.MergeBlock.ResponseCompression" />
+		<PackageReference Include="Materal.MergeBlock.Swagger" />
+		<PackageReference Include="Materal.MergeBlock.Web" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Materal.MergeBlock.AccessLog" Version="*" />
-		<PackageReference Include="Materal.MergeBlock.Authorization" Version="*" />
-		<PackageReference Include="Materal.MergeBlock.Consul" Version="*" />
-		<PackageReference Include="Materal.MergeBlock.Cors" Version="*" />
-		<!--<PackageReference Include="Materal.MergeBlock.EventBus" Version="*" />-->
-		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" Version="*" />
-		<PackageReference Include="Materal.MergeBlock.Logger" Version="*" />
-		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" Version="*" />-->
-		<!--<PackageReference Include="Materal.MergeBlock.ResponseCompression" Version="*" />-->
-		<PackageReference Include="Materal.MergeBlock.Swagger" Version="*" />
-		<PackageReference Include="Materal.MergeBlock" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\${ProjectName}.Demo.Application\${ProjectName}.Demo.Application.csproj" />

@@ -14,16 +14,14 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
         private string _moduleName = "NewModule";
         //private string _moduleName = "Authority";
         public string ModuleName { get => _moduleName; set { _moduleName = value; NotifyPropertyChanged(); } }
-        private string _projectPath = @"C:\Project";
+        private string _projectPath = @"C:\Project\MMB";
         //private string _projectPath = @"D:\Project\Test\Materal.MergeBlockTest\MMB";
         public string ProjectPath { get => _projectPath; set { _projectPath = value; NotifyPropertyChanged(); } }
         public SolutionNotOpenedViewModel() => PropertyChanged += SolutionNotOpenedControlViewModel_PropertyChanged;
         private void SolutionNotOpenedControlViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ProjectPath))
-            {
-                OnProjectPathChanged();
-            }
+            if (e.PropertyName != nameof(ProjectPath)) return;
+            OnProjectPathChanged();
         }
         private void OnProjectPathChanged()
         {
@@ -41,11 +39,36 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             ThreadHelper.ThrowIfNotOnUIThread();
             if (ProjectName is not null && !string.IsNullOrWhiteSpace(ProjectName))
             {
+                CreateProjectFiles();
                 CreateCoreSolution();
             }
             string slnFilePath = CreateModuleSolution();
             OpenSln(slnFilePath);
         }
+        #region 项目方法
+        private void CreateProjectFiles()
+        {
+            string coreDirectoryPath = Path.Combine(ProjectPath);
+            DirectoryInfo coreDirectoryInfo = new(coreDirectoryPath);
+            if (coreDirectoryInfo.Exists)
+            {
+                coreDirectoryInfo.Create();
+                coreDirectoryInfo.Refresh();
+            }
+            string fielPath = Path.Combine(coreDirectoryPath, "Directory.Build.props");
+            FileInfo fileInfo = new(fielPath);
+            if (!fileInfo.Exists)
+            {
+                ApplyTemplate(fileInfo.FullName, "ProjectFiels", "Directory.Build.props");
+            }
+            fielPath = Path.Combine(coreDirectoryPath, "Directory.Packages.props");
+            fileInfo = new(fielPath);
+            if (!fileInfo.Exists)
+            {
+                ApplyTemplate(fileInfo.FullName, "ProjectFiels", "Directory.Packages.props");
+            }
+        }
+        #endregion
         #region 核心方法
         /// <summary>
         /// 创建核心解决方案
@@ -399,6 +422,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             string projectPath = ProjectPath.Replace(@"\", @"\\");
             template = template.Replace("${ProjectPath}", projectPath);
             template = template.Replace("${ModuleName}", ModuleName);
+            template = template.Replace("${Version}", "1.1.77");
             File.WriteAllText(filePath, template, Encoding.UTF8);
         }
         /// <summary>

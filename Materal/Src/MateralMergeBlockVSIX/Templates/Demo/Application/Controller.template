@@ -4,7 +4,7 @@ namespace ${ProjectName}.Demo.Application
     /// Demo控制器
     /// </summary>
     [Route("DemoAPI/[controller]/[action]")]
-    public abstract class DemoController : MergeBlockControllerBase
+    public abstract class DemoController : MergeBlockController
     {
     }
     /// <summary>
@@ -12,7 +12,7 @@ namespace ${ProjectName}.Demo.Application
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     [Route("DemoAPI/[controller]/[action]")]
-    public abstract class DemoController<TService> : MergeBlockControllerBase<TService>
+    public abstract class DemoController<TService> : MergeBlockController<TService>
         where TService : IBaseService
     {
     }
@@ -29,7 +29,7 @@ namespace ${ProjectName}.Demo.Application
     /// <typeparam name="TListDTO"></typeparam>
     /// <typeparam name="TService"></typeparam>
     [Route("DemoAPI/[controller]/[action]")]
-    public abstract class DemoController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService>
+    public abstract class DemoController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService>
         where TAddRequestModel : class, IAddRequestModel, new()
         where TEditRequestModel : class, IEditRequestModel, new()
         where TQueryRequestModel : IQueryRequestModel, new()

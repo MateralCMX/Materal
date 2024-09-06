@@ -15,7 +15,7 @@
         /// ${ProjectName}异常
         /// </summary>
         /// <param name="message"></param>
-        public ${ProjectName}Exception(string? message) : base(message)
+        public ${ProjectName}Exception(string message) : base(message)
         {
         }
         /// <summary>
@@ -23,7 +23,7 @@
         /// </summary>
         /// <param name="message"></param>
         /// <param name="innerException"></param>
-        public ${ProjectName}Exception(string? message, Exception? innerException) : base(message, innerException)
+        public ${ProjectName}Exception(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

@@ -3,21 +3,18 @@
     /// <summary>
     /// ${ProjectName}仓储模块
     /// </summary>
-    public abstract class ${ProjectName}RepositoryModule<TDBContext>(string description, string? moduleName = null, string[]? depends = null) : RepositoryModule<TDBContext, SqliteConfigModel>(description, moduleName, depends)
+    public abstract class ${ProjectName}RepositoryModule<TDBContext>(string moduleName) : RepositoryModule<TDBContext, SqliteConfigModel>(moduleName)
         where TDBContext : DbContext
     {
-        /// <summary>
-        /// 配置服务
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override async Task OnConfigServiceAsync(IConfigServiceContext context)
+        /// <inheritdoc/>
+        public override void OnConfigureServices(ServiceConfigurationContext context)
         {
-            var moduleType = GetType();
+            if (context.Configuration is not IConfigurationBuilder configurationBuilder) return;
+            Type moduleType = GetType();
             string configFilePath = moduleType.Assembly.GetDirectoryPath();
             configFilePath = Path.Combine(configFilePath, $"{moduleType.Namespace}.json");
-            context.Configuration.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);
-            await base.OnConfigServiceAsync(context);
+            configurationBuilder.AddJsonFile(configFilePath, optional: true, reloadOnChange: true);
+            base.OnConfigureServices(context);
         }
         /// <summary>
         /// 添加DBContext

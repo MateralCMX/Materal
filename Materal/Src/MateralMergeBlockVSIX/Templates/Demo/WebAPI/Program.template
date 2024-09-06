@@ -1,4 +1,4 @@
-﻿using Materal.MergeBlock.WebModule;
+﻿using Materal.MergeBlock;
 
 namespace ${ProjectName}.Demo.WebAPI
 {
@@ -12,6 +12,6 @@ namespace ${ProjectName}.Demo.WebAPI
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public static async Task Main(string[] args) => await new MergeBlockWebProgram().RunAsync(args);
+        public static async Task Main(string[] args) => await MergeBlockProgram.RunAsync(args);
     }
 }

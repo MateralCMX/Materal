@@ -7,7 +7,7 @@ namespace ${ProjectName}.Demo.Application.Controllers
     /// <summary>
     /// 用户控制器
     /// </summary>
-    public partial class UserController(ITokenService tokenService, IOptionsMonitor<AuthorizationConfig> authorizationConfig)
+    public partial class UserController(ITokenService tokenService, IOptionsMonitor<Materal.MergeBlock.Authorization.Abstractions.AuthorizationOptions> authorizationConfig)
     {
         /// <summary>
         /// 重置密码

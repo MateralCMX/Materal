@@ -3,7 +3,7 @@
     /// <summary>
     /// Demo仓储模块
     /// </summary>
-    public class DemoRepositoryModule() : ${ProjectName}RepositoryModule<DemoDBContext>("${ProjectName}.Demo仓储模块", "${ProjectName}.Demo.Repository")
+    public class DemoRepositoryModule() : ${ProjectName}RepositoryModule<DemoDBContext>("${ProjectName}.Demo仓储模块")
     {
         /// <summary>
         /// 配置键

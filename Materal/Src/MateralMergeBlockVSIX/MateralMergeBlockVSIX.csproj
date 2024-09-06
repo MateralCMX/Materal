@@ -1,274 +1,276 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup>
-		<IsPublish>true</IsPublish>
-		<VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
-	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-	<PropertyGroup>
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<SchemaVersion>2.0</SchemaVersion>
-		<ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-		<ProjectGuid>{6183EBF3-6406-4BA3-AC93-D5D5B0B29B76}</ProjectGuid>
-		<OutputType>Library</OutputType>
-		<AppDesignerFolder>Properties</AppDesignerFolder>
-		<RootNamespace>MateralMergeBlockVSIX</RootNamespace>
-		<AssemblyName>MateralMergeBlockVSIX</AssemblyName>
-		<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-		<GeneratePkgDefFile>true</GeneratePkgDefFile>
-		<UseCodebase>true</UseCodebase>
-		<IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
-		<IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
-		<IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
-		<CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
-		<CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
-		<StartAction>Program</StartAction>
-		<StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
-		<StartArguments>/rootsuffix Exp</StartArguments>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>full</DebugType>
-		<Optimize>false</Optimize>
-		<OutputPath>bin\Debug\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-		<NoWarn>CVSTBLD002;</NoWarn>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>pdbonly</DebugType>
-		<Optimize>true</Optimize>
-		<OutputPath>bin\Release\</OutputPath>
-		<DefineConstants>TRACE</DefineConstants>
-		<ErrorReport>prompt</ErrorReport>
-		<WarningLevel>4</WarningLevel>
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Include="CmdHelper.cs" />
-		<Compile Include="Extensions\GeneratorCodeContextExtensions.cs" />
-		<Compile Include="Extensions\SolutionItemExtensions.cs" />
-		<Compile Include="Extensions\StringExtensions.cs" />
-		<Compile Include="ProcessHelper.cs" />
-		<Compile Include="Properties\AssemblyInfo.cs" />
-		<Compile Include="Commands\MergeBlockManagerWindowCommand.cs" />
-		<Compile Include="MateralMergeBlockVSIXPackage.cs" />
-		<Compile Include="source.extension.cs">
-			<AutoGen>True</AutoGen>
-			<DesignTime>True</DesignTime>
-			<DependentUpon>source.extension.vsixmanifest</DependentUpon>
-		</Compile>
-		<EmbeddedResource Include="Templates\Demo\Application\ApplicationConfig.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\AutoMapperProfile\UserProfile.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\Controllers\UserController.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\Module.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\GlobalUsings.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\Services\PasswordManager.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\Services\UserServiceImpl.template" />
-		<EmbeddedResource Include="Templates\Demo\Repository\DemoRepositoryImpl.template" />
-		<EmbeddedResource Include="Templates\Demo\Repository\DemoRepositoryModule.template" />
-		<EmbeddedResource Include="Templates\Demo\Repository\DemoUnitOfWorkImpl.template" />
-		<EmbeddedResource Include="Templates\Demo\Repository\GlobalUsings.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\IDemoRepository.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\IDemoUnitOfWork.template" />
-		<EmbeddedResource Include="Templates\Core\Repository\UnitOfWorkImpl.template" />
-		<Compile Include="ToolWindows\Attributes\GeneratorCodeAfterMethodAttribute.cs" />
-		<Compile Include="ToolWindows\Attributes\GeneratorCodeBeforMethodAttribute.cs" />
-		<Compile Include="ToolWindows\Attributes\GeneratorCodeMethodAttribute.cs" />
-		<Compile Include="ToolWindows\ViewModels\MergeBlockManagerWindowViewModel.cs" />
-		<Compile Include="ToolWindows\SolutionNotOpenedControl.xaml.cs">
-			<DependentUpon>SolutionNotOpenedControl.xaml</DependentUpon>
-		</Compile>
-		<Compile Include="ToolWindows\SolutionOpenedControl.xaml.cs">
-			<DependentUpon>SolutionOpenedControl.xaml</DependentUpon>
-		</Compile>
-		<Compile Include="ToolWindows\ViewModels\ModuleViewModel.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionNotOpenedViewModel.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerMapper.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.DTO.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Init.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Plug.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerEnum.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerAccessors.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Controller.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.AutoMapperProfile.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.RequesetModel.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ServicesModel.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Services.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Repository.cs" />
-		<Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.cs" />
-		<Compile Include="VSCommandTable.cs">
-			<AutoGen>True</AutoGen>
-			<DesignTime>True</DesignTime>
-			<DependentUpon>VSCommandTable.vsct</DependentUpon>
-		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include="Icon.jpg">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-			<IncludeInVSIX>true</IncludeInVSIX>
-		</Content>
-		<EmbeddedResource Include="Templates\Demo\Abstractions\Domain\User.template" />
-		<EmbeddedResource Include="Templates\Core\Abstractions\ICacheRepository.template" />
-		<EmbeddedResource Include="Templates\Core\Abstractions\IRepository.template" />
-		<EmbeddedResource Include="Templates\Core\Repository\CacheRepositoryImpl.template" />
-		<EmbeddedResource Include="Templates\Core\Repository\RepositoryImpl.template" />
-		<EmbeddedResource Include="Templates\Core\Repository\Module.template" />
-		<EmbeddedResource Include="Templates\Core\Repository\GlobalUsings.template" />
-		<EmbeddedResource Include="Templates\Core\Abstractions\Exception.template" />
-		<EmbeddedResource Include="Templates\Demo\WebAPI\Properties\LaunchSettings.template" />
-		<EmbeddedResource Include="Templates\Demo\WebAPI\Appsettings.template" />
-		<EmbeddedResource Include="Templates\Demo\WebAPI\Program.template" />
-		<EmbeddedResource Include="Templates\Demo\WebAPI\Project.template" />
-		<EmbeddedResource Include="Templates\Demo\Repository\Project.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\Project.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\Project.template" />
-		<EmbeddedResource Include="Templates\Core\Repository\Project.template" />
-		<EmbeddedResource Include="Templates\Core\Abstractions\Project.template" />
-		<EmbeddedResource Include="Templates\Core\Solution.template" />
-		<None Include="source.extension.vsixmanifest">
-			<SubType>Designer</SubType>
-			<Generator>VsixManifestGenerator</Generator>
-			<LastGenOutput>source.extension.cs</LastGenOutput>
-		</None>
-		<Content Include="Resources\Icon.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<IncludeInVSIX>true</IncludeInVSIX>
-		</Content>
-		<EmbeddedResource Include="Templates\Demo\Abstractions\GlobalUsings.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\Enums\SexEnum.template" />
-		<EmbeddedResource Include="Templates\Core\Application\Module.template" />
-		<EmbeddedResource Include="Templates\Core\Application\Project.template" />
-		<EmbeddedResource Include="Templates\Core\Abstractions\IUnitOfWork.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\Controllers\IUserController.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\DTO\User\LoginResultDTO.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\RequestModel\User\LoginRequestModel.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\RequestModel\User\ChangePasswordRequestModel.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\Services\Models\User\LoginModel.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\Services\Models\User\ChangePasswordModel.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\Services\IUserService.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\Config.template" />
-		<EmbeddedResource Include="Templates\Demo\Repository\Config.template" />
-		<EmbeddedResource Include="Templates\Core\Abstractions\GlobalUsings.template" />
-		<EmbeddedResource Include="Templates\Module\Abstractions\GlobalUsings.template" />
-		<EmbeddedResource Include="Templates\Module\Abstractions\IRepository.template" />
-		<EmbeddedResource Include="Templates\Module\Abstractions\IUnitOfWork.template" />
-		<EmbeddedResource Include="Templates\Module\Abstractions\Project.template" />
-		<EmbeddedResource Include="Templates\Module\Application\ApplicationConfig.template" />
-		<EmbeddedResource Include="Templates\Module\Application\Config.template" />
-		<EmbeddedResource Include="Templates\Module\Application\GlobalUsings.template" />
-		<EmbeddedResource Include="Templates\Module\Application\Module.template" />
-		<EmbeddedResource Include="Templates\Module\Application\Project.template" />
-		<EmbeddedResource Include="Templates\Module\Repository\Config.template" />
-		<EmbeddedResource Include="Templates\Module\Repository\RepositoryImpl.template" />
-		<EmbeddedResource Include="Templates\Module\Repository\RepositoryModule.template" />
-		<EmbeddedResource Include="Templates\Module\Repository\UnitOfWorkImpl.template" />
-		<EmbeddedResource Include="Templates\Module\Repository\GlobalUsings.template" />
-		<EmbeddedResource Include="Templates\Module\Repository\Project.template" />
-		<EmbeddedResource Include="Templates\Module\WebAPI\Appsettings.template" />
-		<EmbeddedResource Include="Templates\Module\WebAPI\Program.template" />
-		<EmbeddedResource Include="Templates\Module\WebAPI\Project.template" />
-		<EmbeddedResource Include="Templates\Module\WebAPI\Properties\LaunchSettings.template" />
-		<EmbeddedResource Include="Templates\Module\Solution.template" />
-		<EmbeddedResource Include="Templates\Module\Application\Controller.template" />
-		<EmbeddedResource Include="Templates\Demo\Application\Controller.template" />
-		<EmbeddedResource Include="Templates\Demo\Abstractions\IDemoCacheRepository.template" />
-		<EmbeddedResource Include="Templates\Module\Abstractions\ICacheRepository.template" />
-		<EmbeddedResource Include="Templates\Demo\Repository\DemoCacheRepositoryImpl.template" />
-		<EmbeddedResource Include="Templates\Module\Repository\CacheRepositoryImpl.template" />
-	</ItemGroup>
-	<ItemGroup>
-		<VSCTCompile Include="VSCommandTable.vsct">
-			<ResourceName>Menus.ctmenu</ResourceName>
-			<Generator>VsctGenerator</Generator>
-			<LastGenOutput>VSCommandTable.cs</LastGenOutput>
-		</VSCTCompile>
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Include="ToolWindows\MergeBlockManagerWindow.cs" />
-		<Page Include="ToolWindows\MergeBlockManagerWindowControl.xaml">
-			<SubType>Designer</SubType>
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-		<Compile Include="ToolWindows\MergeBlockManagerWindowControl.xaml.cs">
-			<DependentUpon>MergeBlockManagerWindowControl.xaml</DependentUpon>
-		</Compile>
-		<Page Include="ToolWindows\SolutionNotOpenedControl.xaml">
-			<SubType>Designer</SubType>
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-		<Page Include="ToolWindows\SolutionOpenedControl.xaml">
-			<SubType>Designer</SubType>
-			<Generator>MSBuild:Compile</Generator>
-		</Page>
-	</ItemGroup>
-	<ItemGroup>
-		<Reference Include="System" />
-		<Reference Include="System.Data" />
-		<Reference Include="System.Design" />
-		<Reference Include="System.Drawing" />
-		<Reference Include="System.Windows.Forms" />
-		<Reference Include="System.Xaml" />
-		<Reference Include="PresentationCore" />
-		<Reference Include="PresentationFramework" />
-		<Reference Include="System.Xml" />
-		<Reference Include="WindowsBase" />
-		<Reference Include="System.ComponentModel.Composition" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6" PrivateAssets="all" />
-		<PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.507" ExcludeAssets="Runtime">
-			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="IndexRange">
-			<Version>1.0.3</Version>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp">
-			<Version>4.9.2</Version>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features">
-			<Version>4.9.2</Version>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting">
-			<Version>4.9.2</Version>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces">
-			<Version>4.9.2</Version>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common">
-			<Version>4.9.2</Version>
-		</PackageReference>
-		<PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.9.3174">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-		<PackageReference Include="System.ComponentModel.Annotations">
-			<Version>5.0.0</Version>
-		</PackageReference>
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj">
-			<Project>{a4dde9d8-27b4-404a-939f-f41d11144624}</Project>
-			<Name>Materal.Abstractions</Name>
-		</ProjectReference>
-		<ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj">
-			<Project>{87d1f8ea-81eb-45b6-935b-6bcab9c10151}</Project>
-			<Name>Materal.Extensions</Name>
-		</ProjectReference>
-		<ProjectReference Include="..\Materal.MergeBlock.GeneratorCode\Materal.MergeBlock.GeneratorCode.csproj">
-			<Project>{4615f3a8-0fb0-4998-86ad-81b373d24c81}</Project>
-			<Name>Materal.MergeBlock.GeneratorCode</Name>
-		</ProjectReference>
-		<ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj">
-			<Project>{11d7545f-e146-46c0-bfec-66a0f18de8f3}</Project>
-			<Name>Materal.Utils</Name>
-		</ProjectReference>
-	</ItemGroup>
-	<ItemGroup />
-	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
-		<PostBuildEvent>
+  <PropertyGroup>
+    <IsPublish>true</IsPublish>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectTypeGuids>{82b43b9b-a64c-4715-b499-d71e9ca2bd60};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{6183EBF3-6406-4BA3-AC93-D5D5B0B29B76}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MateralMergeBlockVSIX</RootNamespace>
+    <AssemblyName>MateralMergeBlockVSIX</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <GeneratePkgDefFile>true</GeneratePkgDefFile>
+    <UseCodebase>true</UseCodebase>
+    <IncludeAssemblyInVSIXContainer>true</IncludeAssemblyInVSIXContainer>
+    <IncludeDebugSymbolsInVSIXContainer>true</IncludeDebugSymbolsInVSIXContainer>
+    <IncludeDebugSymbolsInLocalVSIXDeployment>false</IncludeDebugSymbolsInLocalVSIXDeployment>
+    <CopyBuildOutputToOutputDirectory>true</CopyBuildOutputToOutputDirectory>
+    <CopyOutputSymbolsToOutputDirectory>true</CopyOutputSymbolsToOutputDirectory>
+    <StartAction>Program</StartAction>
+    <StartProgram Condition="'$(DevEnvDir)' != ''">$(DevEnvDir)devenv.exe</StartProgram>
+    <StartArguments>/rootsuffix Exp</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <NoWarn>CVSTBLD002;</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CmdHelper.cs" />
+    <Compile Include="Extensions\GeneratorCodeContextExtensions.cs" />
+    <Compile Include="Extensions\SolutionItemExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="ProcessHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Commands\MergeBlockManagerWindowCommand.cs" />
+    <Compile Include="MateralMergeBlockVSIXPackage.cs" />
+    <Compile Include="source.extension.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>source.extension.vsixmanifest</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Templates\Demo\Application\ApplicationConfig.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\AutoMapperProfile\UserProfile.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\Controllers\UserController.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\Module.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\GlobalUsings.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\Services\PasswordManager.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\Services\UserServiceImpl.template" />
+    <EmbeddedResource Include="Templates\Demo\Repository\DemoRepositoryImpl.template" />
+    <EmbeddedResource Include="Templates\Demo\Repository\DemoRepositoryModule.template" />
+    <EmbeddedResource Include="Templates\Demo\Repository\DemoUnitOfWorkImpl.template" />
+    <EmbeddedResource Include="Templates\Demo\Repository\GlobalUsings.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\IDemoRepository.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\IDemoUnitOfWork.template" />
+    <EmbeddedResource Include="Templates\Core\Repository\UnitOfWorkImpl.template" />
+    <Compile Include="ToolWindows\Attributes\GeneratorCodeAfterMethodAttribute.cs" />
+    <Compile Include="ToolWindows\Attributes\GeneratorCodeBeforMethodAttribute.cs" />
+    <Compile Include="ToolWindows\Attributes\GeneratorCodeMethodAttribute.cs" />
+    <Compile Include="ToolWindows\ViewModels\MergeBlockManagerWindowViewModel.cs" />
+    <Compile Include="ToolWindows\SolutionNotOpenedControl.xaml.cs">
+      <DependentUpon>SolutionNotOpenedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolWindows\SolutionOpenedControl.xaml.cs">
+      <DependentUpon>SolutionOpenedControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToolWindows\ViewModels\ModuleViewModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionNotOpenedViewModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerMapper.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.DTO.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Init.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Plug.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerEnum.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ControllerAccessors.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Controller.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.AutoMapperProfile.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.RequesetModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.ServicesModel.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Services.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.Repository.cs" />
+    <Compile Include="ToolWindows\ViewModels\SolutionOpenedViewModel.cs" />
+    <Compile Include="VSCommandTable.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VSCommandTable.vsct</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <EmbeddedResource Include="Templates\Demo\Abstractions\Domain\User.template" />
+    <EmbeddedResource Include="Templates\Core\Abstractions\ICacheRepository.template" />
+    <EmbeddedResource Include="Templates\Core\Abstractions\IRepository.template" />
+    <EmbeddedResource Include="Templates\Core\Repository\CacheRepositoryImpl.template" />
+    <EmbeddedResource Include="Templates\Core\Repository\RepositoryImpl.template" />
+    <EmbeddedResource Include="Templates\Core\Repository\Module.template" />
+    <EmbeddedResource Include="Templates\Core\Repository\GlobalUsings.template" />
+    <EmbeddedResource Include="Templates\Core\Abstractions\Exception.template" />
+    <EmbeddedResource Include="Templates\Demo\WebAPI\Properties\LaunchSettings.template" />
+    <EmbeddedResource Include="Templates\Demo\WebAPI\Appsettings.template" />
+    <EmbeddedResource Include="Templates\Demo\WebAPI\Program.template" />
+    <EmbeddedResource Include="Templates\Demo\WebAPI\Project.template" />
+    <EmbeddedResource Include="Templates\Demo\Repository\Project.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\Project.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\Project.template" />
+    <EmbeddedResource Include="Templates\Core\Repository\Project.template" />
+    <EmbeddedResource Include="Templates\Core\Abstractions\Project.template" />
+    <EmbeddedResource Include="Templates\Core\Solution.template" />
+    <None Include="source.extension.vsixmanifest">
+      <SubType>Designer</SubType>
+      <Generator>VsixManifestGenerator</Generator>
+      <LastGenOutput>source.extension.cs</LastGenOutput>
+    </None>
+    <Content Include="Resources\Icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
+    <EmbeddedResource Include="Templates\Demo\Abstractions\GlobalUsings.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\Enums\SexEnum.template" />
+    <EmbeddedResource Include="Templates\Core\Application\Module.template" />
+    <EmbeddedResource Include="Templates\Core\Application\Project.template" />
+    <EmbeddedResource Include="Templates\Core\Abstractions\IUnitOfWork.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\Controllers\IUserController.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\DTO\User\LoginResultDTO.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\RequestModel\User\LoginRequestModel.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\RequestModel\User\ChangePasswordRequestModel.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\Services\Models\User\LoginModel.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\Services\Models\User\ChangePasswordModel.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\Services\IUserService.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\Config.template" />
+    <EmbeddedResource Include="Templates\Demo\Repository\Config.template" />
+    <EmbeddedResource Include="Templates\Core\Abstractions\GlobalUsings.template" />
+    <EmbeddedResource Include="Templates\Module\Abstractions\GlobalUsings.template" />
+    <EmbeddedResource Include="Templates\Module\Abstractions\IRepository.template" />
+    <EmbeddedResource Include="Templates\Module\Abstractions\IUnitOfWork.template" />
+    <EmbeddedResource Include="Templates\Module\Abstractions\Project.template" />
+    <EmbeddedResource Include="Templates\Module\Application\ApplicationConfig.template" />
+    <EmbeddedResource Include="Templates\Module\Application\Config.template" />
+    <EmbeddedResource Include="Templates\Module\Application\GlobalUsings.template" />
+    <EmbeddedResource Include="Templates\Module\Application\Module.template" />
+    <EmbeddedResource Include="Templates\Module\Application\Project.template" />
+    <EmbeddedResource Include="Templates\Module\Repository\Config.template" />
+    <EmbeddedResource Include="Templates\Module\Repository\RepositoryImpl.template" />
+    <EmbeddedResource Include="Templates\Module\Repository\RepositoryModule.template" />
+    <EmbeddedResource Include="Templates\Module\Repository\UnitOfWorkImpl.template" />
+    <EmbeddedResource Include="Templates\Module\Repository\GlobalUsings.template" />
+    <EmbeddedResource Include="Templates\Module\Repository\Project.template" />
+    <EmbeddedResource Include="Templates\Module\WebAPI\Appsettings.template" />
+    <EmbeddedResource Include="Templates\Module\WebAPI\Program.template" />
+    <EmbeddedResource Include="Templates\Module\WebAPI\Project.template" />
+    <EmbeddedResource Include="Templates\Module\WebAPI\Properties\LaunchSettings.template" />
+    <EmbeddedResource Include="Templates\Module\Solution.template" />
+    <EmbeddedResource Include="Templates\Module\Application\Controller.template" />
+    <EmbeddedResource Include="Templates\Demo\Application\Controller.template" />
+    <EmbeddedResource Include="Templates\Demo\Abstractions\IDemoCacheRepository.template" />
+    <EmbeddedResource Include="Templates\Module\Abstractions\ICacheRepository.template" />
+    <EmbeddedResource Include="Templates\Demo\Repository\DemoCacheRepositoryImpl.template" />
+    <EmbeddedResource Include="Templates\Module\Repository\CacheRepositoryImpl.template" />
+    <EmbeddedResource Include="Templates\ProjectFiels\Directory.Build.props.template" />
+    <EmbeddedResource Include="Templates\ProjectFiels\Directory.Packages.props.template" />
+  </ItemGroup>
+  <ItemGroup>
+    <VSCTCompile Include="VSCommandTable.vsct">
+      <ResourceName>Menus.ctmenu</ResourceName>
+      <Generator>VsctGenerator</Generator>
+      <LastGenOutput>VSCommandTable.cs</LastGenOutput>
+    </VSCTCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ToolWindows\MergeBlockManagerWindow.cs" />
+    <Page Include="ToolWindows\MergeBlockManagerWindowControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="ToolWindows\MergeBlockManagerWindowControl.xaml.cs">
+      <DependentUpon>MergeBlockManagerWindowControl.xaml</DependentUpon>
+    </Compile>
+    <Page Include="ToolWindows\SolutionNotOpenedControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ToolWindows\SolutionOpenedControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.ComponentModel.Composition" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6" PrivateAssets="all" />
+    <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.507" ExcludeAssets="Runtime">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="IndexRange">
+      <Version>1.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp">
+      <Version>4.9.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Features">
+      <Version>4.9.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting">
+      <Version>4.9.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces">
+      <Version>4.9.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis.Scripting.Common">
+      <Version>4.9.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.9.3174">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="System.ComponentModel.Annotations">
+      <Version>5.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Materal.Abstractions\Materal.Abstractions.csproj">
+      <Project>{a4dde9d8-27b4-404a-939f-f41d11144624}</Project>
+      <Name>Materal.Abstractions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Materal.Extensions\Materal.Extensions.csproj">
+      <Project>{87d1f8ea-81eb-45b6-935b-6bcab9c10151}</Project>
+      <Name>Materal.Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Materal.MergeBlock.GeneratorCode\Materal.MergeBlock.GeneratorCode.csproj">
+      <Project>{4615f3a8-0fb0-4998-86ad-81b373d24c81}</Project>
+      <Name>Materal.MergeBlock.GeneratorCode</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj">
+      <Project>{11d7545f-e146-46c0-bfec-66a0f18de8f3}</Project>
+      <Name>Materal.Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PostBuildEvent>
 			set outputPath=$(TargetDir)MateralMergeBlockVSIX.vsix
 			set destinationDirectory=$(SolutionDir)
 			set destinationDirectory=%25destinationDirectory:~0,-1%25
@@ -279,10 +281,10 @@
 
 			copy "%25outputPath%25" "%25destinationDirectory%25" /Y
 		</PostBuildEvent>
-	</PropertyGroup>
-	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-	<Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
-	<!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  </PropertyGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -4,7 +4,7 @@ namespace ${ProjectName}.${ModuleName}.Application
     /// ${ModuleName}控制器
     /// </summary>
     [Route("${ModuleName}API/[controller]/[action]")]
-    public abstract class ${ModuleName}Controller : MergeBlockControllerBase
+    public abstract class ${ModuleName}Controller : MergeBlockController
     {
     }
     /// <summary>
@@ -12,7 +12,7 @@ namespace ${ProjectName}.${ModuleName}.Application
     /// </summary>
     /// <typeparam name="TService"></typeparam>
     [Route("${ModuleName}API/[controller]/[action]")]
-    public abstract class ${ModuleName}Controller<TService> : MergeBlockControllerBase<TService>
+    public abstract class ${ModuleName}Controller<TService> : MergeBlockController<TService>
         where TService : IBaseService
     {
     }
@@ -29,7 +29,7 @@ namespace ${ProjectName}.${ModuleName}.Application
     /// <typeparam name="TListDTO"></typeparam>
     /// <typeparam name="TService"></typeparam>
     [Route("${ModuleName}API/[controller]/[action]")]
-    public abstract class ${ModuleName}Controller<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockControllerBase<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService>
+    public abstract class ${ModuleName}Controller<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService> : MergeBlockController<TAddRequestModel, TEditRequestModel, TQueryRequestModel, TAddModel, TEditModel, TQueryModel, TDTO, TListDTO, TService>
         where TAddRequestModel : class, IAddRequestModel, new()
         where TEditRequestModel : class, IEditRequestModel, new()
         where TQueryRequestModel : IQueryRequestModel, new()

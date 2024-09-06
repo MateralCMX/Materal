@@ -44,11 +44,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// </summary>");
             if (domain.HasAttribute<EmptyServiceAttribute, EmptyControllerAttribute>())
             {
-                codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockControllerBase");
+                codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockController");
             }
             else
             {
-                codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockControllerBase<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, {domain.Name}DTO, {domain.Name}ListDTO>");
+                codeContent.AppendLine($"    public partial interface I{domain.Name}Controller : IMergeBlockController<Add{domain.Name}RequestModel, Edit{domain.Name}RequestModel, Query{domain.Name}RequestModel, {domain.Name}DTO, {domain.Name}ListDTO>");
             }
             codeContent.AppendLine($"    {{");
             if (domain.IsIndexDomain && !domain.HasAttribute<EmptyIndexAttribute>())

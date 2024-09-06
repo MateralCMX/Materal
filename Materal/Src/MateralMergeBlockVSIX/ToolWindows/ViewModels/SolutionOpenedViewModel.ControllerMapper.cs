@@ -51,7 +51,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {service.Annotation}控制器");
             codeContent.AppendLine($"    /// </summary>");
-            codeContent.AppendLine($"    public partial interface I{service.DomainName}Controller : IMergeBlockControllerBase");
+            codeContent.AppendLine($"    public partial interface I{service.DomainName}Controller : IMergeBlockController");
             codeContent.AppendLine($"    {{");
             foreach (MethodModel method in service.Methods)
             {

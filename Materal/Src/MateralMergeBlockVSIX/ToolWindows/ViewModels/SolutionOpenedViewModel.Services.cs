@@ -104,17 +104,17 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             {
                 if (domain.HasAttribute<NotRepositoryAttribute>())
                 {
-                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependency<I{domain.Name}Service>");
                 }
                 else
                 {
                     if (targetDomain != domain)
                     {
-                        codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                        codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependency<I{domain.Name}Service>");
                     }
                     else
                     {
-                        codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{domain.Name}Repository, {domain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                        codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<I{domain.Name}Repository, {domain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependency<I{domain.Name}Service>");
                     }
                 }
             }
@@ -122,11 +122,11 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             {
                 if (targetDomain != domain)
                 {
-                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, I{targetDomain.Name}Repository, {domain.Name}, {targetDomain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependency<I{domain.Name}Service>");
                 }
                 else
                 {
-                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, {domain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependencyInjectionService<I{domain.Name}Service>");
+                    codeContent.AppendLine($"    public partial class {domain.Name}ServiceImpl : BaseServiceImpl<Add{domain.Name}Model, Edit{domain.Name}Model, Query{domain.Name}Model, {domain.Name}DTO, {domain.Name}ListDTO, I{domain.Name}Repository, {domain.Name}, I{_moduleName}UnitOfWork>, I{domain.Name}Service, IScopedDependency<I{domain.Name}Service>");
                 }
             }
             codeContent.AppendLine($"    {{");

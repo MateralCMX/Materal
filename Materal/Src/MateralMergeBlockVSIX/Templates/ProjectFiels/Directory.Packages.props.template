@@ -1,0 +1,31 @@
+<Project ToolsVersion="15.0">
+	<ItemGroup>
+		<PackageVersion Include="Materal.Abstractions" Version="${Version}" />
+		<PackageVersion Include="Materal.Extensions" Version="${Version}" />
+		<PackageVersion Include="Materal.Extensions.DependencyInjection" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Abstractions" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.AccessLog" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Application.Abstractions" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Authorization" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Authorization.Abstractions" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Consul" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Consul.Abstractions" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Cors" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Domain.Abstractions" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.EventBus" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.ExceptionInterceptor" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.GeneratorCode" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Logger" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Oscillator" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Repository.Abstractions" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.ResponseCompression" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Swagger" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Web" Version="${Version}" />
+		<PackageVersion Include="Materal.MergeBlock.Web.Abstractions" Version="${Version}" />
+		<PackageVersion Include="Materal.TTA.EFRepository" Version="${Version}" />
+		<PackageVersion Include="Materal.TTA.SqliteEFRepository" Version="${Version}" />
+		<PackageVersion Include="Materal.Utils" Version="${Version}" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
+	</ItemGroup>
+</Project>
