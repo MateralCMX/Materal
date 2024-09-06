@@ -1,6 +1,7 @@
 ﻿<Project ToolsVersion="15.0">
   <ItemGroup>
     <PackageVersion Include="Materal.Abstractions" Version="1.1.77" />
+    <PackageVersion Include="Materal.EventBus.Abstraction" Version="1.1.77" />
     <PackageVersion Include="Materal.Extensions" Version="1.1.77" />
     <PackageVersion Include="Materal.Extensions.DependencyInjection" Version="1.1.77" />
     <PackageVersion Include="Materal.MergeBlock" Version="1.1.77" />
@@ -26,6 +27,7 @@
     <PackageVersion Include="Materal.TTA.EFRepository" Version="1.1.77" />
     <PackageVersion Include="Materal.TTA.SqliteEFRepository" Version="1.1.77" />
     <PackageVersion Include="Materal.Utils" Version="1.1.77" />
+    <PackageVersion Include="Materal.Utils.Consul" Version="1.1.77" />
     <PackageVersion Include="Materal.Utils.Windows" Version="1.1.77" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
   </ItemGroup>

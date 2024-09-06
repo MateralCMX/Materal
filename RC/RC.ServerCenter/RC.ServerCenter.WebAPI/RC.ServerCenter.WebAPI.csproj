@@ -8,7 +8,7 @@
 		<PackageReference Include="Materal.MergeBlock.Authorization" />
 		<PackageReference Include="Materal.MergeBlock.Consul" />
 		<PackageReference Include="Materal.MergeBlock.Cors" />
-		<!--<PackageReference Include="Materal.MergeBlock.EventBus" />-->
+		<PackageReference Include="Materal.MergeBlock.EventBus" />
 		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" />
 		<PackageReference Include="Materal.MergeBlock.Logger" />
 		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" />-->
@@ -21,7 +21,7 @@
 		</PackageReference>
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\RC.Authority.Application\RC.Authority.Application.csproj" />
+		<ProjectReference Include="..\RC.ServerCenter.Application\RC.ServerCenter.Application.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="..\..\RC.Core\RC.Core.Abstractions\RCConfig.json" Link="RCConfig.json" CopyToOutputDirectory="Always" />

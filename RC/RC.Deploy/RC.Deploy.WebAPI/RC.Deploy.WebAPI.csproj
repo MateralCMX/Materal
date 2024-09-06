@@ -23,4 +23,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\RC.Deploy.Application\RC.Deploy.Application.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+		<Content Include="..\..\RC.Core\RC.Core.Abstractions\RCConfig.json" Link="RCConfig.json" CopyToOutputDirectory="Always" />
+	</ItemGroup>
 </Project>

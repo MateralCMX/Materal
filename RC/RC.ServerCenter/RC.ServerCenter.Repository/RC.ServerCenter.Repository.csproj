@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<ProjectReference Include="..\..\RC.Core\RC.Core.Repository\RC.Core.Repository.csproj" />
+		<ProjectReference Include="..\RC.ServerCenter.Abstractions\RC.ServerCenter.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="RC.ServerCenter.Repository.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
