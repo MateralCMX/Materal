@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace Materal.Extensions.DependencyInjection
+﻿namespace Materal.Extensions.DependencyInjection
 {
     /// <summary>
     /// 服务注册模式

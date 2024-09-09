@@ -39,7 +39,7 @@ namespace Materal.MergeBlock
         private static async Task ConsoleRunAsync(string[] args, CancellationToken? cancellationToken = null)
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-            builder.UseMateralServiceProvider();
+            //builder.UseMateralServiceProvider();
             builder.Services.AddSingleton(builder);
             builder.Services.AddSingleton<IHostApplicationBuilder>(builder);
 #if DEBUG

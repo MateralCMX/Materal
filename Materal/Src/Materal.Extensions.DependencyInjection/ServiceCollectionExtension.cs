@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text;
 
 namespace Materal.Extensions.DependencyInjection
@@ -137,7 +135,7 @@ namespace Materal.Extensions.DependencyInjection
                 Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
                 services.AddAutoService(assemblies);
             }
-            return services.BuildServiceContextProvider();
+            return services.BuildServiceProvider();
         }
     }
 }

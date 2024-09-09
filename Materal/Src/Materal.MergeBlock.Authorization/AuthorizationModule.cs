@@ -27,7 +27,7 @@ namespace Materal.MergeBlock.Authorization
             mvcBuilder?.AddMvcOptions(options =>
             {
                 options.Filters.Add(new AuthorizeFilter());
-                options.Filters.Add<InitServiceFilterAttribute>();
+                options.Filters.Add<SetLoginUserInfoAttribute>();
             });
             AuthorizationOptions config = context.Configuration?.GetConfigItem<AuthorizationOptions>(AuthorizationOptions.ConfigKey) ?? new();
             context.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

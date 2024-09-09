@@ -9,7 +9,7 @@ namespace Materal.MergeBlock.Authorization
     /// 初始化服务过滤器
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class InitServiceFilterAttribute : ActionFilterAttribute
+    public class SetLoginUserInfoAttribute : ActionFilterAttribute
     {
         /// <summary>
         /// Action执行前
@@ -24,11 +24,11 @@ namespace Materal.MergeBlock.Authorization
                 Type controllerType = controller.GetType();
                 foreach (MemberInfo memberInfo in controllerType.GetRuntimeProperties().Where(m => m.PropertyType.IsAssignableTo<IBaseService>()))
                 {
-                    BindService(memberInfo, controller);
+                    SetLoginUserInfo(memberInfo, controller);
                 }
                 foreach (MemberInfo memberInfo in controllerType.GetRuntimeFields().Where(m => m.FieldType.IsAssignableTo<IBaseService>()))
                 {
-                    BindService(memberInfo, controller);
+                    SetLoginUserInfo(memberInfo, controller);
                 }
             }
             await base.OnActionExecutionAsync(context, next);
@@ -38,7 +38,7 @@ namespace Materal.MergeBlock.Authorization
         /// </summary>
         /// <param name="memberInfo"></param>
         /// <param name="controller"></param>
-        private static void BindService(MemberInfo memberInfo, ControllerBase controller)
+        private static void SetLoginUserInfo(MemberInfo memberInfo, ControllerBase controller)
         {
             object? serviceObj = memberInfo.GetValue(controller);
             if (serviceObj is null || serviceObj is not IBaseService service) return;

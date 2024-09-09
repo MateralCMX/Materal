@@ -1,10 +1,4 @@
-﻿using AspectCore.Extensions.Hosting;
-using Microsoft.Extensions.Hosting;
-#if NET8_0_OR_GREATER
-using Microsoft.Extensions.DependencyInjection.Extensions;
-#endif
-
-namespace Materal.Extensions.DependencyInjection
+﻿namespace Materal.Extensions.DependencyInjection
 {
     /// <summary>
     /// HostBuilder扩展
@@ -15,23 +9,26 @@ namespace Materal.Extensions.DependencyInjection
         /// 使用Materal容器
         /// </summary>
         /// <param name="builder"></param>
-        public static void UseMateralServiceProvider(this IHostApplicationBuilder builder)
+        public static IHostApplicationBuilder UseMateralServiceProvider(this IHostApplicationBuilder builder)
         {
-            builder.ConfigureContainer(new ServiceContextProviderFactory());
+            builder.ConfigureContainer(new MateralServiceContextProviderFactory());
+            return builder;
         }
+
         /// <summary>
         /// 使用Materal容器
         /// </summary>
         /// <param name="builder"></param>
-        public static void UseMateralServiceProvider(this IHostBuilder builder)
+        public static IHostBuilder UseMateralServiceProvider(this IHostBuilder builder)
         {
-#if NET8_0_OR_GREATER
-            builder.ConfigureServices(services =>
-            {
-                services.TryAddSingleton<IServiceProviderIsService, MateralServiceProviderIsService>();
-            });
-#endif
-            builder.UseServiceContext();
+            //#if NET8_0_OR_GREATER
+            //            builder.ConfigureServices((content, services) =>
+            //            {
+            //                services.TryAddSingleton<IServiceProviderIsService, MateralServiceProviderIsService>();
+            //            });
+            //#endif
+            builder.UseServiceProviderFactory(new MateralServiceContextProviderFactory());
+            return builder;
         }
     }
 }
