@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<NoWarn>$(NoWarn);CA1822;CA2254;NU1507;NU5104;WMC1006;</NoWarn>
+		<NoWarn>$(NoWarn);CA1822;CA2016;CA2254;NU1507;NU5104;WMC1006;</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 	  <PackageReference Include="Materal.Abstractions" />

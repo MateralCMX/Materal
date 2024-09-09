@@ -105,8 +105,10 @@ namespace Materal.MergeBlock
         /// <returns></returns>
         private List<string> GetMergeBlockAssembly(out WeakReference alcWeakRef)
         {
-            PluginLoadContext target = new(RootPath, Name);
             List<string> result = [];
+            PluginLoadContext target = new(RootPath, Name);
+            alcWeakRef = new WeakReference(target, true);
+            if (!Directory.Exists(RootPath)) return result;
             foreach (string file in Directory.GetFiles(RootPath, "*.dll"))
             {
                 string name = Path.GetFileNameWithoutExtension(file);
@@ -122,7 +124,6 @@ namespace Materal.MergeBlock
                     continue;
                 }
             }
-            alcWeakRef = new WeakReference(target, true);
             target.Unload();
             return result;
         }
