@@ -4,7 +4,6 @@
 		<PackageVersion Include="Materal.Extensions" Version="${Version}" />
 		<PackageVersion Include="Materal.Extensions.DependencyInjection" Version="${Version}" />
 		<PackageVersion Include="Materal.MergeBlock" Version="${Version}" />
-		<PackageVersion Include="Materal.MergeBlock.AspNet" Version="${Version}" />
 		<PackageVersion Include="Materal.MergeBlock.Abstractions" Version="${Version}" />
 		<PackageVersion Include="Materal.MergeBlock.AccessLog" Version="${Version}" />
 		<PackageVersion Include="Materal.MergeBlock.Application.Abstractions" Version="${Version}" />

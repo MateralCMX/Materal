@@ -8,7 +8,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj" />
-		<ProjectReference Include="..\..\Src\Materal.MergeBlock.AspNet\Materal.MergeBlock.AspNet.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Authorization\Materal.MergeBlock.Authorization.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Consul\Materal.MergeBlock.Consul.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Cors\Materal.MergeBlock.Cors.csproj" />

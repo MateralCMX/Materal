@@ -1,8 +1,7 @@
-﻿using Materal.MergeBlock.AspNet;
-using Materal.MergeBlock.Extensions;
+﻿using Materal.MergeBlock.Extensions;
 using Microsoft.AspNetCore.Builder;
 
-namespace Materal.MergeBlock.AspNet
+namespace Materal.MergeBlock.Web
 {
     /// <summary>
     /// 依赖注入扩展

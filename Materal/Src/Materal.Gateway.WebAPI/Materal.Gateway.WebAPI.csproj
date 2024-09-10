@@ -12,7 +12,6 @@
 	  <ProjectReference Include="..\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
-	  <ProjectReference Include="..\Materal.MergeBlock\Materal.MergeBlock.csproj" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
 		<None Update="appsettings.Development.json">

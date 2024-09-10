@@ -10,7 +10,7 @@ namespace Materal.Extensions.DependencyInjection.AspNetCore
         /// <summary>
         /// 使用Materal服务提供者
         /// </summary>
-        /// <param name="app"></param>
+        /// <param name="builder"></param>
         /// <returns></returns>
         public static WebApplicationBuilder AddMateralServiceProvider(this WebApplicationBuilder builder)
         {

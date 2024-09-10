@@ -1,9 +1,8 @@
 ﻿using Materal.Extensions.DependencyInjection.AspNetCore;
 using Materal.MergeBlock.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Materal.MergeBlock.AspNet
+namespace Materal.MergeBlock.Web
 {
     /// <summary>
     /// MergeBlock程序
