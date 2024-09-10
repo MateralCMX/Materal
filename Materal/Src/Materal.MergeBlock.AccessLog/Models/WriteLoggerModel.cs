@@ -36,6 +36,6 @@ namespace Materal.MergeBlock.AccessLog.Models
         /// <summary>
         /// 日志消息
         /// </summary>
-        public string LogMessage => $"[{Response.StatusCode}|{ElapsedMilliseconds}ms|{Request.Method}]{Request.Scheme}://{Request.Host}:{Request.Host}{Request.Path}";
+        public string LogMessage => $"[{Response.StatusCode}|{ElapsedMilliseconds}ms|{Request.Method}]{Request.Scheme}://{Request.Host}:{Request.Port}{Request.Path}";
     }
 }
