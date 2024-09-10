@@ -9,7 +9,7 @@ namespace Materal.Test.UtilsTests.MongoTests
         private readonly IMongoRepository<User> _repository;
         public MongoRepositoryModelTest() : base()
         {
-            _repository = GetRequiredService<IMongoRepository<User>>();
+            _repository = ServiceProvider.GetRequiredService<IMongoRepository<User>>();
             _repository.ConnectionString = MongoTestConstData.ConnectionString;
             _repository.DatabaseName = MongoTestConstData.DatabaseName;
             _repository.CollectionName = MongoTestConstData.CollectionName;

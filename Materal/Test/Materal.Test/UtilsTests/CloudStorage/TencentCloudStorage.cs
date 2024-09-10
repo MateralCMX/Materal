@@ -20,7 +20,7 @@ namespace Materal.Test.UtilsTests.CloudStorage
         public override void AddServices(IServiceCollection services)
         {
             services.AddTencentCloudStorage();
-            services.Configure<TencentCloudStorageConfig>(Configuration);
+            //services.Configure<TencentCloudStorageConfig>(Configuration);
         }
         [TestMethod]
         public void GenerateTemporaryKeyTest()

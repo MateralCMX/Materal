@@ -23,7 +23,7 @@ namespace Materal.Test.Base
         /// <summary>
         /// 配置
         /// </summary>
-        protected readonly IConfigurationRoot Configuration;
+        protected readonly IConfiguration Configuration;
         /// <summary>
         /// 构造方法
         /// </summary>
@@ -66,17 +66,5 @@ namespace Materal.Test.Base
         public virtual void AddConfig(IConfigurationBuilder builder)
         {
         }
-        /// <summary>
-        /// 获取服务
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public virtual T? GetServices<T>() => ServiceProvider.GetService<T>();
-        /// <summary>
-        /// 获取必须的服务
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public virtual T GetRequiredService<T>() where T : notnull => ServiceProvider.GetRequiredService<T>();
     }
 }

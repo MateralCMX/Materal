@@ -4,31 +4,28 @@ using Microsoft.Extensions.Configuration;
 namespace Materal.Test.ExtensionsTests
 {
     [TestClass]
-    public class ConfigurationTest
+    public class ConfigurationTest : MateralTestBase
     {
-        private readonly IConfiguration _configuration;
-        public ConfigurationTest()
+        public override void AddConfig(IConfigurationBuilder builder)
         {
-            _configuration = new ConfigurationBuilder()
-                        .AddJsonFile(".\\ExtensionsTests\\ConfigurationTest.json", optional: true, reloadOnChange: true)
-                        .Build();
+            builder.AddJsonFile(".\\ExtensionsTests\\ConfigurationTest.json", optional: true, reloadOnChange: true);
         }
         [TestMethod]
         public void GetValueTest()
         {
-            dynamic? value = _configuration.GetConfigItemToString("StringValue");
+            dynamic? value = Configuration.GetConfigItemToString("StringValue");
             Assert.AreEqual("Materal", value);
-            value = _configuration.GetConfigItem<int>("IntValue");
+            value = Configuration.GetConfigItem<int>("IntValue");
             Assert.AreEqual(123, value);
-            value = _configuration.GetConfigItem<int?>("IntValue");
+            value = Configuration.GetConfigItem<int?>("IntValue");
             Assert.AreEqual(123, value);
-            value = _configuration.GetConfigItem<TestEnum>("EnumValue");
+            value = Configuration.GetConfigItem<TestEnum>("EnumValue");
             Assert.AreEqual(TestEnum.Enum2, value);
-            value = _configuration.GetConfigItem<TestEnum?>("EnumValue");
+            value = Configuration.GetConfigItem<TestEnum?>("EnumValue");
             Assert.AreEqual(TestEnum.Enum2, value);
-            value = _configuration.GetConfigItem<TestEnum>("EnumValue2");
+            value = Configuration.GetConfigItem<TestEnum>("EnumValue2");
             Assert.AreEqual(TestEnum.Enum1, value);
-            value = _configuration.GetConfigItem<TestEnum?>("EnumValue2");
+            value = Configuration.GetConfigItem<TestEnum?>("EnumValue2");
             Assert.AreEqual(TestEnum.Enum1, value);
         }
     }

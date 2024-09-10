@@ -39,9 +39,8 @@ namespace Materal.MergeBlock
         private static async Task ConsoleRunAsync(string[] args, CancellationToken? cancellationToken = null)
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
-            //builder.UseMateralServiceProvider();
+            builder.AddMateralServiceProvider();
             builder.Services.AddSingleton(builder);
-            builder.Services.AddSingleton<IHostApplicationBuilder>(builder);
 #if DEBUG
             if (File.Exists("appsettings.Development.json"))
             {
@@ -51,6 +50,7 @@ namespace Materal.MergeBlock
             builder.AddMergeBlockCore();
             OnConfigureServices?.Invoke(builder.Services);
             IHost app = builder.Build();
+            app.UseMateralServiceProvider();
             app.UseMergeBlock();
             OnApplicationInitialization?.Invoke(app.Services);
             if (cancellationToken is null)
@@ -65,16 +65,12 @@ namespace Materal.MergeBlock
         private static async Task WebRunAsync(string[] args, CancellationToken? cancellationToken = null)
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-            builder.Host.UseMateralServiceProvider();
+            builder.AddMateralServiceProvider();
             builder.Services.AddSingleton(builder);
-#if NET8_0_OR_GREATER
-            builder.Services.AddSingleton<IHostApplicationBuilder>(builder);
             builder.AddMergeBlockCore();
-#else
-            builder.Services.AddMergeBlockCore(builder.Configuration);
-#endif
             OnConfigureServices?.Invoke(builder.Services);
             WebApplication app = builder.Build();
+            app.UseMateralServiceProvider();
             app.UseMergeBlock();
             OnApplicationInitialization?.Invoke(app.Services);
             if (cancellationToken is null)

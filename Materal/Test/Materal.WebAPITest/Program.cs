@@ -1,4 +1,5 @@
 ﻿using Materal.Extensions.DependencyInjection;
+using Materal.Extensions.DependencyInjection.AspNetCore;
 using Materal.Utils.Consul;
 using Materal.Utils.Consul.ConfigModels;
 using Materal.WebAPITest.Repository;
@@ -12,7 +13,7 @@ namespace Materal.WebAPITest
         public static async Task Main(string[] args)
         {
             WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
-            builder.Host.UseMateralServiceProvider();
+            builder.AddMateralServiceProvider();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -26,6 +27,7 @@ namespace Materal.WebAPITest
                 app.UseSwaggerUI();
             }
             app.UseAuthorization();
+            app.UseMateralServiceProvider();
             app.MapControllers();
             IConsulService consulService = app.Services.GetRequiredService<IConsulService>();
             await consulService.RegisterConsulAsync(new ConsulConfig

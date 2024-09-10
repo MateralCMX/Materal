@@ -1,4 +1,6 @@
-﻿namespace Materal.MergeBlock.Application.Abstractions.Services
+﻿using Materal.Extensions.DependencyInjection;
+
+namespace Materal.MergeBlock.Application.Abstractions.Services
 {
     /// <summary>
     /// 基础服务实现
@@ -9,20 +11,13 @@
         /// <summary>
         /// 登录用户唯一标识
         /// </summary>
-        public Guid LoginUserID
-        {
-            get => _loginUserID ?? throw new MergeBlockException("没有登录用户");
-            set => _loginUserID = value;
-        }
+        public Guid LoginUserID { get => _loginUserID ?? throw new MergeBlockException("没有登录用户"); set => _loginUserID = value; }
         private IMapper? _mapper;
         /// <summary>
         /// 映射器
         /// </summary>
-        protected IMapper Mapper
-        {
-            get => _mapper ?? throw new MergeBlockException("未设置映射器");
-            set => _mapper = value;
-        }
+        [FromServices]
+        protected IMapper Mapper { get => _mapper ?? throw new MergeBlockException("未设置映射器"); set => _mapper = value; }
     }
     /// <summary>
     /// 基础服务实现
@@ -35,11 +30,8 @@
         /// <summary>
         /// 工作单元
         /// </summary>
-        protected TUnitOfWork UnitOfWork
-        {
-            get => _unitOfWork ?? throw new MergeBlockException("未设置工作单元");
-            set => _unitOfWork = value;
-        }
+        [FromServices]
+        protected TUnitOfWork UnitOfWork { get => _unitOfWork ?? throw new MergeBlockException("未设置工作单元"); set => _unitOfWork = value; }
     }
     /// <summary>
     /// 基础服务实现

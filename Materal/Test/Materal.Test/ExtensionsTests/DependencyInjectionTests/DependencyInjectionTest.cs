@@ -8,8 +8,19 @@ namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
         [TestMethod]
         public void PropertyInjectionTest()
         {
-            IService service = GetRequiredService<IService>();
+            IService service = ServiceProvider.GetRequiredService<IService>();
             service.SayHello();
+            using IServiceScope serviceScope = ServiceProvider.CreateScope();
+            service = serviceScope.ServiceProvider.GetRequiredService<IService>();
+            service.SayHello();
+            using AsyncServiceScope serviceAsyncScope = ServiceProvider.CreateAsyncScope();
+            service = serviceAsyncScope.ServiceProvider.GetRequiredService<IService>();
+            service.SayHello();
+        }
+        [TestMethod]
+        public void ValidateInjectionTest()
+        {
+            IService service = ServiceProvider.GetRequiredService<IService>();
             service.Test(new TestModel { Message = "12345" });
             try
             {

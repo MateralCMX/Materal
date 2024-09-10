@@ -135,7 +135,8 @@ namespace Materal.Extensions.DependencyInjection
                 Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
                 services.AddAutoService(assemblies);
             }
-            return services.BuildServiceProvider();
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            return new MateralServiceProvider(serviceProvider);
         }
     }
 }

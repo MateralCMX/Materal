@@ -1,11 +1,11 @@
 ﻿global using Materal.Abstractions;
 global using Materal.Extensions;
 global using Materal.Extensions.DependencyInjection;
+global using Materal.Extensions.DependencyInjection.AspNetCore;
 global using Materal.MergeBlock.Abstractions;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.DependencyInjection.Extensions;
 global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Logging;
-global using Newtonsoft.Json;
 global using System.Reflection;

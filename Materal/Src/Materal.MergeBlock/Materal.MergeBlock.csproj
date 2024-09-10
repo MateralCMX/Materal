@@ -17,7 +17,7 @@
 		<PackageReference Include="Microsoft.Extensions.Localization" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
+	  <ProjectReference Include="..\Materal.Extensions.DependencyInjection.AspNetCore\Materal.Extensions.DependencyInjection.AspNetCore.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

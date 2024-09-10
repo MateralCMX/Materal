@@ -7,7 +7,7 @@
 	  <PackageReference Include="Swashbuckle.AspNetCore" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\Src\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
+		<ProjectReference Include="..\..\Src\Materal.Extensions.DependencyInjection.AspNetCore\Materal.Extensions.DependencyInjection.AspNetCore.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils.Consul\Materal.Utils.Consul.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>

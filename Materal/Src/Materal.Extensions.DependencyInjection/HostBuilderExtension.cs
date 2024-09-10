@@ -9,26 +9,16 @@
         /// 使用Materal容器
         /// </summary>
         /// <param name="builder"></param>
-        public static IHostApplicationBuilder UseMateralServiceProvider(this IHostApplicationBuilder builder)
+        public static IHostApplicationBuilder AddMateralServiceProvider(this IHostApplicationBuilder builder)
         {
             builder.ConfigureContainer(new MateralServiceContextProviderFactory());
             return builder;
         }
-
         /// <summary>
-        /// 使用Materal容器
+        /// 使用Materal服务提供者
         /// </summary>
-        /// <param name="builder"></param>
-        public static IHostBuilder UseMateralServiceProvider(this IHostBuilder builder)
-        {
-            //#if NET8_0_OR_GREATER
-            //            builder.ConfigureServices((content, services) =>
-            //            {
-            //                services.TryAddSingleton<IServiceProviderIsService, MateralServiceProviderIsService>();
-            //            });
-            //#endif
-            builder.UseServiceProviderFactory(new MateralServiceContextProviderFactory());
-            return builder;
-        }
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IHost UseMateralServiceProvider(this IHost app) => app;
     }
 }

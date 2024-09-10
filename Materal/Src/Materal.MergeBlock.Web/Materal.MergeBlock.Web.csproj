@@ -9,6 +9,7 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\Materal.Extensions.DependencyInjection.AspNetCore\Materal.Extensions.DependencyInjection.AspNetCore.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 		<ProjectReference Include="..\Materal.MergeBlock.Web.Abstractions\Materal.MergeBlock.Web.Abstractions.csproj" />
 	</ItemGroup>
