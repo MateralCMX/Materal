@@ -1,6 +1,9 @@
-﻿using Materal.MergeBlock.Extensions;
+﻿using Materal.Extensions.DependencyInjection.AspNetCore;
+using Materal.MergeBlock.Extensions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Materal.MergeBlock
+namespace Materal.MergeBlock.AspNet
 {
     /// <summary>
     /// MergeBlock程序
@@ -19,33 +22,19 @@ namespace Materal.MergeBlock
         /// 运行
         /// </summary>
         /// <param name="args"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public static async Task RunAsync(string[] args, CancellationToken? cancellationToken = null)
+        public static async Task RunAsync(string[] args)
         {
-            HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
             builder.AddMateralServiceProvider();
             builder.Services.AddSingleton(builder);
-#if DEBUG
-            if (File.Exists("appsettings.Development.json"))
-            {
-                builder.Configuration.AddJsonFile("appsettings.Development.json", true, true);
-            }
-#endif
             builder.AddMergeBlockCore();
             OnConfigureServices?.Invoke(builder.Services);
-            IHost app = builder.Build();
+            WebApplication app = builder.Build();
             app.UseMateralServiceProvider();
             app.UseMergeBlock();
             OnApplicationInitialization?.Invoke(app.Services);
-            if (cancellationToken is null)
-            {
-                await app.RunAsync();
-            }
-            else
-            {
-                await app.RunAsync(cancellationToken.Value);
-            }
+            await app.RunAsync();
         }
     }
 }

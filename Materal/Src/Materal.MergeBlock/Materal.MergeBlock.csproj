@@ -5,9 +5,9 @@
 		<Title>Materal MergeBlock包</Title>
 		<Description>Materal MergeBlock包</Description>
 	</PropertyGroup>
-	<ItemGroup>
+	<!--<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
+	</ItemGroup>-->
 	<ItemGroup>
 		<None Include="build\**" Pack="True" PackagePath="build\" />
 	</ItemGroup>
@@ -17,7 +17,7 @@
 		<PackageReference Include="Microsoft.Extensions.Localization" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\Materal.Extensions.DependencyInjection.AspNetCore\Materal.Extensions.DependencyInjection.AspNetCore.csproj" />
+	  <ProjectReference Include="..\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
 	  <ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

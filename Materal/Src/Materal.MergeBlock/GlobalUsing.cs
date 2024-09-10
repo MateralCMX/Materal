@@ -1,7 +1,6 @@
 ﻿global using Materal.Abstractions;
 global using Materal.Extensions;
 global using Materal.Extensions.DependencyInjection;
-global using Materal.Extensions.DependencyInjection.AspNetCore;
 global using Materal.MergeBlock.Abstractions;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;

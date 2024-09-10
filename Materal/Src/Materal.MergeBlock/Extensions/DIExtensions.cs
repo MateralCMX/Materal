@@ -1,5 +1,4 @@
 ﻿using Materal.Utils.Extensions;
-using Microsoft.AspNetCore.Builder;
 using System.Runtime.Loader;
 
 namespace Materal.MergeBlock.Extensions
@@ -22,21 +21,11 @@ namespace Materal.MergeBlock.Extensions
         /// <summary>
         /// 添加MergeBlock
         /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static WebApplicationBuilder AddMergeBlockCore(this WebApplicationBuilder builder)
-        {
-            builder.Services.AddMergeBlockCore(builder.Configuration);
-            return builder;
-        }
-        /// <summary>
-        /// 添加MergeBlock
-        /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>
         /// <returns></returns>
         /// <exception cref="MergeBlockException"></exception>
-        private static IServiceCollection AddMergeBlockCore(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddMergeBlockCore(this IServiceCollection services, IConfiguration configuration)
         {
             services.Replace(ServiceDescriptor.Singleton(typeof(IConfiguration), configuration));
             services.Replace(ServiceDescriptor.Singleton(services));
