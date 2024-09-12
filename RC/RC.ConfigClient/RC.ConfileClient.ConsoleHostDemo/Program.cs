@@ -14,7 +14,7 @@ namespace RC.ConfileClient.ConsoleHostDemo
                 ConsoleQueue.WriteLine(arg);
             }
             HostApplicationBuilder applicationBuilder = Host.CreateApplicationBuilder(args);
-            applicationBuilder.Configuration.AddDefaultNameSpace("http://127.0.0.1:8700/RCESDEVAPI", "TestProject", 10)
+            applicationBuilder.Configuration.AddDefaultNameSpace("http://127.0.0.1:8700/RCESDev", "TestProject", 10)
                 .AddNameSpace("TestNamespace");
             applicationBuilder.Services.AddOptions();
             applicationBuilder.Services.Configure<DemoConfig>(applicationBuilder.Configuration);

@@ -10,7 +10,7 @@ namespace RC.ConfileClient.ConsoleDemo
         public static async Task Main()
         {
             ConfigurationBuilder configurationBuilder = new();
-            configurationBuilder.AddDefaultNameSpace("http://127.0.0.1:8700/RCESDEVAPI", "TestProject", 10).AddNameSpace("TestNamespace");
+            configurationBuilder.AddDefaultNameSpace("http://127.0.0.1:8700/RCESDEV", "TestProject", 10).AddNameSpace("TestNamespace");
             IConfiguration configuration = configurationBuilder.Build();
             IServiceCollection serviceCollection = new ServiceCollection();
             serviceCollection.AddOptions();

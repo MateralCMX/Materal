@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../Packable.props"/>
+	<Import Project="../../Packable.props" />
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
 		<Title>RC.ConfigClient</Title>
@@ -7,6 +7,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Materal.MergeBlock.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="../../RC.EnvironmentServer/RC.EnvironmentServer.Abstractions/MGC/RequestModel/ConfigurationItem/QueryConfigurationItemRequestModel.cs" Link="RequestModel\MGC\QueryConfigurationItemRequestModel.cs" />
