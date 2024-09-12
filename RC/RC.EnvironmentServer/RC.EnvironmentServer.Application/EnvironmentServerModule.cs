@@ -1,4 +1,5 @@
-﻿using Materal.MergeBlock.Consul.Abstractions;
+﻿using Materal.MergeBlock.Abstractions.Extensions;
+using Materal.MergeBlock.Consul.Abstractions;
 using Microsoft.Extensions.Configuration;
 using RC.EnvironmentServer.Repository;
 using RC.ServerCenter.Abstractions.ControllerAccessors;
@@ -21,7 +22,7 @@ namespace RC.EnvironmentServer.Application
             string? serviceDescription = configurationSection.GetConfigItemToString("ServiceDescription") ?? "RC环境服务";
             context.Services.AddConsulConfig(serviceName, ["RC.EnvironmentServer", serviceDescription]);
             context.Services.AddServerCenterControllerAccessors();
-            context.Services.AddHostedService<InitEnvironmentService>();
+            context.Services.AddMergeBlockHostedService<InitEnvironmentService>();
         }
     }
 }

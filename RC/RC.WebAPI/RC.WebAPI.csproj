@@ -4,16 +4,15 @@
 		<InvariantGlobalization>false</InvariantGlobalization>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock" />
-		<!--<PackageReference Include="Materal.MergeBlock.AccessLog" />-->
+		<PackageReference Include="Materal.MergeBlock.AccessLog" />
 		<PackageReference Include="Materal.MergeBlock.Authorization" />
-		<!--<PackageReference Include="Materal.MergeBlock.Consul" />-->
+		<PackageReference Include="Materal.MergeBlock.Consul" />
 		<PackageReference Include="Materal.MergeBlock.Cors" />
-		<!--<PackageReference Include="Materal.MergeBlock.EventBus" />-->
+		<PackageReference Include="Materal.MergeBlock.EventBus" />
 		<PackageReference Include="Materal.MergeBlock.ExceptionInterceptor" />
 		<PackageReference Include="Materal.MergeBlock.Logger" />
 		<!--<PackageReference Include="Materal.MergeBlock.Oscillator" />-->
-		<!--<PackageReference Include="Materal.MergeBlock.ResponseCompression" />-->
+		<PackageReference Include="Materal.MergeBlock.ResponseCompression" />
 		<PackageReference Include="Materal.MergeBlock.Swagger" />
 		<PackageReference Include="Materal.MergeBlock.Web" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
@@ -21,12 +20,16 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 	</ItemGroup>
-	<ItemGroup>
-		<!--<ProjectReference Include="..\RC.Core\Demo\RC.Demo.Application\RC.Demo.Application.csproj" />-->
-		<ProjectReference Include="..\RC.ServerCenter\RC.ServerCenter.Application\RC.ServerCenter.Application.csproj" />
+	<ItemGroup><!--<ProjectReference Include="..\RC.Core\Demo\RC.Demo.Application\RC.Demo.Application.csproj" />-->
+		<!--<ProjectReference Include="..\RC.ServerCenter\RC.ServerCenter.Application\RC.ServerCenter.Application.csproj" />
 		<ProjectReference Include="..\RC.Authority\RC.Authority.Application\RC.Authority.Application.csproj" />
 		<ProjectReference Include="..\RC.Deploy\RC.Deploy.Application\RC.Deploy.Application.csproj" />
-		<ProjectReference Include="..\RC.EnvironmentServer\RC.EnvironmentServer.Application\RC.EnvironmentServer.Application.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer\RC.EnvironmentServer.Application\RC.EnvironmentServer.Application.csproj" />-->
+	
+	  <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\RC.Core\RC.Core.Application\RC.Core.Application.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="appsettings.Development.json">

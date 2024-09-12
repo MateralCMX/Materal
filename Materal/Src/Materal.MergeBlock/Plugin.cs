@@ -42,7 +42,7 @@ namespace Materal.MergeBlock
         /// <summary>
         /// 构造方法
         /// </summary>
-        public Plugin(string name, string rootPath, string? startModule = null, bool isCollectible = true) : this()
+        public Plugin(string name, string rootPath, string? startModule = null, bool isCollectible = false) : this()
         {
             Name = name;
             RootPath = rootPath;

@@ -22,7 +22,7 @@ namespace Materal.MergeBlock.Consul
                 context.Services.Configure<MergeBlockConsulOptions>(section);
             }
             context.Services.AddMateralConsulUtils();
-            context.Services.AddHostedServiceWithDecorators<ConsulServer>();
+            context.Services.AddMergeBlockHostedService<ConsulServer>();
         }
     }
 }

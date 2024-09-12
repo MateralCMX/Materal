@@ -20,9 +20,14 @@ namespace Materal.Extensions.DependencyInjection
         public object? GetService(Type serviceType)
         {
             object? result = DefaultServiceProvider.GetService(serviceType);
-            if (result is IServiceScopeFactory serviceScopeFactory)
+            if (serviceType == typeof(IServiceScopeFactory) && result is IServiceScopeFactory serviceScopeFactory)
             {
                 result = new MateralServiceScopeFactory(serviceScopeFactory);
+                return result;
+            }
+            if (serviceType == typeof(IServiceProvider) && result is IServiceProvider service && result is not MateralServiceProvider)
+            {
+                result = new MateralServiceProvider(service);
                 return result;
             }
             if (result is null) return result;

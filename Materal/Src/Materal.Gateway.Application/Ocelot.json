@@ -1,7 +1,7 @@
 ﻿{
   "Routes": [
     {
-      "UpstreamPathTemplate": "/GDBAuthority_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/RCAuthority/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -12,15 +12,16 @@
       "DownstreamPathTemplate": "/AuthorityAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "GDBAuthority_Dev",
+      "ServiceName": "RCAuthority",
       "LoadBalancerOptions": {
-        "Type": "NoLoadBalancer"
+        "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "GDBAuthorityAPI_Dev"
+      "SwaggerKey": "RCAuthority",
+      "Index": 0
     },
     {
-      "UpstreamPathTemplate": "/GDBSingleMerchantMall_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/RCServerCenter/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -28,18 +29,19 @@
         "DELETE",
         "OPTIONS"
       ],
-      "DownstreamPathTemplate": "/SingleMerchantMallAPI/{everything}",
+      "DownstreamPathTemplate": "/ServerCenterAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "GDBSingleMerchantMall_Dev",
+      "ServiceName": "RCServerCenter",
       "LoadBalancerOptions": {
-        "Type": "NoLoadBalancer"
+        "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "GDBSingleMerchantMall_Dev"
+      "SwaggerKey": "RCServerCenter",
+      "Index": 1
     },
     {
-      "UpstreamPathTemplate": "/GDBLogger_Dev/api/{everything}",
+      "UpstreamPathTemplate": "/RCDeployDev/api/{everything}",
       "UpstreamHttpMethod": [
         "GET",
         "POST",
@@ -47,15 +49,150 @@
         "DELETE",
         "OPTIONS"
       ],
-      "DownstreamPathTemplate": "/GDBLoggerAPI/{everything}",
+      "DownstreamPathTemplate": "/DeployAPI/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHttpVersion": "1.1",
-      "ServiceName": "GDBLogger_Dev",
+      "ServiceName": "RCDeployDev",
       "LoadBalancerOptions": {
-        "Type": "NoLoadBalancer"
+        "Type": "LeastConnection"
       },
       "DangerousAcceptAnyServerCertificateValidator": true,
-      "SwaggerKey": "GDBLogger_Dev"
+      "SwaggerKey": "RCDeployDev",
+      "Index": 2
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployDev/UploadFiles/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/UploadFiles/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployDev",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "",
+      "Index": 3
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployDev/hubs/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployHubs/{everything}",
+      "DownstreamScheme": "ws",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployDev",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "",
+      "Index": 4
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployLocal/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployLocal",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCDeployLocal",
+      "Index": 5
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployLocal/UploadFiles/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/UploadFiles/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployLocal",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "",
+      "Index": 6
+    },
+    {
+      "UpstreamPathTemplate": "/RCDeployLocal/hubs/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/DeployHubs/{everything}",
+      "DownstreamScheme": "ws",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCDeployLocal",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "",
+      "Index": 7
+    },
+    {
+      "UpstreamPathTemplate": "/RCESDev/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/EnvironmentServerAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCESDev",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCESDev",
+      "Index": 8
+    },
+    {
+      "UpstreamPathTemplate": "/RCESFat/api/{everything}",
+      "UpstreamHttpMethod": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "OPTIONS"
+      ],
+      "DownstreamPathTemplate": "/EnvironmentServerAPI/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHttpVersion": "1.1",
+      "ServiceName": "RCESFat",
+      "LoadBalancerOptions": {
+        "Type": "LeastConnection"
+      },
+      "DangerousAcceptAnyServerCertificateValidator": true,
+      "SwaggerKey": "RCESFat",
+      "Index": 9
     }
   ],
   "GlobalConfiguration": {
@@ -68,43 +205,85 @@
   },
   "SwaggerEndPoints": [
     {
-      "Key": "GDBAuthority_Dev",
+      "Key": "RCAuthority",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "GDBAuthority_Dev",
+          "Name": "RCAuthority",
           "Version": "latest",
           "Service": {
-            "Name": "GDBAuthority_Dev",
-            "Path": "/swagger/GDB.Authority/swagger.json"
+            "Name": "RCAuthority",
+            "Path": "/swagger/RC.Authority/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "GDBSingleMerchantMall_Dev",
+      "Key": "RCDeployDev",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "GDBSingleMerchantMall_Dev",
+          "Name": "RCDeployDev",
           "Version": "latest",
           "Service": {
-            "Name": "GDBSingleMerchantMall_Dev",
-            "Path": "/swagger/GDB.SingleMerchantMall/swagger.json"
+            "Name": "RCDeployDev",
+            "Path": "/swagger/RC.Deploy/swagger.json"
           }
         }
       ]
     },
     {
-      "Key": "GDBLogger_Dev",
+      "Key": "RCDeployLocal",
       "TakeServersFromDownstreamService": true,
       "Config": [
         {
-          "Name": "GDBLogger_Dev",
+          "Name": "RCDeployLocal",
           "Version": "latest",
           "Service": {
-            "Name": "GDBLogger_Dev",
-            "Path": "/swagger/GDB.Logger/swagger.json"
+            "Name": "RCDeployLocal",
+            "Path": "/swagger/RC.Deploy/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCESDev",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCESDev",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCESDev",
+            "Path": "/swagger/RC.EnvironmentServer/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCESFat",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCESFat",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCESFat",
+            "Path": "/swagger/RC.EnvironmentServer/swagger.json"
+          }
+        }
+      ]
+    },
+    {
+      "Key": "RCServerCenter",
+      "TakeServersFromDownstreamService": true,
+      "Config": [
+        {
+          "Name": "RCServerCenter",
+          "Version": "latest",
+          "Service": {
+            "Name": "RCServerCenter",
+            "Path": "/swagger/RC.ServerCenter/swagger.json"
           }
         }
       ]

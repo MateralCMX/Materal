@@ -1,0 +1,4 @@
+<template>
+  Hello RC!
+</template>
+  

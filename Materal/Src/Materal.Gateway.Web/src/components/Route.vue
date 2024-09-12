@@ -169,7 +169,7 @@ async function deleteAsync(id: string) {
         await service.DeleteAsync(id);
         await queryAsync();
     } catch (error) {
-        Message.error("删除Route失败");
+        Message.error((error as any).response.data.Message);
     }
     finally {
         isLoading.value = false;

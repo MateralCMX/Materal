@@ -20,6 +20,7 @@ namespace Materal.MergeBlock.Web
         /// <param name="context"></param>
         public override void OnConfigureServices(ServiceConfigurationContext context)
         {
+            context.Services.AddSignalR();
             IConfigurationSection? section = context.Configuration?.GetSection(WebOptions.ConfigKey);
             WebOptions? webOptions = null;
             if (section is not null)

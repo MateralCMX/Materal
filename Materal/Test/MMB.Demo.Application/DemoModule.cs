@@ -13,7 +13,7 @@ namespace MMB.Demo.Application
                 Tags = ["Demo", "Demo模块"]
             };
             context.Services.AddSingleton(moduleConsulConfig);
-            context.Services.AddHostedServiceWithDecorators<MyService>();
+            context.Services.AddMergeBlockHostedService<MyService>();
         }
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {

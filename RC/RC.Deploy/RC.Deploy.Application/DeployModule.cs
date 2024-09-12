@@ -23,7 +23,6 @@ namespace RC.Deploy.Application
         {
             base.OnConfigureServices(context);
             context.Services.TryAddSingleton<IContentTypeProvider, FileExtensionContentTypeProvider>();
-            context.Services.AddSignalR();
             if (context.Configuration is null) return;
             IConfigurationSection configurationSection = context.Configuration.GetSection("Deploy");
             string? serviceName = configurationSection.GetConfigItemToString("ServiceName") ?? "RCDeploy";

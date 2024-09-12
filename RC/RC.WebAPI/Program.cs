@@ -1,4 +1,4 @@
-﻿using Materal.MergeBlock;
+﻿using Materal.MergeBlock.Web;
 
 namespace RC.Demo.WebAPI
 {

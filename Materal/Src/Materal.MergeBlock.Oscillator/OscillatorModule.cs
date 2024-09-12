@@ -14,7 +14,7 @@ namespace Materal.MergeBlock.Oscillator
         public override void OnConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddOscillator();
-            context.Services.AddHostedServiceWithDecorators<OscillatorHostedService>();
+            context.Services.AddMergeBlockHostedService<OscillatorHostedService>();
         }
         /// <summary>
         /// 应用程序初始化

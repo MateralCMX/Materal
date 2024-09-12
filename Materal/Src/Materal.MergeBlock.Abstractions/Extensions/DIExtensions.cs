@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Materal.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Materal.MergeBlock.Abstractions.Extensions
 {
@@ -13,15 +14,35 @@ namespace Materal.MergeBlock.Abstractions.Extensions
         /// <typeparam name="TBackgroundService"></typeparam>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddHostedServiceWithDecorators<TBackgroundService>(this IServiceCollection services)
+        public static IServiceCollection AddMergeBlockHostedService<TBackgroundService>(this IServiceCollection services)
             where TBackgroundService : class, IHostedService
         {
-            services.AddSingleton<TBackgroundService>();
-            services.AddSingleton<IHostedService>(provider =>
+            services.AddSingleton<IHostedService>(serviceProvider =>
             {
-                TBackgroundService hostedService = provider.GetRequiredService<TBackgroundService>();
-                IEnumerable<IHostedServiceDecorator> backgroundServiceDecorators = provider.GetServices<IHostedServiceDecorator>();
-                return new HostedServiceDecoratorHandlerService(hostedService, backgroundServiceDecorators);
+                IServiceProvider services = serviceProvider;
+                if (serviceProvider is not MateralServiceProvider)
+                {
+                    services = new MateralServiceProvider(services);
+                }
+                Type type = typeof(TBackgroundService);
+                ConstructorInfo[] constructorInfos = [.. type.GetConstructors().OrderByDescending(m => m.GetParameters().Length)];
+                foreach (ConstructorInfo constructorInfo in constructorInfos)
+                {
+                    ParameterInfo[] parameterInfos = constructorInfo.GetParameters();
+                    List<object?> objects = [];
+                    for (int i = 0; i < parameterInfos.Length; i++)
+                    {
+                        object? temp = services.GetService(parameterInfos[i].ParameterType);
+                        if (temp == null && !parameterInfos[i].HasDefaultValue) break;
+                        objects.Add(temp);
+                    }
+                    if (parameterInfos.Length != objects.Count) continue;
+                    object hostedServiceObj = constructorInfo.Invoke([.. objects]);
+                    if (hostedServiceObj is not TBackgroundService hostedService) continue;
+                    IEnumerable<IHostedServiceDecorator> backgroundServiceDecorators = services.GetServices<IHostedServiceDecorator>();
+                    return new HostedServiceDecoratorHandlerService(hostedService, backgroundServiceDecorators);
+                }
+                throw new MergeBlockException($"实例化MergeBlockHostedService->{type.FullName}失败");
             });
             return services;
         }

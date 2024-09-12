@@ -10,7 +10,7 @@ namespace RC.EnvironmentServer.Application
     /// </summary>
     /// <param name="configurationItemService"></param>
     /// <param name="logger"></param>
-    public class InitEnvironmentService(IConfigurationItemService configurationItemService, ILogger<EnvironmentServerModule> logger) : IHostedService
+    public class InitEnvironmentService(IConfigurationItemService configurationItemService, ILogger<InitEnvironmentService>? logger = null) : IHostedService
     {
         /// <summary>
         /// 开始
@@ -25,12 +25,12 @@ namespace RC.EnvironmentServer.Application
                 PolicyBuilder policyBuilder = Policy.Handle<Exception>();
                 AsyncRetryPolicy retryPolicy = policyBuilder.WaitAndRetryForeverAsync(_ => TimeSpan.FromSeconds(5), (ex, index, timeSpan) =>
                 {
-                    logger.LogWarning(ex, $"[{index}]初始化失败,5秒后重试");
+                    logger?.LogWarning(ex, $"[{index}]初始化失败,5秒后重试");
                 });
                 await retryPolicy.ExecuteAsync(async () =>
                 {
                     await configurationItemService.InitAsync();
-                    logger.LogInformation("初始化完毕");
+                    logger?.LogInformation("初始化完毕");
                 });
             });
             await Task.CompletedTask;

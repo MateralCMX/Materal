@@ -1,6 +1,6 @@
 ﻿{
   "profiles": {
-    "RC.Demo.WebAPI": {
+    "RC.WebAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
