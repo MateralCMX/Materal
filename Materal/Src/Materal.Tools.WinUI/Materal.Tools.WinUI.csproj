@@ -2,7 +2,8 @@
 	<Import Project="../../Common.props" />
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+		<TargetFramework>net6.0-windows10.0.22621.0</TargetFramework>
+		<WindowsSdkPackageVersion>10.0.26100.38</WindowsSdkPackageVersion>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>Materal.Tools.WinUI</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>

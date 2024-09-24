@@ -189,7 +189,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             string domainDirectoryPath = Path.Combine(directoryPath, "Domain");
             ApplyTemplate(Path.Combine(domainDirectoryPath, $"User.cs"), "Demo", "Abstractions", "Domain", "User");
             string dtoDirectoryPath = Path.Combine(directoryPath, "DTO", "User");
-            ApplyTemplate(Path.Combine(dtoDirectoryPath, $"User.cs"), "Demo", "Abstractions", "DTO", "User", "LoginResultDTO");
+            ApplyTemplate(Path.Combine(dtoDirectoryPath, $"LoginResultDTO.cs"), "Demo", "Abstractions", "DTO", "User", "LoginResultDTO");
             string enumDirectoryPath = Path.Combine(directoryPath, "Enums");
             ApplyTemplate(Path.Combine(enumDirectoryPath, $"SexEnum.cs"), "Demo", "Abstractions", "Enums", "SexEnum");
             string requestModelDirectoryPath = Path.Combine(directoryPath, "RequestModel", "User");

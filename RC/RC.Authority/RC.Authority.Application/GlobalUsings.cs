@@ -21,5 +21,7 @@ global using RC.Authority.Abstractions.Repositories;
 global using RC.Authority.Abstractions.Services;
 global using RC.Authority.Application;
 global using System.ComponentModel.DataAnnotations;
+global using Materal.MergeBlock.Domain.Abstractions;
+global using Materal.MergeBlock.Web.Abstractions.Extensions;
 
 [assembly: MergeBlockAssembly]

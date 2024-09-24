@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../Packable.props" />
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+		<TargetFramework>net6.0-windows10.0.22621.0</TargetFramework>
+		<WindowsSdkPackageVersion>10.0.26100.38</WindowsSdkPackageVersion>
 		<Title>Materal MergeBlock包</Title>
 		<Description>Materal MergeBlock WinUI模块</Description>
 	</PropertyGroup>

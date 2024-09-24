@@ -27,5 +27,6 @@
 		<PackageVersion Include="Materal.TTA.SqliteEFRepository" Version="${Version}" />
 		<PackageVersion Include="Materal.Utils" Version="${Version}" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
 	</ItemGroup>
 </Project>

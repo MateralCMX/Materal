@@ -6,7 +6,7 @@
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TPrimaryKeyType"></typeparam>
     /// <typeparam name="TDBContext"></typeparam>
-    public abstract class EFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext> : CommonRepositoryImpl<TEntity, TPrimaryKeyType>, IEFRepository<TEntity, TPrimaryKeyType>
+    public abstract class EFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext>(TDBContext dbContext) : CommonRepositoryImpl<TEntity, TPrimaryKeyType>, IEFRepository<TEntity, TPrimaryKeyType>
         where TEntity : class, IEntity<TPrimaryKeyType>
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
@@ -14,19 +14,12 @@
         /// <summary>
         /// 数据库上下文
         /// </summary>
-        protected TDBContext DBContext { get; private set; }
+        protected TDBContext DBContext { get; private set; } = dbContext;
         /// <summary>
         /// 实体对象
         /// </summary>
         protected virtual DbSet<TEntity> DBSet => DBContext.Set<TEntity>();
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="dbContext"></param>
-        protected EFRepositoryImpl(TDBContext dbContext)
-        {
-            DBContext = dbContext;
-        }
+
         /// <summary>
         /// 是否存在
         /// </summary>

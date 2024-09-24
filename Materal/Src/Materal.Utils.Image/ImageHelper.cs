@@ -299,6 +299,19 @@ namespace Materal.Utils.Image
             string result = Convert.ToBase64String(buffer);
             return result;
         }
+        /// <summary>
+        /// 获得Base64的图片
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="imageFormat"></param>
+        /// <returns></returns>
+        public static string GetBase64Image(this SKBitmap image, SKEncodedImageFormat imageFormat = SKEncodedImageFormat.Png)
+        {
+            using SKData data = image.Encode(imageFormat, 100);
+            byte[] buffer = data.ToArray();
+            string result = Convert.ToBase64String(buffer);
+            return result;
+        }
         #region 私有方法
         /// <summary>
         /// 按比例获取宽高
