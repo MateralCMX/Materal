@@ -33,7 +33,7 @@ namespace Materal.MergeBlock.Swagger
             string[] assemblyNames = groupName.Split(".");
             if (assemblyNames.Length > 1)
             {
-                return assemblyNames[1];
+                return $"{assemblyNames[0]}.{assemblyNames[1]}";
             }
             else if (assemblyNames.Length == 1)
             {
