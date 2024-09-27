@@ -149,7 +149,14 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                     codeContent.AppendLine($"        /// {property.Annotation}文本");
                     codeContent.AppendLine($"        /// </summary>");
                 }
-                codeContent.AppendLine($"        public string {property.Name}Text => {property.Name}.GetDescription();");
+                if (property.CanNull)
+                {
+                    codeContent.AppendLine($"        public string? {property.Name}Text => {property.Name}?.GetDescriptionOrNull();");
+                }
+                else
+                {
+                    codeContent.AppendLine($"        public string {property.Name}Text => {property.Name}.GetDescription();");
+                }
             }
         }
     }
