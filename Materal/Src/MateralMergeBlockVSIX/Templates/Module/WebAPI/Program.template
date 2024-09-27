@@ -1,6 +1,6 @@
 ﻿using Materal.MergeBlock.Web;
 
-namespace MMB.NewModule.WebAPI
+namespace ${ProjectName}.NewModule.WebAPI
 {
     /// <summary>
     /// 主程序

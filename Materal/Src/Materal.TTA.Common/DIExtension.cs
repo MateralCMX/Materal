@@ -33,9 +33,9 @@ namespace Materal.TTA.Common
         /// <returns></returns>
         public static IServiceCollection AddTTARepository<T>(this IServiceCollection services, params Assembly[] repositoryAssemblies)
         {
-            List<Assembly> repositoryAssemblyList = repositoryAssemblies.ToList();
+            List<Assembly> repositoryAssemblyList = [.. repositoryAssemblies];
             repositoryAssemblyList.Add(typeof(T).Assembly);
-            services.AddTTARepository(repositoryAssemblyList.ToArray());
+            services.AddTTARepository([.. repositoryAssemblyList]);
             return services;
         }
     }
