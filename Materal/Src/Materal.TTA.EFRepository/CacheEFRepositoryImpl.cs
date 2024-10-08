@@ -8,7 +8,7 @@ namespace Materal.TTA.EFRepository
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TPrimaryKeyType"></typeparam>
     /// <typeparam name="TDBContext"></typeparam>
-    public abstract class CacheEFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext> : EFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext>, ICacheEFRepository<TEntity, TPrimaryKeyType>
+    public abstract class CacheEFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext>(TDBContext dbContext, ICacheHelper cacheManager) : EFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext>(dbContext), ICacheEFRepository<TEntity, TPrimaryKeyType>
         where TEntity : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
@@ -16,20 +16,11 @@ namespace Materal.TTA.EFRepository
         /// <summary>
         /// 缓存帮助类
         /// </summary>
-        protected readonly ICacheHelper CacheHelper;
+        protected readonly ICacheHelper CacheHelper = cacheManager;
         /// <summary>
         /// 保存所有信息的缓存名称
         /// </summary>
         protected string AllInfoCacheName => GetAllCacheName();
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="dbContext"></param>
-        /// <param name="cacheManager"></param>
-        protected CacheEFRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext)
-        {
-            CacheHelper = cacheManager;
-        }
         /// <summary>
         /// 获得所有缓存名称
         /// </summary>

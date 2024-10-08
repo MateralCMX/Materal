@@ -7,7 +7,7 @@
     /// <typeparam name="TPrimaryKeyType"></typeparam>
     /// <typeparam name="TDBContext"></typeparam>
     public abstract class SqlServerEFSubordinateRepositoryImpl<T, TPrimaryKeyType, TDBContext> : SqlServerEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>, IEFSubordinateRepository<T, TPrimaryKeyType>
-        where T : class, IEntity<TPrimaryKeyType>
+        where T : class, IEntity<TPrimaryKeyType>, new()
         where TDBContext : DbContext
         where TPrimaryKeyType : struct
     {

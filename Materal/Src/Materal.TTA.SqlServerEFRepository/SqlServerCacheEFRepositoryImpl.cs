@@ -1,4 +1,6 @@
 ﻿using Materal.Utils.Cache;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Materal.TTA.SqlServerEFRepository
 {
@@ -8,18 +10,12 @@ namespace Materal.TTA.SqlServerEFRepository
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TPrimaryKeyType"></typeparam>
     /// <typeparam name="TDBContext"></typeparam>
-    public abstract class SqlServerCacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext> : CacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>
+    public abstract class SqlServerCacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>(TDBContext dbContext, ICacheHelper cacheManager) : CacheEFRepositoryImpl<T, TPrimaryKeyType, TDBContext>(dbContext, cacheManager)
         where T : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="dbContext"></param>
-        /// <param name="cacheManager"></param>
-        protected SqlServerCacheEFRepositoryImpl(TDBContext dbContext, ICacheHelper cacheManager) : base(dbContext, cacheManager)
-        {
-        }
+        /// <inheritdoc/>
+        protected override IDbConnection GetConnection(string connectionString) => new SqlConnection(connectionString);
     }
 }

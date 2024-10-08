@@ -1,4 +1,7 @@
-﻿namespace Materal.TTA.SqliteEFRepository
+﻿using Microsoft.Data.Sqlite;
+using System.Data;
+
+namespace Materal.TTA.SqliteEFRepository
 {
     /// <summary>
     /// SqliteEF仓储
@@ -11,5 +14,7 @@
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
+        /// <inheritdoc/>
+        protected override IDbConnection GetConnection(string connectionString) => new SqliteConnection(connectionString);
     }
 }

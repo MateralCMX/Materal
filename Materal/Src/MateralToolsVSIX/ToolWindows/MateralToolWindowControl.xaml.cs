@@ -14,8 +14,8 @@ namespace MateralToolsVSIX.ToolWindows
             DataContext = ViewModel;
         }
         private void BtnInsertGuid_Click(object sender, RoutedEventArgs e)
-            => ThreadHelper.JoinableTaskFactory.RunAsync(ViewModel.InsertNewGuid.InsertNewGuidStringAsync);
+            => ThreadHelper.JoinableTaskFactory.Run(ViewModel.InsertNewGuid.InsertNewGuidStringAsync);
         private void BtnChangePackVersion_Click(object sender, RoutedEventArgs e)
-            => ThreadHelper.JoinableTaskFactory.RunAsync(ViewModel.ChangePackVersion.ChangePackVersionAsync);
+            => ThreadHelper.JoinableTaskFactory.Run(ViewModel.ChangePackVersion.ChangePackVersionAsync);
     }
 }

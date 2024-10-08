@@ -1,4 +1,6 @@
-﻿namespace Materal.TTA.EFRepository
+﻿using System.Data;
+
+namespace Materal.TTA.EFRepository
 {
     /// <summary>
     /// EF仓储
@@ -7,7 +9,7 @@
     /// <typeparam name="TPrimaryKeyType"></typeparam>
     /// <typeparam name="TDBContext"></typeparam>
     public abstract class EFRepositoryImpl<TEntity, TPrimaryKeyType, TDBContext>(TDBContext dbContext) : CommonRepositoryImpl<TEntity, TPrimaryKeyType>, IEFRepository<TEntity, TPrimaryKeyType>
-        where TEntity : class, IEntity<TPrimaryKeyType>
+        where TEntity : class, IEntity<TPrimaryKeyType>, new()
         where TPrimaryKeyType : struct
         where TDBContext : DbContext
     {
@@ -19,7 +21,6 @@
         /// 实体对象
         /// </summary>
         protected virtual DbSet<TEntity> DBSet => DBContext.Set<TEntity>();
-
         /// <summary>
         /// 是否存在
         /// </summary>
@@ -191,6 +192,13 @@
                 _ => await queryable.Skip(rangeModel.SkipInt).Take(rangeModel.TakeInt).ToListAsync(),
             };
             return (result, rangeModel);
+        }
+        /// <inheritdoc/>
+        protected override string GetConnectionString()
+        {
+            string? connectionString = DBContext.Database.GetConnectionString();
+            if (connectionString is null || string.IsNullOrWhiteSpace(connectionString)) throw new TTAException("获取连接字符串失败");
+            return connectionString;
         }
     }
 }
