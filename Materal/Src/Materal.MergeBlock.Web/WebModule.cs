@@ -15,10 +15,10 @@ namespace Materal.MergeBlock.Web
     public class WebModule() : MergeBlockModule("Web模块")
     {
         /// <summary>
-        /// 配置服务
+        /// 配置服务前
         /// </summary>
         /// <param name="context"></param>
-        public override void OnConfigureServices(ServiceConfigurationContext context)
+        public override void OnPreConfigureServices(ServiceConfigurationContext context)
         {
             context.Services.AddSignalR();
             IConfigurationSection? section = context.Configuration?.GetSection(WebOptions.ConfigKey);
