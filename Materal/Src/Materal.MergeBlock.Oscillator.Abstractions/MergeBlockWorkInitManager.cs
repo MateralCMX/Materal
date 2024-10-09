@@ -5,7 +5,7 @@ namespace Materal.MergeBlock.Oscillator.Abstractions
     /// <summary>
     /// 调度器初始化管理器
     /// </summary>
-    public static class OscillatorInitManager
+    public static class MergeBlockWorkInitManager
     {
         private readonly static object _initKeyLock = new();
         private readonly static List<string> _initKey = [];

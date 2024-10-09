@@ -888,7 +888,12 @@ namespace Materal.TTA.Common
                 object? value;
                 if (!sqlDataReader.IsDBNull(i))
                 {
-                    value = getFieldValuemethodInfo.MakeGenericMethod(propertyInfo.PropertyType).Invoke(sqlDataReader, [i]);
+                    Type propertyType = propertyInfo.PropertyType;
+                    if (propertyType.IsGenericType && propertyType.GenericTypeArguments.Length == 1 && propertyType == typeof(Nullable<>).MakeGenericType(propertyType.GenericTypeArguments[0]))
+                    {
+                        propertyType = propertyType.GenericTypeArguments[0];
+                    }
+                    value = getFieldValuemethodInfo.MakeGenericMethod(propertyType).Invoke(sqlDataReader, [i]);
                 }
                 else
                 {

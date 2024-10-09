@@ -15,7 +15,7 @@ namespace Materal.MergeBlock.Oscillator.Abstractions
         {
             try
             {
-                if (OscillatorInitManager.IsInit(oscillatorContext.WorkData))
+                if (MergeBlockWorkInitManager.IsInit(oscillatorContext.WorkData))
                 {
                     await WorkInitAsync(oscillatorContext);
                 }
@@ -26,7 +26,7 @@ namespace Materal.MergeBlock.Oscillator.Abstractions
             }
             finally
             {
-                OscillatorInitManager.RemoveInitKey(oscillatorContext.WorkData);
+                MergeBlockWorkInitManager.RemoveInitKey(oscillatorContext.WorkData);
             }
         }
         /// <summary>
