@@ -1,9 +1,9 @@
-$codeDirPath = "E:\Project\Materal\Materal\RC";#Դ���ַ
-$publishDirPath = "E:\Project\Materal\Materal\Publish\RC\Plugins\";#������ַ
-$applicationSuffixs = @("Application");#��Ŀ��׺
-$applicationPrefixs = @("RC.Authority","RC.Deploy","RC.EnvironmentServer","RC.ServerCenter");#��Ŀǰ׺
+$codeDirPath = "E:\Project\Materal\Materal\RC";#源码地址
+$publishDirPath = "E:\Project\Materal\Materal\Publish\RC\Plugins\";#发布地址
+$applicationSuffixs = @("Application");#项目后缀
+$applicationPrefixs = @("RC.Authority","RC.Deploy","RC.EnvironmentServer","RC.ServerCenter");#项目前缀
 #"RC.Authority","RC.Deploy","RC.EnvironmentServer","RC.ServerCenter"
-$createPackage = 0#����ѹ����
+$createPackage = 0#创建压缩包
 $version = "Release"#Debug Release
 Remove-Item -Path:"$publishDirPath\*" -Recurse:$true
 $allSubfolders = [System.IO.DirectoryInfo[]](Get-ChildItem -Path $codeDirPath -Directory | Select-Object);
@@ -17,7 +17,7 @@ foreach ($subfolder in $allSubfolders) {
             foreach($subFile in $subFiles) {
                 if(!$subFile.Name.EndsWith(".csproj")) { continue; }
                 $targetDirPath = $publishDirPath + $projectFolder.Name;
-                Write-Host "开始发�?$projectFolder"
+                Write-Host "寮€濮嬪彂甯?$projectFolder"
                 dotnet publish $subFile.FullName -o $targetDirPath -c $version
                 if($createPackage){
                     $datetTimeNow = Get-Date
@@ -28,5 +28,5 @@ foreach ($subfolder in $allSubfolders) {
         }
     }
 }
-Write-Host "发布完毕 $publishDirPath"
+Write-Host "鍙戝竷瀹屾瘯 $publishDirPath"
 explorer("$publishDirPath")
