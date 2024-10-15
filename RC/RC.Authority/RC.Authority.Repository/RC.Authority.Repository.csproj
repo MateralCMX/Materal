@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="../../Common.props"/>
+	<Import Project="../../Common.props" />
+	<ItemGroup>
+	  <ProjectReference Include="..\..\RC.Core\RC.Core.Repository\RC.Core.Repository.csproj" />
+	  <ProjectReference Include="..\RC.Authority.Abstractions\RC.Authority.Abstractions.csproj" />
+	</ItemGroup>
 	<ItemGroup>
 		<None Update="RC.Authority.Repository.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>

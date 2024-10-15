@@ -1,5 +1,5 @@
 $nugetCacheDir = 'E:\Packages\NuGet\packages'
 Get-ChildItem -Path $nugetCacheDir -Directory -Filter "materal.*" | Remove-Item -Recurse -Force
-Write-Host "ÒÑÇå¿ÕMateral Nuget°ü»º´æ"
+Write-Host "å·²æ¸…ç©ºMateral NugetåŒ…ç¼“å­˜"
 Get-ChildItem -Path $nugetCacheDir -Directory -Filter "RC.*" | Remove-Item -Recurse -Force
-Write-Host "ÒÑÇå¿ÕRC Nuget°ü»º´æ"
+Write-Host "å·²æ¸…ç©ºRC NugetåŒ…ç¼“å­˜"

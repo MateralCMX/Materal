@@ -5,7 +5,6 @@
 		<PackageReference Include="Materal.MergeBlock.Authorization.Abstractions" />
 		<PackageReference Include="Materal.MergeBlock.Consul.Abstractions" />
 		<PackageReference Include="Materal.MergeBlock.Web.Abstractions" />
-		<PackageReference Include="Polly" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\RC.Core\RC.Core.Application\RC.Core.Application.csproj" />

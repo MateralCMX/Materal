@@ -422,7 +422,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             string projectPath = ProjectPath.Replace(@"\", @"\\");
             template = template.Replace("${ProjectPath}", projectPath);
             template = template.Replace("${ModuleName}", ModuleName);
-            template = template.Replace("${Version}", "1.1.77");
+            template = template.Replace("${Version}", "1.1.78");
             File.WriteAllText(filePath, template, Encoding.UTF8);
         }
         /// <summary>

@@ -1,8 +1,6 @@
 ﻿using Materal.Tools.Core.ChangeEncoding;
 using Materal.Tools.Core.LFConvert;
 using Materal.Tools.Core.Logger;
-using Materal.Tools.Core.MateralPublish;
-using Materal.Tools.Core.MateralVersion;
 using Materal.Tools.Core.ProjectClear;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -23,8 +21,6 @@ namespace Materal.Tools.Core
         {
             services.AddSingleton<ILFConvertService, LFConvertService>();
             services.AddSingleton<IChangeEncodingService, ChangeEncodingService>();
-            services.AddSingleton<IMateralPublishService, MateralPublishService>();
-            services.AddSingleton<IMateralVersionService, MateralVersionService>();
             services.AddSingleton<IProjectClearService, ProjectClearService>();
             #region AddLogger
             services.AddLogging(builder =>

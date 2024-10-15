@@ -3,12 +3,13 @@
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<PackAsTool>true</PackAsTool>
 		<Title>Materal工具</Title>
 		<Description>Materal命令行工具</Description>
 		<ToolCommandName>MateralTools</ToolCommandName>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="System.CommandLine" />
+		<PackageReference Include="System.CommandLine" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Tools.Core\Materal.Tools.Core.csproj" />

@@ -1,5 +1,5 @@
 @echo off
-set outputPath=%cd%\bin\x64\Release\net6.0-windows10.0.19041.0
+set outputPath=%cd%\bin\x64\Release\net8.0-windows10.0.22621.0
 
 set destinationDirectory=%cd%
 for %%i in ("%destinationDirectory%") do set destinationDirectory=%%~dpi
