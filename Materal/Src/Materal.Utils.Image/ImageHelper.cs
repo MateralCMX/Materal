@@ -57,10 +57,7 @@ namespace Materal.Utils.Image
         public static SKBitmap Compress(this SKBitmap bitmap, uint proportion, SKEncodedImageFormat imageFormat, uint quality = 50)
         {
             SKImage image = bitmap.GetThumbnailImage(proportion);
-            MemoryStream memoryStream = new();
-            image.SaveAs(memoryStream, imageFormat, quality);
-            SKBitmap result = SKBitmap.Decode(memoryStream.ToArray());
-            return result;
+            return image.Compress(imageFormat, quality);
         }
         /// <summary>
         /// 图片压缩
@@ -74,6 +71,17 @@ namespace Materal.Utils.Image
         public static SKBitmap Compress(this SKBitmap bitmap, int width, int height, SKEncodedImageFormat imageFormat, uint quality = 50)
         {
             SKImage image = bitmap.GetThumbnailImage(width, height);
+            return image.Compress(imageFormat, quality);
+        }
+        /// <summary>
+        /// 图片压缩
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="imageFormat"></param>
+        /// <param name="quality"></param>
+        /// <returns></returns>
+        public static SKBitmap Compress(this SKImage image, SKEncodedImageFormat imageFormat, uint quality = 50)
+        {
             MemoryStream memoryStream = new();
             image.SaveAs(memoryStream, imageFormat, quality);
             SKBitmap result = SKBitmap.Decode(memoryStream.ToArray());
