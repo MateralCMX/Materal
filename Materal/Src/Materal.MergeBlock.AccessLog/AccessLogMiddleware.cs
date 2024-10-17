@@ -40,6 +40,14 @@ namespace Materal.MergeBlock.AccessLog
                 logLevel = context.Response.StatusCode switch
                 {
                     StatusCodes.Status200OK or
+                    StatusCodes.Status201Created or
+                    StatusCodes.Status202Accepted or
+                    StatusCodes.Status203NonAuthoritative or
+                    StatusCodes.Status204NoContent or
+                    StatusCodes.Status205ResetContent or
+                    StatusCodes.Status206PartialContent or
+                    StatusCodes.Status207MultiStatus or
+                    StatusCodes.Status208AlreadyReported or
                     StatusCodes.Status401Unauthorized or
                     StatusCodes.Status404NotFound => LogLevel.Information,
                     >= StatusCodes.Status500InternalServerError => LogLevel.Error,
