@@ -15,7 +15,7 @@
         /// <param name="unitOfWork"></param>
         /// <param name="groupProperties"></param>
         /// <returns></returns>
-        /// <exception cref="MergeBlockException"></exception>
+        /// <exception cref="MergeBlockModuleException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public static async Task ExchangeIndexByGroupPropertiesAsync<TRepository, TDomain>(ExchangeIndexModel model, TRepository repository, IMergeBlockUnitOfWork unitOfWork, params string[] groupProperties)
             where TRepository : IRepository<TDomain, Guid>
@@ -31,15 +31,15 @@
         /// <param name="action"></param>
         /// <param name="groupProperties"></param>
         /// <returns></returns>
-        /// <exception cref="MergeBlockException"></exception>
+        /// <exception cref="MergeBlockModuleException"></exception>
         /// <exception cref="ArgumentException"></exception>
         private static async Task ExchangeIndexByGroupPropertiesAsync<TRepository, TDomain>(ExchangeIndexModel model, TRepository repository, IMergeBlockUnitOfWork unitOfWork, Action<TDomain, TDomain>? action, params string[] groupProperties)
             where TRepository : IRepository<TDomain, Guid>
             where TDomain : class, IIndexDomain, new()
         {
-            if (model.SourceID == model.TargetID) throw new MergeBlockException("不能以自己为排序对象");
+            if (model.SourceID == model.TargetID) throw new MergeBlockModuleException("不能以自己为排序对象");
             var domains = await repository.FindAsync(m => m.ID == model.SourceID || m.ID == model.TargetID);
-            if (domains.Count != 2) throw new MergeBlockException("数据不存在");
+            if (domains.Count != 2) throw new MergeBlockModuleException("数据不存在");
             if (action != null)
             {
                 action.Invoke(domains[0], domains[1]);
@@ -62,11 +62,11 @@
                 object? value2 = propertyInfo.GetValue(domains[1]);
                 if (value1 == null || value2 == null)
                 {
-                    if (value1 != null || value2 != null) throw new MergeBlockException("不是同一组数据不能更改位序");
+                    if (value1 != null || value2 != null) throw new MergeBlockModuleException("不是同一组数据不能更改位序");
                 }
                 else
                 {
-                    if (!value1.Equals(value2)) throw new MergeBlockException("不是同一组数据不能更改位序");
+                    if (!value1.Equals(value2)) throw new MergeBlockModuleException("不是同一组数据不能更改位序");
                 }
                 leftExpression = Expression.PropertyOrField(mValue, propertyInfo.Name);
                 rightExpression = Expression.Constant(value1);
@@ -93,7 +93,7 @@
         /// <param name="indexGroupProperties"></param>
         /// <param name="treeGroupProperties"></param>
         /// <returns></returns>
-        /// <exception cref="MergeBlockException"></exception>
+        /// <exception cref="MergeBlockModuleException"></exception>
         /// <exception cref="ArgumentException"></exception>
         public static async Task ExchangeIndexAndExchangeParentByGroupPropertiesAsync<TRepository, TDomain>(ExchangeIndexModel model, TRepository repository, IMergeBlockUnitOfWork unitOfWork, string[] indexGroupProperties, string[] treeGroupProperties)
             where TRepository : IEFRepository<TDomain, Guid>
@@ -121,17 +121,17 @@
             where TRepository : IEFRepository<TDomain, Guid>
             where TDomain : class, ITreeDomain, new()
         {
-            if (model.SourceID == model.TargetID) throw new MergeBlockException("不能以自己为父级");
+            if (model.SourceID == model.TargetID) throw new MergeBlockModuleException("不能以自己为父级");
             if (!model.TargetID.HasValue || model.TargetID.Value == Guid.Empty)
             {
-                TDomain domain = await repository.FirstOrDefaultAsync(m => m.ID == model.SourceID) ?? throw new MergeBlockException("菜单权限不存在");
+                TDomain domain = await repository.FirstOrDefaultAsync(m => m.ID == model.SourceID) ?? throw new MergeBlockModuleException("对象不存在");
                 domain.ParentID = null;
                 unitOfWork.RegisterEdit(domain);
             }
             else
             {
                 List<TDomain> domains = await repository.FindAsync(m => m.ID == model.SourceID || m.ID == model.TargetID);
-                if (domains.Count != 2) throw new MergeBlockException("菜单权限不存在");
+                if (domains.Count != 2) throw new MergeBlockModuleException("对象不存在");
                 Type domainType = typeof(TDomain);
                 foreach (string groupProperty in groupProperties)
                 {
@@ -140,17 +140,17 @@
                     object? value2 = propertyInfo.GetValue(domains[1]);
                     if (value1 == null || value2 == null)
                     {
-                        if (value1 != null || value2 != null) throw new MergeBlockException("不是同一组数据不能更改父级");
+                        if (value1 != null || value2 != null) throw new MergeBlockModuleException("不是同一组数据不能更改父级");
                     }
                     else
                     {
-                        if (!value1.Equals(value2)) throw new MergeBlockException("不是同一组数据不能更改父级");
+                        if (!value1.Equals(value2)) throw new MergeBlockModuleException("不是同一组数据不能更改父级");
                     }
                 }
                 TDomain domain = domains.First(m => m.ID == model.SourceID);
                 TDomain targetDomain = domains.First(m => m.ID == model.TargetID);
                 domain.ParentID = targetDomain.ID;
-                if (targetDomain.ParentID == domain.ID) throw new MergeBlockException("父级循环引用");
+                if (targetDomain.ParentID == domain.ID) throw new MergeBlockModuleException("父级循环引用");
                 unitOfWork.RegisterEdit(domain);
             }
             await unitOfWork.CommitAsync();
@@ -171,7 +171,7 @@
             where TRepository : IEFRepository<T, Guid>
         {
             Type tType = typeof(T);
-            PropertyInfo propertyInfo = tType.GetProperty(targetName) ?? throw new MergeBlockException("操作附件失败");
+            PropertyInfo propertyInfo = tType.GetProperty(targetName) ?? throw new MergeBlockModuleException("操作附件失败");
             ICollection<Guid> addIDs;
             if (id == null)
             {
