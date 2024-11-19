@@ -1,9 +1,11 @@
-﻿namespace Materal.EventBus.RabbitMQ
+﻿using Materal.Extensions;
+
+namespace Materal.EventBus.RabbitMQ
 {
     /// <summary>
-    /// 事件总线配置
+    /// RabbitMQ事件总线配置
     /// </summary>
-    public class EventBusConfig
+    public class RabbitMQEventBusOptions
     {
         /// <summary>
         /// 主机
@@ -61,7 +63,7 @@
             if (eventHandler is null) throw new EventBusException("事件处理器不能为空");
             if (eventHandler is IRabbitMQEventHandler handler)
             {
-                queueName = handler.QueueName;
+                queueName = GetName(handler.QueueName);
             }
             if (queueName is null || string.IsNullOrEmpty(queueName))
             {
@@ -105,6 +107,5 @@
         /// <param name="name"></param>
         /// <returns></returns>
         public string GetName(string name) => $"{name}{NameSuffix}";
-
     }
 }

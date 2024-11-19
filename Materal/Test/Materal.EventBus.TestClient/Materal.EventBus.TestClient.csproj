@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Src\Materal.EventBus.Memory\Materal.EventBus.Memory.csproj" />
+    <ProjectReference Include="..\..\Src\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />
+    <ProjectReference Include="..\Materal.EventBus.TestClient.Abstraction\Materal.EventBus.TestClient.Abstraction.csproj" />
+  </ItemGroup>
+</Project>

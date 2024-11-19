@@ -1,10 +1,9 @@
 ﻿using Materal.EventBus.Abstraction;
-using Materal.EventBus.RabbitMQ;
 using Materal.EventBus.TestClient.Abstraction;
 
 namespace Materal.EventBus.TestClient1
 {
-    public class Client01Event01Handler : BaseEventHandler<Event01>, IEventHandler<Event01>, IRabbitMQEventHandler
+    public class Client01Event01Handler : BaseEventHandler<Event01>
     {
         public string? QueueName => "MateralEventBusTestClient1_1Queue";
 

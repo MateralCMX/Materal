@@ -3,7 +3,7 @@ using Materal.EventBus.TestClient.Abstraction;
 
 namespace Materal.EventBus.TestClient3
 {
-    public class Client03Event03Handler : BaseEventHandler<Event03>, IEventHandler<Event03>
+    public class Client03Event03Handler : BaseEventHandler<Event03>
     {
         public override async Task HandleAsync(Event03 @event)
         {

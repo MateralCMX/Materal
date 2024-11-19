@@ -9,14 +9,14 @@
         /// 发布事件
         /// </summary>
         /// <param name="event"></param>
-        void Publish(IEvent @event);
+        Task PublishAsync(IEvent @event);
         /// <summary>
         /// 订阅事件
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="THandler"></typeparam>
         /// <returns></returns>
-        string Subscribe<T, THandler>() where T : IEvent where THandler : IEventHandler<T>;
+        Task SubscribeAsync<T, THandler>() where T : IEvent where THandler : IEventHandler<T>;
         /// <summary>
         /// 订阅事件
         /// </summary>
@@ -24,6 +24,6 @@
         /// <param name="eventHandlerType"></param>
         /// <returns></returns>
         /// <exception cref="EventBusException"></exception>
-        string Subscribe(Type eventType, Type eventHandlerType);
+        Task SubscribeAsync(Type eventType, Type eventHandlerType);
     }
 }

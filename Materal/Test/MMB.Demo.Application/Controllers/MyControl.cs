@@ -15,6 +15,6 @@ namespace MMB.Demo.Application.Controllers
         [HttpGet, AllowAnonymous]
         public string GetToken() => tokenService.GetToken(Guid.NewGuid());
         [HttpGet]
-        public void SendEvent(string message) => eventBus.Publish(new TestEvent() { Message = message });
+        public void SendEvent(string message) => eventBus.PublishAsync(new TestEvent() { Message = message });
     }
 }

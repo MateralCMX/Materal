@@ -1,5 +1,6 @@
 ﻿using Materal.EventBus.Abstraction;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.MergeBlock.EventBus
 {
@@ -25,6 +26,9 @@ namespace Materal.MergeBlock.EventBus
         /// 应用初始化后
         /// </summary>
         /// <param name="context"></param>
-        public override void OnPostApplicationInitialization(ApplicationInitializationContext context) => context.ServiceProvider.UseEventBus();
+        public override void OnPostApplicationInitialization(ApplicationInitializationContext context)
+        {
+            context.ServiceProvider.GetRequiredService<IEventBus>();
+        }
     }
 }

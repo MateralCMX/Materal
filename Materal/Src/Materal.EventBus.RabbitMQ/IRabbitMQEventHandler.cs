@@ -3,11 +3,11 @@
     /// <summary>
     /// RabbitMQ事件处理器
     /// </summary>
-    public interface IRabbitMQEventHandler
+    public interface IRabbitMQEventHandler : IEventHandler
     {
         /// <summary>
         /// 队列名称
         /// </summary>
-        public string? QueueName { get; }
+        public string QueueName { get; }
     }
 }

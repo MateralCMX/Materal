@@ -5,6 +5,7 @@
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.EventBus.RabbitMQ\Materal.EventBus.RabbitMQ.csproj" />
 		<ProjectReference Include="..\Materal.EventBus.TestClient.Abstraction\Materal.EventBus.TestClient.Abstraction.csproj" />
 	</ItemGroup>
 </Project>

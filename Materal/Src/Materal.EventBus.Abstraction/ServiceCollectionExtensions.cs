@@ -1,4 +1,6 @@
-﻿namespace Materal.EventBus.Abstraction
+﻿using System.Collections.Concurrent;
+
+namespace Materal.EventBus.Abstraction
 {
     /// <summary>
     /// 服务扩展
@@ -8,7 +10,7 @@
         /// <summary>
         /// 初始化
         /// </summary>
-        public static List<Action<IEventBus>> Inits = [];
+        internal static ConcurrentBag<(Type, Type)> AutoSubscribeEvents { get; } = [];
         /// <summary>
         /// 添加事件总线
         /// </summary>
@@ -16,9 +18,10 @@
         /// <param name="autoSubscribe"></param>
         /// <param name="handlerAssemblies"></param>
         /// <returns></returns>
-        public static IServiceCollection AddEventBus(this IServiceCollection services, bool autoSubscribe, params Assembly[] handlerAssemblies)
+        public static IServiceCollection AddEventBus<T>(this IServiceCollection services, bool autoSubscribe, params Assembly[] handlerAssemblies)
+            where T : class, IEventBus
         {
-            services.TryAddSingleton<IEventBus, EventBusImpl>();
+            services.TryAddSingleton<IEventBus, T>();
             services.AddEventBusHandlers(autoSubscribe, handlerAssemblies);
             return services;
         }
@@ -106,7 +109,7 @@
             services.TryAddTransient(eventHandlerType);
             if (autoSubscribe)
             {
-                Inits.Add(eventBus => eventBus.Subscribe(eventType, eventHandlerType));
+                AutoSubscribeEvents.Add((eventType, eventHandlerType));
             }
             return services;
         }

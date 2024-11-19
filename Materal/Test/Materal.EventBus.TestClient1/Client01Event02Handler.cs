@@ -4,8 +4,8 @@ using Materal.EventBus.TestClient.Abstraction;
 
 namespace Materal.EventBus.TestClient1
 {
-    [QueueName("MateralEventBusTestClient1_2Queue")]
-    public class Client01Event02Handler : BaseEventHandler<Event02>, IEventHandler<Event02>
+    [QueueName("MateralEventBusTestClient1Queue2")]
+    public class Client01Event02Handler : BaseEventHandler<Event02>
     {
         public override async Task HandleAsync(Event02 @event)
         {

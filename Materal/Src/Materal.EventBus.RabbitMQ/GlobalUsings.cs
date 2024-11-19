@@ -1,16 +1,5 @@
-﻿global using Materal.Abstractions;
-global using Materal.EventBus.Abstraction;
-global using Materal.Extensions;
+﻿global using Materal.EventBus.Abstraction;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
-global using Microsoft.Extensions.DependencyInjection.Extensions;
 global using Microsoft.Extensions.Logging;
-global using Microsoft.Extensions.Options;
-global using Polly;
-global using Polly.Retry;
-global using RabbitMQ.Client;
-global using RabbitMQ.Client.Events;
-global using RabbitMQ.Client.Exceptions;
-global using System.Net.Sockets;
 global using System.Reflection;
-global using System.Text;
