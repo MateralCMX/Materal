@@ -1,13 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../Packable.props" />
 	<PropertyGroup>
-		<TargetFramework>net6.0-windows10.0.22621.0</TargetFramework>
-		<WindowsSdkPackageVersion>10.0.26100.38</WindowsSdkPackageVersion>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+		<RootNamespace>Materal.MergeBlock.WinUI.Abstractions</RootNamespace>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+		<UseWinUI>true</UseWinUI>
 		<Title>Materal MergeBlock包</Title>
 		<Description>Materal MergeBlock WinUI模块</Description>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.WindowsAppSDK" />
+	  <PackageReference Include="CommunityToolkit.Mvvm" />
+	  <PackageReference Include="Microsoft.WindowsAppSDK" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.MergeBlock.Abstractions\Materal.MergeBlock.Abstractions.csproj" />

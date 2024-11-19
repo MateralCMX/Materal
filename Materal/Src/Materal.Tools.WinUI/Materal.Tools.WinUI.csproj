@@ -2,20 +2,20 @@
 	<Import Project="../../Common.props" />
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
-		<WindowsSdkPackageVersion>10.0.26100.38</WindowsSdkPackageVersion>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>Materal.Tools.WinUI</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Platforms>x86;x64;ARM64</Platforms>
 		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 		<UseWinUI>true</UseWinUI>
+		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 		<!--不打包-->
 		<WindowsPackageType>None</WindowsPackageType>
 		<!--自包含 Windows App SDK Runtime-->
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 	<ItemGroup>
 		<Manifest Include="$(ApplicationManifest)" />

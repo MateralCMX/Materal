@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../MergeBlockLibrary.props" />
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<!-- 解决.Net6下生成失败的Bug -->
 		<OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
 		<Title>Materal MergeBlock包</Title>
@@ -9,10 +9,6 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Swashbuckle.AspNetCore" />
-		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.MergeBlock.Swagger.Abstractions\Materal.MergeBlock.Swagger.Abstractions.csproj" />

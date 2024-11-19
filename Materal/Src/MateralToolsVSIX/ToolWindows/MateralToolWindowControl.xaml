@@ -10,26 +10,11 @@
              xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
              toolkit:Themes.UseVsTheme="True"
              mc:Ignorable="d"
-             d:Background="White"
              Name="MyToolWindow">
-    
+
     <StackPanel>
-        <Button x:Name="BtnInsertGuid" Content="插入Guid" Click="BtnInsertGuid_Click" />
-        <Grid Margin="0,10,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="过滤表达式" />
-            <TextBox Grid.Row="1" Grid.Column="0" Text="{Binding ChangePackVersion.Filter, Mode=TwoWay}" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="目标版本" />
-            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding ChangePackVersion.Version, Mode=TwoWay}" BorderThickness="0,1,0,1" />
-            <Button x:Name="BtnChangePackVersion" Grid.Row="1" Grid.Column="2" Content="更改包版本" Click="BtnChangePackVersion_Click" />
-        </Grid>
+        <Button x:Name="BtnInsertGuid"
+                Content="插入Guid"
+                Click="BtnInsertGuid_Click" />
     </StackPanel>
 </UserControl>

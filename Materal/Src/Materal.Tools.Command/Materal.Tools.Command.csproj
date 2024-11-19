@@ -2,7 +2,7 @@
 	<Import Project="../../Packable.props" />
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<PackAsTool>true</PackAsTool>
 		<Title>Materal工具</Title>
 		<Description>Materal命令行工具</Description>

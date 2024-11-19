@@ -125,14 +125,24 @@ namespace Materal.Tools.Core.LFConvert
         {
             if (!fileInfo.Exists) throw new FileNotFoundException($"文件{fileInfo.FullName}不存在");
             logger?.LogInformation($"正在转换{fileInfo.FullName}为LF");
+#if NET
             string[] contents = await File.ReadAllLinesAsync(fileInfo.FullName);
+#else
+            string[] contents = File.ReadAllLines(fileInfo.FullName);
+            await Task.CompletedTask;
+#endif
             for (int i = 0; i < contents.Length; i++)
             {
                 if (!contents[i].EndsWith("\r\n")) continue;
                 contents[i] = contents[i].Replace("\r\n", "\n");
             }
             logger?.LogInformation($"转换{fileInfo.FullName}成功");
+#if NET
             await File.WriteAllLinesAsync(fileInfo.FullName, contents);
+#else
+            File.WriteAllLines(fileInfo.FullName, contents);
+            await Task.CompletedTask;
+#endif
         }
         /// <summary>
         /// LF转换为CRLF
@@ -143,14 +153,23 @@ namespace Materal.Tools.Core.LFConvert
         {
             if (!fileInfo.Exists) throw new FileNotFoundException($"文件{fileInfo.FullName}不存在");
             logger?.LogInformation($"正在转换{fileInfo.FullName}为LF");
+#if NET
             string[] contents = await File.ReadAllLinesAsync(fileInfo.FullName);
+#else
+            string[] contents = File.ReadAllLines(fileInfo.FullName);
+#endif
             for (int i = 0; i < contents.Length; i++)
             {
                 if (!contents[i].EndsWith("\n")) continue;
                 contents[i] = contents[i].Replace("\n", "\r\n");
             }
             logger?.LogInformation($"转换{fileInfo.FullName}成功");
+#if NET
             await File.WriteAllLinesAsync(fileInfo.FullName, contents);
+#else
+            File.WriteAllLines(fileInfo.FullName, contents);
+            await Task.CompletedTask;
+#endif
         }
     }
 }

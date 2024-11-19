@@ -49,7 +49,11 @@ namespace Materal.Tools.Core.Helper
             }
             await process.StandardInput.WriteLineAsync("exit");
             process.StandardInput.AutoFlush = true;
+#if NET
             await process.WaitForExitAsync();
+#else
+            process.WaitForExit();
+#endif
         }
     }
 }

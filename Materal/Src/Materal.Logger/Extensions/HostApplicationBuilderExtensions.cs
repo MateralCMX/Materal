@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿#if NET8_0_OR_GREATER
+using Microsoft.Extensions.Hosting;
 
 namespace Materal.Logger.Extensions
 {
@@ -48,3 +49,4 @@ namespace Materal.Logger.Extensions
             => builder.AddMateralLogger(null, null, clearOtherProvider);
     }
 }
+#endif

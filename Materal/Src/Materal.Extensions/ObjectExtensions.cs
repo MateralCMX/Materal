@@ -85,7 +85,7 @@ namespace System
             if (resultObj is null || resultObj is not T result) return default;
             return result;
         }
-#if NET8_0_OR_GREATER
+#if NET
         /// <summary>
         /// 模版表达式
         /// </summary>
@@ -104,7 +104,7 @@ namespace System
             ICollection<string> trueNames = name.Split('.');
             if (trueNames.Count == 1)
             {
-#if NET8_0_OR_GREATER
+#if NET
                 Regex regex = ExpressionRegex();
 #else
                 Regex regex = new(@"\[\d+\]");

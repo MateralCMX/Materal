@@ -11,7 +11,9 @@ namespace Materal.Tools.Core.ChangeEncoding
     {
         static ChangeEncodingService()
         {
+#if NET
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+#endif
         }
         /// <summary>
         /// 更改编码
@@ -85,8 +87,14 @@ namespace Materal.Tools.Core.ChangeEncoding
             else
             {
                 Encoding readEncoding = options.ReadEncoding ?? fileEncoding;
+#if NET
                 string text = await File.ReadAllTextAsync(fileInfo.FullName, readEncoding);
                 await File.WriteAllTextAsync(fileInfo.FullName, text, options.WriteEncoding);
+#else
+                string text = File.ReadAllText(fileInfo.FullName, readEncoding);
+                File.WriteAllText(fileInfo.FullName, text, options.WriteEncoding);
+                await Task.CompletedTask;
+#endif
                 logger?.LogInformation($"编码已从{fileEncoding.EncodingName}转换为:{options.WriteEncoding.EncodingName}");
             }
         }

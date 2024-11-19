@@ -1,23 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../Common.props" />
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net6.0-windows10.0.22621.0</TargetFramework>
-		<WindowsSdkPackageVersion>10.0.26100.38</WindowsSdkPackageVersion>
+		<TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
 		<TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 		<RootNamespace>WinUITest</RootNamespace>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Platforms>x86;x64;ARM64</Platforms>
-		<RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+		<RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 		<UseWinUI>true</UseWinUI>
-		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
+		<LangVersion>12.0</LangVersion>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<!--不打包-->
+		<WindowsPackageType>None</WindowsPackageType>
+		<!--自包含 Windows App SDK Runtime-->
+		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+		<LangVersion>12.0</LangVersion>
 		<!--不打包-->
 		<WindowsPackageType>None</WindowsPackageType>
 		<!--自包含 Windows App SDK Runtime-->
 		<WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+		<PackageReference Include="CommunityToolkit.Mvvm" />
 		<Manifest Include="$(ApplicationManifest)" />
 	</ItemGroup>
 	<ItemGroup>

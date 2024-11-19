@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../MergeBlockLibrary.props" />
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<Title>Materal MergeBlock包</Title>
 		<Description>Materal MergeBlock Web模块</Description>
 	</PropertyGroup>
@@ -15,6 +15,6 @@
 		<ProjectReference Include="..\Materal.MergeBlock\Materal.MergeBlock.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
 	</ItemGroup>
 </Project>

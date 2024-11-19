@@ -42,7 +42,11 @@ namespace Materal.Extensions
         {
             byte[] fileArray = new byte[stream.Length];
             stream.Position = 0;
+#if NETSTANDARD
             stream.Read(fileArray, 0, (int)stream.Length);
+#else
+            stream.ReadExactly(fileArray);
+#endif
             return Convert.ToBase64String(fileArray);
         }
         /// <summary>

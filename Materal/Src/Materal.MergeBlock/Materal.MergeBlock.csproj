@@ -1,20 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../Packable.props" />
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<Title>Materal MergeBlock包</Title>
 		<Description>Materal MergeBlock包</Description>
 	</PropertyGroup>
-	<!--<ItemGroup>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-	</ItemGroup>-->
 	<ItemGroup>
 		<None Include="build\**" Pack="True" PackagePath="build\" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="AutoMapper" />
-		<PackageReference Include="Microsoft.Extensions.Hosting" />
-		<PackageReference Include="Microsoft.Extensions.Localization" />
+	  <PackageReference Include="AutoMapper" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" />
+	  <PackageReference Include="Microsoft.Extensions.Localization" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Extensions.DependencyInjection\Materal.Extensions.DependencyInjection.csproj" />

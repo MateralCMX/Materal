@@ -19,7 +19,7 @@
 				<Icon guid="ImageCatalogGuid" id="ModulePublic" />
 				<CommandFlag>IconIsMoniker</CommandFlag>
 				<Strings>
-					<ButtonText>删除bin、obj</ButtonText>
+					<ButtonText>清理项目</ButtonText>
 					<LocCanonicalName>.MateralToolsVSIX.SolutionClearCommand</LocCanonicalName>
 				</Strings>
 			</Button>
@@ -28,7 +28,7 @@
 				<Icon guid="ImageCatalogGuid" id="ModulePublic" />
 				<CommandFlag>IconIsMoniker</CommandFlag>
 				<Strings>
-					<ButtonText>删除bin、obj</ButtonText>
+					<ButtonText>清理项目</ButtonText>
 					<LocCanonicalName>.MateralToolsVSIX.ProjectClearCommand</LocCanonicalName>
 				</Strings>
 			</Button>

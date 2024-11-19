@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../Packable.props" />
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<Title>Materal ORM包</Title>
 		<Description>Materal.TTA.MySqlEFRepository</Description>
 	</PropertyGroup>
 	<ItemGroup>
 	  <PackageReference Include="MySql.EntityFrameworkCore" />
+	  <PackageReference Include="System.Text.Json" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />

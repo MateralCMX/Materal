@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../../MergeBlockApplicationLibrary.props" />
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net8.0</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="MMLib.SwaggerForOcelot" />
+	  <PackageReference Include="Kros.Utils" />
+	  <PackageReference Include="MMLib.SwaggerForOcelot" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Materal.Gateway\Materal.Gateway.csproj" />
