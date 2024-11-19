@@ -14,9 +14,6 @@ namespace Materal.Gateway.OcelotExtension.DownstreamRouteFinder.Middleware
     /// <summary>
     /// 网关下游路由查找中间件
     /// </summary>
-    /// <remarks>
-    /// 构造方法
-    /// </remarks>
     public class GatewayDownstreamRouteFinderMiddleware(RequestDelegate next, IOcelotLoggerFactory loggerFactory, IDownstreamRouteProviderFactory downstreamRouteFinder) : OcelotMiddleware(loggerFactory.CreateLogger<DownstreamRouteFinderMiddleware>())
     {
         /// <summary>

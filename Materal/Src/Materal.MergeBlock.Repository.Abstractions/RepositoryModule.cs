@@ -33,12 +33,8 @@ namespace Materal.MergeBlock.Repository.Abstractions
             if (dbConfig is null) return;
             AddDBContext(context.Services, dbConfig);
         }
-        /// <summary>
-        /// 应用初始化
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public override async Task OnApplicationInitializationAsync(ApplicationInitializationContext context)
+        /// <inheritdoc/>
+        public override async Task OnPreApplicationInitializationAsync(ApplicationInitializationContext context)
         {
             using IServiceScope serviceScope = context.ServiceProvider.CreateScope();
             IMigrateHelper migrateHelper = serviceScope.ServiceProvider.GetRequiredService<IMigrateHelper<T>>();

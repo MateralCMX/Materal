@@ -19,7 +19,7 @@ namespace Materal.Utils.Wechat
         {
             string[] arr = [.. new[] { token, timestamp, nonce }.OrderBy(m => m)];
             string arrString = string.Join("", arr);
-#if NET6_0_OR_GREATER
+#if NET
             byte[] sha1Buffer = SHA1.HashData(Encoding.UTF8.GetBytes(arrString));
 #else
             SHA1 sha1 = SHA1.Create();

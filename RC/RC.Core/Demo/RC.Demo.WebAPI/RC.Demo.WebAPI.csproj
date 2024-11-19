@@ -4,7 +4,6 @@
 		<InvariantGlobalization>false</InvariantGlobalization>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock" />
 		<PackageReference Include="Materal.MergeBlock.AccessLog" />
 		<PackageReference Include="Materal.MergeBlock.Authorization" />
 		<PackageReference Include="Materal.MergeBlock.Consul" />

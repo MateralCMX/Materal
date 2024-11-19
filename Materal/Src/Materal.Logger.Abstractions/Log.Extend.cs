@@ -93,7 +93,7 @@ namespace Materal.Logger.Abstractions
             result = ApplyText(result, data);
             return result;
         }
-#if NET8_0_OR_GREATER
+#if NET
         /// <summary>
         /// 模版表达式
         /// </summary>
@@ -111,7 +111,7 @@ namespace Materal.Logger.Abstractions
         {
             if (data.Count <= 0) return text;
             string result = text;
-#if NET8_0_OR_GREATER
+#if NET
             Regex regex = ExpressionRegex();
 #else
             Regex regex = new(@"\$\{[^\}]+\}");

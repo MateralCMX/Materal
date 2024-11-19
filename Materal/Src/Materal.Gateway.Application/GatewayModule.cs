@@ -18,10 +18,8 @@ namespace Materal.Gateway.Application
     /// </summary>
     public partial class GatewayModule() : MergeBlockModule("网关模块")
     {
-#if NET8_0_OR_GREATER
         [GeneratedRegex("\\{.+\\}")]
         private static partial Regex UpstreamPathTemplateRegex();
-#endif
         /// <summary>
         /// 配置服务前
         /// </summary>
@@ -64,11 +62,7 @@ namespace Materal.Gateway.Application
             if (routeConfigs.Count == 0) return jsonDocument;
             RouteConfigModel configModel = routeConfigs.First();
             string upstreamPathTemplate = configModel.UpstreamPathTemplate;
-#if NET8_0_OR_GREATER
             Match match = UpstreamPathTemplateRegex().Match(upstreamPathTemplate);
-#else
-            Match match = Regex.Match(upstreamPathTemplate, "\\{.+\\}");
-#endif
             upstreamPathTemplate = match.Success ? upstreamPathTemplate[..match.Index] : upstreamPathTemplate;
             if (upstreamPathTemplate[0] == '/')
             {
