@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Materal.EventBus.RabbitMQ
 {
-    internal class RabbitMQEventBus : BaseEventBus, IAsyncDisposable
+    internal class RabbitMQEventBus : BaseEventBus
     {
         private readonly IOptionsMonitor<RabbitMQEventBusOptions> _options;
         private readonly ICacheHelper _cacheHelper;
@@ -38,8 +38,8 @@ namespace Materal.EventBus.RabbitMQ
                 Password = _options.CurrentValue.Password,
                 AutomaticRecoveryEnabled = true,
                 NetworkRecoveryInterval = TimeSpan.FromSeconds(_options.CurrentValue.RetryInterval),
-                MaxInboundMessageBodySize = int.MaxValue,
-                ClientProvidedName = "MateralEventBus"
+                MaxInboundMessageBodySize = _options.CurrentValue.MaxMessageBodySize,
+                ClientProvidedName = _options.CurrentValue.ClientName
             };
             AsyncRetryPolicy retryPolicy = Policy.Handle<Exception>(ex =>
             {
@@ -55,15 +55,8 @@ namespace Materal.EventBus.RabbitMQ
                 _connection.RecoverySucceededAsync += Connection_RecoverySucceededAsync;
                 Logger?.LogInformation($"RabbitMQ服务[{factory.HostName}:{factory.Port}]已连接");
                 _publishChannel = await _connection.CreateChannelAsync();
-                try
-                {
-                    await AutoSubscribeAsync();
-                }
-                catch (Exception ex)
-                {
-                    Logger?.LogError(ex, $"自动订阅事件失败");
-                }
             });
+            await AutoSubscribeAsync();
         }
         private async Task Connection_RecoverySucceededAsync(object sender, AsyncEventArgs @event)
         {
@@ -183,7 +176,7 @@ namespace Materal.EventBus.RabbitMQ
                 }
             }
         }
-        public async ValueTask DisposeAsync()
+        public override async ValueTask DisposeAsync()
         {
             foreach (KeyValuePair<string, IChannel> item in _consumerChannels)
             {
@@ -192,6 +185,8 @@ namespace Materal.EventBus.RabbitMQ
             }
             await _connection.CloseAsync();
             await _connection.DisposeAsync();
+            _consumerChannels.Clear();
+            await base.DisposeAsync();
         }
     }
 }

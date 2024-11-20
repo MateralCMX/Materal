@@ -8,7 +8,7 @@ namespace Materal.EventBus.Abstraction
     /// <summary>
     /// 事件总线基类
     /// </summary>
-    public abstract class BaseEventBus(IServiceProvider serviceProvider, ILogger? logger = null) : IEventBus
+    public abstract class BaseEventBus(IServiceProvider serviceProvider, ILogger? logger = null) : IEventBus, IAsyncDisposable
     {
         /// <summary>
         /// 订阅信息
@@ -94,6 +94,12 @@ namespace Materal.EventBus.Abstraction
             {
                 await SubscribeAsync(eventType, eventHandlerType);
             }
+        }
+        /// <inheritdoc/>
+        public virtual async ValueTask DisposeAsync()
+        {
+            SubscriptionInfos.Clear();
+            await Task.CompletedTask;
         }
     }
 }

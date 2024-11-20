@@ -40,6 +40,14 @@ namespace Materal.EventBus.RabbitMQ
         /// </summary>
         public string NameSuffix { get; set; } = "_Dev";
         /// <summary>
+        /// 最大消息体大小
+        /// </summary>
+        public uint MaxMessageBodySize { get; set; } = 1048576 * 64;
+        /// <summary>
+        /// 客户端名称
+        /// </summary>
+        public string ClientName { get; set; } = "MateralEventBusClient";
+        /// <summary>
         /// 是否丢弃错误消息
         /// </summary>
         public bool ErrorMeesageDiscard { get; set; } = false;
