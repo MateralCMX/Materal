@@ -1,4 +1,4 @@
-﻿using Materal.Gateway.OcelotExtension.ConfigModel;
+﻿using Materal.Gateway.ConfigModel;
 using Materal.Gateway.Service;
 
 namespace Materal.Gateway.Application.Controllers

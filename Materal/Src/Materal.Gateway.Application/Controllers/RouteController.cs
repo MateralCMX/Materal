@@ -1,5 +1,4 @@
-﻿using Materal.Gateway.Common;
-using Materal.Gateway.OcelotExtension.ConfigModel;
+﻿using Materal.Gateway.ConfigModel;
 using Materal.Gateway.Service;
 using Materal.Gateway.Service.Models.Route;
 

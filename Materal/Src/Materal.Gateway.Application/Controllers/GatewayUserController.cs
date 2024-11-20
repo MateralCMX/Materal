@@ -1,5 +1,4 @@
-﻿using Materal.Gateway.Common;
-using Materal.MergeBlock.Authorization.Abstractions;
+﻿using Materal.MergeBlock.Authorization.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Materal.Gateway.Application.Controllers

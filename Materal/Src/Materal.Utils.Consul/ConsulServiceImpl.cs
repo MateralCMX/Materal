@@ -114,7 +114,6 @@ namespace Materal.Utils.Consul
         /// <param name="consulConfig"></param>
         /// <param name="filter"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task<List<ConsulServiceModel>> GetServiceListAsync(ConsulConfig consulConfig, Func<ConsulServiceModel, bool>? filter = null)
         {
             ConsulScope? consulScope = _consulScopes.FirstOrDefault(m => m.Config.ServiceName == consulConfig.ServiceName);

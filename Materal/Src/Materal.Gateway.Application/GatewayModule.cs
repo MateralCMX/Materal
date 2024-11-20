@@ -1,5 +1,6 @@
-﻿using Materal.Gateway.OcelotExtension;
-using Materal.Gateway.OcelotExtension.ConfigModel;
+﻿using Materal.Gateway.ConfigModel;
+using Materal.Gateway.DependencyInjection;
+using Materal.Gateway.Middleware;
 using Materal.Gateway.Service;
 using Materal.Gateway.Service.Models.Route;
 using Materal.Utils.Consul;
@@ -49,7 +50,7 @@ namespace Materal.Gateway.Application
             {
                 options.ReConfigureUpstreamSwaggerJson = ReConfigureUpstreamSwaggerJson;
             });
-            context.Services.AddOcelotGateway();
+            context.Services.AddGateway();
         }
         private static string ReConfigureUpstreamSwaggerJson(HttpContext context, string jsonDocument)
         {
@@ -99,31 +100,6 @@ namespace Materal.Gateway.Application
             return result;
         }
         /// <summary>
-        /// 应用程序初始化之前
-        /// </summary>
-        /// <param name="context"></param>
-        public override void OnPreApplicationInitialization(ApplicationInitializationContext context)
-        {
-            string managementPath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "GatewayManagement");
-            DirectoryInfo managementDirectoryInfo = new(managementPath);
-            if (!managementDirectoryInfo.Exists)
-            {
-                managementDirectoryInfo.Create();
-                managementDirectoryInfo.Refresh();
-            }
-            StaticFileOptions staticFileOptions = new()
-            {
-                FileProvider = new PhysicalFileProvider(managementDirectoryInfo.FullName),
-                RequestPath = $"/{managementDirectoryInfo.Name}",
-            };
-            AdvancedContext advancedContext = context.ServiceProvider.GetRequiredService<AdvancedContext>();
-            if (advancedContext.App is WebApplication webApplication)
-            {
-                webApplication.UseStaticFiles(staticFileOptions);
-            }
-            context.ServiceProvider.GetService<ILogger<GatewayModule>>()?.LogInformation($"已启用网关管理界面:/{managementDirectoryInfo.Name}/Index.html");
-        }
-        /// <summary>
         /// 应用程序初始化
         /// </summary>
         /// <param name="context"></param>
@@ -134,7 +110,21 @@ namespace Materal.Gateway.Application
             if (advancedContext.App is WebApplication webApplication)
             {
                 webApplication.UseSwaggerForOcelotUI();
-                await webApplication.UseOcelotGatewayAsync(true);
+                await webApplication.UseGateway();
+                string managementPath = Path.Combine(GetType().Assembly.GetDirectoryPath(), "GatewayManagement");
+                DirectoryInfo managementDirectoryInfo = new(managementPath);
+                if (!managementDirectoryInfo.Exists)
+                {
+                    managementDirectoryInfo.Create();
+                    managementDirectoryInfo.Refresh();
+                }
+                StaticFileOptions staticFileOptions = new()
+                {
+                    FileProvider = new PhysicalFileProvider(managementDirectoryInfo.FullName),
+                    RequestPath = $"/{managementDirectoryInfo.Name}",
+                };
+                webApplication.UseStaticFiles(staticFileOptions);
+                context.ServiceProvider.GetService<ILogger<GatewayModule>>()?.LogInformation($"已启用网关管理界面:/{managementDirectoryInfo.Name}/Index.html");
             }
             context.ServiceProvider.GetRequiredService<IOcelotConfigService>();
         }

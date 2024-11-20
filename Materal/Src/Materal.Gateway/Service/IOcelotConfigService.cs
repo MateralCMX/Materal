@@ -1,5 +1,5 @@
-﻿using Materal.Gateway.DataTransmitModel.Swagger;
-using Materal.Gateway.OcelotExtension.ConfigModel;
+﻿using Materal.Gateway.ConfigModel;
+using Materal.Gateway.DataTransmitModel.Swagger;
 using Materal.Gateway.Service.Models.Route;
 using Materal.Gateway.Service.Models.Swagger;
 using Materal.Gateway.Service.Models.Tools;

@@ -1,12 +1,16 @@
-﻿using Materal.Gateway.ConfigModel;
+﻿using Newtonsoft.Json;
 
-namespace Materal.Gateway.Service.Models.Route
+namespace Materal.Gateway.ConfigModel
 {
     /// <summary>
-    /// 添加路由请求模型
+    /// 路由配置模型
     /// </summary>
-    public class AddRouteModel
+    public class RouteConfigModel
     {
+        /// <summary>
+        /// 唯一标识
+        /// </summary>
+        public Guid ID { get; set; } = Guid.NewGuid();
         /// <summary>
         /// 上游路径模版
         /// </summary>
@@ -34,10 +38,12 @@ namespace Materal.Gateway.Service.Models.Route
         /// <summary>
         /// 缓存
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public FileCacheOptionsModel? FileCacheOptions { get; set; }
         /// <summary>
         /// 服务名称(服务发现)
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string? ServiceName { get; set; }
         /// <summary>
         /// 负载均衡
@@ -46,18 +52,22 @@ namespace Materal.Gateway.Service.Models.Route
         /// <summary>
         /// 下游主机和端口
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<HostAndPortModel>? DownstreamHostAndPorts { get; set; }
         /// <summary>
         /// 服务质量
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public QoSOptionsModel? QoSOptions { get; set; }
         /// <summary>
         /// 身份认证
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public AuthenticationOptionsModel? AuthenticationOptions { get; set; }
         /// <summary>
         /// 限流配置
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public RateLimitOptionsModel? RateLimitOptions { get; set; }
         /// <summary>
         /// 忽略证书错误
@@ -66,6 +76,11 @@ namespace Materal.Gateway.Service.Models.Route
         /// <summary>
         /// Swagger标识
         /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string? SwaggerKey { get; set; }
+        /// <summary>
+        /// 位序
+        /// </summary>
+        public int Index { get; set; }
     }
 }
