@@ -28,5 +28,5 @@ foreach ($subfolder in $allSubfolders) {
         }
     }
 }
-Write-Host "鍙戝竷瀹屾瘯 $publishDirPath"
+Write-Host "发布完成 $publishDirPath"
 explorer("$publishDirPath")

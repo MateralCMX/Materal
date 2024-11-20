@@ -127,7 +127,7 @@ namespace RC.EnvironmentServer.Application.Services
                 TargetEnvironments = model.TargetEnvironments,
                 ConfigurationItems = Mapper.Map<List<ConfigurationItemListDTO>>(configurationItems) ?? throw new RCException("映射失败")
             };
-            eventBus.Publish(@event);
+            await eventBus.PublishAsync(@event);
         }
     }
 }

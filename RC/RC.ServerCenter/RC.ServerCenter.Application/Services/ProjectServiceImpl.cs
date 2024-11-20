@@ -51,7 +51,7 @@ namespace RC.ServerCenter.Application.Services
                 UnitOfWork.RegisterDelete(@namespace);
             }
             await base.DeleteAsync(domain);
-            eventBus.Publish(new ProjectDeleteEvent
+            await eventBus.PublishAsync(new ProjectDeleteEvent
             {
                 ProjectID = domain.ID
             });

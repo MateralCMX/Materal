@@ -6,7 +6,7 @@ namespace RC.EnvironmentServer.Application.EventHandlers
     /// <summary>
     /// 项目删除事件处理器
     /// </summary>
-    public class ProjectDeleteEventHandler(IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<EventBusConfig> eventBusConfig, IEnvironmentServerUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository) : RCEnvironmentServerEventHandler<ProjectDeleteEvent>(applicationConfig, eventBusConfig)
+    public class ProjectDeleteEventHandler(IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<RabbitMQEventBusOptions> eventBusConfig, IEnvironmentServerUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository) : RCEnvironmentServerEventHandler<ProjectDeleteEvent>(applicationConfig, eventBusConfig)
     {
         /// <summary>
         /// 处理

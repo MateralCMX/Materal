@@ -28,7 +28,7 @@ namespace RC.ServerCenter.Application.Services
         protected override async Task DeleteAsync(Namespace domain)
         {
             await base.DeleteAsync(domain);
-            eventBus.Publish(new NamespaceDeleteEvent
+            await eventBus.PublishAsync(new NamespaceDeleteEvent
             {
                 NamespaceID = domain.ID
             });

@@ -8,7 +8,7 @@ namespace RC.EnvironmentServer.Application.EventHandlers
     /// </summary>
     /// <typeparam name="TEvent"></typeparam>
     [QueueName("RCEnvironmentServer")]
-    public abstract class RCEnvironmentServerEventHandler<TEvent>(IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<EventBusConfig> eventBusConfig) : BaseEventHandler<TEvent>, IEventHandler<TEvent>, IRabbitMQEventHandler
+    public abstract class RCEnvironmentServerEventHandler<TEvent>(IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<RabbitMQEventBusOptions> eventBusConfig) : BaseEventHandler<TEvent>, IEventHandler<TEvent>, IRabbitMQEventHandler
         where TEvent : IEvent
     {
         /// <summary>
@@ -18,6 +18,6 @@ namespace RC.EnvironmentServer.Application.EventHandlers
         /// <summary>
         /// 队列名称
         /// </summary>
-        public string? QueueName => $"{AppConfig.CurrentValue.ServiceName}Queue{eventBusConfig.CurrentValue.NameSuffix}";
+        public string QueueName => $"{AppConfig.CurrentValue.ServiceName}Queue{eventBusConfig.CurrentValue.NameSuffix}";
     }
 }

@@ -8,7 +8,7 @@ namespace RC.EnvironmentServer.Application.EventHandlers
     /// <summary>
     /// 同步配置事件处理器
     /// </summary>
-    public class SyncConfigEventHandler(IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<EventBusConfig> eventBusConfig, IMapper mapper, IEnvironmentServerUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository) : RCEnvironmentServerEventHandler<SyncConfigEvent>(applicationConfig, eventBusConfig)
+    public class SyncConfigEventHandler(IOptionsMonitor<ApplicationConfig> applicationConfig, IOptionsMonitor<RabbitMQEventBusOptions> eventBusConfig, IMapper mapper, IEnvironmentServerUnitOfWork unitOfWork, IConfigurationItemRepository configurationItemRepository) : RCEnvironmentServerEventHandler<SyncConfigEvent>(applicationConfig, eventBusConfig)
     {
         private static readonly object _syncLockObj = new();
         /// <summary>

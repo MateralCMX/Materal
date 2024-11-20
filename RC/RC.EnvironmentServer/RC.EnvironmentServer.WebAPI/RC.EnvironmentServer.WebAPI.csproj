@@ -4,7 +4,6 @@
 		<InvariantGlobalization>false</InvariantGlobalization>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Materal.MergeBlock" />
 		<PackageReference Include="Materal.MergeBlock.AccessLog" />
 		<PackageReference Include="Materal.MergeBlock.Authorization" />
 		<PackageReference Include="Materal.MergeBlock.Consul" />
@@ -23,8 +22,5 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\RC.EnvironmentServer.Application\RC.EnvironmentServer.Application.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include="..\..\RC.Core\RC.Core.Abstractions\RCConfig.json" Link="RCConfig.json" CopyToOutputDirectory="Always" />
 	</ItemGroup>
 </Project>
