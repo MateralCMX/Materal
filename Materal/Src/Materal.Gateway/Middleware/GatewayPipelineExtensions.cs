@@ -51,10 +51,10 @@ namespace Materal.Gateway.Middleware
             app.UseCustomGatewayMiddleware();
             app.UseDownstreamContextMiddleware();
             app.UseExceptionHandlerMiddleware();
-            app.MapWhen(httpContext => httpContext.WebSockets.IsWebSocketRequest, wenSocketsApp =>
+            app.MapWhen(httpContext => httpContext.WebSockets.IsWebSocketRequest, webSocketsApp =>
             {
-                wenSocketsApp.UseGatewayDownstreamRouteFinderMiddleware();
-                wenSocketsApp.MapWhen(CanGatewayHandler, gatewayApp =>
+                webSocketsApp.UseGatewayDownstreamRouteFinderMiddleware();
+                webSocketsApp.MapWhen(CanGatewayHandler, gatewayApp =>
                 {
                     gatewayApp.UseGatewayInterceptionMiddleware();
                     gatewayApp.UseMultiplexingMiddleware();

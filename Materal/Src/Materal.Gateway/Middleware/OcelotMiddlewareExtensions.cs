@@ -16,6 +16,7 @@ namespace Materal.Gateway.Middleware
         /// <returns></returns>
         public static async Task<IApplicationBuilder> UseGateway(this IApplicationBuilder builder, bool gatewayInterception = false)
         {
+            builder.UseWebSockets();
             await builder.UseOcelot((builder, config) => builder.UseGatewayPipeline(config, gatewayInterception));
             return builder;
         }
