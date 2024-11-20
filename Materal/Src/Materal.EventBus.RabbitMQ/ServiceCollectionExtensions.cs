@@ -23,7 +23,7 @@ namespace Materal.EventBus.RabbitMQ
         /// <param name="handlerAssemblies"></param>
         /// <returns></returns>
         public static IServiceCollection AddRabbitMQEventBus(this IServiceCollection services, IConfiguration configuration, params Assembly[] handlerAssemblies)
-            => services.AddRabbitMQEventBus(false, configuration, null, handlerAssemblies);
+            => services.AddRabbitMQEventBus(true, configuration, null, handlerAssemblies);
         /// <summary>
         /// 添加事件总线
         /// </summary>
