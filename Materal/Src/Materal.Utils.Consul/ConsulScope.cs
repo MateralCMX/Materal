@@ -63,12 +63,12 @@ namespace Materal.Utils.Consul
             if (!Config.Enable) return;
             if (IsRegister) return;
             IsRegister = true;
-            PolicyBuilder policyBuilder = Policy.Handle<Exception>();
-            AsyncRetryPolicy retryPolicy = policyBuilder.WaitAndRetryForeverAsync(index =>
+            PolicyBuilder policyBuilder = Policy.Handle<Exception>(ex =>
             {
-                _logger?.LogWarning($"服务[{Config.ServiceName}]注册失败,{Config.Health.Interval}秒后重试");
-                return TimeSpan.FromSeconds(Config.Health.Interval);
+                _logger?.LogWarning(ex, $"服务[{Config.ServiceName}]注册失败,{Config.Health.Interval}秒后重试");
+                return true;
             });
+            AsyncRetryPolicy retryPolicy = policyBuilder.WaitAndRetryForeverAsync(index => TimeSpan.FromSeconds(Config.Health.Interval));
             await retryPolicy.ExecuteAsync(async () =>
             {
                 _logger?.LogInformation($"正在向Consul注册[{Config.ServiceName}]服务.....");

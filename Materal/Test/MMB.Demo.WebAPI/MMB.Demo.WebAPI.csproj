@@ -18,6 +18,7 @@
 		<!--<ProjectReference Include="..\..\Src\Materal.MergeBlock.ResponseCompression\Materal.MergeBlock.ResponseCompression.csproj" />-->
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
+		<ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />
 		<!--<ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />-->
 	</ItemGroup>
 </Project>
