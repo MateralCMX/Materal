@@ -23,11 +23,11 @@
 	</ItemGroup>
 	<ItemGroup>
 		<!--<ProjectReference Include="..\RC.Core\Demo\RC.Demo.Application\RC.Demo.Application.csproj" />-->
-		<!--<ProjectReference Include="..\RC.Core\RC.Core.Application\RC.Core.Application.csproj" />-->
-		<ProjectReference Include="..\RC.ServerCenter\RC.ServerCenter.Application\RC.ServerCenter.Application.csproj" />
+		<ProjectReference Include="..\RC.Core\RC.Core.Application\RC.Core.Application.csproj" />
+		<!--<ProjectReference Include="..\RC.ServerCenter\RC.ServerCenter.Application\RC.ServerCenter.Application.csproj" />
 		<ProjectReference Include="..\RC.Authority\RC.Authority.Application\RC.Authority.Application.csproj" />
 		<ProjectReference Include="..\RC.Deploy\RC.Deploy.Application\RC.Deploy.Application.csproj" />
-		<ProjectReference Include="..\RC.EnvironmentServer\RC.EnvironmentServer.Application\RC.EnvironmentServer.Application.csproj" />
+		<ProjectReference Include="..\RC.EnvironmentServer\RC.EnvironmentServer.Application\RC.EnvironmentServer.Application.csproj" />-->
 	</ItemGroup>
 	<ItemGroup>
 		<Content Update="appsettings.Development.json">
