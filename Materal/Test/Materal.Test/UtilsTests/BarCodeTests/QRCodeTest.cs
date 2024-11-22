@@ -25,5 +25,21 @@ namespace Materal.Test.UtilsTests.BarCodeTests
             string result = QRCodeHelper.ReadQRCode(diskQRCodeImage);
             Assert.AreEqual(input, result);
         }
+        /// <summary>
+        /// 彩色二维码测试
+        /// </summary>
+        [TestMethod]
+        public void QRCodeColorImageTest()
+        {
+            const string input = "HelloWorld";
+            //创建二维码
+            string savePath = @"D:\QRCodeColorImage.png";
+            SKBitmap qrCodeImage = QRCodeHelper.CreateQRCode(input, 900, SKColors.LightBlue, SKColors.White);
+            qrCodeImage.SaveAs(savePath);
+            //读取二维码
+            SKBitmap diskQRCodeImage = SKBitmap.Decode(savePath);
+            string result = QRCodeHelper.ReadQRCode(diskQRCodeImage);
+            Assert.AreEqual(input, result);
+        }
     }
 }
