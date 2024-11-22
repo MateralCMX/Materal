@@ -66,7 +66,7 @@ namespace Materal.Test.UtilsTests.BarCodeTests
                 newQrCodeImage.SaveAs(savePath);
                 //创建图片二维码
                 savePath = @$"D:\Test\[{item}]QRCodeImage-图片.png";
-                string imagePath = @$"D:\Test\PT头像[{item}].png";
+                string imagePath = @$"D:\Test\Template[{item}].png";
                 SKBitmap image = SKBitmap.Decode(imagePath);
                 newQrCodeImage = QRCodeHelper.ChangeQRCodeImage(qrCodeImage, (canvas, paint, centerPoint, pointSize) =>
                 {
@@ -83,6 +83,12 @@ namespace Materal.Test.UtilsTests.BarCodeTests
                         }
                     }
                 }, (paint, centerPoint) => paint.Color = GetPaintColor(centerPoint), SKColors.White);
+                newQrCodeImage.SaveAs(savePath);
+                //添加Logo
+                savePath = @$"D:\Test\[{item}]QRCodeImage-Logo.png";
+                string logoPath = @$"D:\Test\Logo.png";
+                SKBitmap logo = SKBitmap.Decode(logoPath);
+                newQrCodeImage = QRCodeHelper.AddLogo(newQrCodeImage, logo, 60.0f / 300.0f * item);
                 newQrCodeImage.SaveAs(savePath);
             }
         }

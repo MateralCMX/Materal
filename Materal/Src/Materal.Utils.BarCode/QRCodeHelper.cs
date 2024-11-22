@@ -104,6 +104,28 @@ namespace Materal.Utils.BarCode
             return result;
         }
         /// <summary>
+        /// 添加Logo
+        /// </summary>
+        /// <param name="qrCode"></param>
+        /// <param name="logo"></param>
+        /// <param name="logoSize"></param>
+        /// <returns></returns>
+        public static SKBitmap AddLogo(SKBitmap qrCode, SKBitmap logo, float logoSize)
+        {
+            SKBitmap result = new(qrCode.Width, qrCode.Height);
+            using SKCanvas canvas = new(result);
+            canvas.Clear(SKColors.White);
+            using SKPaint paint = new();
+            paint.IsAntialias = true;
+            paint.FilterQuality = SKFilterQuality.High;
+            canvas.DrawBitmap(qrCode, 0, 0, paint);
+            float centerX = (qrCode.Width - logoSize) / 2;
+            float centerY = (qrCode.Height - logoSize) / 2;
+            SKRect rect = new(centerX, centerY, centerX + logoSize, centerY + logoSize);
+            canvas.DrawBitmap(logo, rect, paint);
+            return result;
+        }
+        /// <summary>
         /// 获得二维码左上角点
         /// </summary>
         /// <param name="qrCode"></param>
