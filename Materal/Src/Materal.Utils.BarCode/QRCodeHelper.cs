@@ -83,30 +83,40 @@ namespace Materal.Utils.BarCode
             return result;
         }
         /// <summary>
-        /// 替换颜色
+        /// 创建图片二维码
         /// </summary>
-        /// <param name="qrCode"></param>
-        /// <param name="foregroundColor"></param>
+        /// <param name="content"></param>
+        /// <param name="foregroundImage"></param>
         /// <param name="backgroundColor"></param>
         /// <returns></returns>
-        public static SKBitmap ColorReplace(SKBitmap qrCode, SKColor foregroundColor, SKColor backgroundColor)
+        public static SKBitmap CreateQRCode(string content, SKBitmap foregroundImage, SKColor backgroundColor)
         {
-            SKBitmap coloredQRCode = new(qrCode.Width, qrCode.Height);
-            using SKCanvas canvas = new(coloredQRCode);
-            canvas.Clear(backgroundColor);
-            using SKPaint paint = new();
-            SKColor? oldBackgroundColor = null;
-            for (int x = 0; x < qrCode.Width; x++)
+            EncodingOptions encodingOptions = new()
             {
-                for (int y = 0; y < qrCode.Height; y++)
-                {
-                    oldBackgroundColor ??= qrCode.GetPixel(x, y);
-                    if (qrCode.GetPixel(x, y) == oldBackgroundColor) continue;
-                    paint.Color = foregroundColor;
-                    canvas.DrawPoint(x, y, paint);
-                }
-            }
-            return coloredQRCode;
+                Width = foregroundImage.Width,
+                Height = foregroundImage.Height
+            };
+            SKBitmap qrCode = CreateQRCode(content, encodingOptions);
+            SKBitmap result = ImageReplace(qrCode, foregroundImage, backgroundColor);
+            return result;
+        }
+        /// <summary>
+        /// 创建图片二维码
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="backgroundImage"></param>
+        /// <returns></returns>
+        public static SKBitmap CreateQRCode(string content, SKColor foregroundColor, SKBitmap backgroundImage)
+        {
+            EncodingOptions encodingOptions = new()
+            {
+                Width = backgroundImage.Width,
+                Height = backgroundImage.Height
+            };
+            SKBitmap qrCode = CreateQRCode(content, encodingOptions);
+            SKBitmap result = ImageReplace(qrCode, foregroundColor, backgroundImage);
+            return result;
         }
         /// <summary>
         /// 读取二维码
@@ -129,6 +139,84 @@ namespace Materal.Utils.BarCode
                 if (barcodeFormat != BarcodeFormat.QR_CODE) throw new UtilException("图片不是二维码");
                 return result;
             }
+        }
+        /// <summary>
+        /// 替换颜色
+        /// </summary>
+        /// <param name="qrCode"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="backgroundColor"></param>
+        /// <returns></returns>
+        public static SKBitmap ColorReplace(SKBitmap qrCode, SKColor foregroundColor, SKColor backgroundColor)
+        {
+            SKBitmap result = new(qrCode.Width, qrCode.Height);
+            using SKCanvas canvas = new(result);
+            canvas.Clear(backgroundColor);
+            using SKPaint paint = new();
+            SKColor? oldBackgroundColor = null;
+            for (int x = 0; x < qrCode.Width; x++)
+            {
+                for (int y = 0; y < qrCode.Height; y++)
+                {
+                    oldBackgroundColor ??= qrCode.GetPixel(x, y);
+                    if (qrCode.GetPixel(x, y) == oldBackgroundColor) continue;
+                    paint.Color = foregroundColor;
+                    canvas.DrawPoint(x, y, paint);
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 替换图片
+        /// </summary>
+        /// <param name="qrCode"></param>
+        /// <param name="foregroundImage"></param>
+        /// <param name="backgroundColor"></param>
+        /// <returns></returns>
+        public static SKBitmap ImageReplace(SKBitmap qrCode, SKBitmap foregroundImage, SKColor backgroundColor)
+        {
+            SKBitmap result = new(qrCode.Width, qrCode.Height);
+            using SKCanvas canvas = new(result);
+            canvas.Clear(backgroundColor);
+            using SKPaint paint = new();
+            SKColor? oldBackgroundColor = null;
+            for (int x = 0; x < qrCode.Width; x++)
+            {
+                for (int y = 0; y < qrCode.Height; y++)
+                {
+                    oldBackgroundColor ??= qrCode.GetPixel(x, y);
+                    if (qrCode.GetPixel(x, y) == oldBackgroundColor) continue;
+                    paint.Color = foregroundImage.GetPixel(x, y);
+                    canvas.DrawPoint(x, y, paint);
+                }
+            }
+            return result;
+        }
+        /// <summary>
+        /// 替换图片
+        /// </summary>
+        /// <param name="qrCode"></param>
+        /// <param name="foregroundColor"></param>
+        /// <param name="backgroundImage"></param>
+        /// <returns></returns>
+        public static SKBitmap ImageReplace(SKBitmap qrCode, SKColor foregroundColor, SKBitmap backgroundImage)
+        {
+            SKBitmap result = new(qrCode.Width, qrCode.Height);
+            using SKCanvas canvas = new(result);
+            canvas.Clear(foregroundColor);
+            using SKPaint paint = new();
+            SKColor? oldBackgroundColor = null;
+            for (int x = 0; x < qrCode.Width; x++)
+            {
+                for (int y = 0; y < qrCode.Height; y++)
+                {
+                    oldBackgroundColor ??= qrCode.GetPixel(x, y);
+                    if (qrCode.GetPixel(x, y) != oldBackgroundColor) continue;
+                    paint.Color = backgroundImage.GetPixel(x, y);
+                    canvas.DrawPoint(x, y, paint);
+                }
+            }
+            return result;
         }
     }
 }
