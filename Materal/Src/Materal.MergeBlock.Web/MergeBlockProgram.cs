@@ -1,4 +1,5 @@
-﻿using Materal.Extensions.DependencyInjection.AspNetCore;
+﻿using Materal.Extensions.DependencyInjection;
+using Materal.Extensions.DependencyInjection.AspNetCore;
 using Materal.MergeBlock.Extensions;
 using Microsoft.AspNetCore.Builder;
 
@@ -30,7 +31,6 @@ namespace Materal.MergeBlock.Web
             builder.AddMergeBlockCore();
             OnConfigureServices?.Invoke(builder.Services);
             WebApplication app = builder.Build();
-            app.UseMateralServiceProvider();
             app.UseMergeBlock();
             OnApplicationInitialization?.Invoke(app.Services);
             await app.RunAsync();

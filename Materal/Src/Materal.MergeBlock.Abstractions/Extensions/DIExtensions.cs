@@ -1,5 +1,4 @@
-﻿using Materal.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 
 namespace Materal.MergeBlock.Abstractions.Extensions
 {
@@ -20,10 +19,6 @@ namespace Materal.MergeBlock.Abstractions.Extensions
             services.AddSingleton<IHostedService>(serviceProvider =>
             {
                 IServiceProvider services = serviceProvider;
-                if (serviceProvider is not MateralServiceProvider)
-                {
-                    services = new MateralServiceProvider(services);
-                }
                 Type type = typeof(TBackgroundService);
                 ConstructorInfo[] constructorInfos = [.. type.GetConstructors().OrderByDescending(m => m.GetParameters().Length)];
                 foreach (ConstructorInfo constructorInfo in constructorInfos)

@@ -1,4 +1,4 @@
-﻿using Materal.Extensions.DependencyInjection;
+﻿using AspectCore.DependencyInjection;
 using Materal.WebAPITest.Repository;
 
 namespace Materal.WebAPITest.Services
@@ -6,7 +6,7 @@ namespace Materal.WebAPITest.Services
     public class TestServiceImpl(ITestRepository testRepository2) : ITestService
     {
         private ITestRepository? _testRepository;
-        [FromServices]
+        [FromServiceContext]
         protected ITestRepository TestRepository
         {
             get => _testRepository ?? throw new InvalidOperationException("未能注入ITestRepository");

@@ -1,5 +1,7 @@
 <Project ToolsVersion="15.0">
   <ItemGroup>
+    <PackageVersion Include="AspectCore.Extensions.AspNetCore" Version="2.4.0" />
+    <PackageVersion Include="AspectCore.Extensions.DependencyInjection" Version="2.4.0" />
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.3.2" />
     <PackageVersion Include="Consul" Version="1.7.14.5" />

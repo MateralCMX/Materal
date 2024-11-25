@@ -8,10 +8,13 @@ namespace Materal.Test.ExtensionsTests.DependencyInjectionTests
         [TestMethod]
         public void PropertyInjectionTest()
         {
-            IService service = ServiceProvider.GetRequiredService<IService>();
-            service.SayHello();
+            IEnumerable<IService> services = ServiceProvider.GetServices<IService>();
+            foreach (IService item in services)
+            {
+                item.SayHello();
+            }
             using IServiceScope serviceScope = ServiceProvider.CreateScope();
-            service = serviceScope.ServiceProvider.GetRequiredService<IService>();
+            IService service = serviceScope.ServiceProvider.GetRequiredService<IService>();
             service.SayHello();
             using AsyncServiceScope serviceAsyncScope = ServiceProvider.CreateAsyncScope();
             service = serviceAsyncScope.ServiceProvider.GetRequiredService<IService>();

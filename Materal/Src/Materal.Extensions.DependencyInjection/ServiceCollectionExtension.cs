@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using AspectCore.Extensions.DependencyInjection;
+using System.Reflection;
 using System.Text;
 
 namespace Materal.Extensions.DependencyInjection
@@ -135,8 +136,8 @@ namespace Materal.Extensions.DependencyInjection
                 Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
                 services.AddAutoService(assemblies);
             }
-            ServiceProvider serviceProvider = services.BuildServiceProvider();
-            return new MateralServiceProvider(serviceProvider);
+            IServiceProvider serviceProvider = services.BuildServiceContextProvider();
+            return serviceProvider;
         }
     }
 }

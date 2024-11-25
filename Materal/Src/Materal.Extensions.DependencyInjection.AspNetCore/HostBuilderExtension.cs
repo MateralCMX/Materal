@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.Extensions.DependencyInjection.AspNetCore
 {
@@ -14,19 +15,9 @@ namespace Materal.Extensions.DependencyInjection.AspNetCore
         /// <returns></returns>
         public static WebApplicationBuilder AddMateralServiceProvider(this WebApplicationBuilder builder)
         {
+            builder.Services.TryAddSingleton<IServiceProviderIsService, MateralServiceProviderIsService>();
             builder.Host.UseServiceProviderFactory(new MateralServiceContextProviderFactory());
-            builder.Services.AddSingleton<ReplaceServiceProviderMiddleware>();
             return builder;
-        }
-        /// <summary>
-        /// 使用Materal服务提供者
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseMateralServiceProvider(this WebApplication app)
-        {
-            app.UseMiddleware<ReplaceServiceProviderMiddleware>();
-            return app;
         }
     }
 }

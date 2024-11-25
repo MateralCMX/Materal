@@ -14,11 +14,5 @@
             builder.ConfigureContainer(new MateralServiceContextProviderFactory());
             return builder;
         }
-        /// <summary>
-        /// 使用Materal服务提供者
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IHost UseMateralServiceProvider(this IHost app) => app;
     }
 }

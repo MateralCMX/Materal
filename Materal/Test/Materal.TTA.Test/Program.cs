@@ -15,7 +15,6 @@ namespace Materal.TTA.Test
             builder.Services.AddTTASqliteEFRepository<TestDBContext>(dbConnectionString);
             builder.Services.AddHostedService<TestService>();
             IHost host = builder.Build();
-            host.UseMateralServiceProvider();
             await host.RunAsync();
         }
     }

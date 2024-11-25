@@ -35,7 +35,6 @@ namespace Materal.MergeBlock
             builder.AddMergeBlockCore();
             OnConfigureServices?.Invoke(builder.Services);
             IHost app = builder.Build();
-            app.UseMateralServiceProvider();
             app.UseMergeBlock();
             OnApplicationInitialization?.Invoke(app.Services);
             if (cancellationToken is null)

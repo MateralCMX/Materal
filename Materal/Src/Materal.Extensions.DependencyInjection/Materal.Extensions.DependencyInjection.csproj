@@ -6,6 +6,7 @@
 		<Description>Materal Asp.Net容器扩展包</Description>
 	</PropertyGroup>
 	<ItemGroup>
+	  <PackageReference Include="AspectCore.Extensions.DependencyInjection" />
 	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
 	</ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">

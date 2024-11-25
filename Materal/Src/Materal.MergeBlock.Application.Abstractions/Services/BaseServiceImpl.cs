@@ -1,4 +1,4 @@
-﻿using Materal.Extensions.DependencyInjection;
+﻿using AspectCore.DependencyInjection;
 
 namespace Materal.MergeBlock.Application.Abstractions.Services
 {
@@ -16,7 +16,7 @@ namespace Materal.MergeBlock.Application.Abstractions.Services
         /// <summary>
         /// 映射器
         /// </summary>
-        [FromServices]
+        [FromServiceContext]
         protected IMapper Mapper { get => _mapper ?? throw new MergeBlockException("未设置映射器"); set => _mapper = value; }
     }
     /// <summary>
@@ -30,7 +30,7 @@ namespace Materal.MergeBlock.Application.Abstractions.Services
         /// <summary>
         /// 工作单元
         /// </summary>
-        [FromServices]
+        [FromServiceContext]
         protected TUnitOfWork UnitOfWork { get => _unitOfWork ?? throw new MergeBlockException("未设置工作单元"); set => _unitOfWork = value; }
     }
     /// <summary>
