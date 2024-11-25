@@ -4,7 +4,11 @@
 		<TargetFrameworks>net8.0-windows;net9.0-windows</TargetFrameworks>
 	</PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.AccessLog\Materal.MergeBlock.AccessLog.csproj" />
@@ -14,10 +18,11 @@
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.EventBus\Materal.MergeBlock.EventBus.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.ExceptionInterceptor\Materal.MergeBlock.ExceptionInterceptor.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Logger\Materal.MergeBlock.Logger.csproj" />
-		<!--<ProjectReference Include="..\..\Src\Materal.MergeBlock.Oscillator\Materal.MergeBlock.Oscillator.csproj" />-->
+		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Oscillator\Materal.MergeBlock.Oscillator.csproj" />
 		<!--<ProjectReference Include="..\..\Src\Materal.MergeBlock.ResponseCompression\Materal.MergeBlock.ResponseCompression.csproj" />-->
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Swagger\Materal.MergeBlock.Swagger.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Web\Materal.MergeBlock.Web.csproj" />
 		<ProjectReference Include="..\MMB.Demo.Application\MMB.Demo.Application.csproj" />
+		<ProjectReference Include="..\MMB.Demo.Repository\MMB.Demo.Repository.csproj" />
 	</ItemGroup>
 </Project>

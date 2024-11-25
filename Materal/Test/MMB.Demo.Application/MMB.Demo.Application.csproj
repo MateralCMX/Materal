@@ -15,5 +15,6 @@
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Consul.Abstractions\Materal.MergeBlock.Consul.Abstractions.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Oscillator.Abstractions\Materal.MergeBlock.Oscillator.Abstractions.csproj" />
 		<ProjectReference Include="..\..\Src\Materal.MergeBlock.Web.Abstractions\Materal.MergeBlock.Web.Abstractions.csproj" />
+		<ProjectReference Include="..\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj" />
 	</ItemGroup>
 </Project>

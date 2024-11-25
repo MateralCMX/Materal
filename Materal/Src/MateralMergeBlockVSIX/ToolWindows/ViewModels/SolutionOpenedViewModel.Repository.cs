@@ -36,7 +36,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($" */");
             codeContent.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
             codeContent.AppendLine($"");
-            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.EFRepository.EntityConfigs");
+            codeContent.AppendLine($"namespace {_projectName}.{_moduleName}.Repository.EntityConfigs");
             codeContent.AppendLine($"{{");
             codeContent.AppendLine($"    /// <summary>");
             codeContent.AppendLine($"    /// {domain.Annotation}配置基类");

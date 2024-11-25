@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../MergeBlockApplicationLibrary.props" />
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\Src\Materal.TTA.SqliteEFRepository\Materal.TTA.SqliteEFRepository.csproj" />
+		<ProjectReference Include="..\MMB.Demo.Abstractions\MMB.Demo.Abstractions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="MMB.Demo.Repository.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>

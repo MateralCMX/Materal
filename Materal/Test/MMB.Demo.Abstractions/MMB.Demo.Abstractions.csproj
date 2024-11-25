@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="../../MergeBlockApplicationLibrary.props" />
+	<PropertyGroup>
+		<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+	</PropertyGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Domain.Abstractions\Materal.MergeBlock.Domain.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Repository.Abstractions\Materal.MergeBlock.Repository.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.MergeBlock.Web.Abstractions\Materal.MergeBlock.Web.Abstractions.csproj" />
+	  <ProjectReference Include="..\..\Src\Materal.TTA.EFRepository\Materal.TTA.EFRepository.csproj" />
+	</ItemGroup>
+</Project>

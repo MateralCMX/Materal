@@ -1,0 +1,7 @@
+﻿{
+  "Demo": {
+    "DBConfig": {
+      "Source": "E:\\Project\\Materal\\Materal\\Materal\\Test\\MMB.Demo.WebAPI\\bin\\MMBDemo.db"
+    }
+  }
+}
