@@ -2,13 +2,14 @@
 using Materal.Oscillator.Abstractions.Oscillators;
 using Materal.Oscillator.Abstractions.PlanTriggers;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace Materal.MergeBlock.Oscillator
 {
     /// <summary>
     /// 调度器服务
     /// </summary>
-    public class OscillatorHostedService(IOscillatorHost oscillatorHost, IServiceProvider serviceProvider, MergeBlockContext mergeBlockContext) : IHostedService
+    public class OscillatorHostedService(IOscillatorHost oscillatorHost, IServiceProvider serviceProvider, MergeBlockContext mergeBlockContext, ILogger<OscillatorHostedService>? logger = null) : IHostedService
     {
         /// <summary>
         /// 启动
@@ -18,6 +19,7 @@ namespace Materal.MergeBlock.Oscillator
         /// <exception cref="OscillatorException"></exception>
         public async Task StartAsync(CancellationToken cancellationToken)
         {
+            logger?.LogInformation("调度器启动中...");
             List<IOscillatorData> oscillators = [];
             foreach (Assembly assembly in mergeBlockContext.MergeBlockAssemblies)
             {
@@ -39,13 +41,18 @@ namespace Materal.MergeBlock.Oscillator
             {
                 foreach (IOscillatorData oscillator in oscillators)
                 {
+                    logger?.LogDebug($"任务[{oscillator.Work.Name}_{oscillator.Work.GetType().FullName}]初始化");
                     await oscillatorHost.InitWorkAsync(oscillator.Work);
+                    logger?.LogDebug($"任务[{oscillator.Work.Name}_{oscillator.Work.GetType().FullName}]初始化成功");
                 }
                 foreach (IOscillatorData oscillator in oscillators)
                 {
+                    logger?.LogDebug($"任务[{oscillator.Work.Name}_{oscillator.Work.GetType().FullName}]启动");
                     await oscillatorHost.StartOscillatorAsync(oscillator);
+                    logger?.LogDebug($"任务[{oscillator.Work.Name}_{oscillator.Work.GetType().FullName}]启动成功");
                 }
             });
+            logger?.LogInformation("调度器启动成功");
             await Task.CompletedTask;
         }
         /// <summary>

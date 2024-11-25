@@ -97,7 +97,8 @@ namespace Materal.Oscillator.Abstractions.Oscillators
         {
             if (data is not TOscillatorData trueData) throw new OscillatorException("数据类型错误");
             Data = trueData;
-            Work = await data.Work.GetWorkAsync(ServiceProvider);
+            using IServiceScope serviceScope = ServiceProvider.CreateScope();
+            Work = await data.Work.GetWorkAsync(serviceScope.ServiceProvider);
             await InitAsync();
         }
         /// <summary>
