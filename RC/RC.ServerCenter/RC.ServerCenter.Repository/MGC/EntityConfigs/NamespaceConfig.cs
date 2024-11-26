@@ -3,7 +3,7 @@
  */
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace RC.ServerCenter.EFRepository.EntityConfigs
+namespace RC.ServerCenter.Repository.EntityConfigs
 {
     /// <summary>
     /// 命名空间配置基类

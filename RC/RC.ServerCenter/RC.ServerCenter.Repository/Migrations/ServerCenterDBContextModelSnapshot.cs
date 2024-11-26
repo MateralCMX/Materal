@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RC.ServerCenter.EFRepository;
+using RC.ServerCenter.Repository;
 
 #nullable disable
 

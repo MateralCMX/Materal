@@ -3,7 +3,7 @@
  */
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace RC.EnvironmentServer.EFRepository.EntityConfigs
+namespace RC.EnvironmentServer.Repository.EntityConfigs
 {
     /// <summary>
     /// 配置项配置基类
