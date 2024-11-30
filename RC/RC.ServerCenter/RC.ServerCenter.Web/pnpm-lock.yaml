@@ -29,13 +29,13 @@ importers:
         version: 2.55.1(vue@3.4.27(typescript@5.4.5))
       '@vitejs/plugin-vue':
         specifier: ^4.6.2
-        version: 4.6.2(vite@5.2.11)(vue@3.4.27(typescript@5.4.5))
+        version: 4.6.2(vite@5.2.14)(vue@3.4.27(typescript@5.4.5))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
       vite:
-        specifier: ^5.2.11
-        version: 5.2.11
+        specifier: ^5.2.14
+        version: 5.2.14
       vite-plugin-monaco-editor:
         specifier: ^1.1.0
         version: 1.1.0(monaco-editor@0.45.0)
@@ -594,8 +594,8 @@ packages:
     peerDependencies:
       monaco-editor: '>=0.33.0'
 
-  vite@5.2.11:
-    resolution: {integrity: sha512-HndV31LWW05i1BLPMUCE1B9E9GFbOu1MbenhS58FuK6owSO5qHm7GiCotrNY1YE5rMeQSFBGmT5ZaLEjFizgiQ==}
+  vite@5.2.14:
+    resolution: {integrity: sha512-TFQLuwWLPms+NBNlh0D9LZQ+HXW471COABxw/9TEUBrjuHMo9BrYBPrN/SYAwIuVL+rLerycxiLT41t4f5MZpA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -622,8 +622,8 @@ packages:
       terser:
         optional: true
 
-  vue-demi@0.14.7:
-    resolution: {integrity: sha512-EOG8KXDQNwkJILkx/gPcoL/7vH+hORoBaKgGe+6W7VFMvCYJfmF2dGbvgDroVnI8LU7/kTu8mbjRZGBU1z9NTA==}
+  vue-demi@0.14.10:
+    resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
     hasBin: true
     peerDependencies:
@@ -774,7 +774,7 @@ snapshots:
       '@monaco-editor/loader': 1.4.0(monaco-editor@0.45.0)
       monaco-editor: 0.45.0
       vue: 3.4.27(typescript@5.4.5)
-      vue-demi: 0.14.7(vue@3.4.27(typescript@5.4.5))
+      vue-demi: 0.14.10(vue@3.4.27(typescript@5.4.5))
 
   '@jridgewell/sourcemap-codec@1.4.15': {}
 
@@ -845,9 +845,9 @@ snapshots:
 
   '@types/estree@1.0.5': {}
 
-  '@vitejs/plugin-vue@4.6.2(vite@5.2.11)(vue@3.4.27(typescript@5.4.5))':
+  '@vitejs/plugin-vue@4.6.2(vite@5.2.14)(vue@3.4.27(typescript@5.4.5))':
     dependencies:
-      vite: 5.2.11
+      vite: 5.2.14
       vue: 3.4.27(typescript@5.4.5)
 
   '@volar/language-core@1.11.1':
@@ -1152,7 +1152,7 @@ snapshots:
     dependencies:
       monaco-editor: 0.45.0
 
-  vite@5.2.11:
+  vite@5.2.14:
     dependencies:
       esbuild: 0.20.2
       postcss: 8.4.38
@@ -1160,7 +1160,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  vue-demi@0.14.7(vue@3.4.27(typescript@5.4.5)):
+  vue-demi@0.14.10(vue@3.4.27(typescript@5.4.5)):
     dependencies:
       vue: 3.4.27(typescript@5.4.5)
 
