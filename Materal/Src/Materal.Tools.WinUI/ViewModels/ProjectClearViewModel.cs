@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using Materal.Tools.Core.ProjectClear;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
 
 namespace Materal.Tools.WinUI.ViewModels
 {
@@ -23,12 +22,12 @@ namespace Materal.Tools.WinUI.ViewModels
             _logger = App.ServiceProvider.GetRequiredService<ILogger<ProjectClearViewModel>>();
         }
         [RelayCommand]
-        private void ProjectClear()
+        private async Task ProjectClearAsync()
         {
             OnClearMessage?.Invoke();
             try
             {
-                _projectClearService.ClearProject(ProjectPath);
+                await _projectClearService.ClearProjectAsync(ProjectPath);
             }
             catch (Exception ex)
             {

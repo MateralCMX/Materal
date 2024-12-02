@@ -20,17 +20,17 @@ namespace Materal.Tools.Command
             pathOption.IsRequired = false;
             pathOption.SetDefaultValue(null);
             command.AddOption(pathOption);
-            command.SetHandler(ProjectClear, pathOption);
+            command.SetHandler(ProjectClearAsync, pathOption);
             rootCommand.AddCommand(command);
         }
-        private void ProjectClear(string? path)
+        private async Task ProjectClearAsync(string? path)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
                 path = Environment.CurrentDirectory;
             }
             IProjectClearService service = _serviceProvider.GetRequiredService<IProjectClearService>();
-            service.ClearProject(path);
+            await service.ClearProjectAsync(path);
         }
     }
 }

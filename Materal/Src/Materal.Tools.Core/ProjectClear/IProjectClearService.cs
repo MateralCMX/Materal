@@ -9,7 +9,16 @@
         /// 清理项目
         /// </summary>
         /// <param name="projectPath"></param>
+        /// <param name="progress"></param>
         /// <returns></returns>
-        void ClearProject(string projectPath);
+        void ClearProject(string projectPath, IProgress<ClearProgress>? progress = null);
+        /// <summary>
+        /// 异步清理项目
+        /// </summary>
+        /// <param name="projectPath"></param>
+        /// <param name="progress"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task ClearProjectAsync(string projectPath, IProgress<ClearProgress>? progress = null, CancellationToken cancellationToken = default);
     }
 }

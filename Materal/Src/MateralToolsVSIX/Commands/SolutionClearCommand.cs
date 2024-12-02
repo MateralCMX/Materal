@@ -13,7 +13,14 @@ namespace MateralToolsVSIX.Commands
             Solution? solution = await VS.Solutions.GetCurrentSolutionAsync();
             if (solution is null || solution.FullPath is null) return;
             string projectPath = Path.GetDirectoryName(solution.FullPath);
-            new ProjectClearService().ClearProject(projectPath);
+            ProjectClearConfig config = new();
+            config.DictionaryWhiteList.Remove(".vs");
+            IProjectClearService projectClearService = new ProjectClearService(config);
+            IProgress<ClearProgress> progress = new Progress<ClearProgress>(m =>
+            {
+                _ = VS.StatusBar.ShowMessageAsync($"正在处理: {m.CurrentPath},已处理文件:{m.ProcessedFiles},已处理文件夹:{m.ProcessedDirectories}");
+            });
+            await projectClearService.ClearProjectAsync(projectPath, progress);
             await VS.StatusBar.ShowMessageAsync("项目清理完成");
         }
     }
