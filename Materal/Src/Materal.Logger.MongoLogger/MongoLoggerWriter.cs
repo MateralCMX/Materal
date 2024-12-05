@@ -1,4 +1,4 @@
-﻿using Materal.Logger.BatchLogger;
+using Materal.Logger.BatchLogger;
 using Materal.Utils.MongoDB;
 using MongoDB.Bson;
 
@@ -88,19 +88,17 @@ namespace Materal.Logger.MongoLogger
             /// <returns></returns>
             private static Dictionary<string, object> SetData(BatchLog<MongoLoggerTargetOptions> batchLog)
             {
-                Dictionary<string, object> result = new()
-                {
-                    [nameof(Log.ID)] = batchLog.Log.ID,
-                    [nameof(LoggerOptions.Application)] = batchLog.Log.Application,
-                    [nameof(Log.Level)] = batchLog.Log.Level,
-                    ["LevelText"] = batchLog.Log.Level.GetDescription(),
-                    [nameof(Log.CreateTime)] = batchLog.Log.CreateTime,
-                    ["ProgressID"] = batchLog.Log.ProgressID,
-                    [nameof(Log.ThreadID)] = batchLog.Log.ThreadID,
-                    [nameof(Log.Message)] = batchLog.Log.Message,
-                    ["Scope"] = batchLog.Log.ScopeName,
-                    [nameof(Log.MachineName)] = batchLog.Log.MachineName
-                };
+                Dictionary<string, object> result = [];
+                SetNotNullKeyVlueToDictionary(result, nameof(Log.ID), batchLog.Log.ID);
+                SetNotNullKeyVlueToDictionary(result, nameof(Log.Application), batchLog.Log.Application);
+                SetNotNullKeyVlueToDictionary(result, nameof(Log.Level), batchLog.Log.Level);
+                SetNotNullKeyVlueToDictionary(result, "LevelText", batchLog.Log.Level.GetDescription());
+                SetNotNullKeyVlueToDictionary(result, nameof(Log.CreateTime), batchLog.Log.CreateTime);
+                SetNotNullKeyVlueToDictionary(result, "ProgressID", batchLog.Log.ProgressID);
+                SetNotNullKeyVlueToDictionary(result, nameof(Log.ThreadID), batchLog.Log.ThreadID);
+                SetNotNullKeyVlueToDictionary(result, nameof(Log.Message), batchLog.Log.Message);
+                SetNotNullKeyVlueToDictionary(result, "Scope", batchLog.Log.ScopeName);
+                SetNotNullKeyVlueToDictionary(result, nameof(Log.MachineName), batchLog.Log.MachineName);
                 SetNotNullKeyVlueToDictionary(result, nameof(Log.Exception), batchLog.Log.Exception?.GetErrorMessage());
                 SetNotNullKeyVlueToDictionary(result, nameof(Log.CategoryName), batchLog.Log.CategoryName);
                 if (batchLog.Log.ScopeData is not null && batchLog.Log.ScopeData.Count > 0)
@@ -123,6 +121,10 @@ namespace Materal.Logger.MongoLogger
                 if (dic.ContainsKey(key) || value is null || value.IsNullOrWhiteSpaceString()) return;
                 object? trueValue = value.ToExpandoObject();
                 if (trueValue is null) return;
+                if (trueValue is Guid guid)
+                {
+                    trueValue = new BsonBinaryData(guid, GuidRepresentation.Standard);
+                }
                 dic.Add(key, trueValue);
             }
         }

@@ -9,7 +9,7 @@ namespace Materal.Logger.Test
     {
         private const LogLevel _minLoggerInfoLevel = LogLevel.Trace;
         /// <summary>
-        /// 写控制台日志
+        /// 写日志
         /// </summary>
         /// <returns></returns>
         [TestMethod]
@@ -80,7 +80,7 @@ namespace Materal.Logger.Test
         [TestMethod]
         public async Task WriteOracleLogTestAsync() => await WriteLogAsync(option =>
         {
-            const string connectionString = "user id=LOGS; Password=Materal1234; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = ORCL)));VALIDATE CONNECTION=True;";
+            const string connectionString = "user id=MATERAL; Password=Materal1234; data source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST =127.0.0.1)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = ORCL)));VALIDATE CONNECTION=True;";
             option.AddOracleTarget("OracleLogger", connectionString, "${Level}Log");
         });
         /// <summary>

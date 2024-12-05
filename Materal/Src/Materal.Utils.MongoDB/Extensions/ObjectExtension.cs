@@ -1,4 +1,4 @@
-﻿using Materal.Extensions;
+using Materal.Extensions;
 using MongoDB.Bson;
 using System.Collections;
 
@@ -48,6 +48,10 @@ namespace Materal.Utils.MongoDB.Extensions
             {
                 if (!propertyInfo.CanRead || !propertyInfo.CanWrite) continue;
                 object? valueObj = propertyInfo.GetValue(obj)?.ToExpandoObject();
+                if (valueObj is Guid guid)
+                {
+                    valueObj = new BsonBinaryData(guid, GuidRepresentation.Standard);
+                }
                 result.TryAdd(propertyInfo.Name, valueObj);
             }
             return result;

@@ -1,4 +1,7 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 namespace Materal.Utils.MongoDB
@@ -10,6 +13,13 @@ namespace Materal.Utils.MongoDB
     public partial class MongoRepository<T> : IMongoRepository<T>
         where T : class, new()
     {
+        static MongoRepository()
+        {
+            BsonSerializer.TryRegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+            IDiscriminatorConvention objectDiscriminatorConvention = BsonSerializer.LookupDiscriminatorConvention(typeof(object));
+            ObjectSerializer objectSerializer = new(objectDiscriminatorConvention, GuidRepresentation.Standard);
+            BsonSerializer.TryRegisterSerializer(objectSerializer);
+        }
         /// <summary>
         /// 连接字符串
         /// </summary>
