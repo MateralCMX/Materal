@@ -89,7 +89,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                         break;
                 }
                 string? isAllowAnonymous = attribute.GetAttributeArgument(nameof(MapperControllerAttribute.IsAllowAnonymous))?.Value;
-                if (isAllowAnonymous == "true")
+                if (isAllowAnonymous is not null && isAllowAnonymous.Equals("true", StringComparison.OrdinalIgnoreCase))
                 {
                     codeContent.Append($", AllowAnonymous");
                 }
@@ -205,7 +205,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                         break;
                 }
                 string? isAllowAnonymous = attribute.GetAttributeArgument(nameof(MapperControllerAttribute.IsAllowAnonymous))?.Value;
-                if (isAllowAnonymous == "true")
+                if (isAllowAnonymous is not null && isAllowAnonymous.Equals("true", StringComparison.OrdinalIgnoreCase))
                 {
                     codeContent.Append($", AllowAnonymous");
                 }

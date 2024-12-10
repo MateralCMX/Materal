@@ -20,19 +20,6 @@ namespace RC.Authority.Abstractions.ControllerAccessors
         /// </summary>
         public override string ModuleName => "Authority";
         /// <summary>
-        /// 获得登录用户信息
-        /// </summary>
-        /// <returns></returns>
-        public async Task<ResultModel<UserDTO>> GetLoginUserInfoAsync()
-            => await HttpHelper.SendAsync<IUserController, ResultModel<UserDTO>>(ProjectName, ModuleName, nameof(GetLoginUserInfoAsync), []);
-        /// <summary>
-        /// 登录
-        /// </summary>
-        /// <param name="requestModel"></param>
-        /// <returns></returns>
-        public async Task<ResultModel<LoginResultDTO>> LoginAsync(LoginRequestModel requestModel)
-            => await HttpHelper.SendAsync<IUserController, ResultModel<LoginResultDTO>>(ProjectName, ModuleName, nameof(LoginAsync), [], requestModel);
-        /// <summary>
         /// 重置密码
         /// </summary>
         /// <param name="id"></param>
@@ -46,5 +33,18 @@ namespace RC.Authority.Abstractions.ControllerAccessors
         /// <returns></returns>
         public async Task<ResultModel> ChangePasswordAsync(ChangePasswordRequestModel requestModel)
             => await HttpHelper.SendAsync<IUserController, ResultModel>(ProjectName, ModuleName, nameof(ChangePasswordAsync), [], requestModel);
+        /// <summary>
+        /// 获得登录用户信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ResultModel<UserDTO>> GetLoginUserInfoAsync()
+            => await HttpHelper.SendAsync<IUserController, ResultModel<UserDTO>>(ProjectName, ModuleName, nameof(GetLoginUserInfoAsync), []);
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="requestModel"></param>
+        /// <returns></returns>
+        public async Task<ResultModel<LoginResultDTO>> LoginAsync(LoginRequestModel requestModel)
+            => await HttpHelper.SendAsync<IUserController, ResultModel<LoginResultDTO>>(ProjectName, ModuleName, nameof(LoginAsync), [], requestModel);
     }
 }

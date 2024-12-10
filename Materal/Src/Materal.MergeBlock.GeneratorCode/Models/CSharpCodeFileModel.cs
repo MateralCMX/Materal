@@ -1,4 +1,6 @@
-﻿using Materal.MergeBlock.GeneratorCode.Models.AnalysisCodeHandlers;
+using Materal.MergeBlock.GeneratorCode.Extensions;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Materal.MergeBlock.GeneratorCode.Models
 {
@@ -10,11 +12,15 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// <summary>
         /// 引用组
         /// </summary>
-        public List<string> Usings { get; set; } = [];
+        public List<string> Usings { get; set; }
         /// <summary>
         /// 命名空间
         /// </summary>
-        public string Namespace { get; set; } = string.Empty;
+        public string? Namespace { get; set; }
+        /// <summary>
+        /// 名称
+        /// </summary>
+        public abstract string Name { get; set; }
         /// <summary>
         /// 注释
         /// </summary>
@@ -22,44 +28,81 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// <summary>
         /// 特性组
         /// </summary>
-        public List<AttributeModel> Attributes { get; set; } = [];
+        public List<AttributeModel> Attributes { get; set; }
         /// <summary>
-        /// 名称
+        /// 构造方法
         /// </summary>
-        public string Name { get; set; } = string.Empty;
-        /// <summary>
-        /// 获得分析代码处理器
-        /// </summary>
-        /// <returns></returns>
-        protected virtual AnalysisCodeHandler GetAnalysisCodeHandler()
+        public CSharpCodeFileModel()
         {
-            AnalysisCodeHandler analysisCodeHandler = new UsingAnalysisCodeHandler
-            {
-                NextHandler = new NamespaceAnalysisCodeHandler
-                {
-                    NextHandler = new NameAnalysisCodeHandler()
-                    {
-                        NextHandler = new PropertyAnalysisCodeHandler()
-                        {
-                            NextHandler = new InterfaceMethodAnalysisCodeHandler()
-                        }
-                    }
-                }
-            };
-            return analysisCodeHandler;
+            Usings = [];
+            Namespace = null;
+            Annotation = null;
+            Attributes = [];
         }
         /// <summary>
         /// 构造方法
         /// </summary>
-        /// <param name="codes"></param>
-        public CSharpCodeFileModel(string[] codes)
+        /// <param name="node"></param>
+        /// <param name="allNodes"></param>
+        public CSharpCodeFileModel(SyntaxNode node, IEnumerable<SyntaxNode> allNodes)
         {
-            if (codes.Length < 0) return;
-            AnalysisCodeHandler analysisCodeHandler = GetAnalysisCodeHandler();
-            for (int i = 0; i < codes.Length; i++)
+            Usings = GetUsings(allNodes);
+            Namespace = GetNamespace(allNodes);
+            Annotation = node.GetAnnotation();
+            Attributes = node.GetAttributes();
+        }
+        /// <summary>
+        /// 获取引用
+        /// </summary>
+        /// <param name="allNodes"></param>
+        private static List<string> GetUsings(IEnumerable<SyntaxNode> allNodes)
+        {
+            List<string> result = [];
+            IEnumerable<UsingDirectiveSyntax> usingDirectives = allNodes.OfType<UsingDirectiveSyntax>();
+            foreach (UsingDirectiveSyntax usingDirective in usingDirectives)
             {
-                analysisCodeHandler.Handler(this, codes, i);
+                if (usingDirective.Name is null) continue;
+                string usingName = usingDirective.Name.ToString();
+                if (result.Contains(usingName)) continue;
+                result.Add(usingName);
             }
+            return result;
+        }
+        /// <summary>
+        /// 获取命名空间
+        /// </summary>
+        /// <param name="allNodes"></param>
+        /// <returns></returns>
+        private static string? GetNamespace(IEnumerable<SyntaxNode> allNodes)
+        {
+            NamespaceDeclarationSyntax? namespaceNode = allNodes.OfType<NamespaceDeclarationSyntax>().FirstOrDefault();
+            if (namespaceNode is not null)
+            {
+                return namespaceNode.Name.ToString();
+            }
+            else
+            {
+                FileScopedNamespaceDeclarationSyntax? fileScopedNamespaceNode = allNodes.OfType<FileScopedNamespaceDeclarationSyntax>().FirstOrDefault();
+                if (fileScopedNamespaceNode is not null)
+                {
+                    return fileScopedNamespaceNode.Name.ToString();
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// 比较是否为相同模型
+        /// </summary>
+        /// <param name="other">要比较的模型</param>
+        /// <returns></returns>
+        public bool IsSameModel(CSharpCodeFileModel? other)
+        {
+            if (other is null) return false;
+            if (string.IsNullOrWhiteSpace(Namespace) && string.IsNullOrWhiteSpace(other.Namespace))
+            {
+                return Name == other.Name;
+            }
+            return Namespace == other.Namespace && Name == other.Name;
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿using Materal.MergeBlock.GeneratorCode.Attributers;
+using Materal.MergeBlock.GeneratorCode.Attributers;
 using Materal.MergeBlock.GeneratorCode.Extensions;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel.DataAnnotations;
 
 namespace Materal.MergeBlock.GeneratorCode.Models
@@ -12,15 +13,15 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// <summary>
         /// 名称
         /// </summary>
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
         /// <summary>
         /// 类型
         /// </summary>
-        public string PredefinedType { get; set; } = string.Empty;
+        public string PredefinedType { get; set; }
         /// <summary>
         /// 是否可空
         /// </summary>
-        public bool CanNull { get; set; } = false;
+        public bool CanNull => PredefinedType.EndsWith('?');
         /// <summary>
         /// 可空类型
         /// </summary>
@@ -32,7 +33,7 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// <summary>
         /// 默认值
         /// </summary>
-        public string? Initializer { get; set; } = null;
+        public string? Initializer { get; set; }
         /// <summary>
         /// 注释
         /// </summary>
@@ -40,44 +41,34 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// <summary>
         /// 特性组
         /// </summary>
-        public List<AttributeModel> Attributes { get; set; } = [];
+        public List<AttributeModel> Attributes { get; set; }
         /// <summary>
         /// 验证特性组
         /// </summary>
-        public List<AttributeModel> VerificationAttributes { get; set; } = [];
+        public List<AttributeModel> VerificationAttributes => Attributes.Where(m => _validationAttributeWhiteList.Contains(m.Name)).ToList();
         /// <summary>
         /// 查询特性组
         /// </summary>
-        public List<AttributeModel> QueryAttributes { get; set; } = [];
+        public List<AttributeModel> QueryAttributes => Attributes.Where(m => _queryAttributeWhiteList.Contains(m.Name)).ToList();
         /// <summary>
         /// 是否有查询特性
         /// </summary>
         public bool HasQueryAttribute => QueryAttributes.Count > 0;
         /// <summary>
-        /// 更新验证特性
+        /// 验证特性白名单
         /// </summary>
-        public void UpdateValidationAttributes()
-        {
-            string[] validationWhiteList =
-            [
-                nameof(RequiredAttribute).RemoveAttributeSuffix(),
-                nameof(MinLengthAttribute).RemoveAttributeSuffix(),
-                nameof(MaxLengthAttribute).RemoveAttributeSuffix(),
-                nameof(StringLengthAttribute).RemoveAttributeSuffix()
-            ];
-            foreach (AttributeModel attribute in Attributes)
-            {
-                if (!validationWhiteList.Contains(attribute.Name)) continue;
-                VerificationAttributes.Add(attribute);
-            }
-        }
+        private static readonly string[] _validationAttributeWhiteList =
+        [
+            nameof(RequiredAttribute).RemoveAttributeSuffix(),
+            nameof(MinLengthAttribute).RemoveAttributeSuffix(),
+            nameof(MaxLengthAttribute).RemoveAttributeSuffix(),
+            nameof(StringLengthAttribute).RemoveAttributeSuffix()
+        ];
         /// <summary>
-        /// 更新查询特性
+        /// 查询特性白名单
         /// </summary>
-        public void UpdateQueryAttributes()
-        {
-            string[] queryWhiteList =
-            [
+        private static readonly string[] _queryAttributeWhiteList =
+        [
                 nameof(EqualAttribute).RemoveAttributeSuffix(),
                 nameof(NotEqualAttribute).RemoveAttributeSuffix(),
                 nameof(ContainsAttribute).RemoveAttributeSuffix(),
@@ -87,12 +78,29 @@ namespace Materal.MergeBlock.GeneratorCode.Models
                 nameof(LessThanOrEqualAttribute).RemoveAttributeSuffix(),
                 nameof(StartContainsAttribute).RemoveAttributeSuffix(),
                 nameof(BetweenAttribute).RemoveAttributeSuffix()
-            ];
-            foreach (AttributeModel attribute in Attributes)
-            {
-                if (!queryWhiteList.Contains(attribute.Name)) continue;
-                QueryAttributes.Add(attribute);
-            }
+        ];
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        public PropertyModel()
+        {
+            Name = string.Empty;
+            PredefinedType = string.Empty;
+            Initializer = null;
+            Annotation = null;
+            Attributes = [];
+        }
+        /// <summary>
+        /// 构造方法
+        /// </summary>
+        /// <param name="node"></param>
+        public PropertyModel(PropertyDeclarationSyntax node)
+        {
+            Name = GetName(node);
+            PredefinedType = GetPredefinedType(node);
+            Initializer = GetInitializer(node);
+            Annotation = node.GetAnnotation();
+            Attributes = node.GetAttributes();
         }
         /// <summary>
         /// 获得验证特性代码
@@ -104,5 +112,31 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// </summary>
         /// <returns></returns>
         public string? GetQueryAttributesCode() => QueryAttributes.GetCode();
+        /// <summary>
+        /// 获取名称
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private static string GetName(PropertyDeclarationSyntax node)
+            => node.Identifier.Text;
+        /// <summary>
+        /// 获取类型
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private static string GetPredefinedType(PropertyDeclarationSyntax node)
+            => node.Type.ToString();
+        /// <summary>
+        /// 获取默认值
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private static string? GetInitializer(PropertyDeclarationSyntax node)
+        {
+            if (node.Initializer is null) return null;
+            return node.Initializer.Value is LiteralExpressionSyntax literalExpression
+                ? literalExpression.Token.ValueText
+                : node.Initializer.Value.ToString();
+        }
     }
 }

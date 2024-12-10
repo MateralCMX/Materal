@@ -1,13 +1,13 @@
 ﻿/*
  * Generator Code From MateralMergeBlock=>GeneratorControllerAccessorAsync
  */
-using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
 using RC.EnvironmentServer.Abstractions.RequestModel.ConfigurationItem;
+using RC.EnvironmentServer.Abstractions.DTO.ConfigurationItem;
 
 namespace RC.EnvironmentServer.Abstractions.ControllerAccessors
 {
     /// <summary>
-    /// 配置项控制器访问器
+    /// 控制器访问器
     /// </summary>
     public partial class ConfigurationItemControllerAccessor(IServiceProvider serviceProvider) : BaseControllerAccessor<IConfigurationItemController, AddConfigurationItemRequestModel, EditConfigurationItemRequestModel, QueryConfigurationItemRequestModel, ConfigurationItemDTO, ConfigurationItemListDTO>(serviceProvider), IConfigurationItemController
     {

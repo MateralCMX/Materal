@@ -3,13 +3,13 @@
  */
 using Microsoft.AspNetCore.Http;
 using RC.Deploy.Abstractions.DTO.ApplicationInfo;
-using RC.Deploy.Abstractions.RequestModel.ApplicationInfo;
 using RC.Deploy.Abstractions.RequestModel;
+using RC.Deploy.Abstractions.RequestModel.ApplicationInfo;
 
 namespace RC.Deploy.Abstractions.ControllerAccessors
 {
     /// <summary>
-    /// 应用程序控制器访问器
+    /// 应用程序服务控制器访问器
     /// </summary>
     public partial class ApplicationInfoControllerAccessor(IServiceProvider serviceProvider) : BaseControllerAccessor<IApplicationInfoController, AddApplicationInfoRequestModel, EditApplicationInfoRequestModel, QueryApplicationInfoRequestModel, ApplicationInfoDTO, ApplicationInfoListDTO>(serviceProvider), IApplicationInfoController
     {
@@ -21,20 +21,6 @@ namespace RC.Deploy.Abstractions.ControllerAccessors
         /// 模块名称
         /// </summary>
         public override string ModuleName => "Deploy";
-        /// <summary>
-        /// 上传新文件
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="file"></param>
-        /// <returns></returns>
-        public async Task<ResultModel> UploadNewFileAsync(Guid id, IFormFile file)
-            => await HttpHelper.SendAsync<IApplicationInfoController, ResultModel>(ProjectName, ModuleName, nameof(UploadNewFileAsync), new() { [nameof(id)] = id.ToString() }, file);
-        /// <summary>
-        /// 获得控制台消息数量
-        /// </summary>
-        /// <returns></returns>
-        public ResultModel<int> GetMaxConsoleMessageCount()
-            => HttpHelper.SendAsync<IApplicationInfoController, ResultModel<int>>(ProjectName, ModuleName, nameof(GetMaxConsoleMessageCount), []).Result;
         /// <summary>
         /// 应用最后一个文件
         /// </summary>
@@ -112,5 +98,19 @@ namespace RC.Deploy.Abstractions.ControllerAccessors
         /// <returns></returns>
         public ResultModel<List<FileInfoDTO>> GetUploadFiles(Guid id)
             => HttpHelper.SendAsync<IApplicationInfoController, ResultModel<List<FileInfoDTO>>>(ProjectName, ModuleName, nameof(GetUploadFiles), new() { [nameof(id)] = id.ToString() }).Result;
+        /// <summary>
+        /// 上传新文件
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public async Task<ResultModel> UploadNewFileAsync(Guid id, IFormFile file)
+            => await HttpHelper.SendAsync<IApplicationInfoController, ResultModel>(ProjectName, ModuleName, nameof(UploadNewFileAsync), new() { [nameof(id)] = id.ToString() }, file);
+        /// <summary>
+        /// 获得控制台消息数量
+        /// </summary>
+        /// <returns></returns>
+        public ResultModel<int> GetMaxConsoleMessageCount()
+            => HttpHelper.SendAsync<IApplicationInfoController, ResultModel<int>>(ProjectName, ModuleName, nameof(GetMaxConsoleMessageCount), []).Result;
     }
 }

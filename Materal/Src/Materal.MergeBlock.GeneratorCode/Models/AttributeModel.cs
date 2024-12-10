@@ -1,4 +1,4 @@
-﻿using Materal.MergeBlock.GeneratorCode.Extensions;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Text;
 
 namespace Materal.MergeBlock.GeneratorCode.Models
@@ -11,59 +11,48 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// <summary>
         /// 特性名称
         /// </summary>
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
         /// <summary>
         /// 特性参数列表
         /// </summary>
-        public List<AttributeArgumentModel> AttributeArguments { get; set; } = [];
+        public List<AttributeArgumentModel> AttributeArguments { get; set; }
         /// <summary>
         /// 构造方法
         /// </summary>
-        public AttributeModel() { }
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        /// <param name="code"></param>
-        public AttributeModel(string code)
+        public AttributeModel()
         {
-            int leftbracketIndex = code.IndexOf("(");
-            if (leftbracketIndex > 0 && code.EndsWith(")"))
-            {
-                Name = code[..leftbracketIndex];
-                string argumentString = code[(leftbracketIndex + 1)..^1];
-                string[] arguments = argumentString.Trim().Split(',');
-                List<string> trueArguments = arguments.AssemblyFullCode(",");
-                AttributeArguments.AddRange(trueArguments.Select(item => new AttributeArgumentModel(item)));
-            }
-            else
-            {
-                Name = code;
-            }
+            Name = string.Empty;
+            AttributeArguments = [];
         }
         /// <summary>
-        /// 获取特性列表
+        /// 构造方法
         /// </summary>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public static List<AttributeModel> GetAttributes(string code)
+        /// <param name="node"></param>
+        public AttributeModel(AttributeSyntax node)
         {
-            List<AttributeModel> result = [];
-            string attributeCode = code[1..^1];
-            string[] attributeCodes = attributeCode.Split(',');
-            attributeCode = string.Empty;
-            foreach (string item in attributeCodes)
+            Name = GetName(node);
+            AttributeArguments = GetAttributeArguments(node);
+        }
+        /// <summary>
+        /// 获取名称
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private static string GetName(AttributeSyntax node)
+            => node.Name.ToString();
+        /// <summary>
+        /// 获取特性参数列表
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private static List<AttributeArgumentModel> GetAttributeArguments(AttributeSyntax node)
+        {
+            List<AttributeArgumentModel> result = [];
+            if (node.ArgumentList is null) return result;
+            foreach (AttributeArgumentSyntax argumentNode in node.ArgumentList.Arguments)
             {
-                if (attributeCode is null || string.IsNullOrWhiteSpace(attributeCode))
-                {
-                    attributeCode = item.Trim();
-                }
-                else
-                {
-                    attributeCode += $", {item}".Trim();
-                }
-                if (attributeCode.Count(m => m == '(') != attributeCode.Count(m => m == ')')) continue;
-                result.Add(new AttributeModel(attributeCode));
-                attributeCode = string.Empty;
+                AttributeArgumentModel item = new(argumentNode);
+                result.Add(item);
             }
             return result;
         }
@@ -77,7 +66,7 @@ namespace Materal.MergeBlock.GeneratorCode.Models
             codeContent.Append(Name);
             if (AttributeArguments.Count > 0)
             {
-                codeContent.Append("(");
+                codeContent.Append('(');
                 List<string> arguments = [];
                 for (int i = 0; i < AttributeArguments.Count; i++)
                 {
@@ -91,19 +80,9 @@ namespace Materal.MergeBlock.GeneratorCode.Models
                     }
                 }
                 codeContent.Append(string.Join(", ", arguments));
-                codeContent.Append(")");
+                codeContent.Append(')');
             }
             return codeContent.ToString();
         }
-        /// <summary>
-        /// 创建特性
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static AttributeModel Creatae<T>()
-            where T : Attribute => new()
-            {
-                Name = typeof(T).Name,
-            };
     }
 }

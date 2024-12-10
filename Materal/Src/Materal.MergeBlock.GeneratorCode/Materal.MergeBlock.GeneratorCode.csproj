@@ -6,6 +6,9 @@
 		<Description>Materal 代码生成包</Description>
 	</PropertyGroup>
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+	</ItemGroup>
+	<ItemGroup>
 	  <ProjectReference Include="..\Materal.Utils\Materal.Utils.csproj" />
 	</ItemGroup>
 </Project>

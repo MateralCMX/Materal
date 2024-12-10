@@ -16,8 +16,8 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
         /// <returns></returns>
         public static DomainModel GetQueryDomain(this DomainModel domain, List<DomainModel> domains)
         {
-            var targetDomain = domain;
-            var queryViewAttribute = targetDomain.GetAttribute<QueryViewAttribute>();
+            DomainModel targetDomain = domain;
+            AttributeModel? queryViewAttribute = targetDomain.GetAttribute<QueryViewAttribute>();
             if (queryViewAttribute is not null)
             {
                 string? targetDomainName = queryViewAttribute.GetAttributeArgument()?.Value;

@@ -319,9 +319,11 @@ namespace Materal.MergeBlock.GeneratorCode.Extensions
         {
             if (attributes.Count <= 0) return null;
             List<string> attributeCodes = [];
-            foreach (var attribute in attributes)
+            foreach (AttributeModel attribute in attributes)
             {
-                attributeCodes.Add(attribute.ToString());
+                string? item = attribute.ToString();
+                if (string.IsNullOrWhiteSpace(item)) continue;
+                attributeCodes.Add(item);
             }
             string code = $"[{string.Join(", ", attributeCodes)}]";
             return code;
