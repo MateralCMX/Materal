@@ -29,6 +29,10 @@ namespace Materal.MergeBlock.GeneratorCode.Models
         /// <returns></returns>
         public PropertyModel? GetIndexGroupProperty() => Properties.FirstOrDefault(m => m.HasAttribute<IndexGroupAttribute>());
         /// <summary>
+        /// 是否为视图
+        /// </summary>
+        public bool IsView => Attributes.HasAttribute<ViewAttribute>();
+        /// <summary>
         /// 构造方法
         /// </summary>
         public DomainModel() : base()

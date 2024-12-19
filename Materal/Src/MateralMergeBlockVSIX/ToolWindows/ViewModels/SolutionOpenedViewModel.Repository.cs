@@ -49,7 +49,14 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"        public override void Configure(EntityTypeBuilder<{domain.Name}> builder)");
             codeContent.AppendLine($"        {{");
             codeContent.AppendLine($"            builder = BaseConfigure(builder);");
-            codeContent.AppendLine($"            builder.ToTable(m => m.HasComment(\"{domain.Annotation}\"));");
+            if (domain.IsView)
+            {
+                codeContent.AppendLine($"            builder.ToView(\"{domain.Annotation}\");");
+            }
+            else
+            {
+                codeContent.AppendLine($"            builder.ToTable(m => m.HasComment(\"{domain.Annotation}\"));");
+            }
             foreach (PropertyModel property in domain.Properties)
             {
                 if (property.HasAttribute<NotEntityConfigAttribute>()) continue;
