@@ -1,12 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <IsPublish>true</IsPublish>
+    <PublishDirectory>$(MSBuildProjectDirectory)\..\..\..\Publish</PublishDirectory>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <LangVersion>latest</LangVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="..\..\VSIXVersion.props" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -98,20 +99,16 @@
     <Reference Include="System.ComponentModel.Composition" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Community.VisualStudio.VSCT" Version="16.0.29.6" PrivateAssets="all" />
-    <PackageReference Include="Community.VisualStudio.Toolkit.17" Version="17.0.527" ExcludeAssets="Runtime">
+    <PackageReference Include="Community.VisualStudio.VSCT" PrivateAssets="all" />
+    <PackageReference Include="Community.VisualStudio.Toolkit.17" ExcludeAssets="Runtime">
       <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="IndexRange">
-      <Version>1.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.12.2069">
+    <PackageReference Include="IndexRange" />
+    <PackageReference Include="Microsoft.VSSDK.BuildTools">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="System.Xml.XmlDocument">
-      <Version>4.3.0</Version>
-    </PackageReference>
+    <PackageReference Include="System.Xml.XmlDocument" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="ToolWindows\MateralToolWindowControl.xaml">
@@ -127,24 +124,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-    <PostBuildEvent>
-			set outputPath=$(TargetDir)MateralToolsVSIX.vsix
-			set destinationDirectory=$(SolutionDir)
-			set destinationDirectory=%25destinationDirectory:~0,-1%25
-			for %25%25i in ("%25destinationDirectory%25") do set destinationDirectory=%25%25~dpi
-
-			set destinationDirectory=%25destinationDirectory:~0,-1%25
-			set destinationDirectory=%25destinationDirectory%25\Publish\MateralToolsVSIX.vsix
-
-			copy "%25outputPath%25" "%25destinationDirectory%25" /Y
-		</PostBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release' And '$(IsPublish)' == 'true'">
+    <Message Text="开始复制 VSIX 文件..." Importance="high" />
+    <Message Text="源文件: $(TargetDir)$(AssemblyName).vsix" Importance="high" />
+    <Message Text="目标目录: $(PublishDirectory)" Importance="high" />
+    <MakeDir Directories="$(PublishDirectory)" />
+    <Copy SourceFiles="$(TargetDir)$(AssemblyName).vsix" DestinationFiles="$(PublishDirectory)\$(AssemblyName).vsix" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+    <Message Text="VSIX 文件复制完成" Importance="high" />
   </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

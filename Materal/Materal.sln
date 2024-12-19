@@ -25,6 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "解决方案项", "解决�
 		..\README.md = ..\README.md
 		UnoLibrary.props = UnoLibrary.props
 		UnoPackable.props = UnoPackable.props
+		VSIXVersion.props = VSIXVersion.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00基础库", "00基础库", "{AA72D6E8-CE0F-4A5D-8895-BC3E8FF4BCD9}"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <Import Project="Packable.props" />
+  <PropertyGroup>
+    <PreBuildEventDependsOn>UpdateVSIXVersion;$(PreBuildEventDependsOn)</PreBuildEventDependsOn>
+    <BuildDependsOn>UpdateVSIXVersion;$(BuildDependsOn)</BuildDependsOn>
+  </PropertyGroup>
+  <Target Name="UpdateVSIXVersion" DependsOnTargets="GetGitTag;SetVersion" BeforeTargets="PreBuildEvent;Build" Condition="'$(Configuration)' == 'Release'">
+    <PropertyGroup>
+      <!-- VSIX 需要四段式版本号，所以我们在最后添加一个 0 -->
+      <VSIXVersion>$(Version).0</VSIXVersion>
+      <VSIXManifestFile>$(ProjectDir)source.extension.vsixmanifest</VSIXManifestFile>
+    </PropertyGroup>
+    <Message Text="正在更新 VSIX 版本号为: $(VSIXVersion)" Importance="high" />
+    <Message Text="VSIX 清单文件路径: $(VSIXManifestFile)" Importance="high" />
+    <XmlPoke
+      XmlInputPath="$(VSIXManifestFile)"
+      Query="/ns:PackageManifest/ns:Metadata/ns:Identity/@Version"
+      Value="$(VSIXVersion)"
+      Namespaces="&lt;Namespace Prefix='ns' Uri='http://schemas.microsoft.com/developer/vsx-schema/2011' /&gt;" />
+  </Target>
+</Project>

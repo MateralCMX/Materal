@@ -51,7 +51,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
             codeContent.AppendLine($"            builder = BaseConfigure(builder);");
             if (domain.IsView)
             {
-                codeContent.AppendLine($"            builder.ToView(\"{domain.Annotation}\");");
+                codeContent.AppendLine($"            builder.ToView(\"{domain.Name}\");");
             }
             else
             {

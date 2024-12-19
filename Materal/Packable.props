@@ -27,7 +27,6 @@
 			<GitTag Condition="'$(_TempGitTag)' != '' AND !$(_TempGitTag.Contains('fatal:'))">$(_TempGitTag)</GitTag>
 			<VersionPrefix>$(GitTag)</VersionPrefix>
 		</PropertyGroup>
-		<Message Text="Git Tag Version: $(VersionPrefix)" Importance="high" />
 	</Target>
 	<Target Name="SetVersion" BeforeTargets="GenerateNuspec;_GetOutputItemsFromPack" Condition="'$(Configuration)' == 'Release'" DependsOnTargets="GetGitTag">
 		<PropertyGroup>
@@ -44,7 +43,6 @@
 			<AssemblyVersion>$(Version)</AssemblyVersion>
 			<InformationalVersion>$(Version)</InformationalVersion>
 		</PropertyGroup>
-		<Message Text="Package Version: $(Version)" Importance="high" />
 	</Target>
 	<ItemGroup>
 		<None Include="../../../README.md" Pack="true" PackagePath="" />
