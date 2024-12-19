@@ -7,12 +7,12 @@ namespace MateralMergeBlockVSIX
 {
     internal sealed partial class Vsix
     {
-        public const string Id = "MateralMergeBlockVSIX.b1552ba8-4727-4fcf-8258-ef4040604f52";
+        public const string Id = "MateralMergeBlockVSIX.8759d170-31fb-4d6d-a35f-94f7586a0eb4";
         public const string Name = "MateralMergeBlockVSIX";
         public const string Description = @"Materal.MergeBlock项目专用插件";
-        public const string Language = "zh-Hans";
-        public const string Version = "1.1.78.1";
+        public const string Language = "zh-CN";
+        public const string Version = "1.2.2";
         public const string Author = "Materal";
-        public const string Tags = "Materal.MergeBlock";
+        public const string Tags = "";
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.PlatformUI;
+﻿using Materal.Utils.Windows;
+using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.IO;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace MateralMergeBlockVSIX.ToolWindows.ViewModels
                 string projectName = solutionNames.First();
                 _moduleName = solutionNames.Last();
                 DirectoryInfo directoryInfo = new FileInfo(_solutionPath).Directory;
-                if(_moduleName == "Core")
+                if (_moduleName == "Core")
                 {
                     _applicationCsprojPath = Path.Combine(directoryInfo.FullName, "Demo", $"{projectName}.Demo.Application", $"{projectName}.Demo.Application.csproj");
                 }

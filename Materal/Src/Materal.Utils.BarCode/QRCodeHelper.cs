@@ -117,7 +117,6 @@ namespace Materal.Utils.BarCode
             canvas.Clear(SKColors.White);
             using SKPaint paint = new();
             paint.IsAntialias = true;
-            paint.FilterQuality = SKFilterQuality.High;
             canvas.DrawBitmap(qrCode, 0, 0, paint);
             float centerX = (qrCode.Width - logoSize) / 2;
             float centerY = (qrCode.Height - logoSize) / 2;

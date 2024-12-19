@@ -7,12 +7,12 @@ namespace MateralToolsVSIX
 {
     internal sealed partial class Vsix
     {
-        public const string Id = "MateralToolsVSIX.76483ff7-1749-4014-9007-82c3a64b7cf3";
+        public const string Id = "MateralToolsVSIX.332cc8a2-9065-4eac-b73a-62cc5596458f";
         public const string Name = "MateralToolsVSIX";
-        public const string Description = @"MateralTools扩展";
+        public const string Description = @"Materal工具扩展";
         public const string Language = "zh-CN";
-        public const string Version = "1.1.78.1";
-        public const string Author = "陈明旭";
+        public const string Version = "1.2.2";
+        public const string Author = "Materal";
         public const string Tags = "";
     }
 }

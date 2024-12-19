@@ -3,10 +3,8 @@ using CommunityToolkit.Mvvm.Input;
 using Materal.Tools.Core.ChangeEncoding;
 using Materal.Tools.WinUI;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace MateralTools.ViewModels
 {
@@ -16,32 +14,32 @@ namespace MateralTools.ViewModels
         /// 路径
         /// </summary>
         [ObservableProperty]
-        private string _path = "D:\\Test";
+        public partial string Path { get; set; } = "D:\\Test";
         /// <summary>
         /// 编码
         /// </summary>
         [ObservableProperty]
-        private string _encodingName = "UTF-8";
+        public partial string EncodingName { get; set; } = "UTF-8";
         /// <summary>
         /// 文件名过滤器
         /// </summary>
         [ObservableProperty]
-        private string _fileNameFilter = "^.+\\.cs$";
+        public partial string FileNameFilter { get; set; } = "^.+\\.cs$";
         /// <summary>
         /// 强制读取
         /// </summary>
         [ObservableProperty]
-        private bool _forcedRead = false;
+        public partial bool ForcedRead { get; set; } = false;
         /// <summary>
         /// 读取编码
         /// </summary>
         [ObservableProperty]
-        private string _readEncodingName = "GBK";
+        public partial string ReadEncodingName { get; set; } = "GBK";
         /// <summary>
         /// 递归
         /// </summary>
         [ObservableProperty]
-        private bool _recursive = true;
+        public partial bool Recursive { get; set; } = true;
         private readonly IChangeEncodingService _changeEncodingService;
         public event Action? OnClearMessage;
         public ChangeEncodingViewModel()

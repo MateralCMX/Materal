@@ -2,9 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Materal.Tools.Core.LFConvert;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace Materal.Tools.WinUI.ViewModels
 {
@@ -14,17 +12,17 @@ namespace Materal.Tools.WinUI.ViewModels
         /// 路径
         /// </summary>
         [ObservableProperty]
-        private string _path = "D:\\Test";
+        public partial string Path { get; set; } = "D:\\Test";
         /// <summary>
         /// 文件名过滤器
         /// </summary>
         [ObservableProperty]
-        private string _fileNameFilter = ".+\\.cs";
+        public partial string FileNameFilter { get; set; } = ".+\\.cs";
         /// <summary>
         /// 递归
         /// </summary>
         [ObservableProperty]
-        private bool _recursive = true;
+        public partial bool Recursive { get; set; } = true;
         private readonly ILFConvertService _LFConvertService;
         public event Action? OnClearMessage;
         public LFConvertViewModel()

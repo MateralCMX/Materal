@@ -27,7 +27,6 @@ namespace Materal.WebAPITest
                 app.UseSwaggerUI();
             }
             app.UseAuthorization();
-            app.UseMateralServiceProvider();
             app.MapControllers();
             IConsulService consulService = app.Services.GetRequiredService<IConsulService>();
             await consulService.RegisterConsulAsync(new ConsulConfig

@@ -1,22 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <Import Project="Packable.props" />
-  <PropertyGroup>
-    <PreBuildEventDependsOn>UpdateVSIXVersion;$(PreBuildEventDependsOn)</PreBuildEventDependsOn>
-    <BuildDependsOn>UpdateVSIXVersion;$(BuildDependsOn)</BuildDependsOn>
-  </PropertyGroup>
-  <Target Name="UpdateVSIXVersion" DependsOnTargets="GetGitTag;SetVersion" BeforeTargets="PreBuildEvent;Build" Condition="'$(Configuration)' == 'Release'">
-    <PropertyGroup>
-      <!-- VSIX 需要四段式版本号，所以我们在最后添加一个 0 -->
-      <VSIXVersion>$(Version).0</VSIXVersion>
-      <VSIXManifestFile>$(ProjectDir)source.extension.vsixmanifest</VSIXManifestFile>
-    </PropertyGroup>
-    <Message Text="正在更新 VSIX 版本号为: $(VSIXVersion)" Importance="high" />
-    <Message Text="VSIX 清单文件路径: $(VSIXManifestFile)" Importance="high" />
-    <XmlPoke
-      XmlInputPath="$(VSIXManifestFile)"
-      Query="/ns:PackageManifest/ns:Metadata/ns:Identity/@Version"
-      Value="$(VSIXVersion)"
-      Namespaces="&lt;Namespace Prefix='ns' Uri='http://schemas.microsoft.com/developer/vsx-schema/2011' /&gt;" />
-  </Target>
+	<PropertyGroup>
+		<VSIXManifestFile>$(MSBuildProjectDirectory)\source.extension.vsixmanifest</VSIXManifestFile>
+		<VersionCsFile>$(MSBuildProjectDirectory)\source.extension.cs</VersionCsFile>
+	</PropertyGroup>
+	<Target Name="GetGitTag" BeforeTargets="SetVersion" Condition="'$(Configuration)' == 'Release'">
+		<PropertyGroup>
+			<GitTag>1.0</GitTag>
+		</PropertyGroup>
+		<Exec Command="git describe --tags --abbrev=0" ConsoleToMSBuild="true" StandardOutputImportance="high" IgnoreExitCode="true" WorkingDirectory="$(MSBuildProjectDirectory)">
+			<Output TaskParameter="ConsoleOutput" PropertyName="_TempGitTag" />
+		</Exec>
+		<PropertyGroup>
+			<GitTag Condition="'$(_TempGitTag)' != ''">$(_TempGitTag.Trim())</GitTag>
+			<VersionPrefix>$(GitTag)</VersionPrefix>
+		</PropertyGroup>
+	</Target>
+	<Target Name="SetVersion" BeforeTargets="PrepareForBuild" DependsOnTargets="GetGitTag" Condition="'$(Configuration)' == 'Release'">
+		<PropertyGroup>
+			<GitVersionRevision>0</GitVersionRevision>
+		</PropertyGroup>
+		<Exec Command="git rev-list $(GitTag)..HEAD --count" ConsoleToMSBuild="true" StandardOutputImportance="high" IgnoreExitCode="true" WorkingDirectory="$(MSBuildProjectDirectory)">
+			<Output TaskParameter="ConsoleOutput" PropertyName="_TempGitVersionRevision" />
+		</Exec>
+		<PropertyGroup>
+			<GitVersionRevision Condition="'$(_TempGitVersionRevision)' != ''">$(_TempGitVersionRevision.Trim())</GitVersionRevision>
+			<Version>$(VersionPrefix).$(GitVersionRevision)</Version>
+		</PropertyGroup>
+		<Message Text="版本号: $(Version)" Importance="high" />
+		<XmlPoke XmlInputPath="$(VSIXManifestFile)" 
+			 Namespaces="&lt;Namespace Prefix='vs' Uri='http://schemas.microsoft.com/developer/vsx-schema/2011'/&gt;"
+			 Query="/vs:PackageManifest/vs:Metadata/vs:Identity/@Version" 
+			 Value="$(Version)" />			 
+		<Exec Command='powershell -Command "&amp; {(Get-Content &apos;$(VersionCsFile)&apos;) -replace &apos;public const string Version = \&quot;.*\&quot;;&apos;, &apos;public const string Version = \&quot;$(Version)\&quot;;&apos; | Set-Content &apos;$(VersionCsFile)&apos;}"' />
+	</Target>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Release' And '$(IsPublish)' == 'true'">
+		<PropertyGroup>
+			<PublishDirectory>$(MSBuildProjectDirectory)\..\..\..\Publish</PublishDirectory>
+		</PropertyGroup>
+		<MakeDir Directories="$(PublishDirectory)" />
+		<Copy SourceFiles="$(TargetDir)$(AssemblyName).vsix" DestinationFiles="$(PublishDirectory)\$(AssemblyName).vsix" OverwriteReadOnlyFiles="true" SkipUnchangedFiles="false" />
+	</Target>
 </Project>

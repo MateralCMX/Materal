@@ -12,7 +12,7 @@ namespace Materal.Tools.WinUI.ViewModels
         /// 项目路径
         /// </summary>
         [ObservableProperty]
-        private string _projectPath = @"D:\Test";
+        public partial string ProjectPath { get; set; } = @"D:\Test";
         private readonly IProjectClearService _projectClearService;
         private readonly ILogger<ProjectClearViewModel> _logger;
         public event Action? OnClearMessage;

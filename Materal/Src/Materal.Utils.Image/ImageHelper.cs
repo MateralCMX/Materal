@@ -134,7 +134,8 @@ namespace Materal.Utils.Image
         public static SKImage GetThumbnailImage(this SKBitmap bitmap, int width, int height)
         {
             SKBitmap resizedBitmap = new(width, height);
-            bitmap.ScalePixels(resizedBitmap, SKFilterQuality.High);
+            SKSamplingOptions samplingOptions = new();
+            bitmap.ScalePixels(resizedBitmap, samplingOptions);
             SKImage result = SKImage.FromBitmap(resizedBitmap);
             return result;
         }

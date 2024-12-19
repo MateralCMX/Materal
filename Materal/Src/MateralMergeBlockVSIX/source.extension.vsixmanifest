@@ -1,12 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="MateralMergeBlockVSIX.b1552ba8-4727-4fcf-8258-ef4040604f52" Version="1.2.1.0" Language="zh-Hans" Publisher="Materal" />
+    <Identity Id="MateralMergeBlockVSIX.8759d170-31fb-4d6d-a35f-94f7586a0eb4" Version="1.2.2" Language="zh-CN" Publisher="Materal" />
     <DisplayName>MateralMergeBlockVSIX</DisplayName>
     <Description xml:space="preserve">Materal.MergeBlock项目专用插件</Description>
-    <Icon>Icon.jpg</Icon>
-    <PreviewImage>Icon.jpg</PreviewImage>
-    <Tags>Materal.MergeBlock</Tags>
+    <Icon>Resources\Icon.jpg</Icon>
+    <PreviewImage>Resources\Icon.jpg</PreviewImage>
   </Metadata>
   <Installation>
     <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
