@@ -16,35 +16,13 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
-	<Target Name="GetGitTag" BeforeTargets="SetVersion" Condition="'$(Configuration)' == 'Release'">
-		<PropertyGroup>
-			<GitTag>1.0</GitTag>
-		</PropertyGroup>
-		<Exec Command="git describe --tags --abbrev=0 | findstr /r &quot;^[0-9]&quot;" ConsoleToMSBuild="true" StandardOutputImportance="high" IgnoreExitCode="true">
-			<Output TaskParameter="ConsoleOutput" PropertyName="_TempGitTag" />
-		</Exec>
-		<PropertyGroup>
-			<GitTag Condition="'$(_TempGitTag)' != '' AND !$(_TempGitTag.Contains('fatal:'))">$(_TempGitTag)</GitTag>
-			<VersionPrefix>$(GitTag)</VersionPrefix>
-		</PropertyGroup>
-	</Target>
-	<Target Name="SetVersion" BeforeTargets="GenerateNuspec;_GetOutputItemsFromPack" Condition="'$(Configuration)' == 'Release'" DependsOnTargets="GetGitTag">
-		<PropertyGroup>
-			<GitVersionRevision>0</GitVersionRevision>
-		</PropertyGroup>
-		<Exec Command="git rev-list $(GitTag)..HEAD --count" ConsoleToMSBuild="true" StandardOutputImportance="high" IgnoreExitCode="true">
-			<Output TaskParameter="ConsoleOutput" PropertyName="_TempGitVersionRevision" />
-		</Exec>
-		<PropertyGroup>
-			<GitVersionRevision Condition="'$(_TempGitVersionRevision)' != '' AND !$(_TempGitVersionRevision.Contains('fatal:'))">$(_TempGitVersionRevision)</GitVersionRevision>
-			<Version>$(VersionPrefix).$(GitVersionRevision)</Version>
-			<PackageVersion>$(Version)</PackageVersion>
-			<FileVersion>$(Version)</FileVersion>
-			<AssemblyVersion>$(Version)</AssemblyVersion>
-			<InformationalVersion>$(Version)</InformationalVersion>
-		</PropertyGroup>
-	</Target>
-	<ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
+		<PackageReference Include="GitInfo">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Release'">
 		<None Include="../../../README.md" Pack="true" PackagePath="" />
 		<None Include="../../../LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
