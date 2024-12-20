@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="MateralToolsVSIX.332cc8a2-9065-4eac-b73a-62cc5596458f" Version="1.2.3" Language="zh-CN" Publisher="Materal" />
+    <Identity Id="MateralToolsVSIX.332cc8a2-9065-4eac-b73a-62cc5596458f" Version="1.2.4" Language="zh-CN" Publisher="Materal" />
     <DisplayName>MateralToolsVSIX</DisplayName>
     <Description xml:space="preserve">Materal工具扩展</Description>
     <Icon>Resources\Icon.png</Icon>
