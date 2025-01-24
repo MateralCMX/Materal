@@ -11,5 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "@microsoft/signalr": "^7.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.18.0"
   }
 }

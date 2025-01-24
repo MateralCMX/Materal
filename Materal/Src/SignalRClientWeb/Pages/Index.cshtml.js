@@ -275,7 +275,7 @@ function showReplyMessage() {
 }
 window.onload = () => {
     //加载配置
-    inputUrl.value = getLocalStorageValue(hubUrlKey, "http://localhost:5000/hubs");
+    inputUrl.value = getLocalStorageValue(hubUrlKey, "http://localhost:5000/hubs/");
     inputHubName.value = getLocalStorageValue(hubNameKey, "Test");
     inputActionName.value = getLocalStorageValue(actionNameKey, "Test");
     textareaMessage.value = getLocalStorageValue(messageKey, "");
