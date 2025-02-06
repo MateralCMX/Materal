@@ -8,6 +8,7 @@ namespace Materal.Oscillator.Abstractions.Extensions
     /// </summary>
     public static class TimeTriggerDataExtensions
     {
+        private static readonly SemaphoreSlim _semaphore = new(1, 1);
         /// <summary>
         /// 获取时间触发器
         /// </summary>
@@ -16,21 +17,29 @@ namespace Materal.Oscillator.Abstractions.Extensions
         /// <returns></returns>
         public static async Task<ITimeTrigger?> GetTimeTriggerAsync(this ITimeTriggerData timeTriggerData, IServiceProvider serviceProvider)
         {
-            Type dataType = timeTriggerData.GetType();
-            if (ITimeTriggerData.MapperTable[dataType] is Type timeTriggerType)
+            await _semaphore.WaitAsync();
+            try
             {
-                if (serviceProvider.GetService(timeTriggerType) is not ITimeTrigger timeTrigger) return null;
-                await timeTrigger.SetDataAsync(timeTriggerData);
-                return timeTrigger;
+                Type dataType = timeTriggerData.GetType();
+                if (ITimeTriggerData.MapperTable[dataType] is Type timeTriggerType)
+                {
+                    if (serviceProvider.GetService(timeTriggerType) is not ITimeTrigger timeTrigger) return null;
+                    await timeTrigger.SetDataAsync(timeTriggerData);
+                    return timeTrigger;
+                }
+                else
+                {
+                    IEnumerable<ITimeTrigger> timeTriggers = serviceProvider.GetServices<ITimeTrigger>();
+                    ITimeTrigger? timeTrigger = timeTriggers.FirstOrDefault(m => m.DataType == dataType);
+                    if (timeTrigger is null) return null;
+                    await timeTrigger.SetDataAsync(timeTriggerData);
+                    ITimeTriggerData.MapperTable[dataType] = timeTrigger.GetType();
+                    return timeTrigger;
+                }
             }
-            else
+            finally
             {
-                IEnumerable<ITimeTrigger> timeTriggers = serviceProvider.GetServices<ITimeTrigger>();
-                ITimeTrigger? timeTrigger = timeTriggers.FirstOrDefault(m => m.DataType == dataType);
-                if (timeTrigger is null) return null;
-                await timeTrigger.SetDataAsync(timeTriggerData);
-                ITimeTriggerData.MapperTable[dataType] = timeTrigger.GetType();
-                return timeTrigger;
+                _semaphore.Release();
             }
         }
     }

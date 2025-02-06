@@ -1,4 +1,4 @@
-﻿using Materal.Oscillator.Abstractions.Works;
+using Materal.Oscillator.Abstractions.Works;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Materal.Oscillator.Abstractions.Extensions
@@ -8,6 +8,7 @@ namespace Materal.Oscillator.Abstractions.Extensions
     /// </summary>
     public static class WorkDataExtensions
     {
+        private static readonly SemaphoreSlim _semaphore = new(1, 1);
         /// <summary>
         /// 获取任务
         /// </summary>
@@ -16,21 +17,29 @@ namespace Materal.Oscillator.Abstractions.Extensions
         /// <returns></returns>
         public static async Task<IWork?> GetWorkAsync(this IWorkData workData, IServiceProvider serviceProvider)
         {
-            Type dataType = workData.GetType();
-            if (IWorkData.MapperTable[dataType] is Type workType)
+            await _semaphore.WaitAsync();
+            try
             {
-                if (serviceProvider.GetService(workType) is not IWork work) return null;
-                await work.SetDataAsync(workData);
-                return work;
+                Type dataType = workData.GetType();
+                if (IWorkData.MapperTable[dataType] is Type workType)
+                {
+                    if (serviceProvider.GetService(workType) is not IWork work) return null;
+                    await work.SetDataAsync(workData);
+                    return work;
+                }
+                else
+                {
+                    IEnumerable<IWork> works = serviceProvider.GetServices<IWork>();
+                    IWork? work = works.FirstOrDefault(m => m.DataType == dataType);
+                    if (work is null) return null;
+                    await work.SetDataAsync(workData);
+                    IWorkData.MapperTable[dataType] = work.GetType();
+                    return work;
+                }
             }
-            else
+            finally
             {
-                IEnumerable<IWork> works = serviceProvider.GetServices<IWork>();
-                IWork? work = works.FirstOrDefault(m => m.DataType == dataType);
-                if (work is null) return null;
-                await work.SetDataAsync(workData);
-                IWorkData.MapperTable[dataType] = work.GetType();
-                return work;
+                _semaphore.Release();
             }
         }
     }

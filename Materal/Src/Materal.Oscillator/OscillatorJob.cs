@@ -9,21 +9,13 @@ namespace Materal.Oscillator
     /// </summary>
     internal class OscillatorJob : IJob
     {
-        private readonly IServiceScope _scope;
-        private readonly IServiceProvider _serviceProvider;
-        /// <summary>
-        /// 构造方法
-        /// </summary>
-        public OscillatorJob()
-        {
-            _scope = OscillatorServices.ServiceProvider.CreateScope();
-            _serviceProvider = _scope.ServiceProvider;
-        }
         public async Task Execute(IJobExecutionContext context)
         {
+            using IServiceScope scope = OscillatorServices.ServiceProvider.CreateScope();
+            IServiceProvider serviceProvider = scope.ServiceProvider;
             object oscillatorObj = context.JobDetail.JobDataMap.Get(ConstData.OscillatorKey);
             if (oscillatorObj is null || oscillatorObj is not IOscillatorData oscillatorData) return;
-            IOscillator? oscillator = await oscillatorData.GetOscillatorAsync(_serviceProvider);
+            IOscillator? oscillator = await oscillatorData.GetOscillatorAsync(serviceProvider);
             if (oscillator is null) return;
             string[] triggerSplitValues = context.Trigger.Key.Name.Split('_');
             string triggerName = string.Empty;

@@ -8,6 +8,7 @@ namespace Materal.Oscillator.Abstractions.Extensions
     /// </summary>
     public static class PlanTriggerDataExtensions
     {
+        private static readonly SemaphoreSlim _semaphore = new(1, 1);
         /// <summary>
         /// 获取计划触发器
         /// </summary>
@@ -16,21 +17,29 @@ namespace Materal.Oscillator.Abstractions.Extensions
         /// <returns></returns>
         public static async Task<IPlanTrigger?> GetPlanTriggerAsync(this IPlanTriggerData planTriggerData, IServiceProvider serviceProvider)
         {
-            Type dataType = planTriggerData.GetType();
-            if (IPlanTriggerData.MapperTable[dataType] is Type planTriggerType)
+            await _semaphore.WaitAsync();
+            try
             {
-                if (serviceProvider.GetService(planTriggerType) is not IPlanTrigger planTrigger) return null;
-                await planTrigger.SetDataAsync(planTriggerData);
-                return planTrigger;
+                Type dataType = planTriggerData.GetType();
+                if (IPlanTriggerData.MapperTable[dataType] is Type planTriggerType)
+                {
+                    if (serviceProvider.GetService(planTriggerType) is not IPlanTrigger planTrigger) return null;
+                    await planTrigger.SetDataAsync(planTriggerData);
+                    return planTrigger;
+                }
+                else
+                {
+                    IEnumerable<IPlanTrigger> planTriggers = serviceProvider.GetServices<IPlanTrigger>();
+                    IPlanTrigger? planTrigger = planTriggers.FirstOrDefault(m => m.DataType == dataType);
+                    if (planTrigger is null) return null;
+                    await planTrigger.SetDataAsync(planTriggerData);
+                    IPlanTriggerData.MapperTable[dataType] = planTrigger.GetType();
+                    return planTrigger;
+                }
             }
-            else
+            finally
             {
-                IEnumerable<IPlanTrigger> planTriggers = serviceProvider.GetServices<IPlanTrigger>();
-                IPlanTrigger? planTrigger = planTriggers.FirstOrDefault(m => m.DataType == dataType);
-                if (planTrigger is null) return null;
-                await planTrigger.SetDataAsync(planTriggerData);
-                IPlanTriggerData.MapperTable[dataType] = planTrigger.GetType();
-                return planTrigger;
+                _semaphore.Release();
             }
         }
     }
