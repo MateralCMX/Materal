@@ -51,6 +51,7 @@
     <Compile Include="Commands\MateralToolCommand.cs" />
     <Compile Include="Commands\ProjectClearCommand.cs" />
     <Compile Include="Commands\SolutionClearCommand.cs" />
+    <Compile Include="Commands\SortPackagesPropsCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MateralToolsVSIXPackage.cs" />
     <Compile Include="source.extension.cs">

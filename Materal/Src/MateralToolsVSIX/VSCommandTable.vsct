@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <Extern href="stdidcmd.h"/>
@@ -13,6 +13,9 @@
 			</Group>
 			<Group guid="MateralToolsVSIX" id="ProjectMenuGroup" priority="0x0600">
 				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_PROJNODE"/>
+			</Group>
+			<Group guid="MateralToolsVSIX" id="PackagesPropsMenuGroup" priority="0x0600">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_ITEMNODE"/>
 			</Group>
 		</Groups>
 		<Buttons>
@@ -43,6 +46,15 @@
 					<LocCanonicalName>.MateralToolsVSIX.ProjectClearCommand</LocCanonicalName>
 				</Strings>
 			</Button>
+			<Button guid="MateralToolsVSIX" id="SortPackagesPropsCommand" priority="0x0103" type="Button">
+				<Parent guid="MateralToolsVSIX" id="PackagesPropsMenuGroup"/>
+				<Icon guid="ImageCatalogGuid" id="CleanData" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>PackagesPropsSort</ButtonText>
+					<LocCanonicalName>.MateralToolsVSIX.SortPackagesPropsCommand</LocCanonicalName>
+				</Strings>
+			</Button>
 		</Buttons>
 	</Commands>
 	
@@ -50,8 +62,10 @@
 		<GuidSymbol name="MateralToolsVSIX" value="{a8145487-f682-4352-b2c8-345bec8ec476}">
 			<IDSymbol name="SolutionMenuGroup" value="0x0001" />
 			<IDSymbol name="ProjectMenuGroup" value="0x0002" />
+			<IDSymbol name="PackagesPropsMenuGroup" value="0x0003" />
 			<IDSymbol name="SolutionClearCommand" value="0x0101" />
 			<IDSymbol name="ProjectClearCommand" value="0x0102" />
+			<IDSymbol name="SortPackagesPropsCommand" value="0x0103" />
 			<IDSymbol name="MateralToolCommand" value="0x0111" />
 		</GuidSymbol>
 	</Symbols>

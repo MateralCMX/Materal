@@ -11,7 +11,7 @@ namespace MateralToolsVSIX
         public const string Name = "MateralToolsVSIX";
         public const string Description = @"Materal工具扩展";
         public const string Language = "zh-CN";
-        public const string Version = "1.2.7";
+        public const string Version = "1.2.9";
         public const string Author = "Materal";
         public const string Tags = "";
     }
