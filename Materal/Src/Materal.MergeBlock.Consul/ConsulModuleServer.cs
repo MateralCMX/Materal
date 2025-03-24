@@ -10,7 +10,7 @@ namespace Materal.MergeBlock.Consul
     /// <summary>
     /// Consul服务
     /// </summary>
-    public class ConsulServer(IConsulService consulService, IEnumerable<ModuleConsulConfig> moduleConsulConfigs, IOptionsMonitor<MergeBlockConsulOptions> mergeBlockConsulConfig) : IHostedService
+    public class ConsulModuleServer(IConsulService consulService, IEnumerable<ModuleConsulConfig> moduleConsulConfigs, IOptionsMonitor<MergeBlockConsulOptions> mergeBlockConsulConfig) : IHostedService
     {
         private readonly Dictionary<Guid, Guid> _configIDs = [];
         /// <summary>

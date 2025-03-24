@@ -16,7 +16,7 @@ namespace MateralToolsVSIX.Commands
             IPackagesPropsService packagesPropsService = new PackagesPropsService();
             foreach (SelectedItem selectedItem in dte.SelectedItems)
             {
-                if (string.IsNullOrWhiteSpace(selectedItem.ProjectItem?.FileNames[1]) || !selectedItem.ProjectItem.FileNames[1].EndsWith("Packages.props", StringComparison.OrdinalIgnoreCase)) continue;
+                if (string.IsNullOrWhiteSpace(selectedItem.ProjectItem?.FileNames[1]) || selectedItem.ProjectItem is null || !selectedItem.ProjectItem.FileNames[1].EndsWith("Packages.props", StringComparison.OrdinalIgnoreCase)) continue;
                 packagesPropsService.SortAndRemoveDuplicates(selectedItem.ProjectItem.FileNames[1]);
             }
             await VS.StatusBar.ShowMessageAsync("Directory.Packages.props文件整理成功");

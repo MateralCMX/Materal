@@ -7,12 +7,7 @@ namespace MMB.Demo.Application
     {
         public override void OnConfigureServices(ServiceConfigurationContext context)
         {
-            ModuleConsulConfig moduleConsulConfig = new()
-            {
-                ServiceName = "Demo模块",
-                Tags = ["Demo", "Demo模块"]
-            };
-            context.Services.AddSingleton(moduleConsulConfig);
+            context.Services.AddConsulConfig("Demo模块", "Demo", "Demo模块");
             context.Services.AddMergeBlockHostedService<MyService>();
         }
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
