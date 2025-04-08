@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Materal.TTA.Test": {
+      "commandName": "Project"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    }
+  }
+}

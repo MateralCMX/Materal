@@ -1,12 +1,10 @@
 ﻿using Materal.Extensions;
 using Materal.MergeBlock.Abstractions;
 using Materal.MergeBlock.Repository.Abstractions;
-using Materal.TTA.EFRepository;
 using Materal.TTA.SqliteEFRepository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 [assembly: MergeBlockAssembly]
 namespace MMB.Demo.Repository
@@ -34,11 +32,12 @@ namespace MMB.Demo.Repository
         /// <param name="dBConfig"></param>
         protected override void AddDBContext(IServiceCollection services, SqliteConfigModel dBConfig)
         {
-            services.AddDbContext<TDBContext>(delegate (DbContextOptionsBuilder options)
-            {
-                options.UseSqlite(dBConfig.ConnectionString, null).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            });
-            services.TryAddScoped<IMigrateHelper<TDBContext>, MigrateHelper<TDBContext>>();
+            services.AddTTASqliteEFRepository<TDBContext>(dBConfig.ConnectionString);
+            //services.AddDbContext<TDBContext>(delegate (DbContextOptionsBuilder options)
+            //{
+            //    options.UseSqlite(dBConfig.ConnectionString, null).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            //});
+            //services.TryAddScoped<IMigrateHelper<TDBContext>, MigrateHelper<TDBContext>>();
         }
     }
 }

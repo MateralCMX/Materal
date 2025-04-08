@@ -1,7 +1,8 @@
 ﻿{
   "Demo": {
     "DBConfig": {
-      "Source": "E:\\Project\\Materal\\Materal\\Materal\\Test\\MMB.Demo.WebAPI\\bin\\MMBDemo.db"
+      //"Source": "E:\\Project\\Materal\\DataBase\\MergeBlock\\MMBDemo.db"
+      "Source": "/usr/project/database/MergeBlock/MMBDemo.db"
     }
   }
 }

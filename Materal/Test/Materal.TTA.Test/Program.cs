@@ -7,7 +7,8 @@ namespace Materal.TTA.Test
 {
     public class Program
     {
-        private const string dbConnectionString = "Data Source=E:\\Project\\古典部\\古典部\\TrainningAssistant\\TrainningAssistant.Main\\TrainningAssistant.Main.WebAPI\\bin\\TrainningAssistantMain.db";
+        //private const string dbConnectionString = "Data Source=E:\\Project\\Materal\\DataBase\\Test.db";
+        private const string dbConnectionString = "Data Source=/usr/project/databaseTest.db";
         public static async Task Main(string[] args)
         {
             HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);

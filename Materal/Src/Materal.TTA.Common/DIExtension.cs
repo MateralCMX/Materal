@@ -15,7 +15,7 @@ namespace Materal.TTA.Common
         /// <returns></returns>
         public static IServiceCollection AddTTARepository(this IServiceCollection services, params Assembly[] repositoryAssemblies)
         {
-            List<Assembly> repositoryAssemblyList = repositoryAssemblies.Distinct().ToList();
+            List<Assembly> repositoryAssemblyList = [.. repositoryAssemblies.Distinct()];
             foreach (Assembly repositoryAssembly in repositoryAssemblyList)
             {
                 services.RegisterAssemblyPublicNonGenericClasses(repositoryAssembly)
