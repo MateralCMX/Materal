@@ -59,8 +59,8 @@ namespace Materal.MergeBlock.Extensions
             MergeBlockContext mergeBlockContext = new()
             {
                 ModuleDescriptors = ModuleLoader.ModuleDescriptors,
-                Plugins = pluginManager.Plugins.ToList(),
-                MergeBlockAssemblies = pluginManager.Plugins.SelectMany(p => p.Assemblies).ToList()
+                Plugins = [.. pluginManager.Plugins],
+                MergeBlockAssemblies = [.. pluginManager.Plugins.SelectMany(p => p.Assemblies)]
             };
             services.AddSingleton(mergeBlockContext);
             services.AddSingleton<AdvancedContext>();

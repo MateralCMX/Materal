@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Materal.TTA.SqliteEFRepository
@@ -40,11 +40,12 @@ namespace Materal.TTA.SqliteEFRepository
         public static IServiceCollection AddTTASqliteEFRepository<TDbConntext>(this IServiceCollection services, string dbConnectionString, Action<SqliteDbContextOptionsBuilder>? option, params Assembly[] repositoryAssemblies)
             where TDbConntext : DbContext
         {
-            services.AddDbContext<TDbConntext>(options =>
+            void ConfigDbContext(DbContextOptionsBuilder options)
             {
-                options.UseSqlite(dbConnectionString, option)
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-            });
+                options.UseSqlite(dbConnectionString, option);
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            }
+            services.AddDbContext<TDbConntext>(ConfigDbContext);
             services.TryAddScoped<IMigrateHelper<TDbConntext>, MigrateHelper<TDbConntext>>();
             services.AddTTARepository<TDbConntext>(repositoryAssemblies);
             return services;

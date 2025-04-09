@@ -1,4 +1,5 @@
-﻿using System.Runtime.Loader;
+using System.Runtime.InteropServices;
+using System.Runtime.Loader;
 
 namespace Materal.MergeBlock
 {
@@ -62,7 +63,10 @@ namespace Materal.MergeBlock
             }
             if (dllPath != null)
             {
-                if (Directory.GetParent(dllPath)?.FullName == AppContext.BaseDirectory.TrimEnd('\\'))
+                string baseDirectory = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ?
+                    AppContext.BaseDirectory.TrimEnd('\\') :
+                    AppContext.BaseDirectory.TrimEnd('/');
+                if (Directory.GetParent(dllPath)?.FullName == baseDirectory)
                 {
                     MateralServices.Logger?.LogTrace($"尝试从主环境加载[{assemblyName.Name}]");
                     return Default.LoadFromAssemblyPath(dllPath);

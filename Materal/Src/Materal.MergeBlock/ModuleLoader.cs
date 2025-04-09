@@ -5,7 +5,7 @@
     /// </summary>
     internal class ModuleLoader
     {
-        private readonly static object _lockDescriptors = new();
+        private static readonly object _lockDescriptors = new();
         internal static List<ModuleDescriptor> ModuleDescriptors { get; set; } = [];
         /// <summary>
         /// 加载模块
