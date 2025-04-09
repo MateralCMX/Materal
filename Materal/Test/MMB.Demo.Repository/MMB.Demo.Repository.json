@@ -2,7 +2,7 @@
   "Demo": {
     "DBConfig": {
       //"Source": "E:\\Project\\Materal\\DataBase\\MergeBlock\\MMBDemo.db"
-      "Source": "/usr/project/database/MergeBlock/MMBDemo.db"
+      "Source": "/var/lib/project/database/MergeBlock/MMBDemo.db"
     }
   }
 }

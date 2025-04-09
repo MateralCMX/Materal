@@ -1,4 +1,4 @@
-﻿namespace Materal.TTA.EFRepository
+namespace Materal.TTA.EFRepository
 {
     /// <summary>
     /// 迁移帮助类

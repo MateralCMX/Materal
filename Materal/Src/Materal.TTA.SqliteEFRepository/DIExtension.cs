@@ -42,6 +42,7 @@ namespace Materal.TTA.SqliteEFRepository
         {
             void ConfigDbContext(DbContextOptionsBuilder options)
             {
+                EnsureDatabaseDirectoryExists(dbConnectionString);
                 options.UseSqlite(dbConnectionString, option);
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             }
@@ -49,6 +50,16 @@ namespace Materal.TTA.SqliteEFRepository
             services.TryAddScoped<IMigrateHelper<TDbConntext>, MigrateHelper<TDbConntext>>();
             services.AddTTARepository<TDbConntext>(repositoryAssemblies);
             return services;
+        }
+        /// <summary>
+        /// 确保数据库目录存在
+        /// </summary>
+        private static void EnsureDatabaseDirectoryExists(string dbConnectionString)
+        {
+            string dataSource = dbConnectionString.Split(["Data Source="], StringSplitOptions.None)[1].Split(';')[0];
+            string? directory = Path.GetDirectoryName(dataSource);
+            if (string.IsNullOrEmpty(directory) || Directory.Exists(directory)) return;
+            Directory.CreateDirectory(directory);
         }
     }
 }
