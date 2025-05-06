@@ -11,7 +11,7 @@
   "dependencies": {
     "@guolao/vue-monaco-editor": "^1.5.1",
     "@microsoft/signalr": "^8.0.0",
-    "axios": "^1.6.8",
+    "axios": "^1.7.4",
     "monaco-editor": "^0.45.0",
     "vue": "^3.4.27"
   },
